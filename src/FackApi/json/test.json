@@ -1,0 +1,217 @@
+[{
+  "title": "Franchise",
+  "name": "Franchise",
+  "permission": "franchise.tab",
+  "is_heading": false,
+  "is_active": false,
+  "link": {
+    "name": "franchise"
+  },
+  "class_name": "",
+  "is_icon_class": true,
+  "icon": "las la-hand-holding-usd"
+},
+{
+"title": "leads",
+"name": "sidebar.leads",
+"permission": "lead.list",
+"is_active": false,
+"link": {
+"name": "leads"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-shield-alt"
+},
+{
+"title": "callCenter",
+"name": "Sales",
+"permission": "sales.all",
+"is_active": false,
+"link": {
+"name": "sales"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-phone-volume"
+},
+{
+"title": "users and permissions",
+"name": "sidebar.userAndPermission",
+"permission": "user.list",
+"is_active": false,
+"link": {
+"name": "welcomeUser"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-user-tag"
+},
+{
+"title": "settings",
+"name": "Settings",
+"permission": "setting.list",
+"is_active": true,
+"link": {
+"name": "welcomeSetting"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-tools"
+},
+{
+"title": "package",
+"name": "Packages",
+"permission": "membership.package.list",
+"is_active": true,
+"link": {
+"name": "package"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-cubes"
+},
+{
+"title": "members",
+"name": "Members",
+"permission": "memberships.list",
+"is_active": true,
+"link": {
+"name": "welcomeMember"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-users"
+},
+{
+"title": "desk",
+"name": "Desk",
+"permission": "receptionist",
+"is_active": true,
+"link": {
+"name": "desk"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-desktop"
+},
+{
+"title": "accounting",
+"name": "Accounting",
+"permission": "accountant",
+"is_active": true,
+"link": {
+"name": "welcomeAccounting"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-percentage"
+},
+{
+"title": "reports",
+"name": "Service Reports",
+"permission": "lead.report.details",
+"is_active": true,
+"link": {
+"name": "reports"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-file"
+},
+{
+"title": "financialReports",
+"name": "Financial Reports",
+"permission": "lead.report.details",
+"is_active": true,
+"link": {
+"name": "financialReport"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-hand-holding-usd"
+},
+{
+"title": "whatsapp",
+"name": "Whatsapp",
+"permission": "project.whatsapp.list",
+"is_active": true,
+"link": {
+"name": "whatsapp"
+},
+"class_name": "unreadMessage",
+"is_icon_class": true,
+"icon": "lab la-whatsapp"
+},
+{
+"title": "campaign",
+"name": "campaign",
+"permission": "file.list",
+"is_active": true,
+"link": {
+"name": "campaign"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-ad"
+},
+{
+"title": "task",
+"name": "Tasks",
+"permission": "task.list",
+"is_active": true,
+"link": {
+"name": "task"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-tasks"
+},
+{
+"title": "complain",
+"name": "complain",
+"permission": "complain.list",
+"is_active": true,
+"link": {
+"name": "complain"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-comment"
+},
+{
+"title": "tree",
+"name": "Tree",
+"permission": "complain.list",
+"is_active": true,
+"link": {
+"name": "tree"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-sitemap"
+},
+{
+"title": "target",
+"name": "Target",
+"permission": "complain.list",
+"is_active": true,
+"link": {
+"name": "target"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "las la-bullseye"
+},
+{
+"title": "Facebook",
+"name": "Facebook",
+"permission": "complain.list",
+"is_active": true,
+"link": {
+"name": "facebook"
+},
+"class_name": "",
+"is_icon_class": true,
+"icon": "lab la-facebook"
+}]

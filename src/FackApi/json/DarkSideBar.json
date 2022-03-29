@@ -1,16 +1,151 @@
 [
   {
-    "title": "Dashboard",
-    "name": "sidebar.dashboard",
-    "is_heading": true,
+    "title": "Leads",
+    "name": "Leads",
+    "permission": "dashboard",
+    "is_heading": false,
     "is_active": false,
+    "link": {
+      "name": "leads"
+    },
     "class_name": "",
     "is_icon_class": true,
-    "icon": ""
+    "icon": "las la-headset"
+  },
+  {
+    "title": "Activation",
+    "name": "Activation",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "activation"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-check-circle"
+  },
+  {
+    "title": "Profiles",
+    "name": "Profiles",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "profiles"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-id-card"
+  },
+  {
+    "title": "Landmarks",
+    "name": "Landmarks",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "landmarks"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-landmark"
+  },
+  {
+    "title": "Services",
+    "name": "Services",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "services"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-hand-holding-heart"
+  },
+  {
+    "title": "Promotions",
+    "name": "Promotions",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "promostionslist"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-percentage"
+  },
+  {
+    "title": "Customers",
+    "name": "Customers",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "customers"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-users"
+  },
+  {
+    "title": "Settings",
+    "name": "Settings",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "settings"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-cog"
+  },
+  {
+    "title": "Notifications",
+    "name": "Notifications",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "notifications"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-bell"
+  },
+  {
+    "title": "Analytics",
+    "name": "Analytics",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "analytics"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-chart-bar"
+  },
+  {
+    "title": "Admin",
+    "name": "Admin",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "admin"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-user-lock"
   },
   {
     "title": "Dashboard",
     "name": "sidebar.dashboard2",
+    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -18,50 +153,136 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "ri-home-3-line"
+    "icon": "las la-home"
   },
   {
-    "title": "leads",
-    "name": "sidebar.leads",
+    "title": "Dashboard",
+    "name": "Tickets",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "welcomeSetting"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-ticket-alt"
+  },
+  {
+    "title": "Activity",
+    "name": "Activity",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "welcomeSetting"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-brush"
+  },
+  {
+    "title": "Courses",
+    "name": "Courses",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "welcomeSetting"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-file-alt"
+  },
+  {
+    "title": "Products",
+    "name": "Products",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "welcomeSetting"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-shopping-bag"
+  },
+  {
+    "title": "Accommodations",
+    "name": "Accommodations",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "welcomeSetting"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-procedures"
+  },
+  {
+    "title": "Flows",
+    "name": "Flows",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "franchise"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-infinity"
+  },
+  {
+    "title": "schedule",
+    "name": "schedule",
+    "permission": "dashboard",
+    "is_heading": false,
     "is_active": false,
     "link": {
       "name": "leads"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-shield-alt"
+    "icon": "las la-calendar-alt"
   },
   {
-    "title": "callCenter",
-    "name": "sidebar.callCenter",
+    "title": "Dashboard",
+    "name": "FAQ's",
+    "permission": "dashboard",
+    "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "callCenter"
+      "name": "sales"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-phone-volume"
+    "icon": "las la-question-circle"
   },
   {
-    "title": "users and permissions",
-    "name": "sidebar.userAndPermission",
+    "title": "Promotions",
+    "name": "Promotions",
+    "permission": "dashboard",
+    "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "userandpermissions"
+      "name": "welcomeUser"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-user-tag"
+    "icon": "las la-percentage"
   },
   {
-    "title": "settings",
-    "name": "settings",
-    "is_active": true,
+    "title": "Dashboard",
+    "name": "Profile",
+    "permission": "dashboard",
+    "is_heading": false,
+    "is_active": false,
     "link": {
-      "name": "settingsprojects"
+      "name": "welcomeSetting"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-tools"
+    "icon": "las la-user"
   }
 ]

@@ -7,7 +7,8 @@
           <img :src="image500" class="img-fluid iq-error-img" alt="500" v-else>
           <h2 class="mb-0">Oops! This Page is Not Found.</h2>
           <p>The requested page dose not exist.</p>
-          <button @click="$router.go(-1)" class="btn btn-primary mt-3"><i class="ri-home-4-line"></i>Back to Home</button>
+          <button @click="$router.go(-1)" class="btn btn-outline-dark mt-3"><i class="ri-home-4-line"></i>Back to
+            Back</button>
         </div>
       </div>
     </div>

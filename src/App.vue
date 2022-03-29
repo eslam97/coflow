@@ -66,7 +66,7 @@ export default {
     },
     leaving (e) {
       e.preventDefault()
-      this.$store.dispatch('logout')
+      // this.$store.dispatch('logout')
       e.returnValue = ''
     },
     updateOnlineStatus (e) {

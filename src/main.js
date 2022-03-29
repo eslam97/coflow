@@ -21,13 +21,11 @@ import './Helpers/permisiionHelper'
 import './Helpers/dateHelper'
 import authPermissions from './mixins/auth-permission'
 import datePermissions from './mixins/mainFunctionDate'
-import memberMenu from './components/members/memberMenu'
 import InfiniteLoading from 'vue-infinite-loading'
 import welcomePage from './components/welcomePage'
 import Swiper from './components/core/slider/Swiper'
 import SwiperNav from './components/core/slider/SwiperNav'
 import SwiperSlide from './components/core/slider/SwiperSlide'
-import VueTree from './tree/vue-tree'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import DateRangePicker from 'vue2-daterange-picker'
 import spinnerLoading from '@/components/spinnerLoading'
@@ -53,7 +51,6 @@ Vue.component('DatePicker', DatePicker)
 Vue.component('spinner-loading', spinnerLoading)
 Vue.component('infinite-loading', InfiniteLoading)
 Vue.component('v-select', vSelect)
-Vue.component('member-menu', memberMenu)
 Vue.component('welcome-page', welcomePage)
 Vue.component('Swiper', Swiper)
 Vue.component('SwiperNav', SwiperNav)
@@ -62,7 +59,6 @@ Vue.component('DateRangePicker', DateRangePicker)
 Vue.mixin(authPermissions)
 Vue.mixin(datePermissions)
 Vue.config.productionTip = false
-Vue.component('vue-tree', VueTree)
 
 const vm = new Vue({
   router,

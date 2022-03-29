@@ -101,9 +101,6 @@ export default {
   methods: {
     filterBox () {
       this.Alldata = ''
-      this.$store.dispatch('serachByPhone', this.search).then(res => {
-        this.Alldata = res.data
-      })
     },
     miniSidebar () {
       this.$emit('toggle')
@@ -131,7 +128,6 @@ export default {
     }
   },
   created () {
-    document.activeElement = ''
   }
 }
 </script>

@@ -48,7 +48,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+/*
 import { core } from '../../../../config/pluginInit'
+*/
 const passwordField = document.querySelector('#passwordInput')
 
 // eslint-disable-next-line no-unused-vars
@@ -92,7 +94,9 @@ export default {
 
     jwtLogin () {
       this.loadingButton = true
-      if (this.user.password.length >= 8) {
+      this.$router.push({ name: 'dashboard.home-2' })
+
+      /* if (this.user.password.length >= 8) {
         this.$store.dispatch('login', this.user).then((data) => {
           this.$store.dispatch('create').then(() => {
             // console.log(data.data.data.user.is_temporary)
@@ -112,14 +116,14 @@ export default {
             this.$router.push('/pages/maintenance')
             localStorage.clear()
           })
-          /* this.errorMessage = data */
+          /!* this.errorMessage = data *!/
         }).catch(err => {
           core.showSnackbar('error', err.response.data.error)
           // eslint-disable-next-line eqeqeq
           this.errorMessage = err.response.data.error
           this.loadingButton = false
         })
-      }
+      } */
     }
 
   }

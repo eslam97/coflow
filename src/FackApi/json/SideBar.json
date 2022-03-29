@@ -6,7 +6,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "leads"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -19,7 +19,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "activation"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -32,7 +32,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "profiles"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -45,7 +45,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "landmarks"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -58,7 +58,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "services"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -84,7 +84,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeUser"
+      "name": "customers"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -97,7 +97,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeUser"
+      "name": "settings"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -110,7 +110,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeUser"
+      "name": "notifications"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -123,7 +123,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeUser"
+      "name": "analytics"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -136,7 +136,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeUser"
+      "name": "admin"
     },
     "class_name": "",
     "is_icon_class": true,

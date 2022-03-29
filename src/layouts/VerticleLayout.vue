@@ -72,122 +72,17 @@
                               </div>
                             </div>-->
             </li>
-<!--            <li class="nav-item" v-nav-toggle>
-              <a class="search-toggle iq-waves-effect language-title" href="#"><img :src="selectedLang.image" alt="img-flaf" class="img-fluid mr-1" style="height: 16px; width: 16px;" /> {{ selectedLang.title }} <i class="ri-arrow-down-s-line"></i></a>
-              <div class="iq-sub-dropdown">
-                <a class="iq-sub-card" href="javascript:void(0)" v-for="(lang, i) in langsOptions" :key="`Lang${i}`" @click="langChange(lang)">
-                  <img :src="lang.image" alt="img-flaf" class="img-fluid mr-2" />{{ lang.title }}
-                </a>
-              </div>
-            </li>-->
-<!--            <li class="nav-item" v-nav-toggle>
-              <a href="javascript:void(0)" class="iq-waves-effect" :class="cartCount > 0 ? 'search-toggle' : ''">
-                <i class="ri-shopping-cart-2-line" />
-                <span class="menu-tag ml-2">{{ cartCount }}</span>
-              </a>
-              <div class="iq-sub-dropdown">
-                <div class="iq-card shadow-none m-0">
-                  <div class="iq-card-body p-0 ">
-                    <div class="bg-primary p-3">
-                      <h5 class="mb-0 text-white">{{ $t('nav.allCarts') }}</h5>
-                    </div>
-                    <div class="iq-sub-card" v-for="(item, index) in cartItems" :key="index">
-                      <div class="media align-items-center">
-                        <div class="w-20 text-center d-none justify-content-center d-md-block">
-                          <img :src="item.image" :alt="item.name" class="w-100 align-self-center mr-3" />
-                        </div>
-                        <div class="media-body ml-3">
-                          <b-button variant=" iq-bg-danger mt-3" size="sm" class="float-right" @click="removeToCart(item)">X</b-button>
-                          <h6 class="mb-0 ">{{ item.name.substring(0,20) + '...' }}</h6>
-                          <p class="mb-0 font-size-12">{{ item.description.substring(0,20) + '...' }}</p>
-                          <p class="mb-0"><b>$ {{ item.price }}</b></p>
-                        </div>
-                      </div>
-                    </div>
-                    <router-link :to="{ name: 'app.e-commerce.cart'}"><b-button variant=" iq-bg-primary" block><i class="fas fa-cart-plus"/>{{ $t('nav.viewCarts') }}</b-button></router-link>
-                  </div>
-                </div>
-              </div>
-            </li>-->
-<!--            <li class="nav-item px-0">
-            <a href="#" class="search-toggle px-2 iq-waves-effect">
-              <i class="las la-sun font-size-24" v-if="theme == 'light'" @click="themeMode(false)"></i>
-              <i class="las la-moon font-size-24" v-else @click="themeMode(true)"></i>
-            </a>
-          </li>
-            <li class="nav-item px-0" @click="ifSearch = !ifSearch">
-              <a href="#" class="search-toggle px-2 iq-waves-effect">
-                <i v-if="ifSearch === false" class="las la-search font-size-22"></i>
-                <i v-else class="las la-times font-size-22"></i>
-              </a>
-            </li >
-            <li class="nav-item px-0" v-nav-toggle>
-              <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">
-                <lottie :option="require('../assets/images/small/lottie-bell')" id="lottie-beil" />
-                <span class="bg-danger dots" v-if="notification_unread"></span>
-              </a>
-              <div class="iq-sub-dropdown">
-                <div class="iq-card shadow-none m-0">
-                  <div class="iq-card-body p-0 ">
-                    <div class="bg-primary p-3">
-                      <h5 class="mb-0 text-white">{{ $t('nav.allNotifications') }}<small class="badge  badge-light float-right pt-1">{{ notification_unread }}</small></h5>
-                    </div>
-                    <div class="allNotifications" id="infinite-list">
-                      <span v-if="getNotifications.length > 0">
-                      <a href="#" class="iq-sub-card" v-for="(item, index) in getNotifications" :key="index" @click="changeStatus(item.id , item)" :class="item.read == 0 ? 'mark' : 'unmark'">
-                      <div class="media align-items-center">
-&lt;!&ndash;                        <div class="">
-                          <img class="avatar-40 rounded" :src="item.image" alt="img">
-                        </div>&ndash;&gt;
-                        <div class="media-body ml-3 position-relative">
-                          <h6 class="mb-0 "> <i v-if="item.read == 0" class="ri-checkbox-blank-circle-fill text-primary position-absolute unread"></i>{{ item.title }}</h6>
-                          <small class="float-right font-size-12">{{ item.published }}</small>
-                          <p class="mb-0">{{ item.body ? item.body.substring(0,40) + '...' : 'NO body' }}</p>
-                        </div>
-                      </div>
-                    </a>
-                        <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler">
-                            <div slot="no-more">No more Notification</div>
-                            <div slot="no-results">No Notification</div>
-                        </infinite-loading>
-                    </span>
-                      <span v-else class="d-flex justify-content-center align-items-center h-100 w-100" style="height: 100%">
-                        <div class="text-center">
-                           <img class="w-75" :src="notFoundImage"/>
-                          <p class="font-size-20 text-center">Oops!... no notfications found</p>
-                        </div>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>-->
           </ul>
         </template>
         <template slot="right">
           <ul class="navbar-list">
-            <li class="nav-item px-0 d-block d-lg-none" v-nav-toggle>
-              <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">
-                <i class="las la-building"></i>
-              </a>
-              <div class="iq-sub-dropdown">
-                <a class="iq-sub-card text-primary" href="javascript:void(0)" v-for="(data, key) in allProjects" :key="key" @click="setDefaultProject(data.id)">
-                  {{ data.en_title }}
-                </a>
-              </div>
-            </li>
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pr-1 pt-2">
                 <div class="caption mr-3">
-                  <h6 class="mb-0 line-height text-primary">{{ userName.username }}</h6>
+                  <h6 class="mb-0 line-height text-primary">Eslam Ashraf</h6>
                   <span class="font-size-12 text-success" >Flow</span>
                 </div>
               </a>
-              <!--              <div class="iq-sub-dropdown">
-                              <a class="iq-sub-card text-primary" href="javascript:void(0)" v-for="(data, key) in allProjects" :key="key" @click="setDefaultProject(data.id)">
-                              {{ data.en_title }}
-                              </a>
-                            </div>-->
             </li>
           </ul>
         </template>
@@ -234,20 +129,15 @@ import SmallSidebar from '../components/core/sidebars/SmallSidebar'
 import BreadCrumb from '../components/core/breadcrumbs/BreadCrumb'
 */
 import LayoutFooter from './Components/LayoutFooter'
-import channel from '../pusher'
 export default {
   name: 'VerticleLayout',
   data () {
     return {
       ifSearch: false,
-      projectId: JSON.parse(localStorage.getItem('default_project')).id,
-      allProjects: JSON.parse(localStorage.getItem('user_projects')),
       notFoundImage: require('../assets/images/error/search.png'),
       infiniteId: +new Date(),
       getNotifications: [],
       notification_unread: '',
-      userName: JSON.parse(localStorage.getItem('user_info')),
-      defaultProject: JSON.parse(localStorage.getItem('default_project')).en_title,
       animated: { enter: 'fadeInUp', exit: 'fadeOut' },
       verticalMenu: SideBarItems,
       userProfile: profile,
@@ -299,21 +189,21 @@ export default {
   },
   mounted () {
     this.layoutSetting(this.$route.name)
-    this.$store.dispatch('getUserNotification', 1).then(res => {
+    /* this.$store.dispatch('getUserNotification', 1).then(res => {
       this.getNotifications = res.data.data.notification.data
       this.notification_unread = res.data.data.notification_unread
-    })
+    }) */
   },
   computed: {
     ...mapGetters({
-      cartCount: 'Ecommerce/cartCountState',
-      cartItems: 'Ecommerce/cartState',
+      /* cartCount: 'Ecommerce/cartCountState',
+      cartItems: 'Ecommerce/cartState', */
       selectedLang: 'Setting/langState',
       langsOptions: 'Setting/langOptionState',
       darkMode: 'Setting/darkModeState',
       rtlMode: 'Setting/rtlModeState',
-      colors: 'Setting/colorState',
-      getDefaultProject: 'getDefaultProject'
+      colors: 'Setting/colorState'
+      /* getDefaultProject: 'getDefaultProject' */
     }),
     toggleSideIcon () {
       let show = true
@@ -335,14 +225,6 @@ export default {
   },
   // sidebarTicket
   methods: {
-    setDefaultProject (id) {
-      this.$store.dispatch('setDefaultProject', id).then(data => {
-        core.showSnackbar('success', data.data.message)
-        localStorage.setItem('default_project', JSON.stringify(data.data.data))
-        this.$store.commit('changeDefaultProject', data.data.data)
-        this.$router.push({ name: 'dashboard.home-2' })
-      })
-    },
     themeMode (mode) {
       this.dark = mode
       this.modeChange({ rtl: this.rtl, dark: mode })
@@ -388,7 +270,7 @@ export default {
       this.$store.dispatch('Setting/miniSidebarAction')
     },
     logout () {
-      this.$store.dispatch('logout').then(() => {
+      /* this.$store.dispatch('logout').then(() => {
         localStorage.removeItem('user_info')
         localStorage.removeItem('auth_permissions')
         localStorage.removeItem('access_token')
@@ -396,7 +278,7 @@ export default {
         localStorage.removeItem('user_roles')
         localStorage.removeItem('user_projects')
         this.$router.push({ name: 'auth1.sign-in1' })
-      })
+      }) */
     },
     langChange (lang) {
       this.langChangeState(lang)
@@ -437,7 +319,7 @@ export default {
       } else if (item.setting.key === 'task_request') {
         this.$router.push({ name: 'task', query: { key: item.object_id } })
       }
-      this.$store.dispatch('changeNotificationStatus', id).then(res => {
+      /*      this.$store.dispatch('changeNotificationStatus', id).then(res => {
         this.readNotification = id
         // eslint-disable-next-line eqeqeq
         if (this.notification_unread != 0) {
@@ -445,17 +327,17 @@ export default {
         } else {
           this.notification_unread = 0
         }
-      })
+      }) */
     },
     loadMore () {
-      this.$store.dispatch('getUserNotification', this.currentPage++).then(res => {
+      /* this.$store.dispatch('getUserNotification', this.currentPage++).then(res => {
         if (res.data.data.notification.data.length > 0) {
           this.getNotifications = this.getNotifications.concat(res.data.data.notification.data)
         }
-      })
+      }) */
     },
     infiniteHandler ($state) {
-      this.$store.dispatch('getUserNotification', this.currentPage).then(res => {
+      /*      this.$store.dispatch('getUserNotification', this.currentPage).then(res => {
         if (res.data.data.notification.data.length > 0) {
           this.getNotifications = this.getNotifications.concat(res.data.data.notification.data)
           $state.loaded()
@@ -463,16 +345,16 @@ export default {
         } else {
           $state.complete()
         }
-      })
+      }) */
     }
-  },
-  created () {
+  }
+/*  created () {
     channel.channel.bind('my-event', (data) => {
       this.getNotifications = data.data
       this.notification_unread = data.notification_unread
       this.currentPage = 2
     })
-  }
+  } */
 }
 </script>
 <style>

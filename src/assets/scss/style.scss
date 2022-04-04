@@ -14,6 +14,7 @@ rtl
 @import "~animate.css/animate.min.css";
 @import '~node-snackbar/src/sass/snackbar.sass';
 @import "../css/variable";
+@import "status";
 
 [dir="ltr"] {
   &[mode="light"] {
@@ -74,4 +75,5 @@ ul.nav.nav-tabs::-webkit-scrollbar {
 ul a.nav-link.router-link-exact-active.router-link-active {
   padding-bottom: 6px;
 }
+
 @import "coFlow";

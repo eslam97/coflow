@@ -12,7 +12,6 @@ import './registerServiceWorker'
 import AlgoliaComponents from 'vue-instantsearch'
 import i18n from './i18n'
 import './directives'
-
 import Multiselect from 'vue-multiselect'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
@@ -29,9 +28,8 @@ import SwiperSlide from './components/core/slider/SwiperSlide'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 import DateRangePicker from 'vue2-daterange-picker'
 import spinnerLoading from '@/components/spinnerLoading'
-/*
-import VueRecord from '@codekraft-studio/vue-record'
-*/
+import mainTable from '@/components/table/mainTable'
+import deletePopup from '@/components/modal/deleteModal'
 import AudioRecorder from 'vue-audio-recorder'
 import _ from 'lodash'
 import DatePicker from 'vue2-datepicker'
@@ -39,9 +37,6 @@ import 'vue2-datepicker/index.css'
 
 Vue.use(AudioRecorder)
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
-/*
-Vue.use(VueRecord)
-*/
 Vue.use(InfiniteLoading, { /* options */ })
 
 global.Raphael = Raphael
@@ -56,6 +51,8 @@ Vue.component('Swiper', Swiper)
 Vue.component('SwiperNav', SwiperNav)
 Vue.component('SwiperSlide', SwiperSlide)
 Vue.component('DateRangePicker', DateRangePicker)
+Vue.component('mainTable', mainTable)
+Vue.component('deletePopup', deletePopup)
 Vue.mixin(authPermissions)
 Vue.mixin(datePermissions)
 Vue.config.productionTip = false

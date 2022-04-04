@@ -107,16 +107,32 @@
   text-align: center;
 }
 table {
+  margin-bottom: 0 !important;
   border-collapse: unset !important;
   border-spacing: 3px 16px !important;
 }
 table tr{
  background: var(--iq-white);
 }
-.table th ,.table td{
+.table td{
   padding: 1.5rem;
 }
-.content-page {
-  overflow: hidden;
-  padding: 80px 15px 0;
+
+.iq-top-navbar{
+  min-height: 71px;
+  max-height: 71px;
+}
+.table i{
+  font-size: 18px;
+  cursor: pointer;
+}
+.tooltip{
+  opacity: 1 !important;
+}
+.add_button{
+  border-radius: 4px;
+}
+.wt-150 {
+  width: 150px !important;
+  display: block;
 }

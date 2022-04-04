@@ -13,14 +13,11 @@ import settings from '@/modules/superAdmin/settings/settings.routes'
 import notifications from '@/modules/superAdmin/notifications/notifications.routes'
 import analytics from '@/modules/superAdmin/analytics/analytics.routes'
 import admin from '@/modules/superAdmin/admin/admin.routes'
+import welcomePage from '@/components/welcomePage'
 /* Layouts */
 const VerticleLayout = () => import('../layouts/VerticleLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
-/* Dashboards View */
-const Dashboard1 = () => import('../views/Dashboards/Dashboard1.vue')
-const Dashboard2 = () => import('../views/Dashboards/Dashboard2.vue')
-const Dashboard5 = () => import('../views/Dashboards/Dashboard5')
-const Dashboard6 = () => import('../views/Dashboards/Dashboard6')
+
 /* Authentic View */
 const SignIn1 = () => import('../views/AuthPages/Default/SignIn1')
 const SignUp1 = () => import('../views/AuthPages/Default/SignUp1')
@@ -34,32 +31,6 @@ const Maintenance = () => import('../views/Pages/Maintenance') */
 
 Vue.use(VueRouter)
 
-const childRoutes = (prop) => [
-  {
-    path: 'home-1',
-    name: prop + '.home-1',
-    meta: { auth: true, name: 'Home 1', layout: 'mini-sidebar-right-fix' },
-    component: Dashboard1
-  },
-  {
-    path: 'index',
-    name: prop + '.home-2',
-    meta: { auth: true, name: 'Home 2' },
-    component: Dashboard2
-  },
-  {
-    path: 'home-5',
-    name: prop + '.home-5',
-    meta: { auth: true, name: 'Home 5', layout: 'two-sidebar' },
-    component: Dashboard5
-  },
-  {
-    path: 'home-6',
-    name: prop + '.home-6',
-    meta: { auth: true, name: 'Home 6', layout: 'icon-with-text' },
-    component: Dashboard6
-  }
-]
 const authChildRoutes = (prop) => [
   {
     path: 'sign-in1',
@@ -107,10 +78,16 @@ const routes = [
   ...admin,
   {
     path: '',
-    name: 'dashboard',
+    name: 'welcome',
     component: VerticleLayout,
     meta: { auth: true },
-    children: childRoutes('dashboard')
+    children: [{
+      path: '',
+      name: 'welcome',
+      meta: { auth: true, name: 'welcome' },
+      component: welcomePage
+    }
+    ]
   },
   {
     path: '/auth',

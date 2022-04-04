@@ -1,14 +1,17 @@
 <template>
   <b-container fluid>
     <b-row>
+      <b-col lg="12" class="mb-2">
+        <h3>Leads</h3>
+      </b-col>
       <b-col lg="12">
-            <b-table  :fields="columns" :items="callData" class="mb-0 table-borderless"
-                     ref="selectableTable" sort-icon-left primary-key="id"  id="table-transition-example"
-                     :tbody-transition-props="transProps"
-                     @sort-changed="sortChanged"
-                     :no-sort-reset="true"
+            <main-table
+                :fields="columns"
+                :items="callData"
+                class="mb-0 table-borderless"
+                @sortChanged="sortChanged"
             >
-            </b-table>
+            </main-table>
       </b-col>
     </b-row>
   </b-container>
@@ -18,16 +21,34 @@ import { core } from '@/config/pluginInit'
 export default {
   data () {
     return {
-      transProps: {
-        name: 'flip-list'
-      },
       columns: [
-        { label: '##', key: 'id', class: 'text-left', sortable: true },
+        { label: '#', key: 'id', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Phone', key: 'phone', class: 'text-left' },
         { label: 'Test', key: 'test', class: 'text-left' },
         { label: 'Category', key: 'category', class: 'text-left' },
-        { label: 'Actions', key: 'actions', class: 'text-left' }
+        {
+          label: 'Actions',
+          key: 'actions',
+          class: 'text-left',
+          type: 'actions',
+          actions: [{
+            icon: 'las la-eye',
+            color: 'success',
+            text: 'View'
+          },
+          {
+            icon: 'las la-pen',
+            color: 'cobalt-blue',
+            text: 'Edit'
+          },
+          {
+            icon: 'las la-trash-alt',
+            color: 'danger',
+            text: 'Delete'
+          }
+          ]
+        }
       ],
       callData: [
         {

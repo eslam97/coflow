@@ -1,4 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+/* Business Landing Page*/
+.landing {
+  font-family: 'Inter', sans-serif;
+}
+.bg-primary, .badge-primary {
+  color: var(--iq-white);
+  background: var(--iq-primary) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#827af3', endColorstr='#b47af3', GradientType=1) !important;
+}
+.brandImage {
+  width: 150px;
+}
+#nav-bar-business .navbar-collapse {
+  top: 78px;
+  border-radius: unset;
+  padding: 10px;
+  background: var(--iq-primary) !important;
+  z-index: 5
+}
 
+.hero {
+  position: relative;
+  min-height: calc(100vh - 100px);
+}
+.bg-hero-image{
+  top: 10%;
+  right: 0;
+  width: 350px;
+  position: absolute;
+}
+.main_content {
+  padding-top: 7rem;
+}
+.container_button {
+  padding: 2px;
+  border-radius: 30px;
+  background: linear-gradient(to right, #2fdac1 0%, #2f9ae8 100%);
+  overflow: hidden;
+  button {
+    font-size: 12px;
+    padding: 12px 20px;
+    border-radius: 30px;
+    span {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      background-color: #2fdac1;
+      background-image: linear-gradient(to right, #2fdac1 0%, #2f9ae8 100%);
+      background-size: 100%;
+      background-repeat: repeat;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -moz-background-clip: text;
+      -moz-text-fill-color: transparent;
+    }
+  }
+}
+.gradient-orange-button{
+    border: none;
+    padding: 12px 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 50px 0 rgba(7, 42, 68, 0.12);
+    background-image: linear-gradient(to right, #da2f2a, #fd9e11 100%);
+}
 .iq-top-navbar {
   padding: 0;
   min-height: 100px;
@@ -74,7 +137,6 @@
   border: 1px solid var(--iq-bg-dark-bg);
   padding: 2px;
 }
-
 .navbar-list li:last-child > a {
   padding-right: 0
 }
@@ -117,7 +179,6 @@ table tr{
 .table td{
   padding: 1.5rem;
 }
-
 .iq-top-navbar{
   min-height: 71px;
   max-height: 71px;

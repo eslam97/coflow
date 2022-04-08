@@ -16,11 +16,3 @@ import Css
 @import "EcommerceResponsive.css";
 @import "agora.css";
 @import "developer.css";
-@font-face
-{
-    font-family: 'circularstd';
-    font-weight: normal;
-    font-style: normal;
-
-    src: url('../fonts/circularstd.ttf');
-}

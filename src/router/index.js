@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// Import Business Landing
+import businessLanding from '@/modules/businessLandingPage/businessLandingPage.routes'
+
 // Import Super Admin Routes
 import leads from '@/modules/superAdmin/leads/leads.routes'
 import activation from '@/modules/superAdmin/activation/activation.routes'
@@ -65,6 +68,7 @@ const authChildRoutes = (prop) => [
 ]
 
 const routes = [
+  ...businessLanding,
   ...leads,
   ...activation,
   ...profiles,
@@ -77,7 +81,7 @@ const routes = [
   ...analytics,
   ...admin,
   {
-    path: '',
+    path: '/welcome',
     name: 'welcome',
     component: VerticleLayout,
     meta: { auth: true },

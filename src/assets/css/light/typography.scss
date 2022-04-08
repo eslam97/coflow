@@ -339,7 +339,7 @@ Buttons
 .iq-sign-btn:hover { color: var(--iq-white); background: var(--iq-danger); }
 
 /*--------------*/
-.btn-primary { background: var(--iq-primary); background: -moz-linear-gradient(left, var(--iq-primary) 0%, var(--iq-primary-light) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, var(--iq-primary)), color-stop(100%, var(--iq-primary-light))); background: -webkit-linear-gradient(left, var(--iq-primary) 0%, var(--iq-primary-light) 100%); background: -o-linear-gradient(left, var(--iq-primary) 0%, var(--iq-primary-light) 100%); background: -ms-linear-gradient(left, var(--iq-primary) 0%, var(--iq-primary-light) 100%); background: linear-gradient(to right, var(--iq-primary) 0%, var(--iq-primary-light) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#827af3', endColorstr='#b47af3', GradientType=1); border-color: var(--iq-primary); }
+.btn-primary { background: var(--iq-primary); border-color: var(--iq-primary); }
 .btn-secondary { background-color: var(--iq-secondary); border-color: var(--iq-secondary); }
 .btn-success { background-color: var(--iq-success); border-color: var(--iq-success); }
 .btn-danger { background-color: var(--iq-danger); border-color: var(--iq-danger); }
@@ -349,7 +349,7 @@ Buttons
 .btn-dark { background-color: var(--iq-dark); border-color: var(--iq-dark); }
 
 /*--------------*/
-.btn-primary:hover { background: var(--iq-primary-light); background: -moz-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%); background: -webkit-gradient(left top, right top, color-stop(0%, var(--iq-primary-light)), color-stop(100%, var(--iq-primary))); background: -webkit-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%); background: -o-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%); background: -ms-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%); background: linear-gradient(to right, var(--iq-primary-light) 0%, var(--iq-primary) 100%); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b47af3', endColorstr='#827af3', GradientType=1); border-color: var(--iq-primary); border-color: var(--iq-primary); }
+.btn-primary:hover { background: var(--iq-primary-light); }
 a.bg-primary:focus, a.bg-primary:hover, button.bg-primary:focus, button.bg-primary:hover { background: var(--iq-primary-light) !important; background: -moz-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%) !important; background: -webkit-gradient(left top, right top, color-stop(0%, var(--iq-primary-light)), color-stop(100%, var(--iq-primary))); background: -webkit-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%) !important; background: -o-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%) !important; background: -ms-linear-gradient(left, var(--iq-primary-light) 0%, var(--iq-primary) 100%) !important; background: linear-gradient(to right, var(--iq-primary-light) 0%, var(--iq-primary) 100%) !important; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b47af3', endColorstr='#827af3', GradientType=1); border-color: var(--iq-primary); border-color: var(--iq-primary); }
 
 /*--------------*/

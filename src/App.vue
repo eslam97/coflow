@@ -162,7 +162,7 @@ table#table-transition-example .flip-list-move {
 }
 .selectedNumber{
   color: var(--iq-white) !important;
-  background: linear-gradient(to right, var(--iq-primary) 0%, var(--iq-primary-light) 100%) !important;
+  background: var(--iq-primary) !important;
 }
 .periodNumbers {
   padding: 5px;

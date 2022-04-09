@@ -467,7 +467,7 @@ export default {
       this.updateRadio()
     },
     logout () {
-/*      this.$store.dispatch('logout').then(() => {
+      /*      this.$store.dispatch('logout').then(() => {
         localStorage.removeItem('user_info')
         localStorage.removeItem('auth_permissions')
         localStorage.removeItem('access_token')
@@ -475,7 +475,7 @@ export default {
         localStorage.removeItem('user_roles')
         localStorage.removeItem('user_projects')
         this.$router.push({ name: 'auth1.sign-in1' })
-      })*/
+      }) */
     },
     langChange (lang) {
       this.langChangeState(lang)

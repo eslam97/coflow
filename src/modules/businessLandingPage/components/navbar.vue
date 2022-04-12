@@ -8,7 +8,7 @@
         <b-collapse id="nav-business" is-nav>
         <b-navbar-nav class="ml-auto d-flex align-items-center">
             <span class="px-3 py-2 mb-2 mb-lg-0 p-lg-0 cursor-pointer"  @click="$emit('openPopup')">Login</span>
-              <span class="container_button ml-0 ml-lg-5">
+              <span class="container_button ml-0 ml-lg-5" @click="$emit('businessRequest')">
                 <b-button variant="primary" class="navButton">
                 <span>Business Request</span>
               </b-button>

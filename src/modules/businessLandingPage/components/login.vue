@@ -10,22 +10,41 @@
       <b-row>
       <b-col lg="4" md="8" class="m-auto">
         <h2 class="text-center my-5 text_color">Business Dashboard</h2>
-          <b-form>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <b-form @submit.prevent="handleSubmit(login)">
             <b-card class="px-4 py-5 iq-border-radius-20">
-            <b-input-group class="d-flex align-items-center position-relative mb-4">
-              <i class="las la-envelope text-secondary font-size-18 position-absolute" style="z-index: 50; left: 15px"
-              ></i>
-              <b-form-input placeholder="Email" class="input_with_icon"></b-form-input>
-            </b-input-group>
-            <b-input-group class="d-flex align-items-center position-relative mb-4">
-              <i class="las la-lock text-secondary font-size-18 position-absolute" style="z-index: 50; left: 15px"
-              ></i>
-              <b-form-input placeholder="Password" class="input_with_icon"></b-form-input>
-            </b-input-group>
+              <b-form-group class="mb-4">
+                <ValidationProvider name="Email" ref="email" rules="required|email" v-slot="{ errors }">
+                  <div class="d-flex align-items-center position-relative">
+                  <i :class="['las la-envelope text-secondary font-size-18 position-absolute',errors.length > 0 ?
+                  ' text-danger' : '']" style="z-index: 50;left:15px"></i>
+                  <b-form-input v-model="user.email" type="text" placeholder="Email" :class="[(errors.length > 0 ?
+                  ' is-invalid' : ''),'input_with_icon']"></b-form-input>
+                  </div>
+                  <div class="invalid-feedback d-block">
+                    <div>{{ errors[0] }}</div>
+                  </div>
+                </ValidationProvider>
+              </b-form-group>
+
+              <b-form-group class="mb-4">
+                <ValidationProvider name="Password" ref="password" rules="required" v-slot="{ errors }">
+                  <div class="d-flex align-items-center position-relative">
+                    <i :class="['las la-lock text-secondary font-size-18 position-absolute',errors.length > 0 ?
+                  ' text-danger' : '']" style="z-index: 50;left:15px"></i>
+                    <b-form-input v-model="user.password" type="password" placeholder="Password"
+                                  :class="[(errors.length > 0 ?
+                  ' is-invalid' : ''),'input_with_icon']"></b-form-input>
+                  </div>
+                  <div class="invalid-feedback d-block">
+                    <div>{{ errors[0] }}</div>
+                  </div>
+                </ValidationProvider>
+              </b-form-group>
             <div class="d-flex justify-content-between align-items-center mt-2 px-1">
-              <b-form-radio>
+              <b-form-checkbox v-model="user.remember">
                 <span class="text-secondary font-size-12">Remember me</span>
-              </b-form-radio>
+              </b-form-checkbox>
               <span class="text-danger font-size-12">Forgot Password?</span>
             </div>
         </b-card>
@@ -33,7 +52,7 @@
               <b-button type="submit" class="gradient-orange-button m-auto mt-4 w-50 py-3">Login</b-button>
             </div>
           </b-form>
-
+        </ValidationObserver>
       </b-col>
       </b-row>
     </b-container>
@@ -41,7 +60,16 @@
 </template>
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      user: {
+        email: '',
+        password: '',
+        remember: false
+      }
+    }
+  }
 }
 </script>
 <style>

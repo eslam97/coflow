@@ -89,6 +89,16 @@
     }
   }
 }
+.container_button_blue {
+  border: none !important;
+  background: unset;
+  background: linear-gradient(to right, #2f9ae8 0%, #2fdac1 100%);
+  font-size: 14px;
+  padding: 12px 30px;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3);
+  color: #fff;
+}
 .gradient-orange-button{
     border: none;
     padding: 12px 40px;
@@ -247,4 +257,11 @@ form label {
   font-size: 14px;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+}
+.deleteLabelButton {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  font-size: 11px;
+  font-family: "Inter", sans-serif;
 }

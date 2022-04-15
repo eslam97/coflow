@@ -8,7 +8,7 @@
         <h1 class="text-white font-size-26 mb-2 ">Get things done,<br/> quick and easy</h1>
         <p class="w-50 text-secondary mb-5 font-size-14">Lorem ipsum dolor sit amet, consectetur
           adipiscing elit. Ut pretium pretium tempor.</p>
-        <b-button class="gradient-orange-button">Get Started</b-button>
+        <b-button class="gradient-orange-button" @click="$emit('getStarted')">Get Started</b-button>
         </div>
       </b-col>
       <b-col md="6">

@@ -12,7 +12,7 @@
       </template>
     </main-modal>
     <main-nav-bar @openPopup= "openPopupLogin = true" @businessRequest="openPopUpBusinessRequest"/>
-    <hero />
+    <hero @getStarted="openPopUpBusinessRequest"/>
     <user-experience/>
 <!--    <eeasy-to-use/>-->
   </div>

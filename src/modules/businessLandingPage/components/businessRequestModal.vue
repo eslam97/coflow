@@ -52,20 +52,23 @@
             <b-form-group
                 :label="'URL Links'"
                 :label-for="'URL Links'"
+                class="position-relative"
             >
+              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0" @click="deleteLink(key)">Delete
+              </span>
               <b-input-group>
                 <validation-provider
                     #default="{ errors }"
-                    :name="'URL Links'"
+                    :name="`URL Link ${key + 1}`"
                     :rules="'required'"
                     class="flex-grow-1"
                 >
                   <b-form-input
                       id="mm"
                       v-model="item.link"
-                      :type="'email'"
                       :class="[{ 'is-invalid': errors.length > 0 }]"
                       :placeholder="'Ex: https://www.google.com'"
+                      :disabled="!item.selectSocial"
                   />
                 </validation-provider>
                 <template #prepend>
@@ -73,7 +76,7 @@
                       :text="item.selectSocial ? item.selectSocial : 'Choose'"
                       class="selectWithInput"
                   >
-                    <b-dropdown-item v-for="(i, keyLink) in allLinks" :key="keyLink" @click="item.selectSocial = i">
+                    <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink" @click="item.selectSocial = i">
                       {{i}}
                     </b-dropdown-item>
                   </b-dropdown>
@@ -81,7 +84,16 @@
               </b-input-group>
             </b-form-group>
           </b-col>
-          <b-col md="12"><span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span></b-col>
+          <b-col md="12" v-if="allLinks.length !== businessRequest.url_links.length"
+          ><span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span></b-col>
+        </b-row>
+        <b-row>
+          <b-col md="12" class="mt-3 d-flex justify-content-center">
+            <spinner-loading class="container_button_blue" text="Requesting" v-if="requestLoading"/>
+            <b-button class="container_button_blue m-auto" type="submit" v-else>
+                <span>Send Request</span>
+            </b-button>
+          </b-col>
         </b-row>
       </b-form>
     </ValidationObserver>
@@ -91,6 +103,7 @@
 export default {
   data () {
     return {
+      requestLoading: false,
       test: '',
       allLinks: [
         'Website',
@@ -108,10 +121,6 @@ export default {
           {
             selectSocial: '',
             link: ''
-          },
-          {
-            selectSocial: '',
-            link: ''
           }
         ]
       }
@@ -126,6 +135,22 @@ export default {
     },
     deleteLink (key) {
       this.businessRequest.url_links.splice(key, 1)
+    },
+    makeBusinessRequest () {
+      this.requestLoading = true
+    }
+  },
+  computed: {
+    filterLinks () {
+      var newLinksArr = [...this.allLinks]
+      this.businessRequest.url_links.forEach(e => {
+        if (newLinksArr.includes(e.selectSocial)) {
+          var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
+          console.log(socialIndex)
+          newLinksArr.splice(socialIndex, 1)
+        }
+      })
+      return newLinksArr
     }
   }
 }

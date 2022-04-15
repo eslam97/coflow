@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-spinner small type="grow"></b-spinner>
-    {{ text }}...
+    {{ text }} ...
   </div>
 </template>
 <script>

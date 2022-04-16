@@ -1,14 +1,14 @@
 <template>
   <footer class="bg-primary text-secondary landingFooter">
     <b-container>
-      <b-row>
-      <b-col sm="4">
+      <b-row class="align-items-end">
+      <b-col sm="2">
         <img :src="require('@/assets/images/whiteLogo.png')" alt="coFlow" class='brandImage'>
       </b-col>
-      <b-col sm="4">
+      <b-col sm="8">
         <p class="font-size-12 text-center">© 2021 <span class="text-white">COFLOW</span>. All rights reserved.</p>
       </b-col>
-      <b-col sm="4">
+      <b-col sm="2">
         <div class="d-flex justify-content-between">
           <i class="lab la-facebook-f"></i>
           <i class="lab la-twitter"></i>

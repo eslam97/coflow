@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-primary tailored p-5">
+  <div class="bg-primary tailored py-5">
     <b-container>
       <div class="py-5 mt-5">
         <div class="header">
@@ -60,7 +60,7 @@
           </p>
         </div>
       </section>-->
-      <b-row class="feature-user justify-content-between">
+      <b-row class="feature-user justify-content-between pb-5">
         <b-col md="2 mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Ticket.png')" />

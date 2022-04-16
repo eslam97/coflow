@@ -1,12 +1,12 @@
 <template>
-  <b-container class="userExp">
+  <b-container class="userExp py-5">
     <div class="py-5 mt-5">
       <div class="header">
         <h3 class="text-center text-primary mb-2">User Experience, redefined</h3>
         <p class="text-center text-secondary font-size-12 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
           elit. Ut <br/>pretium pretium tempor .</p>
       </div>
-      <section class="experienceCard mt-4">
+      <section class="experienceCard mt-4 pb-5">
        <b-row>
          <b-col md="4">
            <div class="p-4">

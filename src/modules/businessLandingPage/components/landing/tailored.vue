@@ -93,7 +93,7 @@
         </b-col>
         <b-col md="2 mb-2">
           <div class="text-center">
-            <img :src="require('@/assets/images/businessLanding/tailored/Flows.png')"  class="w-17"/>
+            <img :src="require('@/assets/images/businessLanding/tailored/Flows.png')" class="w-17"/>
             <h4 class="text-white my-3">Flows</h4>
           </div>
           <p class="text-secondary">

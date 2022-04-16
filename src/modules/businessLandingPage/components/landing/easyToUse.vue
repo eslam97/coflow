@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white easy-to-use position-relative pb-5">
+  <div class="bg-white easy-to-use position-relative py-5">
     <img :src="require('@/assets/images/businessLanding/easyToUse/S-right.png')" class="right-image">
     <img :src="require('@/assets/images/businessLanding/easyToUse/S-left.png')" class="left-image">
     <b-container>

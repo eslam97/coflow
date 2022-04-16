@@ -1,5 +1,5 @@
 <template>
-  <div class="position-relative pt-5">
+  <div class="position-relative pt-5 get-in-touch">
     <section class="bg-white h-400">
       <img :src="require('@/assets/images/businessLanding/getInTouch/Getintouch-right.png')" class="right-image-get-in-touch">
       <img :src="require('@/assets/images/businessLanding/getInTouch/Getintouch-right.png')" class="left-image-get-in-touch">
@@ -16,7 +16,7 @@
     <section class="bg-primary">
       <b-container>
         <b-row class="d-flex justify-content-center">
-          <b-col md="7">
+          <b-col md="6">
             <ValidationObserver v-slot="{ handleSubmit }">
               <b-form class="position-relative form-top" @submit.prevent="handleSubmit(sendGetInTouch)">
                 <div class="card form-shadow iq-border-radius-5 overflow-hidden">

@@ -6,9 +6,9 @@
 .landing{
   font-family: 'Inter', sans-serif;
 }
-/*.userExp h3, .userExp h4, .easy-to-use h3 , .tailored h3, .testimonials h4, .testimonials h5{
+.userExp h3, .userExp h4, .easy-to-use h3 , .tailored h3, .testimonials h3, .testimonials h4, .testimonials h5,  .get-in-touch h3,{
   font-family: 'Inter', sans-serif !important;
-}*/
+}
 .hover_transparent:hover{
   transition: 0.3s ease-in-out;
   background: transparent;
@@ -86,6 +86,22 @@
       -webkit-text-fill-color: transparent;
       -moz-background-clip: text;
       -moz-text-fill-color: transparent;
+    }
+  }
+  &:hover {
+    background: var(--iq-primary);
+    button {
+      background-color: #2fdac1;
+      background-image: linear-gradient(to right, #2fdac1 0%, #2f9ae8 100%);
+      color: #fff;
+    }
+    span{
+      color: #fff;  background-size: 100%;
+      background-repeat: unset;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: unset;
+      -moz-background-clip: unset;
+      -moz-text-fill-color: unset;
     }
   }
 }

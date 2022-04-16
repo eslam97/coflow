@@ -16,6 +16,9 @@
     <user-experience/>
     <easy-to-use/>
     <tailored />
+    <testimonials />
+    <get-in-touch />
+    <landing-footer />
   </div>
 </template>
 <script>
@@ -26,6 +29,9 @@ import hero from '../components/hero'
 import userExperience from '../components/userExperience'
 import easyToUse from '../components/easyToUse'
 import tailored from '../components/tailored'
+import testimonials from '../components/testimonials'
+import getInTouch from '../components/getInTouch'
+import landingFooter from '../components/footer'
 export default {
   data () {
     return {
@@ -40,7 +46,10 @@ export default {
     hero,
     userExperience,
     easyToUse,
-    tailored
+    tailored,
+    testimonials,
+    getInTouch,
+    landingFooter
   },
   methods: {
     openPopUpBusinessRequest () {

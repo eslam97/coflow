@@ -3,12 +3,12 @@
 #loginPopup {
   background-color: var(--iq-primary) !important;
 }
-.landing {
+.landing *{
   font-family: 'Inter', sans-serif;
 }
-.userExp h3, .userExp h4, .easy-to-use h3 , .tailored h3{
+/*.userExp h3, .userExp h4, .easy-to-use h3 , .tailored h3, .testimonials h4, .testimonials h5{
   font-family: 'Inter', sans-serif !important;
-}
+}*/
 .hover_transparent:hover{
   transition: 0.3s ease-in-out;
   background: transparent;

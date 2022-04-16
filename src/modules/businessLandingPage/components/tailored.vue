@@ -8,7 +8,7 @@
             elit. Ut <br/>pretium pretium tempor .</p>
         </div>
       </div>
-      <section class="d-flex justify-content-between align-items-center feature-user flex-column flex-md-row flex-wrap">
+<!--      <section class="d-flex justify-content-between align-items-center feature-user flex-column flex-md-row flex-wrap">
         <div class="w-20-p mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Ticket.png')" />
@@ -59,7 +59,59 @@
             blandit. Nulla quis lorem ut liber.
           </p>
         </div>
-      </section>
+      </section>-->
+      <b-row class="feature-user justify-content-between">
+        <b-col md="2 mb-2">
+          <div class="text-center">
+            <img :src="require('@/assets/images/businessLanding/tailored/Ticket.png')" />
+            <h4 class="text-white my-3">Tickets</h4>
+          </div>
+          <p class="text-secondary">
+            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere
+            blandit. Nulla quis lorem ut liber.
+          </p>
+        </b-col>
+        <b-col md="2 mb-2">
+          <div class="text-center">
+            <img :src="require('@/assets/images/businessLanding/tailored/Activities.png')" />
+            <h4 class="text-white my-3">Activities</h4>
+          </div>
+          <p class="text-secondary">
+            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere
+            blandit. Nulla quis lorem ut liber.
+          </p>
+        </b-col>
+        <b-col md="2 mb-2">
+          <div class="text-center">
+            <img :src="require('@/assets/images/businessLanding/tailored/Courses.png')" />
+            <h4 class="text-white my-3">Courses</h4>
+          </div>
+          <p class="text-secondary">
+            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere
+            blandit. Nulla quis lorem ut liber.
+          </p>
+        </b-col>
+        <b-col md="2 mb-2">
+          <div class="text-center">
+            <img :src="require('@/assets/images/businessLanding/tailored/Flows.png')"  class="w-17"/>
+            <h4 class="text-white my-3">Flows</h4>
+          </div>
+          <p class="text-secondary">
+            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere
+            blandit. Nulla quis lorem ut liber.
+          </p>
+        </b-col>
+        <b-col md="2 mb-2">
+          <div class="text-center">
+            <img :src="require('@/assets/images/businessLanding/tailored/Products.png')" />
+            <h4 class="text-white my-3">Products</h4>
+          </div>
+          <p class="text-secondary">
+            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur aliquet quam id dui posuere
+            blandit. Nulla quis lorem ut liber.
+          </p>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>

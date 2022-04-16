@@ -72,7 +72,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 @import url("../../../assets/css/custom.css");
 .popupLogin {
   z-index: 100000;

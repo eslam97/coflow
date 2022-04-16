@@ -34,12 +34,10 @@
     <slot name="nav" v-if="!navTop" />
   </div>
 </template>
-
 <script>
 import Swiper, { Navigation, Pagination, Parallax, Autoplay } from 'swiper'
 import { mapGetters } from 'vuex'
 import 'swiper/swiper.scss'
-import 'swiper/components/pagination/pagination.scss'
 Swiper.use([Navigation, Pagination, Parallax, Autoplay])
 let swiper
 export default {
@@ -50,10 +48,44 @@ export default {
     options: {
       type: Object,
       default: () => {
+        return {
+          centeredSlides: true,
+          loop: true,
+          slidesPerView: 2,
+          spaceBetween: 50,
+          autoplay: true,
+          breakpoints: {
+            // when window width is >= 480px
+            480: {
+              slidesPerView: 1,
+              spaceBetween: 15
+            },
+            // when window width is >= 640px
+            640: {
+              slidesPerView: 3.5,
+              spaceBetween: 30
+            }
+          },
+          // If we need pagination
+          pagination: {
+            el: '.swiper-pagination'
+          },
+
+          // Navigation arrows
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          },
+
+          // And if we need scrollbar
+          scrollbar: {
+            el: '.swiper-scrollbar'
+          }
+        }
       }
     },
     navTop: { type: Boolean, default: false },
-    pagination: { type: Boolean, default: true },
+    pagination: { type: Boolean, default: false },
     scrollbar: { type: Boolean, default: false },
     tag: { type: String, default: 'div' }
   },
@@ -91,20 +123,20 @@ export default {
 
 <style scoped>
 
-    [dir="rtl"] .swiper-slide {
-      text-align: right !important;
-      /* Center slide text vertically */
-      display: -webkit-box !important;
-      display: -ms-flexbox !important;
-      display: -webkit-flex !important;
-      display: flex !important;
-      -webkit-box-pack: right !important;
-      -ms-flex-pack: right !important;
-      -webkit-justify-content: right !important;
-      justify-content: right !important;
-      -webkit-box-align: right !important;
-      -ms-flex-align: right !important;
-      -webkit-align-items: right !important;
-      align-items: right !important;
-    }
+[dir="rtl"] .swiper-slide {
+  text-align: right !important;
+  /* Center slide text vertically */
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-box-pack: right !important;
+  -ms-flex-pack: right !important;
+  -webkit-justify-content: right !important;
+  justify-content: right !important;
+  -webkit-box-align: right !important;
+  -ms-flex-align: right !important;
+  -webkit-align-items: right !important;
+  align-items: right !important;
+}
 </style>

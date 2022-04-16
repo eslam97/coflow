@@ -1,6 +1,7 @@
-<!--
 <template>
-  <div  class="bg-white easy-to-use">
+  <div class="bg-white easy-to-use position-relative pb-5">
+    <img :src="require('@/assets/images/businessLanding/easyToUse/S-right.png')" class="right-image">
+    <img :src="require('@/assets/images/businessLanding/easyToUse/S-left.png')" class="left-image">
     <b-container>
       <div class="py-5 mt-5">
         <div class="header">
@@ -9,73 +10,78 @@
             elit. Ut <br/>pretium pretium tempor .</p>
         </div>
       </div>
-      <div class="slider_swiper">
-        <b-row class="d-flex justify-content-center position-relative">
-          <b-col md="6" class="bg-danger overflow-hidden">
-            <swiper class="swiper"  :slides-per-view="3"
-                    :space-between="50">
-              <swiper-slide>Slide 1</swiper-slide>
-              <swiper-slide>Slide 2</swiper-slide>
-              <swiper-slide>Slide 3</swiper-slide>
-              <swiper-slide>Slide 4</swiper-slide>
-              <swiper-slide>Slide 5</swiper-slide>
-              <swiper-slide>Slide 6</swiper-slide>
-              <swiper-slide>Slide 7</swiper-slide>
-              <swiper-slide>Slide 8</swiper-slide>
-              <swiper-slide>Slide 9</swiper-slide>
-              <swiper-slide>Slide 10</swiper-slide>
-            </swiper>
-          </b-col>
-        </b-row>
-      </div>
+      <b-row class="d-flex justify-content-center">
+        <b-col md="7" sm="12" class="justify-content-center">
+          <div>
+      <b-carousel
+          id="sliderImageOfDashboard"
+          controls
+          indicators
+      >
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
+      </b-carousel>
+          </div>
+        </b-col>
+      </b-row>
+<!--      <b-row class="d-flex justify-content-center">
+        <b-col md="7" sm="12" class="justify-content-center">
+          <div>
+            <Swiper id="post-slider" :option="options" :pagination="true">
+          <template v-slot:nav>
+            <SwiperNav  v-if="false"/>
+          </template>
+          <SwiperSlide class="d-flex align-items-center">
+            <img :src="require('@/assets/images/businessLanding/PicDashborad.png')" class="img-fluid rounded">
+          </SwiperSlide>
+            <SwiperSlide class="d-flex align-items-center">
+              <img :src="require('@/assets/images/businessLanding/PicDashborad.png')" class="img-fluid rounded">
+            </SwiperSlide>
+            <SwiperSlide class="d-flex align-items-center">
+              <img :src="require('@/assets/images/businessLanding/PicDashborad.png')" class="img-fluid rounded">
+            </SwiperSlide>
+            <SwiperSlide class="d-flex align-items-center">
+              <img :src="require('@/assets/images/businessLanding/PicDashborad.png')" class="img-fluid rounded">
+            </SwiperSlide>
+        </Swiper>
+          </div>
+        </b-col>
+      </b-row>-->
     </b-container>
   </div>
 </template>
-<script>
-export default {
-  components: {
-  },
-  methods: {
-    onSwiper (swiper) {
-      console.log(swiper)
-    }
-  }
+
+<style>
+.left-image, .right-image{
+  position: absolute;
+  top: 35%;
+  left: 0;
+  width: 80px;
+  z-index: 1;
+
 }
-</script>
-<style scoped>
+.right-image{
+  left: unset;
+  right: 0;
+}
+#sliderImageOfDashboard {
+  z-index: 2;
+}
+#sliderImageOfDashboard .carousel-indicators {
+  bottom: -50px !important;
+}
+#sliderImageOfDashboard .carousel-indicators li {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background-color: var(--iq-primary) !important;
+  margin-right: 6px !important;
+  margin-left: 6px !important;
+}
+#sliderImageOfDashboard .carousel-control-prev ,
+#sliderImageOfDashboard .carousel-control-next {
+  display: none;
+}
 </style>
--->
-<template>
-  <swiper
-      :slides-per-view="3"
-      :space-between="50"
-  >
-    <p>sssssssssss</p>
-    <p>sssssssssss</p>
-    <p>sssssssssss</p>
-    <p>sssssssssss</p>
-    <p>sssssssssss</p>
-  </swiper>
-</template>
-<script>
-import SwiperCore, { Navigation, Parallax, Swiper } from 'swiper'
-import 'swiper/swiper.scss'
-SwiperCore.use([Navigation, Parallax])
-export default {
-  components: {
-    Swiper
-  },
-  setup () {
-    const onSwiper = (swiper) => {
-      console.log(swiper)
-    }
-    const onSlideChange = () => {
-      console.log('slide change')
-    }
-    return {
-      onSwiper,
-      onSlideChange
-    }
-  }
-}
-</script>

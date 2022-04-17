@@ -20,8 +20,6 @@ Props:
 -->
 <template>
   <div>
-    <!-- modal -->
-    <deletePopup id="modalId"></deletePopup>
     <div v-if="cellActions.actions.length"  class="d-flex justify-content-around w-full">
       <template v-for="(i, key) in cellActions.actions">
         <span
@@ -36,7 +34,7 @@ Props:
   </div>
 </template>
 <script>
-
+import EventBus from '@/eventBus'
 export default {
   props: {
     cellActions: {
@@ -88,8 +86,16 @@ export default {
           })
         }
         this.$root.$emit(action.actionName, objData)
-      } else {
-        this.$root.$emit('bv::show::modal', 'modalId')
+      } else if (action.showAlert) {
+        EventBus.$emit('openDeleteModal', {
+          actionHeader: action.actionHeader ? action.actionHeader : 'Delete',
+          titleHeader: action.titleHeader ? action.titleHeader : '',
+          textContnet: action.textContnet ? this.dataItem[action.textContnet] : '',
+          question: action.question ? action.question : `Are You Sure You Want Delete This ${action.titleHeader}?`,
+          textDeleteButton: action.textDeleteButton ? action.textDeleteButton : `YES, ${action.actionHeader}`,
+          textCancelButton: action.textCancelButton ? action.textCancelButton : 'NO, CANCEL',
+          icon: action.icon ? action.icon : 'las la-trash-alt'
+        })
       }
     }
   }

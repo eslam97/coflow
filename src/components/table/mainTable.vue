@@ -1,6 +1,5 @@
 <template>
   <div>
-    <deletePopup id="modalId"></deletePopup>
     <b-table
       id="table-transition-example"
       class="vgt-table bordered"

@@ -1,9 +1,7 @@
 <template>
   <b-modal
-      :id="id"
+      :id="'deleteModal'"
       v-model="shown"
-      @shown="onShown"
-      @hidden="onHidden"
       centered
       no-close-on-backdrop
       hide-footer
@@ -18,13 +16,13 @@
       <P class="text-center">{{question}}</P>
       <div class="d-flex justify-content-center mt-3">
         <span class="w-40 p-2">
-          <b-button variant="danger" class="popupButton w-100">
+          <b-button @click="confirm" variant="danger" class="popupButton w-100">
             <span class="mr-2">{{textDeleteButton}}</span>
             <i :class="icon"></i>
           </b-button>
         </span>
         <span class="w-40 p-2">
-          <b-button variant="white" class="popupButton w-100" @click="close()">
+          <b-button variant="white" class="popupButton w-100" @click="close(); returnFalse()">
             <span>{{textCancelButton}}</span></b-button>
         </span>
       </div>
@@ -35,47 +33,19 @@
 <script>
 import Bus from '@/eventBus'
 export default {
-  props: {
-    id: {
-      type: String,
-      default: () => ''
-    },
-    actionHeader: {
-      type: String,
-      default: () => 'Delete'
-    },
-    titleHeader: {
-      type: String,
-      default: () => ''
-    },
-    textContnet: {
-      type: String,
-      default: () => ''
-    },
-    question: {
-      type: String,
-      default: () => 'Are You Sure You Want Delete This ?'
-    },
-    textDeleteButton: {
-      type: String,
-      default: () => 'YES, DELETE'
-    },
-    textCancelButton: {
-      type: String,
-      default: () => 'NO, CANCEL'
-    },
-    icon: {
-      type: String,
-      default: () => 'las la-trash-alt'
-    }
-  },
-
   data () {
     return {
-      shown: false
+      shown: false,
+      id: '',
+      actionHeader: '',
+      titleHeader: '',
+      textContnet: '',
+      question: '',
+      textDeleteButton: '',
+      textCancelButton: '',
+      icon: ''
     }
   },
-
   mounted () {
     Bus.$on('toggle_modal', (modalId) => {
       if (this.id === modalId) {
@@ -83,18 +53,30 @@ export default {
       }
     })
   },
-
   beforeDestroy () {
     Bus.$off('toggle_modal')
   },
-
   methods: {
-    onShown () {
-      this.$emit('opened')
+    show (opts = {}) {
+      this.actionHeader = opts.actionHeader
+      this.titleHeader = opts.titleHeader
+      this.textContnet = opts.textContnet
+      this.question = opts.question
+      this.textDeleteButton = opts.textDeleteButton
+      this.textCancelButton = opts.textCancelButton
+      this.icon = opts.icon
+      this.$bvModal.show('deleteModal')
+      return new Promise((resolve, reject) => {
+        this.resolvePromise = resolve
+        this.rejectPromise = reject
+      })
     },
-
-    onHidden () {
-      this.$emit('closed')
+    confirm () {
+      this.$bvModal.hide('deleteModal')
+      this.resolvePromise(true)
+    },
+    returnFalse () {
+      this.rejectPromise(false)
     }
   }
 }

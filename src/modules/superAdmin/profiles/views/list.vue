@@ -58,7 +58,12 @@ export default {
             {
               icon: 'las la-times-circle',
               color: 'danger',
-              text: 'Deactivate'
+              text: 'Deactivate',
+              showAlert: true,
+              actionHeader: 'Deactivate',
+              titleHeader: 'Profile',
+              textContnet: 'facility_name',
+              textDeleteButton: 'Deactivate'
             }
           ]
         }

@@ -45,7 +45,11 @@ export default {
           {
             icon: 'las la-trash-alt',
             color: 'danger',
-            text: 'Delete'
+            text: 'Delete',
+            showAlert: true,
+            actionHeader: 'Delete',
+            titleHeader: 'Lead',
+            textContnet: 'name'
           }
           ]
         }

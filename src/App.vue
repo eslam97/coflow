@@ -1,5 +1,6 @@
 <template>
   <div>
+    <delete-popup ref="deletePopup" />
     <router-view/>
 <!--    <canvas id="signatureCanvas"></canvas>
     <textarea id="signatureData"></textarea>-->
@@ -18,6 +19,8 @@ import { core } from './config/pluginInit'
 // import channel from "./pusher";
 // import channel from './pusher'
 import { mapGetters } from 'vuex'
+import Bus from '@/eventBus'
+
 export default {
   name: 'App',
   components: {
@@ -28,13 +31,19 @@ export default {
       pusher: null,
       not: '',
       onLine: navigator.onLine,
-      showBackOnline: false
+      showBackOnline: false,
+      deletePopup: false,
     }
   },
   mounted () {
     core.mainIndex()
     window.addEventListener('online', this.updateOnlineStatus)
     window.addEventListener('offline', this.updateOnlineStatus)
+      Bus.$on('openDeleteModal', (data) => {
+        this.$refs.deletePopup.show(data).then(sucess => {
+          console.log(sucess)
+        })
+      })
   },
   computed: {
     ...mapGetters(['getAllNotifications'])

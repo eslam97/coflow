@@ -6,8 +6,40 @@
 .landing{
   font-family: 'Inter', sans-serif;
 }
-.userExp h3, .userExp h4, .easy-to-use h3 , .tailored h3, .testimonials h3, .testimonials h4, .testimonials h5,  .get-in-touch h3,{
+.text-bold,
+.userExp h3,
+.userExp h4,
+.easy-to-use h3 ,
+.tailored h3,
+.testimonials h3,
+.testimonials h4,
+.testimonials h5,
+.get-in-touch h3,
+.profile-info h1,
+.profile-information h4{
   font-family: 'Inter', sans-serif !important;
+}
+.blueText {
+    font-family: 'Inter', sans-serif !important;
+    background-color: #2fdac1;
+    background-image: linear-gradient(to right, #2fdac1 0%, #2f9ae8 100%);
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent
+}
+.orangeText {
+  font-family: 'Inter', sans-serif !important;
+  background-color: #da2f2a;
+  background-image: linear-gradient(to right, #da2f2a, #fd9e11 100%);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent
 }
 .hover_transparent:hover{
   transition: 0.3s ease-in-out;
@@ -274,10 +306,42 @@ form label {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-.deleteLabelButton {
+.deleteLabelButton, .deleteLabelButtonAdmin {
   position: absolute;
   top: 0;
   right: 4px;
   font-size: 11px;
   font-family: "Inter", sans-serif;
+}
+.deleteLabelButtonAdmin {
+  top: unset;
+  bottom: -15px;
+  right: 17px;
+}
+.customHight {
+  height: calc(100vh - 80px);
+}
+
+.border-2 {
+  border-width: 2px !important;
+}
+@media (max-width:767px) {
+
+  .no-border
+  {
+    border:0px solid !important
+  }
+}
+.slideNextArrow:hover  i {
+    animation: slideNextArrow 1s ease-in-out infinite;
+}
+@keyframes slideNextArrow {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(10px, 0);
+  }
 }

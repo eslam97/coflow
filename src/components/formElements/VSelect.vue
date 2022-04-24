@@ -1,5 +1,15 @@
 <template>
-  <vue-select
+  <b-form-group
+      :label="labelTitle"
+      :label-for="name"
+  >
+    <validation-provider
+        #default="{ errors }"
+        :name="`URL Link`"
+        :rules="'required'"
+        class="flex-grow-1"
+    >
+      <vue-select
     v-model="selected"
     :multiple="multiple"
     :close-on-select="closeOnSelect_v"
@@ -15,7 +25,11 @@
     @input="onChange"
     @search:focus="onFocus"
     @search:blur="onBlur"
+    :class="[{ 'is-invalid': errors.length > 0 }]"
   >
+<!--    <template #open-indicator="{ attributes }">
+      <span v-bind="attributes"><i class="las la-angle-down text-black font-weight-bold"></i></span>
+    </template>-->
     <template
       v-if="showSelectAll"
       #list-header
@@ -41,6 +55,9 @@
     </template>
     <slot />
   </vue-select>
+      <small class="text-danger">{{ errors[0] }}</small>
+    </validation-provider>
+  </b-form-group>
 </template>
 <script>
 import VueSelect from 'vue-select'
@@ -76,6 +93,10 @@ export default {
       require: true
     },
     label: {
+      type: String
+    },
+    labelTitle: {
+      default: '',
       type: String
     },
     reduce: {
@@ -150,6 +171,15 @@ export default {
 </script>
 
 <style lang="scss">
+.is-invalid .vs__dropdown-toggle {
+  border: 1px solid rgb(255 0 0);
+}
+.vs--searchable div {
+  border-radius: 4px !important;
+}
+.vs__open-indicator {
+  fill: var(--iq-black)
+}
 .v-select {
   .vs__dropdown-menu {
     overflow-x: hidden;
@@ -158,8 +188,8 @@ export default {
   .vs__dropdown-option--selected {
     display: none;
   }
-
   .vs__search {
+
     $placeholderColor: #ccc;
 
     &::placeholder {

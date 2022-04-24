@@ -15,7 +15,7 @@ import DateRangePicker from 'vue2-daterange-picker'
 import mainModal from '@/components/modal/mainModal'
 // form Elements
 import inputForm from '@/components/formElements/InputForm'
-
+import mainSelect from '@/components/formElements/VSelect'
 Vue.component('multiselect', Multiselect)
 Vue.component('DatePicker', DatePicker)
 Vue.component('spinner-loading', spinnerLoading)
@@ -30,3 +30,4 @@ Vue.component('mainTable', mainTable)
 Vue.component('deletePopup', deletePopup)
 Vue.component('main-modal', mainModal)
 Vue.component('input-form', inputForm)
+Vue.component('main-select', mainSelect)

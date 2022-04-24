@@ -1,15 +1,43 @@
 <template>
-  <div class="position-fixed top-0 left-0 bg-primary w-100 h-100 popupLogin p-5">
-    <img :src="require('@/assets/images/businessLanding/header-right.png')" class="bg-hero-image top-20">
-    <b-container fluid>
-      <nav class="d-flex justify-content-between align-items-center">
-        <img :src="require('@/assets/images/whiteLogo.png')" alt="coFlow" class='brandImage'>
-      </nav>
-    </b-container>
-  </div>
+  <b-row class="align-items-center text-center border-bottom border-secondary border-2 m-0 p-0 flex-nowrap position-relative">
+    <b-col class="py-4  border-right border-2 border-secondary no-border">
+      <img :src="require('@/assets/images/whiteLogo.png')" alt="coFlow" class='brandImage'>
+    </b-col>
+    <b-col sm="6" class="d-none d-md-block">
+      <p class="text-white m-0">{{title}}</p>
+    </b-col>
+    <b-col class="p-4  border-left border-2 border-secondary">
+      <p class="text-white m-0"><span class="cursor-pointer" @click="goToHome">Exit</span></p>
+    </b-col>
+    <div v-if="progressBarGradient" class="progress-bar-gradient"></div>
+  </b-row>
 </template>
 <script>
 export default {
-  name: 'navWithProgress'
+  name: 'navWithProgress',
+  props: {
+    title: {
+      required: false
+    },
+    progressBarGradient: {
+      default: false
+    }
+  },
+  methods: {
+    goToHome () {
+      // logout
+      this.$router.push('/')
+    }
+  }
 }
 </script>
+<style>
+.progress-bar-gradient {
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: rgb(47,218,193);
+  background: linear-gradient(90deg, rgba(47,218,193,1) 0%, rgba(47,154,232,1) 50%, rgba(218,48,43,1) 50%, rgba(253,158,17,1) 100%);
+}
+</style>

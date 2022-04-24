@@ -14,7 +14,6 @@
             </b-col>
             <b-col md="2">
               <main-select labelTitle='Activity Type' :options="['s','d','A']" v-model="test"></main-select>
-
             </b-col>
             <b-col md="2">
               <main-select labelTitle='Activity Type' :options="['s','d','A']" v-model="test"></main-select>

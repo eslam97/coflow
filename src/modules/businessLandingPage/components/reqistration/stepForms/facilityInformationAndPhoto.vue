@@ -10,20 +10,31 @@
         <b-form @submit.prevent="handleSubmit(saveFacilityInformation)">
           <b-row>
             <b-col md="2">
-                  <main-select labelTitle='Activity Type' :options="['s','d','A']" v-model="test"></main-select>
+              <main-select labelTitle='Activity Line' :validate="'required'"
+                           :name="`Activity Line`" placeholder="Choose" :options="activity_line"
+                           v-model="info.activity_line"></main-select>
             </b-col>
             <b-col md="2">
-              <main-select labelTitle='Activity Type' :options="['s','d','A']" v-model="test"></main-select>
+              <main-select labelTitle='Activity Type' :validate="'required'"
+                           :name="`Activity Type`"  placeholder="Choose" :options="activity_type"
+                           v-model="info.activity_type"></main-select>
             </b-col>
             <b-col md="2">
-              <main-select labelTitle='Activity Type' :options="['s','d','A']" v-model="test"></main-select>
+              <input-form
+                  placeholder="Ex: 2022"
+                  :validate="'required|numeric'"
+                  :name="`Launch Year`"
+                  :label="'Launch Year'"
+                  v-model="info.launch_year"
+              />
             </b-col>
             <b-col md="3">
               <input-form
-                  placeholder="Ex: 01095097908"
-                  :validate="'required|numeric'"
-                  :name="`Phone Number`"
-                  :label="'Phone Number'"
+                  placeholder="Ex: Diving"
+                  :validate="'required'"
+                  :name="`Facility Name`"
+                  :label="'Facility Name'"
+                  v-model="info.facility_name"
               />
             </b-col>
           </b-row>
@@ -51,6 +62,20 @@ export default {
   data () {
     return {
       test: '',
+      info: {
+        activity_line: '',
+        activity_type: '',
+        launch_year: '',
+        facility_name: '',
+        facility_title: '',
+        team_languages: [],
+        facility_bio: '',
+        facility_tags: [],
+        amenities: [],
+        links: []
+      },
+      activity_line: ['SKY', 'SEA', 'EARTH', 'ENERGY', 'EXPLORE'],
+      activity_type: ['PARA', 'PAPA', 'RARA'],
       // loading Steps
       loadingFacilityInformation: false
     }

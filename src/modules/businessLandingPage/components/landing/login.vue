@@ -26,7 +26,6 @@
                   </div>
                 </ValidationProvider>
               </b-form-group>
-
               <b-form-group class="mb-4">
                 <ValidationProvider name="Password" ref="password" rules="required" v-slot="{ errors }">
                   <div class="d-flex align-items-center position-relative">
@@ -41,7 +40,7 @@
                   </div>
                 </ValidationProvider>
               </b-form-group>
-            <div class="d-flex justify-content-between align-items-center mt-2 px-1">
+              <div class="d-flex justify-content-between align-items-center mt-2 px-1">
               <b-form-checkbox v-model="user.remember">
                 <span class="text-secondary font-size-12">Remember me</span>
               </b-form-checkbox>
@@ -49,7 +48,8 @@
             </div>
         </b-card>
             <div class="d-flex justify-content-center mt-5">
-              <b-button type="submit" class="gradient-orange-button m-auto mt-4 w-50 py-3">Login</b-button>
+              <spinner-loading class="gradient-orange-button m-auto mt-4 w-50 py-3" text="Checking" v-if="loginLoading"/>
+              <b-button type="submit" v-else class="gradient-orange-button m-auto mt-4 w-50 py-3">Login</b-button>
             </div>
           </b-form>
         </ValidationObserver>
@@ -61,6 +61,12 @@
 <script>
 export default {
   name: 'Login',
+  props: {
+    loginLoading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       user: {
@@ -68,6 +74,11 @@ export default {
         password: '',
         remember: false
       }
+    }
+  },
+  methods: {
+    login () {
+      this.$emit('login', this.user)
     }
   }
 }

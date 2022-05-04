@@ -292,11 +292,14 @@ table tr{
 .form-control {
   border-radius: 4px !important;
 }
-form label {
-  font-size: 11px;
+form label, legend {
+  font-size: 11px !important;
   font-weight: bold;
   color: #74798c;
   font-family: 'Inter', sans-serif;
+}
+form legend {
+  margin-bottom: 5px !important;
 }
 .selectWithInput .btn-secondary{
   background: transparent !important;

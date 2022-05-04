@@ -5,8 +5,8 @@
   >
     <validation-provider
         #default="{ errors }"
-        :name="`URL Link`"
-        :rules="'required'"
+        :name="name"
+        :rules="validate"
         class="flex-grow-1"
     >
       <vue-select
@@ -27,9 +27,9 @@
     @search:blur="onBlur"
     :class="[{ 'is-invalid': errors.length > 0 }]"
   >
-<!--    <template #open-indicator="{ attributes }">
-      <span v-bind="attributes"><i class="las la-angle-down text-black font-weight-bold"></i></span>
-    </template>-->
+    <template #open-indicator="{ attributes }">
+      <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
+    </template>
     <template
       v-if="showSelectAll"
       #list-header
@@ -80,6 +80,10 @@ export default {
     disabled: {
       type: Boolean
 
+    },
+    validate: {
+      default: '',
+      required: false
     },
     placeholder: {
       type: String,
@@ -171,8 +175,19 @@ export default {
 </script>
 
 <style lang="scss">
+.vs--open .vs__selected {
+  top: 10px;
+}
+.vs--searchable div {
+  min-height: 43px !important;
+}
+
+.vs__dropdown-toggle {
+  border: 1px solid #d7dbda !important;
+  padding-bottom: 0 !important;
+}
 .is-invalid .vs__dropdown-toggle {
-  border: 1px solid rgb(255 0 0);
+  border: 1px solid rgb(255 0 0) !important;
 }
 .vs--searchable div {
   border-radius: 4px !important;

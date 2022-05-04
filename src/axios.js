@@ -3,7 +3,7 @@ import router from './router/index'
 import { core } from '../src/config/pluginInit'
 export default () => {
   const apiClient = axios.create({
-    baseURL: 'https://bked.lexeons.com/api',
+    baseURL: process.env.VUE_APP_AXSIOS_LINK,
     headers: {
       Authorization: `Bearer ${localStorage.getItem('access_token') ? localStorage.getItem('access_token') : null}`,
       Accept: 'application/json'

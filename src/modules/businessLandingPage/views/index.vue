@@ -1,14 +1,14 @@
 <template>
   <div class="landing">
     <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in" :leave-active-class="`animated ${animated.exit}`">
-        <loginModal v-if="openPopupLogin" @close="openPopupLogin = false"/>
+        <loginModal v-if="openPopupLogin" @close="openPopupLogin = false" :loginLoading="loginLoading" @login="login"/>
     </transition>
     <main-modal id="businessRequestModal" size="lg">
       <template v-slot:header>
         Business Request
       </template>
       <template v-slot:body>
-        <business-request-modal />
+        <business-request-modal @makeBusinessRequest="makeBusinessRequest" :requestLoading="requestLoading"/>
       </template>
     </main-modal>
     <main-nav-bar @openPopup= "openPopupLogin = true" @businessRequest="openPopUpBusinessRequest"/>
@@ -32,11 +32,16 @@ import tailored from '../components/landing/tailored'
 import testimonials from '../components/landing/testimonials'
 import getInTouch from '../components/landing/getInTouch'
 import landingFooter from '../components/landing/footer'
+
+// import service
+import registrationService from '../services/registration.services'
 export default {
   data () {
     return {
       animated: { enter: 'zoomIn', exit: 'zoomOut' },
-      openPopupLogin: false
+      openPopupLogin: false,
+      requestLoading: false,
+      loginLoading: false
     }
   },
   components: {
@@ -54,6 +59,24 @@ export default {
   methods: {
     openPopUpBusinessRequest () {
       this.$bvModal.show('businessRequestModal')
+    },
+    makeBusinessRequest (payload) {
+      this.requestLoading = true
+      registrationService.makeBusinessRequest(payload).then(res => {
+        console.log(res)
+        this.$bvModal.hide('businessRequestModal')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    login (payload) {
+      this.loginLoading = true
+      registrationService.login(payload).then(res => {
+        console.log(res)
+        this.openPopupLogin = false
+      }).finally(() => {
+        this.loginLoading = false
+      })
     }
   }
 }

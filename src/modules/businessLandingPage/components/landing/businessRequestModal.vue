@@ -5,7 +5,7 @@
         <b-row>
           <b-col md="4" class="mb-3">
             <input-form
-                v-model="businessRequest.facility_email"
+                v-model="businessRequest.email"
                 placeholder="Ex: name@coflow.com"
                 :validate="'required|email'"
                 name="Facility Email Address"
@@ -14,7 +14,7 @@
           </b-col>
           <b-col md="8" class="mb-3">
             <input-form
-                v-model="businessRequest.facility_name"
+                v-model="businessRequest.name"
                 placeholder="Ex: The Yoga Studio"
                 :validate="'required'"
                 name="Facility Name"
@@ -23,7 +23,7 @@
           </b-col>
           <b-col md="4" class="mb-3">
             <input-form
-                v-model="businessRequest.contact_role"
+                v-model="businessRequest.contact.job"
                 placeholder="Ex: Owner"
                 :validate="'required'"
                 name="Contact’s Role or Job"
@@ -32,7 +32,7 @@
           </b-col>
           <b-col md="4" class="mb-3">
             <input-form
-                v-model="businessRequest.contact_name"
+                v-model="businessRequest.contact.name"
                 placeholder="Ex: Eslam Ashraf"
                 :validate="'required'"
                 name="Contact’s Full Name"
@@ -41,14 +41,14 @@
           </b-col>
           <b-col md="4" class="mb-3">
             <input-form
-                v-model="businessRequest.contact_phone"
+                v-model="businessRequest.contact.phone"
                 placeholder="Ex: 0123456789"
                 :validate="'required|numeric'"
                 name="Contact’s Phone Number"
                 :label="'Contact’s Phone Number'"
             />
           </b-col>
-          <b-col md="6" class="mb-3" v-for="(item, key) in businessRequest.url_links" :key="key">
+          <b-col md="6" class="mb-3" v-for="(item, key) in businessRequest.links" :key="key">
             <b-form-group
                 :label="'URL Links'"
                 :label-for="'URL Links'"
@@ -84,7 +84,7 @@
               </b-input-group>
             </b-form-group>
           </b-col>
-          <b-col md="12" v-if="allLinks.length !== businessRequest.url_links.length"
+          <b-col md="12" v-if="allLinks.length !== businessRequest.links.length"
           ><span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span></b-col>
         </b-row>
         <b-row>
@@ -101,9 +101,14 @@
 </template>
 <script>
 export default {
+  props: {
+    requestLoading: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
-      requestLoading: false,
       test: '',
       allLinks: [
         'Website',
@@ -112,12 +117,14 @@ export default {
         'Instagram'
       ],
       businessRequest: {
-        facility_email: '',
-        facility_name: '',
-        contact_role: '',
-        contact_name: '',
-        contact_phone: '',
-        url_links: [
+        email: '',
+        name: '',
+        contact: {
+          name: '',
+          job: '',
+          phone: ''
+        },
+        links: [
           {
             selectSocial: '',
             link: ''
@@ -128,22 +135,22 @@ export default {
   },
   methods: {
     addNewLink () {
-      this.businessRequest.url_links.push({
+      this.businessRequest.links.push({
         selectSocial: '',
         link: ''
       })
     },
     deleteLink (key) {
-      this.businessRequest.url_links.splice(key, 1)
+      this.businessRequest.links.splice(key, 1)
     },
     makeBusinessRequest () {
-      this.requestLoading = true
+      this.$emit('makeBusinessRequest', this.businessRequest)
     }
   },
   computed: {
     filterLinks () {
       var newLinksArr = [...this.allLinks]
-      this.businessRequest.url_links.forEach(e => {
+      this.businessRequest.links.forEach(e => {
         if (newLinksArr.includes(e.selectSocial)) {
           var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
           console.log(socialIndex)

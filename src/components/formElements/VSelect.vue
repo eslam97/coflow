@@ -22,24 +22,21 @@
     :disabled="disabled"
     :value="selected"
     :loading="showLoadingIcon"
+    :taggable="taggable"
     @input="onChange"
     @search:focus="onFocus"
     @search:blur="onBlur"
+    :no-drop="taggable"
     :class="[{ 'is-invalid': errors.length > 0 }]"
   >
-    <template #open-indicator="{ attributes }">
+    <template #open-indicator="{ attributes }" v-if="!taggable">
       <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
     </template>
     <template
       v-if="showSelectAll"
       #list-header
     >
-      <vs-checkbox
-        v-model="checkAll"
-        class="pl-4 pr-0 mb-3 d-block w-auto"
-        @change="checkAllOptions"
-      >{{ $t('main.selectAll') }}
-      </vs-checkbox>
+      <li class="cursor-pointer text-white pl-3 bg-warning" @click="checkAll = !checkAll; checkAllOptions()">Select All</li>
     </template>
     <template
       v-if="noOptionsText"
@@ -67,6 +64,10 @@ export default {
   components: { VueSelect },
   props: {
     multiple: {
+      type: Boolean,
+      default: false
+    },
+    taggable: {
       type: Boolean,
       default: false
     },
@@ -135,12 +136,14 @@ export default {
       return this.clearable || this.multiple
     },
     showSelectAll () {
-      return !this.hideSelectAll && (this.options.length && this.multiple && this.selected && this.options.length !== this.selected.length)
+      return !this.hideSelectAll && (!this.taggable && this.options.length && this.multiple && this.selected &&
+          this.options.length !==
+          this.selected.length)
     }
   },
   watch: {
     selected (val) {
-      if (val && this.selected && this.selected.length !== this.options.length) this.checkAll = false
+      if (!this.taggable && val && this.selected && this.selected.length !== this.options.length) this.checkAll = false
       this.$attrs.value = val
     },
     '$attrs.value': function (val) {
@@ -221,5 +224,20 @@ export default {
       color: $placeholderColor;
     }
   }
+}
+.vs--multiple {
+  .vs__selected-options{
+    .vs__selected{
+      height: 30px;
+      min-width: 90px !important;
+      display: flex;
+      justify-content: space-around;
+      background: none !important;
+      margin: 7px 5px 0px 2px !important;
+    }
+  }
+}
+.vs__selected-options {
+  min-height: 43px !important;
 }
 </style>

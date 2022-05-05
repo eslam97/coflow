@@ -9,7 +9,7 @@
       <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityOperation)">
           <b-row>
-            <b-col md="9" class="mt-3 d-flex justify-content-between align-items-center">
+            <b-col md="12" class="mt-3 d-flex justify-content-between align-items-center">
               <span @click="goBack">
                 Back
               </span>

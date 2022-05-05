@@ -34,7 +34,7 @@ import getInTouch from '../components/landing/getInTouch'
 import landingFooter from '../components/landing/footer'
 
 // import service
-import registrationService from '../services/registration.services'
+import registrationService from '../services/auth.services'
 export default {
   data () {
     return {

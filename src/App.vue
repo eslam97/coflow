@@ -46,7 +46,7 @@ export default {
       })
   },
   computed: {
-    ...mapGetters(['getAllNotifications'])
+    ...mapGetters([''])
   },
   created () {
     if (!this.onLine) {

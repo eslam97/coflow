@@ -6,10 +6,11 @@
       </b-container>
     </div>
     <b-container>
-      <ValidationObserver v-slot="{ handleSubmit }">
+      <div class="w-75">
+        <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveGeneralAdminInformation)">
           <b-row v-for="(info, key) in adminInformation" :key="key">
-            <b-col md="3" class="mb-3" >
+            <b-col md="4" class="mb-3" >
               <input-form
                   v-model="info.fullName"
                   placeholder="Ex: Eslam Ashraf"
@@ -18,7 +19,7 @@
                   :label="'Full Name'"
               />
             </b-col>
-            <b-col md="3" class="mb-3" >
+            <b-col md="4" class="mb-3" >
               <input-form
                   v-model="info.role"
                   placeholder="Ex: Owner"
@@ -27,7 +28,7 @@
                   :label="'Role or Job'"
               />
             </b-col>
-            <b-col md="3" class="mb-3 position-relative" >
+            <b-col md="4" class="mb-3 position-relative" >
               <input-form
                   v-model="info.phone"
                   placeholder="Ex: 01095097908"
@@ -47,7 +48,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col md="9" class="mt-3 d-flex justify-content-end">
+            <b-col md="12" class="mt-3 d-flex justify-content-end">
               <spinner-loading class="container_button_blue" text="Saving" v-if="loadingGeneralAdminInformation"/>
               <b-button class="container_button_blue slideNextArrow" type="submit" v-else>
                 <span class="d-flex align-items-center">Next
@@ -57,6 +58,7 @@
           </b-row>
         </b-form>
       </ValidationObserver>
+      </div>
     </b-container>
   </div>
 </template>

@@ -9,7 +9,6 @@ import InfiniteLoading from 'vue-infinite-loading'
 import _ from 'lodash'
 
 // style
-import 'vue-anka-cropper/dist/VueAnkaCropper.css'
 import 'vue-select/dist/vue-select.css'
 import 'vue-select/src/scss/vue-select.scss'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'

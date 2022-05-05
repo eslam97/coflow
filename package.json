@@ -56,7 +56,6 @@
     "url-loader": "^3.0.0",
     "vee-validate": "^3.3.9",
     "vue": "^2.6.11",
-    "vue-anka-cropper": "^1.1.0",
     "vue-awesome-swiper": "^5.0.1",
     "vue-flatpickr-component": "^8.1.5",
     "vue-form-wizard": "^0.8.4",

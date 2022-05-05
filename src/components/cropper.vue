@@ -24,10 +24,18 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save
         </a>
       </div>
-      <input type="file" class="ankaCropper__fileInput" ref="fileInput" v-show="false" @change="selectFile"/>
+      <b-form-group
+          :label="'Upload Logo'"
+          :label-for="'upload Image'"
+      >
+        <input type="file" class="ankaCropper__fileInput" ref="fileInput" v-show="false" @change="selectFile"/>
+      </b-form-group>
       <div v-if="!file" class="ankaCropper__droparea" @drop.prevent="dropFile" @dragover.prevent>
-        <div>{{opts.dropareaMessage}}</div>
-        <button class="ankaCropper__selectButton" @click.prevent="triggerInput">{{opts.selectButtonLabel}}</button>
+        <button class="ankaCropper__selectButton mb-2"
+                @click.prevent="triggerInput"><span class="mr-1"><i class="las la-plus"></i>
+        </span>{{opts.selectButtonLabel
+          }}</button>
+        <div><i class="las la-cloud-upload-alt font-size-18 mr-1"></i> {{opts.dropareaMessage}}</div>
       </div>
       <div v-if="file" class="ankaCropper__mainArea">
         <div :style="{width: cropperWidth + 'px', height: cropperHeight + 'px', float: 'left'}">
@@ -65,7 +73,7 @@ export default {
         croppedHeight: 400, // desired height of cropped image (or false)
         croppedWidth: 400, // desired width of cropped image (or false)
         cropperHeight: false,
-        dropareaMessage: 'Drop file here or use the button below.',
+        dropareaMessage: 'You can also drop your files here.',
         frameLineDash: [5, 3], // dash pattern of the dashed line of the cropping frame
         frameStrokeColor: 'rgba(255, 255, 255, 0.8)', // main color of the stroke of the cropping frame
         handleFillColor: 'rgba(255, 255, 255, 0.2)',
@@ -81,7 +89,7 @@ export default {
         previewQuality: 0.65,
         resultQuality: 0.8,
         resultMimeType: 'image/jpeg',
-        selectButtonLabel: 'Select File',
+        selectButtonLabel: 'Add photos',
         showPreview: true,
         skin: 'light',
         uploadData: {}, // additional upload data, such as user id or whatever
@@ -810,13 +818,13 @@ export default {
   background: #e3eaf0;
   color: #0f1114;
   .ankaCropper__droparea {
-    border: dashed 2px #367bb7;
+    border: dashed 2px #fe9e12;
   }
   .ankaCropper__selectButton, .ankaCropper__saveButton {
-    background: #1c6bd6;
+    background: #fe9e12;
     color: #fff;
     &:hover {
-      background: #1b5bb2;
+      background: #fe9e12;
     }
   }
   .ankaCropper__navigation {
@@ -836,10 +844,10 @@ export default {
     border: dashed 2px #3e424b;
   }
   .ankaCropper__selectButton, .ankaCropper__saveButton {
-    background: #334f90;
+    background: #fe9e12;
     color: #fff;
     &:hover {
-      background: #335dbe;
+      background: #fe9e12;
     }
   }
   .ankaCropper__navigation {
@@ -853,4 +861,51 @@ export default {
     }
   }
 }
+.ankaCropper {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+.ankaCropper.light .ankaCropper__droparea {
+  border: 2px dashed #e3e4e8;
+  margin: 0;
+  padding: 1.5em;
+}
+.ankaCropper__selectButton {
+  border: none;
+  padding: 6px 30px;
+  border-radius: 3px !important;
+  background: #fe9e12 !important;
+  color: #fff;
+  font-size: 15px !important;
+  margin: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+.ankaCropper.light {
+  background: transparent;
+  color: gray;
+  font-size: 14px;
+}
+
+.ankaCropper__navButton, .ankaCropper__saveButton {
+  border-radius: 3px;
+  display: unset !important;
+  box-shadow: unset !important;
+  height: unset !important;
+}
+.ankaCropper.light .ankaCropper__saveButton, .ankaCropper.light .ankaCropper__selectButton {
+  background: #fe9e12 !important;
+  color: #fff;
+  padding: 4px 25px;
+  margin-bottom: 10px !important;
+  margin: auto;
+}
+.ankaCropper.light .ankaCropper__navigation {
+  background: #f5f6fa;
+}
+
 </style>

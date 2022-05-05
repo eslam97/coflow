@@ -6,7 +6,7 @@
       </b-container>
     </div>
     <b-container>
-      <div class="w-100">
+      <div class="w-75">
         <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityInformation)">
           <b-row>
@@ -101,35 +101,6 @@
                 </section>
               </div>
               <cropper
-                  v-if="test"
-                  :options="{
-               aspectRatio: 1,
-               closeOnSave: true,
-               cropArea: 'box',
-               croppedHeight: 400,
-               croppedWidth: 400,
-               cropperHeight: false,
-               dropareaMessage:`You can also drop your files here.`,
-               frameLineDash: [5,3],
-               frameStrokeColor: '#e3e4e8',
-               handleFillColor: '#e3e4e8',
-               handleHoverFillColor: '#e3e4e8',
-               handleHoverStrokeColor: '#e3e4e8',
-               handleSize: 10,
-               handleStrokeColor: '#e3e4e8',
-               layoutBreakpoint: 850,
-               maxCropperHeight: 768,
-               maxFileSize: 8000000,
-               overlayFill: 'rgba(0, 0, 0, 0.5)',
-               previewOnDrag: false,
-               previewQuality: 0.65,
-               resultQuality: 0.8,
-               resultMimeType: 'image/jpeg',
-               selectButtonLabel: '+ Add Photo',
-               showPreview: false,
-               skin: 'light',
-               uploadData: {},
-               uploadTo: false}"
                   @cropper-file-selected="cropperFile"
                   @cropper-saved="saveFile"
               ></cropper>

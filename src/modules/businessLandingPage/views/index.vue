@@ -4,7 +4,7 @@
         <loginModal v-if="openPopupLogin" @close="openPopupLogin = false" :loginLoading="loginLoading" @login="login"/>
     </transition>
     <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in" :leave-active-class="`animated ${animated.exit}`">
-      <main-modal id="successModalMessage" size="sm">
+      <main-modal id="successModalMessage" size="md">
         <template v-slot:header>
           Business Request
         </template>

@@ -154,6 +154,17 @@
     box-shadow: 0 10px 50px 0 rgba(7, 42, 68, 0.12);
     background-image: linear-gradient(to right, #da2f2a, #fd9e11 100%);
 }
+.gradient-blue-text {
+  font-family: 'Inter', sans-serif;
+  background-color: #2fdac1;
+  background-image: linear-gradient(to right, #2fdac1 0%, #2f9ae8 100%);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
 .iq-top-navbar {
   padding: 0;
   min-height: 100px;

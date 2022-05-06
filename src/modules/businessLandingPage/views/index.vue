@@ -3,6 +3,22 @@
     <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in" :leave-active-class="`animated ${animated.exit}`">
         <loginModal v-if="openPopupLogin" @close="openPopupLogin = false" :loginLoading="loginLoading" @login="login"/>
     </transition>
+    <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in" :leave-active-class="`animated ${animated.exit}`">
+      <main-modal id="successModalMessage" size="sm">
+        <template v-slot:header>
+          Business Request
+        </template>
+        <template v-slot:body>
+          <h2 class="gradient-blue-text text-center">Received</h2>
+          <p class="text-center text-primary">{{successBusinessRequest}}</p>
+          <div class="d-flex justify-content-center">
+            <b-button class="container_button_blue m-auto" @click="$bvModal.hide('successModalMessage')">
+              <span>Done</span>
+            </b-button>
+          </div>
+        </template>
+      </main-modal>
+    </transition>
     <main-modal id="businessRequestModal" size="lg">
       <template v-slot:header>
         Business Request
@@ -41,7 +57,8 @@ export default {
       animated: { enter: 'zoomIn', exit: 'zoomOut' },
       openPopupLogin: false,
       requestLoading: false,
-      loginLoading: false
+      loginLoading: false,
+      successBusinessRequest: ''
     }
   },
   components: {
@@ -63,8 +80,9 @@ export default {
     makeBusinessRequest (payload) {
       this.requestLoading = true
       registrationService.makeBusinessRequest(payload).then(res => {
-        console.log(res)
+        this.successBusinessRequest = res.data.message
         this.$bvModal.hide('businessRequestModal')
+        this.$bvModal.show('successModalMessage')
       }).finally(() => {
         this.requestLoading = false
       })

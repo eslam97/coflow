@@ -12,7 +12,7 @@ export default () => {
   apiClient.interceptors.response.use((response) => {
     return response
   }, (error) => {
-    // eslint-disable-next-line eqeqeq
+    // eslint-disable-next-line
     /*
     if (error.response.data.message == 'system_shutdown' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'Unauthenticated.') {
       // eslint-disable-next-line eqeqeq
@@ -29,13 +29,11 @@ export default () => {
     }
 */
     if (error.response.data.errors) {
-      debugger
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of Object.entries(error.response.data.errors)) {
         core.showSnackbar('error', value)
       }
     } else if (error.response.data) {
-      console.log(error.response.data.message)
       core.showSnackbar('error', error.response.data.message)
     }
     return Promise.reject(error)

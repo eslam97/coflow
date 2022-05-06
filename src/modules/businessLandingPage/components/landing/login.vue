@@ -86,6 +86,6 @@ export default {
 <style lang="scss">
 @import url("../../../../assets/css/custom.css");
 .popupLogin {
-  z-index: 100000;
+  z-index: 20;
 }
 </style>

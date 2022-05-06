@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from './router/index'
-import { core } from '../src/config/pluginInit'
+import { core } from '@/config/pluginInit'
 export default () => {
   const apiClient = axios.create({
     baseURL: process.env.VUE_APP_AXSIOS_LINK,
@@ -13,6 +13,7 @@ export default () => {
     return response
   }, (error) => {
     // eslint-disable-next-line eqeqeq
+    /*
     if (error.response.data.message == 'system_shutdown' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'Unauthenticated.') {
       // eslint-disable-next-line eqeqeq
       if (error.response.data.message == 'system_shutdown') {
@@ -26,13 +27,14 @@ export default () => {
 
       // eslint-disable-next-line eqeqeq
     }
+*/
     if (error.response.data.errors) {
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of Object.entries(error.response.data.errors)) {
         core.showSnackbar('error', value)
       }
-    } else if (error.response.data.error) {
-      core.showSnackbar('error', error.response.data.error)
+    } else if (error.response.data) {
+      core.showSnackbar('error', error.response.data.message)
     }
     return Promise.reject(error)
   })

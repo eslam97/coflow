@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from './router/index'
+/* import router from './router/index' */
 import { core } from '@/config/pluginInit'
 export default () => {
   const apiClient = axios.create({
@@ -29,11 +29,13 @@ export default () => {
     }
 */
     if (error.response.data.errors) {
+      debugger
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of Object.entries(error.response.data.errors)) {
         core.showSnackbar('error', value)
       }
     } else if (error.response.data) {
+      console.log(error.response.data.message)
       core.showSnackbar('error', error.response.data.message)
     }
     return Promise.reject(error)

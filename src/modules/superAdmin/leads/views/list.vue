@@ -7,9 +7,9 @@
       <b-col lg="12">
             <main-table
                 :fields="columns"
-                :items="callData"
                 class="mb-0 table-borderless"
                 @sortChanged="sortChanged"
+                :list_url="'leads'"
             >
             </main-table>
       </b-col>

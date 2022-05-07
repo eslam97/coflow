@@ -1,5 +1,32 @@
 <template>
   <div class="vueAnkaCropper">
+    <label class="mb-2">{{ label }}</label>
+    <div class="mb-3 d-flex justify-content-between align-items-center" v-if="finalData.croppedImageURI && !uploadServer">
+      <section>
+        <img :alt="finalData.originalFile.name" :src="finalData.croppedImageURI" class="img-fluid avatar-60 rounded" />
+        <span class="text-dark ml-3 font-weight-bold">{{finalData.originalFile.name}}</span>
+      </section>
+      <section>
+        <span class="cursor-pointer text-bold" @click="removeImage">Remove</span>
+      </section>
+    </div>
+    <div class="mb-3 d-flex align-items-center" v-else-if="finalData.croppedImageURI &&
+    uploadServer">
+      <img :alt="finalData.originalFile.name" :src="finalData.croppedImageURI" class="img-fluid avatar-60 rounded" />
+      <div class="d-flex justify-content-between position-relative flex-grow-1">
+        <section>
+          <span class="text-dark ml-3 font-weight-bold">{{finalData.originalFile.name}}</span>
+        </section>
+        <section>
+          <span class="cursor-pointer text-bold" @click="removeImage">Remove</span>
+          <span class="cursor-pointer text-bold">Uploading 54%</span>
+        </section>
+        <section class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
+          <b-progress :value="50" :max="100" animated
+                      variant="primary" style="height: 0.3rem !important;"></b-progress>
+        </section>
+      </div>
+    </div>
     <div class="ankaCropper" :class="[opts.skin]">
       <div class="ankaCropper__navigation" v-if="file">
         <a href="#" @click.prevent="triggerInput" title="Upload a new image" class="ankaCropper__navButton">
@@ -24,7 +51,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save
         </a>
       </div>
-        <input type="file" class="ankaCropper__fileInput" ref="fileInput" v-show="false" @change="selectFile"/>
+      <input type="file" class="ankaCropper__fileInput" ref="fileInput" v-show="false" @change="selectFile"/>
       <div v-if="!file" class="ankaCropper__droparea" @drop.prevent="dropFile" @dragover.prevent>
         <button class="ankaCropper__selectButton mb-2"
                 @click.prevent="triggerInput"><span class="mr-1"><i class="las la-plus"></i>
@@ -74,24 +101,24 @@ export default {
         handleFillColor: 'rgba(255, 255, 255, 0.2)',
         handleHoverFillColor: 'rgba(255, 255, 255, 0.4)',
         handleHoverStrokeColor: 'rgba(255, 255, 255, 1)',
-        handleSize: 10, // size of the dragging handle in cropper
+        handleSize: 5, // size of the dragging handle in cropper
         handleStrokeColor: 'rgba(255, 255, 255, 0.8)',
         layoutBreakpoint: 850,
         maxCropperHeight: 768,
         maxFileSize: 8000000, // 8MB
         overlayFill: 'rgba(0, 0, 0, 0.5)', // fill of the masking overlay
-        previewOnDrag: true,
-        previewQuality: 0.65,
-        resultQuality: 0.8,
+        previewOnDrag: false,
+        previewQuality: 1,
+        resultQuality: 2,
         resultMimeType: 'image/jpeg',
-        selectButtonLabel: 'Add photos',
-        showPreview: true,
+        selectButtonLabel: 'Add photo',
+        showPreview: false,
         skin: 'light',
         uploadData: {}, // additional upload data, such as user id or whatever
         uploadTo: false
       },
       dragged: false,
-      fullWidth: 500, // width of whole ui
+      fullWidth: 400, // width of whole ui
       file: false,
       fliph: false,
       flipv: false,
@@ -109,7 +136,16 @@ export default {
       rotation: 0,
       w: 100,
       x: 20,
-      y: 20
+      y: 20,
+      finalData: {
+        originalFile: '',
+        filename: '',
+        rotation: '',
+        cropCoords: '',
+        flippedH: '',
+        flippedV: '',
+        croppedImageURI: ''
+      }
     }
   },
   props: {
@@ -118,6 +154,14 @@ export default {
       default () {
         return {}
       }
+    },
+    uploadServer: {
+      default: false,
+      type: Boolean
+    },
+    label: {
+      default: 'upload Image',
+      type: String
     }
   },
   computed: {
@@ -318,6 +362,18 @@ export default {
     window.removeEventListener('resize', this.getFullWidth)
   },
   methods: {
+    removeImage () {
+      this.finalData = {
+        originalFile: '',
+        filename: '',
+        rotation: '',
+        cropCoords: '',
+        flippedH: '',
+        flippedV: '',
+        croppedImageURI: ''
+      }
+      this.$emit('remove-image')
+    },
     cancelCrop () {
       const input = this.$refs.fileInput
       input.type = ''
@@ -345,6 +401,7 @@ export default {
         blob.name = fname
         finalData.croppedFile = blob
         this.$emit('cropper-saved', finalData)
+        this.finalData = finalData
         if (this.opts.uploadTo) {
           const formData = new FormData()
           for (const p in finalData) {

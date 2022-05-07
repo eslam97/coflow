@@ -6,7 +6,7 @@
       </b-container>
     </div>
     <b-container>
-      <div class="w-75">
+      <div class="w-100">
         <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityInformation)">
           <b-row>
@@ -90,6 +90,14 @@
             </b-col>
           </b-row>
           <b-row>
+            <label class="w-100 pl-3 mb-2">Amenities</label>
+            <b-col md="4" lg="2" class="mb-3" v-for="(amenity, key) in allAmenities" :key="key">
+              <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="amenity.value">
+                <span class="text-primary font-size-12">{{ amenity.key }}</span>
+              </b-form-checkbox>
+            </b-col>
+          </b-row>
+          <b-row>
             <b-col  md="6" class="mb-1" v-for="(item, key) in info.links" :key="key">
               <b-form-group
                   :label="'URL Links'"
@@ -132,55 +140,32 @@
           </b-row>
           <b-row>
             <b-col md="12" class="mb-5">
-              <label class="mb-2">Upload Logo</label>
-              <div class="mb-3 d-flex justify-content-between align-items-center">
-                <section>
-                  <img :src="fileInfo.image" class="img-fluid avatar-60 rounded" />
-                  <span class="text-dark ml-3 font-weight-bold">{{fileInfo.name}}</span>
-                </section>
-                <section>
-                  Uploading %50
-                </section>
-              </div>
               <cropper
+                  :label="'Upload Logo'"
                   @cropper-file-selected="cropperFile"
-                  @cropper-saved="saveFile"
+                  @cropper-saved="saveLogoImage"
+                  @remove-image="removeLogoImage"
               ></cropper>
             </b-col>
           </b-row>
           <b-row>
             <b-col md="12" class="mb-5">
-              <label class="mb-2">Upload Cover</label>
-              <div class="mb-3 d-flex justify-content-between align-items-center">
-                <section>
-                  <img :src="fileInfo.image" class="img-fluid avatar-60 rounded" />
-                  <span class="text-dark ml-3 font-weight-bold">{{fileInfo.name}}</span>
-                </section>
-                <section>
-                  Uploading %50
-                </section>
-              </div>
               <cropper
+                  :label="'Upload Cover'"
                   @cropper-file-selected="cropperFile"
-                  @cropper-saved="saveFile"
+                  @cropper-saved="saveCoverImage"
+                  @remove-image="removeCoverImage"
               ></cropper>
             </b-col>
           </b-row>
           <b-row>
             <b-col md="12" class="mb-5">
-              <label class="mb-2">Upload Facility Photos</label>
-              <div class="mb-3 d-flex justify-content-between align-items-center">
-                <section>
-                  <img :src="fileInfo.image" class="img-fluid avatar-60 rounded" />
-                  <span class="text-dark ml-3 font-weight-bold">{{fileInfo.name}}</span>
-                </section>
-                <section>
-                  Uploading %50
-                </section>
-              </div>
               <cropper
-                  @cropper-file-selected="cropperFile"
-                  @cropper-saved="saveFile"
+                  :label="'Upload Facility Photos'"
+                  :uploadServer="true"
+                  :options="{
+                    selectButtonLabel:'Add Photos'
+                  }"
               ></cropper>
             </b-col>
           </b-row>
@@ -188,7 +173,6 @@
             <b-col md="12" class="mt-3 mb-5 d-flex justify-content-between align-items-center">
               <span @click="goBack" class="cursor-pointer text-black d-flex justify-content-between align-items-center">
                  <i class="mr-2 las la-arrow-left font-size-18"></i>
-<!--                <i class="mr-2 fa-solid fa-arrow-left font-size-18"></i>-->
                 <span class="text-bold">Back</span>
               </span>
               <span>
@@ -232,11 +216,7 @@ export default {
           }
         ]
       },
-      fileInfo: {
-        name: '',
-        size: '',
-        image: ''
-      },
+      fileInfo: {},
       activity_line: ['SKY', 'SEA', 'EARTH', 'ENERGY', 'EXPLORE'],
       activity_type: ['PARA', 'PAPA', 'RARA'],
       allLanguages: ['Arabic', 'English', 'Arpabic', 'Engolish', 'Arhabic', 'Enbglish', 'Arabivc', 'Englisha', 'Arabidc',
@@ -246,6 +226,88 @@ export default {
         'Facebook',
         'Twitter',
         'Instagram'
+      ],
+      allAmenities: [
+        {
+          value: '',
+          key: 'WC'
+        },
+        {
+          value: '',
+          key: 'Showers'
+        },
+        {
+          value: '',
+          key: 'Supplements'
+        },
+        {
+          value: '',
+          key: 'Jacuzzi'
+        },
+        {
+          value: '',
+          key: 'Beverages'
+        },
+        {
+          value: '',
+          key: 'WC'
+        },
+        {
+          value: '',
+          key: 'Showers'
+        },
+        {
+          value: '',
+          key: 'Supplements'
+        },
+        {
+          value: '',
+          key: 'Jacuzzi'
+        },
+        {
+          value: '',
+          key: 'Beverages'
+        },
+        {
+          value: '',
+          key: 'WC'
+        },
+        {
+          value: '',
+          key: 'Showers'
+        },
+        {
+          value: '',
+          key: 'Supplements'
+        },
+        {
+          value: '',
+          key: 'Jacuzzi'
+        },
+        {
+          value: '',
+          key: 'Beverages'
+        },
+        {
+          value: '',
+          key: 'WC'
+        },
+        {
+          value: '',
+          key: 'Showers'
+        },
+        {
+          value: '',
+          key: 'Supplements'
+        },
+        {
+          value: '',
+          key: 'Jacuzzi'
+        },
+        {
+          value: '',
+          key: 'Beverages'
+        }
       ],
       // loading Steps
       loadingFacilityInformation: false
@@ -263,9 +325,19 @@ export default {
     cropperFile (file) {
       console.log(file)
     },
-    saveFile (file) {
-      this.fileInfo.image = file.croppedImageURI
-      this.fileInfo.name = file.originalFile.name
+    saveLogoImage (file) {
+      this.fileInfo = file
+    },
+    saveCoverImage (file) {
+      console.log(file)
+    },
+    removeLogoImage () {
+      this.fileInfo = {
+      }
+    },
+    removeCoverImage () {
+      this.fileInfo = {
+      }
     },
     addNewLink () {
       this.info.links.push({

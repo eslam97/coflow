@@ -2,7 +2,7 @@ import getters from './getters'
 import mutations from './mutations'
 
 const state = {
-  activeStepForm: 2
+  activeStepForm: 3
 }
 
 export default {

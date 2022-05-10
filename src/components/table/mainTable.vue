@@ -79,7 +79,7 @@
       :per-page="pagination.per_page"
       first-number
       last-number
-      class="mb-0 mt-1 mt-sm-0"
+      class="mb-3 mt-1 mt-sm-0"
       prev-class="prev-item"
       next-class="next-item"
       align="right"
@@ -115,6 +115,10 @@ export default {
     },
     params: {
       type: [Object, Array]
+    },
+    reloadData: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -133,8 +137,13 @@ export default {
   },
   watch: {
     params (a) {
-      console.log('a', a)
       this.getListData()
+    },
+    reloadData (val) {
+      if (val) {
+        this.listOfData = []
+        this.getListData()
+      }
     }
   },
   created () {
@@ -142,6 +151,7 @@ export default {
   },
   methods: {
     async getListData () {
+      this.listOfData = []
       const filters = {}
       if (this.params) {
         this.params.map(data => {
@@ -157,11 +167,22 @@ export default {
             this.additionalUrl ? this.additionalUrl : ''}`,
           filters
         )
-        this.listOfData = List.data?.data
+        // List = await mainService.listDataTabl(`${this.list_url}`, filters)
+        console.log('List', List)
+        if (List.data?.data?.data) {
+          this.listOfData = List.data?.data?.data
+          this.pagination = {
+            current_page: List.data?.data?.current_page,
+            per_page: List.data?.data?.per_page,
+            total: List.data?.data?.total
+          }
+        } else {
+          this.listOfData = List.data?.data
+        }
       } else {
         List = this.items
       }
-      this.listOfData = List
+      // this.listOfData = List
       /* this.pagination = {
         current_page: List.data.current_page,
         per_page: List.data.per_page,

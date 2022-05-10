@@ -6,6 +6,9 @@
 .landing{
   font-family: 'Inter', sans-serif;
 }
+.gap_10 {
+  gap: 10px
+}
 .text-bold,
 .userExp h3,
 .userExp h4,
@@ -147,6 +150,9 @@
   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3);
   color: #fff;
 }
+.box_orange_shadow{
+   box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.3) !important;
+ }
 .gradient-orange-button{
     border: none;
     padding: 12px 40px;

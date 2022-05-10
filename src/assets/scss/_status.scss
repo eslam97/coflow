@@ -44,6 +44,7 @@ $status: ( // Primary status
         "archive": gray,
         "Archive": gray,
         "ended": gray,
+        "pending acceptance": gray,
         "Ended": gray,
         'school_closed_to_pupil':$black,
         'had_to_leave_the_school':$black,
@@ -159,7 +160,7 @@ $status: ( // Primary status
   font-weight: 500;
   // box-shadow: 0 1px 1.5px 0px #12090917,
   //   0 1px 1px 0px #0000000a;
-  background: rgba(var(--vs-primary), 0.15);
+  background: rgba(var(--vs-primary), 0.15) !important;
   color: rgba(var(--vs-primary), 1) !important;
 
   .vs-chip--text {
@@ -260,7 +261,7 @@ $status: ( // Primary status
 @each $name,
 $color in $status {
   .status--#{$name} {
-    background: rgba($color, 0.15);
+    background: rgba($color, 0.15) !important;
     color: rgba($color, 1) !important;
 
     .vs-switch--text {

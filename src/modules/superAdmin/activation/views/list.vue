@@ -7,9 +7,9 @@
       <b-col lg="12">
         <main-table
             :fields="columns"
-            :items="callData"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
+            :list_url="'activations'"
         >
         </main-table>
       </b-col>
@@ -24,9 +24,8 @@ export default {
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Phone', key: 'phone', class: 'text-left' },
+        { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
         { label: 'Status', key: 'status', class: 'text-left' },
-        { label: 'Category', key: 'category', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',

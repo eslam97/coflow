@@ -1,5 +1,14 @@
 <template>
   <b-container fluid>
+    <main-modal id="leadDetalilsModal" size="lg">
+      <template v-slot:header>
+        Business Request
+      </template>
+      <template v-slot:body>
+        <lead-details :leadDetails="leadDetails" :requestLoading="requestLoading"
+                      @makeBusinessRequest="acceptOrReject"/>
+      </template>
+    </main-modal>
     <b-row>
       <b-col lg="12" class="mb-2">
         <h3>Leads</h3>
@@ -10,6 +19,7 @@
                 class="mb-0 table-borderless"
                 @sortChanged="sortChanged"
                 :list_url="'leads'"
+                :reloadData="reloadTable"
             >
             </main-table>
       </b-col>
@@ -18,15 +28,16 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
+import leadsServices from '../services/leads.services'
+import leadDetails from '../components/leadDetails'
 export default {
+  components: { leadDetails },
   data () {
     return {
       columns: [
-        { label: '#', key: 'id', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Phone', key: 'phone', class: 'text-left' },
-        { label: 'Test', key: 'test', class: 'text-left' },
-        { label: 'Category', key: 'category', class: 'text-left' },
+        { label: 'Date', key: 'date', class: 'text-left' },
+        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         {
           label: 'Actions',
           key: 'actions',
@@ -35,9 +46,11 @@ export default {
           actions: [{
             icon: 'las la-eye',
             color: 'success',
-            text: 'View'
-          },
-          {
+            text: 'View',
+            actionName: 'viewLead',
+            actionParams: ['id']
+          }
+          /* {
             icon: 'las la-pen',
             color: 'cobalt-blue',
             text: 'Edit'
@@ -50,66 +63,47 @@ export default {
             actionHeader: 'Delete',
             titleHeader: 'Lead',
             textContnet: 'name'
-          }
+          } */
           ]
         }
       ],
-      callData: [
-        {
-          id: '01',
-          name: 'ahmed Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          test: 'test test',
-          actions: 'Actions'
-        },
-        {
-          id: '02',
-          name: 'mohamed Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          test: 'test',
-          actions: 'Actions'
-        },
-        {
-          id: '03',
-          name: 'aad Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          test: 'test',
-          actions: 'Actions'
-        },
-        {
-          id: '04',
-          name: 'ahmsed Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          test: 'test',
-          actions: 'Actions'
-        },
-        {
-          id: '05',
-          name: 'ahmed Modhamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          test: 'test',
-          actions: 'Actions'
-        }
-      ]
+      leadDetails: {},
+      requestLoading: false,
+      selectedLead: '',
+      reloadTable: false
     }
   },
   methods: {
     sortChanged (key) {
       console.log(key)
+    },
+    viewLead (obj) {
+      this.selectedLead = obj.id
+      leadsServices.showLeadData(obj.id).then(res => {
+        this.leadDetails = res.data.data
+        this.$bvModal.show('leadDetalilsModal')
+      })
+    },
+    acceptOrReject (data) {
+      this.requestLoading = true
+      this.reloadTable = false
+      leadsServices.changeStatusLead(this.selectedLead, data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.reloadTable = true
+        this.$bvModal.hide('leadDetalilsModal')
+      }).finally(() => {
+        this.requestLoading = false
+      })
     }
   },
   mounted () {
     core.index()
+  },
+  beforeDestroy () {
+    this.$root.$off('viewLead', this.viewLead)
+  },
+  created () {
+    this.$root.$on('viewLead', this.viewLead)
   }
 }
 </script>

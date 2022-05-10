@@ -48,7 +48,7 @@ import tailored from '../components/landing/tailored'
 import testimonials from '../components/landing/testimonials'
 import getInTouch from '../components/landing/getInTouch'
 import landingFooter from '../components/landing/footer'
-
+import { core } from '@/config/pluginInit'
 // import service
 import registrationService from '../services/auth.services'
 export default {
@@ -91,6 +91,11 @@ export default {
       this.loginLoading = true
       registrationService.login(payload).then(res => {
         console.log(res)
+        core.showSnackbar('success', 'Welcome ' + res.data.data.name)
+        if (res.data.data.profile_step === 'admin') {
+          localStorage.setItem('userToken', res.data.data.token)
+          this.$router.push({ name: 'leads' })
+        }
         this.openPopupLogin = false
       }).finally(() => {
         this.loginLoading = false

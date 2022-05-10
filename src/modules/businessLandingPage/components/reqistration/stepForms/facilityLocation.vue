@@ -10,7 +10,7 @@
         <b-form @submit.prevent="handleSubmit(saveFacilityLocation)">
           <b-row class="mb-5">
             <b-col md="12">
-              <label class="mb-2">Location</label>
+              <label class="mb-3">Location</label>
               <div>
                 <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
                               name="color" value="based" >
@@ -118,6 +118,58 @@
             </b-row>
           </div>
           <div v-else>
+            <b-row class="mb-5">
+              <b-col md="12" class="d-flex mb-3">
+                <label class="mr-3">Available to:</label>
+                <div>
+                  <p class="font-weight-bold mb-1" v-for="(country , key) in allCountries" :key="key">
+                    <b-form-checkbox class="custom-checkbox-color-check" color="warning">
+                      <span class="font-size-12 text-primary">{{ country }} - All</span>
+                    </b-form-checkbox>
+                  </p>
+                </div>
+              </b-col>
+              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote.location"
+                     :key="locationKey">
+                <b-row class="d-flex align-items-center">
+                  <b-col class="mb-2" md="3">
+                    <main-select labelTitle='Country' :validate="'required'"
+                                 :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
+                                 v-model="location.country_id"></main-select>
+                  </b-col>
+                  <b-col md="1">
+                    <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                                     color="warning">
+                      <span class="font-size-12 text-primary"> All </span>
+                    </b-form-checkbox>
+                  </b-col>
+                  <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
+                    <main-select labelTitle='Governorate' :validate="'required'"
+                                 :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
+                                 v-model="location.city_id"></main-select>
+                  </b-col>
+                  <b-col md="1"  v-if="location.availability_type !== 'all city'">
+                    <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
+                      <span class="font-size-12 text-primary"> All </span>
+                    </b-form-checkbox>
+                  </b-col>
+                  <b-col class="mb-2" md="4" v-if="location.availability_type !== 'all city'">
+                    <div v-if="location.availability_type !== 'all country'">
+                    <main-select labelTitle='Area' :validate="'required'"
+                                 :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
+                                 :multiple="true"
+                                 v-model="location.areas"></main-select>
+                    </div>
+                  </b-col>
+                </b-row>
+                <span class="text-danger deleteLabelButton cursor-pointer" @click="deletezone(locationKey)">Delete
+                  Zone
+              </span>
+              </b-col>
+              <b-col md="12">
+                <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
+              </b-col>
+            </b-row>
             <b-row>
               <b-col  md="6" class="mb-1" v-for="(item, key) in remote.phones" :key="key">
                 <b-form-group
@@ -126,7 +178,7 @@
                     class="position-relative"
                 >
               <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteContact(key)">Delete
+                    @click="deleteRemoteContact(key)">Delete
               </span>
                   <b-input-group>
                     <validation-provider
@@ -157,7 +209,7 @@
                 </b-form-group>
               </b-col>
               <b-col md="12" class="mb-3">
-                <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
+                <span class="text-warning cursor-pointer" @click="addNewRemoteContactNumber">+ Add another Contact Number</span>
               </b-col>
             </b-row>
           </div>
@@ -185,7 +237,7 @@
 export default {
   data () {
     return {
-      typeOfLocation: 'based',
+      typeOfLocation: 'remote',
       based: {
         country_id: '',
         city_id: '',
@@ -201,6 +253,7 @@ export default {
       },
       contactTypes: ['Landline', 'Mobile'],
       remote: {
+        location: [],
         phones: [
           {
             type: '',
@@ -208,9 +261,9 @@ export default {
           }
         ]
       },
-      allCountries: ['Egypt'],
+      allCountries: ['Egypt', 'Us'],
       allGovernorates: ['Cairo'],
-      allArea: ['Garden City'],
+      allArea: ['Garden City', 'Garden City 2', 'Garden City3'],
       // loading Steps
       loadingFacilityLocation: false
     }
@@ -241,6 +294,17 @@ export default {
         type: '',
         number: ''
       })
+    },
+    addNewzone () {
+      this.remote.location.push({
+        availability_type: '',
+        country_id: '',
+        city_id: '',
+        areas: []
+      })
+    },
+    deletezone (key) {
+      this.remote.location.splice(key, 1)
     }
   }
 }

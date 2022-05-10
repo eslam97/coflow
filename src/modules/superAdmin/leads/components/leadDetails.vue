@@ -88,11 +88,19 @@
           ><span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span></b-col>
         </b-row>
         <b-row>
-          <b-col md="12" class="mt-3 d-flex justify-content-center" >
-            <spinner-loading class="container_button_blue" text="Requesting" v-if="requestLoading"/>
-            <b-button class="container_button_blue m-auto" type="submit" v-else>
-              <span>Send Request</span>
-            </b-button>
+          <b-col md="12" class="mt-4">
+            <p v-if="requestLoading" class="text-center">
+              <spinner-loading  text="Loading" />
+            </p>
+            <div class="d-flex justify-content-center gap_10" v-else>
+              <b-button class="container_button_blue ml-2" @click="selectedStatus = 'accepted'" type="submit">
+                <span>ACCEPT</span>
+              </b-button>
+              <b-button class="gradient-orange-button box_orange_shadow" @click="selectedStatus = 'rejected'"
+                        type="submit">
+                <span>REJECT</span>
+              </b-button>
+            </div>
           </b-col>
         </b-row>
       </b-form>
@@ -105,11 +113,14 @@ export default {
     requestLoading: {
       type: Boolean,
       default: false
+    },
+    leadDetails: {
+      type: Object,
+      required: false
     }
   },
   data () {
     return {
-      test: '',
       allLinks: [
         'Website',
         'Facebook',
@@ -130,7 +141,8 @@ export default {
             link: ''
           }
         ]
-      }
+      },
+      selectedStatus: ''
     }
   },
   methods: {
@@ -144,8 +156,10 @@ export default {
       this.businessRequest.links.splice(key, 1)
     },
     makeBusinessRequest () {
-      this.$emit('makeBusinessRequest', this.businessRequest)
+      this.$emit('makeBusinessRequest', { ...this.businessRequest, _method: 'put', status: this.selectedStatus })
     }
+  },
+  watch: {
   },
   computed: {
     filterLinks () {
@@ -158,6 +172,16 @@ export default {
         }
       })
       return newLinksArr
+    }
+  },
+  created () {
+    if (this.leadDetails) {
+      this.businessRequest = {
+        email: this.leadDetails.email,
+        name: this.leadDetails.name,
+        contact: this.leadDetails.contacts[0],
+        links: this.leadDetails.links
+      }
     }
   }
 }

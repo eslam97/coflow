@@ -5,7 +5,7 @@ export default () => {
   const apiClient = axios.create({
     baseURL: process.env.VUE_APP_AXSIOS_LINK,
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('access_token') ? localStorage.getItem('access_token') : null}`,
+      Authorization: `Bearer ${localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null}`,
       Accept: 'application/json'
     }
   })

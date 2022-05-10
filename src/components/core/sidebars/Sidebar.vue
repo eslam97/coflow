@@ -22,7 +22,7 @@
     <div class="logout_nav">
       <div>
         <ul class="m-0 p-0">
-          <li class="iq-menu-title">
+          <li class="iq-menu-title cursor-pointer" @click="logout()">
             <a><i class="las la-sign-out-alt"></i> <span>Logout</span></a>
           </li>
         </ul>
@@ -59,6 +59,10 @@ export default {
   methods: {
     miniSidebar () {
       this.$emit('toggle')
+    },
+    logout () {
+      localStorage.removeItem('userToken')
+      this.$router.push('/')
     }
   },
   data () {

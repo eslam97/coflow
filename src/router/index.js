@@ -17,6 +17,7 @@ import notifications from '@/modules/superAdmin/notifications/notifications.rout
 import analytics from '@/modules/superAdmin/analytics/analytics.routes'
 import admin from '@/modules/superAdmin/admin/admin.routes'
 import welcomePage from '@/components/welcomePage'
+
 /* Layouts */
 const VerticleLayout = () => import('../layouts/VerticleLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')

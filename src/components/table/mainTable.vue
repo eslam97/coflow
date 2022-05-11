@@ -105,7 +105,8 @@ export default {
       required: true
     },
     items: {
-      type: [Array, Object]
+      type: [Array, Object],
+      required: false
     },
     list_url: {
       type: String

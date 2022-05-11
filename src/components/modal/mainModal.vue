@@ -11,10 +11,8 @@
       hide-footer
   >
     <template #modal-header="{ close }">
-      <div class="px-4 py-2 d-flex justify-content-between align-items-center w-100">
-        <h4 class="font-weight-bold text-primary">
+      <div class="py-2 d-flex justify-content-between align-items-center w-100">
           <slot name="header"></slot>
-        </h4>
         <img :src="require('@/assets/images/close.svg')" @click="close()" class="closeImage" />
       </div>
     </template>

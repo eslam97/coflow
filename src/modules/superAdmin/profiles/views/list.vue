@@ -11,8 +11,8 @@
       <b-col lg="12">
         <main-table
             :fields="columns"
-            :items="callData"
             class="mb-0 table-borderless"
+            :list_url="'profile'"
             @sortChanged="sortChanged"
         >
         </main-table>

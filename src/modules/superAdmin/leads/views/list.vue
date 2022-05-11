@@ -2,7 +2,7 @@
   <b-container fluid>
     <main-modal id="leadDetalilsModal" size="lg">
       <template v-slot:header>
-        Business Request
+        <h4 class="font-weight-bold">Business Request</h4>
       </template>
       <template v-slot:body>
         <lead-details :leadDetails="leadDetails" :requestLoading="requestLoading"

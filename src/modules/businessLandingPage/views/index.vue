@@ -21,7 +21,7 @@
     </transition>
     <main-modal id="businessRequestModal" size="lg">
       <template v-slot:header>
-        Business Request
+        <h4 class="font-weight-bold">Business Request</h4>
       </template>
       <template v-slot:body>
         <business-request-modal @makeBusinessRequest="makeBusinessRequest" :requestLoading="requestLoading"/>

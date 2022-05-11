@@ -1,8 +1,16 @@
 <template>
   <div>
+    <main-modal id="activityLine" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-warning"> Add: </span> Activity Line</h4>
+      </template>
+      <template v-slot:body>
+        <activity-line-form :requestLoading="requestLoading" @addActivityLine="addActivityLine"/>
+      </template>
+    </main-modal>
     <div class="d-flex justify-content-end">
-      <b-button  variant="warning" class="add_button text-white"> Add New
-        Activity Line<i class="las la-plus ml-3"></i></b-button>
+      <b-button  variant="warning" v-b-modal:activityLine class="add_button text-white"> Add  Activity Line<i
+          class="las la-plus ml-3"></i></b-button>
     </div>
     <main-table
         :fields="columns"
@@ -15,12 +23,17 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-/* import settingsService from '../services/settings.services' */
+import activityLineForm from '../components/activityLineForm'
+import settingsService from '../services/settings.services'
 export default {
-  name: 'profileSetting',
+  name: 'activityLine',
+  components: {
+    activityLineForm
+  },
   data () {
     return {
       reloadTable: false,
+      requestLoading: false,
       columns: [
         { label: 'Name', key: 'name', class: 'text-center' },
         {
@@ -28,19 +41,33 @@ export default {
           key: 'actions',
           class: 'text-center',
           type: 'actions',
-          actions: [{
-            icon: 'las la-eye',
-            color: 'success',
-            text: 'View',
-            actionName: 'viewActivityLine',
-            actionParams: ['id']
-          }
+          actions: [
+            {
+              icon: 'las la-trash-alt',
+              color: 'danger',
+              text: 'Delete',
+              showAlert: true,
+              actionHeader: 'Delete',
+              titleHeader: 'Activity Line',
+              textContnet: 'name'
+            }
           ]
         }
       ]
     }
   },
   methods: {
+    addActivityLine (data) {
+      this.requestLoading = true
+      this.reloadTable = false
+      settingsService.addNewActivityLine(data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.reloadTable = true
+        this.$bvModal.hide('activityLine')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    }
   },
   mounted () {
     core.index()

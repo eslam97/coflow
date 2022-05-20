@@ -36,7 +36,7 @@ export default {
     return {
       columns: [
         { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Date', key: 'date', class: 'text-left' },
+        { label: 'Date', key: 'date', class: 'text-left', sortable: true },
         { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         {
           label: 'Actions',

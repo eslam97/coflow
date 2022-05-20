@@ -18,12 +18,12 @@
           <span class="text-dark ml-3 font-weight-bold">{{finalData.originalFile.name}}</span>
         </section>
         <section>
-          <span class="cursor-pointer text-bold" @click="removeImage">Remove</span>
-          <span class="cursor-pointer text-bold">Uploading 54%</span>
+          <span class="cursor-pointer text-bold" @click="removeImage" v-if="progressLoading == 100">Remove</span>
+          <span class="cursor-pointer text-bold" v-else>Uploading {{progressLoading}}%</span>
         </section>
         <section class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
-          <b-progress :value="50" :max="100" animated
-                      variant="primary" style="height: 0.3rem !important;"></b-progress>
+          <b-progress :value="progressLoading" :max="100" animated
+                      variant="primary" style="height: 0.25rem !important;"></b-progress>
         </section>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default {
       defaultOptions: {
         aspectRatio: 1, // false or number, always width / height, locks aspect ratio of cropper. It should equal to croppedWidth / croppedHeight
         closeOnSave: true,
-        cropArea: 'box', // box or circle for round selections. If circle, aspect ratio will be locked to 1
+        cropArea: 'circle', // box or circle for round selections. If circle, aspect ratio will be locked to 1
         croppedHeight: 400, // desired height of cropped image (or false)
         croppedWidth: 400, // desired width of cropped image (or false)
         cropperHeight: false,
@@ -162,6 +162,10 @@ export default {
     label: {
       default: 'upload Image',
       type: String
+    },
+    progressLoading: {
+      default: 0,
+      type: Number
     }
   },
   computed: {

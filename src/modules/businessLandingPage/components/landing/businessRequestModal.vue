@@ -100,6 +100,8 @@
   </div>
 </template>
 <script>
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+
 export default {
   props: {
     requestLoading: {
@@ -112,9 +114,8 @@ export default {
       test: '',
       allLinks: [
         'Website',
-        'Facebook',
-        'Twitter',
-        'Instagram'
+        'Google',
+        'Facebook'
       ],
       businessRequest: {
         email: '',
@@ -145,6 +146,11 @@ export default {
     },
     makeBusinessRequest () {
       this.$emit('makeBusinessRequest', this.businessRequest)
+    },
+    getAllLinks () {
+      settingsService.getAllLinks().then(res => {
+        this.allLinks = res.data.data
+      })
     }
   },
   computed: {
@@ -159,6 +165,9 @@ export default {
       })
       return newLinksArr
     }
+  },
+  created () {
+    // this.getAllLinks()
   }
 }
 </script>

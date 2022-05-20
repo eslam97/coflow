@@ -2,7 +2,7 @@ import getters from './getters'
 import mutations from './mutations'
 
 const state = {
-  activeStepForm: 4
+  activeStepForm: localStorage.getItem('formStep') || ''
 }
 
 export default {

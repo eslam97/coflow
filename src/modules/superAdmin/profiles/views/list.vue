@@ -27,7 +27,7 @@ export default {
     return {
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
-        { label: 'Account Type', key: 'type', class: 'text-left' },
+        { label: 'Account Type', key: 'type', class: 'text-left', sortable: true },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
         { label: 'Governorate', key: 'governorate', class: 'text-left' },
         { label: 'Area', key: 'area', class: 'text-left' },

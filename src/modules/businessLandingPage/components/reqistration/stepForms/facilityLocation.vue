@@ -6,7 +6,8 @@
       </b-container>
     </div>
     <b-container>
-      <ValidationObserver v-slot="{ handleSubmit }">
+      <div class="w-75">
+        <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityLocation)">
           <b-row class="mb-5">
             <b-col md="12">
@@ -27,17 +28,28 @@
             <b-row>
               <b-col class="mb-3" md="2">
                 <main-select labelTitle='Country' :validate="'required'"
-                             :name="`Country`" placeholder="Choose" :options="allCountries"
+                             :name="`country_id`" placeholder="Choose" :options="allCountries"
+                             label="name"
+                             :reduce="data => data.id"
+                             @change="getCityDependOnCountry(based.country_id)"
                              v-model="based.country_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="2">
-                <main-select labelTitle='Governorate' :validate="'required'"
-                             :name="`Governorate`"  placeholder="Choose" :options="allGovernorates"
-                             v-model="based.country_id"></main-select>
+                <main-select labelTitle='Governorate'
+                             :validate="'required'"
+                             :name="`Governorate`"
+                             placeholder="Choose"
+                             :options="allGovernorates"
+                             label="name"
+                             :reduce="data => data.id"
+                             @change="getAreasDependOnCity(based.city_id)"
+                             v-model="based.city_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="4">
                 <main-select labelTitle='Area' :validate="'required'"
                              :name="`Area`"  placeholder="Choose" :options="allArea"
+                             label="name"
+                             :reduce="data => data.id"
                              v-model="based.area_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="4">
@@ -119,22 +131,25 @@
           </div>
           <div v-else>
             <b-row class="mb-5">
-              <b-col md="12" class="d-flex mb-3">
+<!--              <b-col md="12" class="d-flex mb-3">
                 <label class="mr-3">Available to:</label>
                 <div>
                   <p class="font-weight-bold mb-1" v-for="(country , key) in allCountries" :key="key">
                     <b-form-checkbox class="custom-checkbox-color-check" color="warning">
-                      <span class="font-size-12 text-primary">{{ country }} - All</span>
+                      <span class="font-size-12 text-primary">{{ country.name }} - All</span>
                     </b-form-checkbox>
                   </p>
                 </div>
-              </b-col>
+              </b-col>-->
               <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote.location"
                      :key="locationKey">
                 <b-row class="d-flex align-items-center">
                   <b-col class="mb-2" md="3">
                     <main-select labelTitle='Country' :validate="'required'"
                                  :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
+                                 label="name"
+                                 :reduce="data=> data.id"
+                                 @change="getCityDependOnCountry(location.country_id)"
                                  v-model="location.country_id"></main-select>
                   </b-col>
                   <b-col md="1">
@@ -146,6 +161,8 @@
                   <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
                     <main-select labelTitle='Governorate' :validate="'required'"
                                  :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
+                                 label="name"
+                                 :reduce="data=> data.id"
                                  v-model="location.city_id"></main-select>
                   </b-col>
                   <b-col md="1"  v-if="location.availability_type !== 'all city'">
@@ -162,7 +179,8 @@
                     </div>
                   </b-col>
                 </b-row>
-                <span class="text-danger deleteLabelButton cursor-pointer" @click="deletezone(locationKey)">Delete
+                <span class="text-danger deleteLabelButton cursor-pointer" v-if="!locationKey == 0"
+                      @click="deletezone(locationKey)">Delete
                   Zone
               </span>
               </b-col>
@@ -230,14 +248,18 @@
           </b-row>
         </b-form>
       </ValidationObserver>
+      </div>
     </b-container>
   </div>
 </template>
 <script>
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+import registrationServices from '@/modules/businessLandingPage/services/registration.services'
+import { core } from '@/config/pluginInit'
 export default {
   data () {
     return {
-      typeOfLocation: 'remote',
+      typeOfLocation: 'based',
       based: {
         country_id: '',
         city_id: '',
@@ -253,7 +275,14 @@ export default {
       },
       contactTypes: ['Landline', 'Mobile'],
       remote: {
-        location: [],
+        location: [
+          {
+            availability_type: '',
+            country_id: '',
+            city_id: '',
+            areas: []
+          }
+        ],
         phones: [
           {
             type: '',
@@ -261,9 +290,9 @@ export default {
           }
         ]
       },
-      allCountries: ['Egypt', 'Us'],
-      allGovernorates: ['Cairo'],
-      allArea: ['Garden City', 'Garden City 2', 'Garden City3'],
+      allCountries: [],
+      allGovernorates: [],
+      allArea: [],
       // loading Steps
       loadingFacilityLocation: false
     }
@@ -271,8 +300,35 @@ export default {
   methods: {
     saveFacilityLocation () {
       this.loadingFacilityLocation = true
-      this.$store.commit('formSteps/setActiveStepForm', 4)
-      this.loadingFacilityLocation = false
+      if (this.typeOfLocation === 'based') {
+        registrationServices.saveStepLocationBased(this.based).then(res => {
+          core.showSnackbar('success', res.data.message)
+          this.$store.commit('formSteps/setActiveStepForm', 4)
+          localStorage.setItem('formStep', 4)
+        }).catch((err) => {
+          if (err.response.data.errors) {
+            for (const [key, value] of Object.entries(err.response.data.errors)) {
+              this.$refs[key].setErrors(value)
+            }
+          }
+        }).finally(() => {
+          this.loadingFacilityLocation = false
+        })
+      } else {
+        registrationServices.saveStepLocationRemote(this.remote).then(res => {
+          core.showSnackbar('success', res.data.message)
+          this.$store.commit('formSteps/setActiveStepForm', 4)
+          localStorage.setItem('formStep', 4)
+        }).catch((err) => {
+          if (err.response.data.errors) {
+            for (const [key, value] of Object.entries(err.response.data.errors)) {
+              this.$refs[key].setErrors(value)
+            }
+          }
+        }).finally(() => {
+          this.loadingFacilityLocation = false
+        })
+      }
     },
     goBack () {
       this.$store.commit('formSteps/setActiveStepForm', 2)
@@ -305,7 +361,27 @@ export default {
     },
     deletezone (key) {
       this.remote.location.splice(key, 1)
+    },
+    getAllCountries () {
+      settingsService.getAllCountries().then(res => {
+        this.allCountries = res.data.data
+      })
+    },
+    getCityDependOnCountry (id) {
+      this.allGovernorates = []
+      settingsService.getCountryCity(id).then(res => {
+        this.allGovernorates = res.data.data
+      })
+    },
+    getAreasDependOnCity (id) {
+      this.allArea = []
+      settingsService.getCityArea(id).then(res => {
+        this.allArea = res.data.data
+      })
     }
+  },
+  created () {
+    this.getAllCountries()
   }
 }
 </script>

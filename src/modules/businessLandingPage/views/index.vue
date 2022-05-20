@@ -92,10 +92,37 @@ export default {
       registrationService.login(payload).then(res => {
         console.log(res)
         core.showSnackbar('success', 'Welcome ' + res.data.data.name)
-        if (res.data.data.profile_step === 'admin') {
-          localStorage.setItem('userToken', res.data.data.token)
-          this.$router.push({ name: 'leads' })
+        localStorage.setItem('userInfo', JSON.stringify(res.data.data))
+
+        switch (res.data.data.profile_step) {
+          case 'admin':
+            this.$store.commit('formSteps/setActiveStepForm', 1)
+            localStorage.setItem('formStep', 1)
+            this.$router.push({ name: 'profileSteps' })
+            break
+          case 'facility':
+            this.$store.commit('formSteps/setActiveStepForm', 2)
+            this.$router.push({ name: 'profileSteps' })
+            localStorage.setItem('formStep', 2)
+            break
+          case 'location':
+            this.$store.commit('formSteps/setActiveStepForm', 3)
+            this.$router.push({ name: 'profileSteps' })
+            localStorage.setItem('formStep', 3)
+            break
+          case 'operation':
+            this.$store.commit('formSteps/setActiveStepForm', 4)
+            this.$router.push({ name: 'profileSteps' })
+            localStorage.setItem('formStep', 4)
+            break
+          case 'completed':
+            this.$store.commit('formSteps/setActiveStepForm', 'completed')
+            this.$router.push({ name: 'profileComplete' })
+            localStorage.setItem('formStep', 'completed')
+            break
         }
+
+        localStorage.setItem('userToken', res.data.data.token)
         this.openPopupLogin = false
       }).finally(() => {
         this.loginLoading = false

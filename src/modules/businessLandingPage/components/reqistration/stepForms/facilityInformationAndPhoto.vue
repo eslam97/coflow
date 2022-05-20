@@ -6,36 +6,40 @@
       </b-container>
     </div>
     <b-container>
-      <div class="w-100">
+      <div class="w-75">
         <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityInformation)">
           <b-row>
             <b-col md="2" class="mb-3">
               <main-select labelTitle='Activity Line' :validate="'required'"
-                           :name="`Activity Line`" placeholder="Choose" :options="activity_line"
-                           v-model="info.activity_line"></main-select>
+                           :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
+                           label="name"
+                           :reduce="data=> data.id"
+                           v-model="info.activity_line_id"></main-select>
             </b-col>
             <b-col class="mb-3" md="2">
               <main-select labelTitle='Activity Type' :validate="'required'"
-                           :name="`Activity Type`"  placeholder="Choose" :options="activity_type"
-                           v-model="info.activity_type"></main-select>
+                           :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
+                           label="name"
+                           :reduce="data=> data.id"
+                           v-model="info.activity_type_id"></main-select>
             </b-col>
             <b-col class="mb-3" md="2">
               <input-form
                   placeholder="Ex: 2022"
                   :validate="'required|numeric'"
-                  :name="`Launch Year`"
+                  :name="`year`"
                   :label="'Launch Year'"
-                  v-model="info.launch_year"
+                  v-model="info.year"
               />
             </b-col>
             <b-col class="mb-3" md="6">
               <input-form
                   placeholder="Ex: Diving"
                   :validate="'required'"
-                  :name="`Facility Name`"
+                  :name="`name`"
                   :label="'Facility Name'"
-                  v-model="info.facility_name"
+                  v-model="info.name"
               />
             </b-col>
           </b-row>
@@ -44,24 +48,26 @@
               <input-form
                   placeholder="Ex: The Yoga Studio"
                   :validate="'required'"
-                  :name="`Facility Title`"
+                  :name="`title`"
                   :label="'Facility Title'"
-                  v-model="info.facility_title"
+                  v-model="info.title"
               />
             </b-col>
             <b-col class="mb-3" md="6">
               <main-select labelTitle='Team Languages' :validate="'required'"
                            :multiple="true"
-                           :name="`Team Languages`" placeholder="Choose" :options="allLanguages"
-                           v-model="info.team_languages"></main-select>
+                           :name="`languages`" placeholder="Choose" :options="allLanguages"
+                           label="name"
+                           :reduce="data=> data.name"
+                           v-model="info.languages"></main-select>
             </b-col>
           </b-row>
           <b-row>
             <b-col class="mb-3" md="12">
               <main-select labelTitle='Facility Tags' :validate="'required'"
                            :taggable="true"
-                           multiple v-model="info.facility_tags"
-                           :name="`Facility Tags`" placeholder="Write Tags"
+                           multiple v-model="info.tags"
+                           :name="`tags`" placeholder="Write Tags"
                            :numberOfSelect=3
                            >
               </main-select>
@@ -77,7 +83,7 @@
                   <b-form-textarea
                       placeholder="Facility Bio..."
                       rows="2"
-                      v-model="info.facility_bio"
+                      v-model="info.bio"
                       :class="(errors.length >
                              0 ? ' is-invalid' : '')"
                   ></b-form-textarea>
@@ -92,8 +98,9 @@
           <b-row>
             <label class="w-100 pl-3 mb-2">Amenities</label>
             <b-col md="4" lg="2" class="mb-3" v-for="(amenity, key) in allAmenities" :key="key">
-              <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="amenity.value">
-                <span class="text-primary font-size-12">{{ amenity.key }}</span>
+              <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="info.amenities"
+                               :value="amenity.id">
+               <span class="text-primary font-size-12">{{ amenity.name }}</span>
               </b-form-checkbox>
             </b-col>
           </b-row>
@@ -123,11 +130,12 @@
                   </validation-provider>
                   <template #prepend>
                     <b-dropdown
-                        :text="item.selectSocial ? item.selectSocial : 'Choose'"
+                        :text="item.selectSocial.name ? item.selectSocial.name : 'Choose'"
                         class="selectWithInput"
                     >
-                      <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink" @click="item.selectSocial = i">
-                        {{i}}
+                      <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
+                                       @click="item.selectSocial.name =i.name; item.selectSocial.id = i.id">
+                        {{i.name}}
                       </b-dropdown-item>
                     </b-dropdown>
                   </template>
@@ -142,6 +150,8 @@
             <b-col md="12" class="mb-5">
               <cropper
                   :label="'Upload Logo'"
+                  :progressLoading= "progressLogo"
+                  :uploadServer="true"
                   @cropper-file-selected="cropperFile"
                   @cropper-saved="saveLogoImage"
                   @remove-image="removeLogoImage"
@@ -152,6 +162,8 @@
             <b-col md="12" class="mb-5">
               <cropper
                   :label="'Upload Cover'"
+                  :progressLoading= "progressCover"
+                  :uploadServer="true"
                   @cropper-file-selected="cropperFile"
                   @cropper-saved="saveCoverImage"
                   @remove-image="removeCoverImage"
@@ -191,7 +203,10 @@
   </div>
 </template>
 <script>
+import registrationServices from '../../../services/registration.services'
+import { core } from '@/config/pluginInit'
 import cropper from '@/components/cropper'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 export default {
   components: {
     cropper
@@ -200,115 +215,31 @@ export default {
     return {
       test: true,
       info: {
-        activity_line: '',
-        activity_type: '',
-        launch_year: '',
-        facility_name: '',
-        facility_title: '',
-        team_languages: [],
-        facility_bio: '',
-        facility_tags: [],
+        activity_line_id: '',
+        activity_type_id: '',
+        year: '',
+        name: '',
+        title: '',
+        languages: [],
+        bio: '',
+        tags: [],
         amenities: [],
         links: [
           {
-            selectSocial: '',
+            selectSocial: { id: '', name: '' },
             link: ''
           }
         ]
       },
+      providerId: JSON.parse(localStorage.getItem('userInfo')).id,
+      progressLogo: 0,
+      progressCover: 0,
       fileInfo: {},
-      activity_line: ['SKY', 'SEA', 'EARTH', 'ENERGY', 'EXPLORE'],
-      activity_type: ['PARA', 'PAPA', 'RARA'],
-      allLanguages: ['Arabic', 'English', 'Arpabic', 'Engolish', 'Arhabic', 'Enbglish', 'Arabivc', 'Englisha', 'Arabidc',
-        'Englishs'],
-      allLinks: [
-        'Website',
-        'Facebook',
-        'Twitter',
-        'Instagram'
-      ],
-      allAmenities: [
-        {
-          value: '',
-          key: 'WC'
-        },
-        {
-          value: '',
-          key: 'Showers'
-        },
-        {
-          value: '',
-          key: 'Supplements'
-        },
-        {
-          value: '',
-          key: 'Jacuzzi'
-        },
-        {
-          value: '',
-          key: 'Beverages'
-        },
-        {
-          value: '',
-          key: 'WC'
-        },
-        {
-          value: '',
-          key: 'Showers'
-        },
-        {
-          value: '',
-          key: 'Supplements'
-        },
-        {
-          value: '',
-          key: 'Jacuzzi'
-        },
-        {
-          value: '',
-          key: 'Beverages'
-        },
-        {
-          value: '',
-          key: 'WC'
-        },
-        {
-          value: '',
-          key: 'Showers'
-        },
-        {
-          value: '',
-          key: 'Supplements'
-        },
-        {
-          value: '',
-          key: 'Jacuzzi'
-        },
-        {
-          value: '',
-          key: 'Beverages'
-        },
-        {
-          value: '',
-          key: 'WC'
-        },
-        {
-          value: '',
-          key: 'Showers'
-        },
-        {
-          value: '',
-          key: 'Supplements'
-        },
-        {
-          value: '',
-          key: 'Jacuzzi'
-        },
-        {
-          value: '',
-          key: 'Beverages'
-        }
-      ],
+      allActivityLines: [],
+      allActivityTypes: [],
+      allLanguages: [],
+      allLinks: [],
+      allAmenities: [],
       // loading Steps
       loadingFacilityInformation: false
     }
@@ -316,20 +247,57 @@ export default {
   methods: {
     saveFacilityInformation () {
       this.loadingFacilityInformation = true
-      this.$store.commit('formSteps/setActiveStepForm', 3)
-      this.loadingFacilityInformation = false
+      registrationServices.saveStepFacility(this.info).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$store.commit('formSteps/setActiveStepForm', 3)
+        localStorage.setItem('formStep', 3)
+      }).catch((err) => {
+        if (err.response.data.errors) {
+          for (const [key, value] of Object.entries(err.response.data.errors)) {
+            this.$refs[key].setErrors(value)
+          }
+        }
+      }).finally(() => {
+        this.loadingFacilityInformation = false
+      })
     },
     goBack () {
       this.$store.commit('formSteps/setActiveStepForm', 1)
     },
     cropperFile (file) {
-      console.log(file)
+      console.log('file', file)
     },
     saveLogoImage (file) {
-      this.fileInfo = file
+      const formData = new FormData()
+      formData.append('image', file.croppedFile)
+      formData.append('type', 'logo')
+      formData.append('provider_id', this.providerId)
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          this.progressLogo = percent
+        }
+      }
+      registrationServices.uploadProviderImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+      })
     },
     saveCoverImage (file) {
-      console.log(file)
+      const formData = new FormData()
+      formData.append('image', file.croppedFile)
+      formData.append('type', 'cover')
+      formData.append('provider_id', this.providerId)
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          this.progressCover = percent
+        }
+      }
+      registrationServices.uploadProviderImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+      })
     },
     removeLogoImage () {
       this.fileInfo = {
@@ -341,12 +309,37 @@ export default {
     },
     addNewLink () {
       this.info.links.push({
-        selectSocial: '',
+        selectSocial: { id: '', name: '' },
         link: ''
       })
     },
     deleteLink (key) {
       this.info.links.splice(key, 1)
+    },
+    getAllActivityLine () {
+      settingsService.getAllActivityLine().then(res => {
+        this.allActivityLines = res.data.data
+      })
+    },
+    getAllActivityType () {
+      settingsService.getAllActivityType().then(res => {
+        this.allActivityTypes = res.data.data
+      })
+    },
+    getAllLanguages () {
+      settingsService.getAllLanguages().then(res => {
+        this.allLanguages = res.data.data
+      })
+    },
+    getAllLinks () {
+      settingsService.getAllLinks().then(res => {
+        this.allLinks = res.data.data
+      })
+    },
+    getAllAmenities () {
+      settingsService.getAllAmenities().then(res => {
+        this.allAmenities = res.data.data
+      })
     }
   },
   computed: {
@@ -355,7 +348,6 @@ export default {
       this.info.links.forEach(e => {
         if (newLinksArr.includes(e.selectSocial)) {
           var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
-          console.log(socialIndex)
           newLinksArr.splice(socialIndex, 1)
         }
       })
@@ -366,6 +358,13 @@ export default {
     document.querySelector('.ankaCropper__selectButton').addEventListener('click', function (event) {
       event.preventDefault()
     }, false)
+  },
+  created () {
+    this.getAllActivityLine()
+    this.getAllActivityType()
+    this.getAllLanguages()
+    this.getAllLinks()
+    this.getAllAmenities()
   }
 }
 </script>

@@ -6,7 +6,8 @@
       </b-container>
     </div>
     <b-container>
-      <ValidationObserver v-slot="{ handleSubmit }">
+      <div class="w-75">
+        <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityOperation)">
           <b-row class="mb-5">
             <b-col md="12">
@@ -82,10 +83,14 @@
           </b-row>
         </b-form>
       </ValidationObserver>
+      </div>
     </b-container>
   </div>
 </template>
 <script>
+import registrationServices from '@/modules/businessLandingPage/services/registration.services'
+import { core } from '@/config/pluginInit'
+
 export default {
   data () {
     return {
@@ -105,8 +110,38 @@ export default {
   methods: {
     saveFacilityOperation () {
       this.loadingFacilityOperation = true
-      this.$store.commit('formSteps/setActiveStepForm', 5)
-      this.loadingFacilityOperation = false
+      if (this.typeOfOperation === '24 hours') {
+        const obj = {
+          operation_type: '24 hours'
+        }
+        registrationServices.saveStepOperation(obj).then(res => {
+          core.showSnackbar('success', res.data.message)
+          this.$store.commit('formSteps/setActiveStepForm', 'Complete')
+          localStorage.setItem('formStep', 'Complete')
+          this.$router.push({ name: 'profileComplete' })
+        }).finally(() => {
+          this.loadingFacilityOperation = false
+        })
+      } else {
+        const obj = {
+          operation_type: 'specify days',
+          operation: this.allOperation
+        }
+        registrationServices.saveStepOperation(obj).then(res => {
+          core.showSnackbar('success', res.data.message)
+          this.$store.commit('formSteps/setActiveStepForm', 'Complete')
+          localStorage.setItem('formStep', 'Complete')
+          this.$router.push({ name: 'profileComplete' })
+        }).catch((err) => {
+          if (err.response.data.errors) {
+            for (const [key, value] of Object.entries(err.response.data.errors)) {
+              this.$refs[key].setErrors(value)
+            }
+          }
+        }).finally(() => {
+          this.loadingFacilityOperation = false
+        })
+      }
     },
     addNewOperation () {
       this.allOperation.push({

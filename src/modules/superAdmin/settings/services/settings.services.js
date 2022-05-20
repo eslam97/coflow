@@ -80,6 +80,9 @@ export default {
   addNewCity (payload) {
     return Api().post('cities', payload)
   },
+  getCityArea (cityId) {
+    return Api().get(`cities/${cityId}`)
+  },
 
   // Cities
   getAllAreas () {
@@ -87,5 +90,10 @@ export default {
   },
   addNewArea (payload) {
     return Api().post('areas', payload)
+  },
+
+  // Amenities
+  getAllAmenities () {
+    return Api().get('amenities')
   }
 }

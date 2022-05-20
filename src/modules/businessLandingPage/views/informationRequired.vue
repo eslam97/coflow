@@ -24,11 +24,12 @@ export default {
   name: 'profileInfo',
   components: {
     navProgress
+  },
+  beforeCreate () {
+    document.body.style.backgroundColor = '#181935FF'
+  },
+  beforeDestroy () {
+    document.body.style.backgroundColor = ''
   }
 }
 </script>
-<style>
-body{
-  background: var(--iq-primary) !important;
-}
-</style>

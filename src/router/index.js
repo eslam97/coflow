@@ -17,6 +17,7 @@ import notifications from '@/modules/superAdmin/notifications/notifications.rout
 import analytics from '@/modules/superAdmin/analytics/analytics.routes'
 import admin from '@/modules/superAdmin/admin/admin.routes'
 import welcomePage from '@/components/welcomePage'
+import charts from '@/views/Charts/charts.routes'
 
 /* Layouts */
 const VerticleLayout = () => import('../layouts/VerticleLayout')
@@ -81,6 +82,7 @@ const routes = [
   ...notifications,
   ...analytics,
   ...admin,
+  ...charts,
   {
     path: '/welcome',
     name: 'welcome',

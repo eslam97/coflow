@@ -25,6 +25,12 @@ export default {
     activeForm () {
       return `step${this.$store.getters['formSteps/getActiveStepForm']}`
     }
+  },
+  beforeCreate () {
+    document.body.style.backgroundColor = '#ffffff'
+  },
+  beforeDestroy () {
+    document.body.style.backgroundColor = ''
   }
 }
 </script>

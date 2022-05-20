@@ -12,7 +12,7 @@
           <b-row v-for="(info, key) in adminInformation" :key="key">
             <b-col md="4" class="mb-3" >
               <input-form
-                  v-model="info.fullName"
+                  v-model="info.name"
                   placeholder="Ex: Eslam Ashraf"
                   :validate="'required'"
                   :name="`Full Name ${key + 1}`"
@@ -21,7 +21,7 @@
             </b-col>
             <b-col md="4" class="mb-3" >
               <input-form
-                  v-model="info.role"
+                  v-model="info.job"
                   placeholder="Ex: Owner"
                   :validate="'required'"
                   :name="`Role or Job ${key + 1}`"
@@ -63,6 +63,8 @@
   </div>
 </template>
 <script>
+import registrationServices from '../../../services/registration.services'
+import { core } from '@/config/pluginInit'
 export default {
   data () {
     return {
@@ -72,8 +74,8 @@ export default {
       // forms
       adminInformation: [
         {
-          fullName: '',
-          role: '',
+          name: '',
+          job: '',
           phone: ''
         }
       ]
@@ -82,8 +84,8 @@ export default {
   methods: {
     addNewGeneralAdminInformation () {
       this.adminInformation.push({
-        fullName: '',
-        role: '',
+        name: '',
+        job: '',
         phone: ''
       })
     },
@@ -92,8 +94,19 @@ export default {
     },
     saveGeneralAdminInformation () {
       this.loadingGeneralAdminInformation = true
-      this.$store.commit('formSteps/setActiveStepForm', 2)
-      this.loadingGeneralAdminInformation = false
+      registrationServices.saveStepAdmin({ contact: this.adminInformation }).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$store.commit('formSteps/setActiveStepForm', 2)
+        localStorage.setItem('formStep', 2)
+      }).catch((err) => {
+        if (err.response.data.errors) {
+          for (const [key, value] of Object.entries(err.response.data.errors)) {
+            this.$refs[key].setErrors(value)
+          }
+        }
+      }).finally(() => {
+        this.loadingGeneralAdminInformation = false
+      })
     }
   }
 }

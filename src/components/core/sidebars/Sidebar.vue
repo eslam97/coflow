@@ -62,6 +62,8 @@ export default {
     },
     logout () {
       localStorage.removeItem('userToken')
+      localStorage.removeItem('userInfo')
+      localStorage.removeItem('formStep')
       this.$router.push('/')
     }
   },

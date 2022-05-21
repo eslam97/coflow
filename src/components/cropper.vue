@@ -1,6 +1,17 @@
 <template>
   <div class="vueAnkaCropper">
     <label class="mb-2">{{ label }}</label>
+    <div class="mb-3 mt-1 d-flex align-items-center" v-for="(image, key) in allImages" :key="key">
+      <img  :src="image.image" class="img-fluid avatar-60 rounded" />
+      <div class="d-flex justify-content-between position-relative flex-grow-1">
+        <section>
+          <span class="text-dark ml-3 font-weight-bold">name of image</span>
+        </section>
+        <section>
+          <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage(image.id)">Remove</span>
+        </section>
+      </div>
+    </div>
     <div class="mb-3 d-flex justify-content-between align-items-center" v-if="finalData.croppedImageURI && !uploadServer">
       <section>
         <img :alt="finalData.originalFile.name" :src="finalData.croppedImageURI" class="img-fluid avatar-60 rounded" />
@@ -10,8 +21,8 @@
         <span class="cursor-pointer text-bold" @click="removeImage">Remove</span>
       </section>
     </div>
-    <div class="mb-3 d-flex align-items-center" v-else-if="finalData.croppedImageURI &&
-    uploadServer">
+    <div class="mb-3 d-flex align-items-center" v-else-if="finalData.croppedImageURI && uploadServer &&
+    progressLoading != 100">
       <img :alt="finalData.originalFile.name" :src="finalData.croppedImageURI" class="img-fluid avatar-60 rounded" />
       <div class="d-flex justify-content-between position-relative flex-grow-1">
         <section>
@@ -81,6 +92,8 @@
 </template>
 <script>
 import axios from 'axios'
+import mainServices from '@/services/main'
+import { core } from '@/config/pluginInit'
 export default {
   name: 'ankaCropper',
   data () {
@@ -166,6 +179,12 @@ export default {
     progressLoading: {
       default: 0,
       type: Number
+    },
+    allImages: {
+      type: Array
+    },
+    type: {
+      type: String
     }
   },
   computed: {
@@ -366,17 +385,12 @@ export default {
     window.removeEventListener('resize', this.getFullWidth)
   },
   methods: {
-    removeImage () {
-      this.finalData = {
-        originalFile: '',
-        filename: '',
-        rotation: '',
-        cropCoords: '',
-        flippedH: '',
-        flippedV: '',
-        croppedImageURI: ''
-      }
-      this.$emit('remove-image')
+    removeImage (id) {
+      mainServices.removeImage(id, this.type).then(res => {
+        var imageIndex = this.allImages.findIndex(data => data.id === id)
+        this.allImages.splice(imageIndex, 1)
+        core.showSnackbar('success', res.data.message)
+      })
     },
     cancelCrop () {
       const input = this.$refs.fileInput

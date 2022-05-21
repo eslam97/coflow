@@ -11,6 +11,7 @@ import SwiperSlide from '@/components/core/slider/SwiperSlide'
 import mainTable from '@/components/table/mainTable'
 import deletePopup from '@/components/modal/deleteModal'
 import DateRangePicker from 'vue2-daterange-picker'
+import RoundedModalButton from '@/components/buttons/roundedModalButton'
 
 // main modal
 import mainModal from '@/components/modal/mainModal'
@@ -32,3 +33,4 @@ Vue.component('deletePopup', deletePopup)
 Vue.component('main-modal', mainModal)
 Vue.component('input-form', inputForm)
 Vue.component('main-select', mainSelect)
+Vue.component('model-button', RoundedModalButton)

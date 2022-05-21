@@ -93,35 +93,42 @@ export default {
         console.log(res)
         core.showSnackbar('success', 'Welcome ' + res.data.data.name)
         localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-
-        switch (res.data.data.profile_step) {
-          case 'admin':
-            this.$store.commit('formSteps/setActiveStepForm', 1)
-            localStorage.setItem('formStep', 1)
-            this.$router.push({ name: 'profileSteps' })
-            break
-          case 'facility':
-            this.$store.commit('formSteps/setActiveStepForm', 2)
-            this.$router.push({ name: 'profileSteps' })
-            localStorage.setItem('formStep', 2)
-            break
-          case 'location':
-            this.$store.commit('formSteps/setActiveStepForm', 3)
-            this.$router.push({ name: 'profileSteps' })
-            localStorage.setItem('formStep', 3)
-            break
-          case 'operation':
-            this.$store.commit('formSteps/setActiveStepForm', 4)
-            this.$router.push({ name: 'profileSteps' })
-            localStorage.setItem('formStep', 4)
-            break
-          case 'completed':
-            this.$store.commit('formSteps/setActiveStepForm', 'completed')
-            this.$router.push({ name: 'profileComplete' })
-            localStorage.setItem('formStep', 'completed')
-            break
+        if (res.data.data.status === 'accepted') {
+          this.$router.push({ name: 'profileInfo' })
+          switch (res.data.data.profile_step) {
+            case 'admin':
+              this.$store.commit('formSteps/setActiveStepForm', 1)
+              localStorage.setItem('formStep', 1)
+              this.$router.push({ name: 'profileSteps' })
+              break
+            case 'facility':
+              this.$store.commit('formSteps/setActiveStepForm', 2)
+              this.$router.push({ name: 'profileSteps' })
+              localStorage.setItem('formStep', 2)
+              break
+            case 'location':
+              this.$store.commit('formSteps/setActiveStepForm', 3)
+              this.$router.push({ name: 'profileSteps' })
+              localStorage.setItem('formStep', 3)
+              break
+            case 'operation':
+              this.$store.commit('formSteps/setActiveStepForm', 4)
+              this.$router.push({ name: 'profileSteps' })
+              localStorage.setItem('formStep', 4)
+              break
+            case 'completed':
+              this.$store.commit('formSteps/setActiveStepForm', 'completed')
+              this.$router.push({ name: 'profileComplete' })
+              localStorage.setItem('formStep', 'completed')
+              break
+          }
+        } else if (res.data.data.status === 'pending activation') {
+          this.$store.commit('formSteps/setActiveStepForm', 'completed')
+          this.$router.push({ name: 'profileComplete' })
+          localStorage.setItem('formStep', 'completed')
+        } else {
+          this.$router.push({ name: 'leads' })
         }
-
         localStorage.setItem('userToken', res.data.data.token)
         this.openPopupLogin = false
       }).finally(() => {

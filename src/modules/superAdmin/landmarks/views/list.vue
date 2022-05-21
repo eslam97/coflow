@@ -1,5 +1,19 @@
 <template>
   <b-container fluid>
+    <main-modal id="landMarksDetails" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'"><span class="text-warning" >Add: </span> Landmarks</h4>
+        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'"><span class="text-success-light" >view: </span>Landmarks</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Landmarks</h4>
+      </template>
+      <template v-slot:body>
+        <landmark-details @addLandmark="addLandmark"
+                          @editLandmark="editLandmark"
+                          :requestLoading="requestLoading"
+                          :landmarkDetails="landmarkDetails"
+                          :typeOfModal="typeOfModal"/>
+      </template>
+    </main-modal>
     <b-row>
       <b-col lg="12"
              class="mb-2 d-flex justify-content-between align-items-center">
@@ -12,9 +26,10 @@
       <b-col lg="12">
         <main-table
             :fields="columns"
-            :items="callData"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
+            :list_url="'landmarks'"
+            :reloadData="reloadTable"
         >
         </main-table>
       </b-col>
@@ -23,15 +38,20 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
+import landmarkDetails from '@/modules/superAdmin/landmarks/components/landmarkDetails'
+import landmarksServices from '@/modules/superAdmin/landmarks/services/landmarks.services'
 export default {
   data () {
     return {
+      reloadTable: false,
+      requestLoading: false,
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
-        { label: 'Governorate', key: 'governorate', class: 'text-left' },
-        { label: 'Area', key: 'area', class: 'text-left' },
-        { label: 'Landmark Name', key: 'Landmark_name', class: 'text-left' },
-        { label: 'Status', key: 'status', class: 'text-left' },
+        { label: 'Country', key: 'country.name', class: 'text-left' },
+        { label: 'Governorate', key: 'city.name', class: 'text-left' },
+        { label: 'Area', key: 'area.id', class: 'text-left' },
+        { label: 'Landmark Name', key: 'name', class: 'text-left' },
+        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         { label: 'Views', key: 'views', class: 'text-left' },
         { label: 'Unique Views', key: 'unique_views', class: 'text-left' },
         {
@@ -42,8 +62,17 @@ export default {
           actions: [
             {
               icon: 'las la-eye',
-              color: 'success',
-              text: 'Show'
+              color: 'success-light',
+              text: 'View',
+              actionName: 'showLandmark',
+              actionParams: ['id']
+            },
+            {
+              icon: 'las la-pen',
+              color: 'info',
+              text: 'View',
+              actionName: 'showLandmarkToEdit',
+              actionParams: ['id']
             },
             {
               icon: 'las la-trash-alt',
@@ -52,69 +81,74 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Landmark',
-              textContnet: 'Landmark_name'
+              textContnet: 'name',
+              url: 'landmarks'
             }
           ]
         }
       ],
-      callData: [
-        {
-          id: '01',
-          governorate: 'Cairo',
-          area: 'Giza',
-          Landmark_name: 'Greate Pyrmaids',
-          status: 'Active',
-          views: '200',
-          unique_views: '20'
-        },
-        {
-          id: '02',
-          governorate: 'Cairo',
-          area: 'Giza',
-          Landmark_name: 'Greate Pyrmaids',
-          status: 'Active',
-          views: '200',
-          unique_views: '20'
-        },
-        {
-          id: '03',
-          governorate: 'Cairo',
-          area: 'Giza',
-          Landmark_name: 'Greate Pyrmaids',
-          status: 'Active',
-          views: '200',
-          unique_views: '20'
-        },
-        {
-          id: '04',
-          governorate: 'Cairo',
-          area: 'Giza',
-          Landmark_name: 'Greate Pyrmaids',
-          status: 'Active',
-          views: '200',
-          unique_views: '20'
-        },
-        {
-          id: '05',
-          governorate: 'Cairo',
-          area: 'Giza',
-          Landmark_name: 'Greate Pyrmaids',
-          status: 'Active',
-          views: '200',
-          unique_views: '20'
-        }
-      ]
+      typeOfModal: 'add',
+      landmarkDetails: {},
+      landMarkId: ''
     }
   },
   components: {
+    landmarkDetails
   },
   methods: {
     sortChanged (key) {
       console.log(key)
     },
     openPopup () {
-      this.$root.$emit('bv::show::modal', 'modalId')
+      this.landMarkId = ''
+      this.typeOfModal = 'add'
+      this.landmarkDetails = {}
+      this.$bvModal.show('landMarksDetails')
+    },
+    addLandmark (landmark) {
+      this.requestLoading = true
+      landmarksServices.addNewLandMark(landmark).then(res => {
+        this.reloadTable = true
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('landMarksDetails')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    editLandmark (landmark) {
+      this.requestLoading = true
+      landmarksServices.editLandmark(this.landMarkId, landmark).then(res => {
+        this.reloadTable = true
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('landMarksDetails')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    showDetails (obj) {
+      this.landMarkId = ''
+      this.typeOfModal = 'view'
+      landmarksServices.getLandmarkDetails(obj.id).then(res => {
+        this.landmarkDetails = res.data.data
+        this.$bvModal.show('landMarksDetails')
+      })
+    },
+    showLandmarkToEdit (obj) {
+      this.typeOfModal = 'edit'
+      this.landMarkId = obj.id
+      landmarksServices.getLandmarkDetails(obj.id).then(res => {
+        this.landmarkDetails = res.data.data
+        this.$bvModal.show('landMarksDetails')
+      })
     }
+  },
+  created () {
+    this.$root.$on('showLandmark', this.showDetails)
+    this.$root.$on('showLandmarkToEdit', this.showLandmarkToEdit)
+  },
+  beforeDestroy () {
+    this.$root.$off('showLandmark')
+    this.$root.$off('showLandmarkToEdit')
   },
   mounted () {
     core.index()

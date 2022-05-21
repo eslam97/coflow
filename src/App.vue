@@ -33,6 +33,26 @@ export default {
       onLine: navigator.onLine,
       showBackOnline: false,
       deletePopup: false,
+      lectures:[
+          {
+            group:"6245607de0ec904ceb4854b8",
+            roomname:"6243214e2dc330992a0ac1fc",
+            day:'sat',
+            timeshift:"1"
+          },
+          {
+            group:"6245607de0ec904ceb4854b8",
+            roomname:"6243214e2dc330992a0ac1fc",
+            day:'sun',
+            timeshift:"2"
+          },
+          {
+            group:"6245607de0ec904ceb4854b8",
+            roomname:"6243214e2dc330992a0ac1fc",
+            day:'sat',
+            timeshift:"1"
+          },
+          ]
     }
   },
   mounted () {
@@ -52,6 +72,19 @@ export default {
     if (!this.onLine) {
       core.showSnackbar('offline', 'You\'re offline. Check your connection.\n')
     }
+    var arr = this.lectures
+    this.lectures.forEach(function(item, index){
+      arr.forEach(function (item1, index1) {
+        if(index != index1){
+        console.log(item, item1)
+        if(item.day == item1.day) {
+          if(item.timeshift == item1.timeshift) {
+            return true
+          }
+        }
+        }
+      })
+    });
   },
   beforeDestroy () {
     window.removeEventListener('online', this.updateOnlineStatus)

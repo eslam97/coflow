@@ -77,6 +77,7 @@ export default {
           }
         )
       } else if (action.actionName) {
+        console.log(action)
         const objData = {}
         if (action.actionParams) {
           action.actionParams.forEach(params => {
@@ -91,6 +92,8 @@ export default {
           actionHeader: action.actionHeader ? action.actionHeader : 'Delete',
           titleHeader: action.titleHeader ? action.titleHeader : '',
           textContnet: action.textContnet ? this.dataItem[action.textContnet] : '',
+          url: action.url ? action.url : '',
+          rowId: this.dataItem.id,
           question: action.question ? action.question : `Are You Sure You Want Delete This ${action.titleHeader}?`,
           textDeleteButton: action.textDeleteButton ? action.textDeleteButton : `YES, ${action.actionHeader}`,
           textCancelButton: action.textCancelButton ? action.textCancelButton : 'NO, CANCEL',

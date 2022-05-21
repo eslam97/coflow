@@ -1,10 +1,11 @@
 const VerticleLayout = () => import('@/layouts/VerticleLayout')
 
-/* const amChart = () => import('./AmCharts') */
-const apexChart = () => import('./ApexCharts')
 /*
-const HighCharts = () => import('./HighCharts')
+const amChart = () => import('./AmCharts')
+const apexChart = () => import('./ApexCharts')
 */
+
+const HighCharts = () => import('./HighCharts')
 
 export default [
   {
@@ -16,7 +17,7 @@ export default [
       path: '',
       name: 'amChart',
       meta: { auth: true, name: 'amChart' },
-      component: apexChart
+      component: HighCharts
     }
     ]
   }

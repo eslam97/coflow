@@ -32,6 +32,8 @@
 
 <script>
 import Bus from '@/eventBus'
+import mainServices from '@/services/main'
+import { core } from '@/config/pluginInit'
 export default {
   data () {
     return {
@@ -43,7 +45,9 @@ export default {
       question: '',
       textDeleteButton: '',
       textCancelButton: '',
-      icon: ''
+      icon: '',
+      url: '',
+      rowId: ''
     }
   },
   mounted () {
@@ -65,6 +69,8 @@ export default {
       this.textDeleteButton = opts.textDeleteButton
       this.textCancelButton = opts.textCancelButton
       this.icon = opts.icon
+      this.url = opts.url
+      this.rowId = opts.rowId
       this.$bvModal.show('deleteModal')
       return new Promise((resolve, reject) => {
         this.resolvePromise = resolve
@@ -72,8 +78,11 @@ export default {
       })
     },
     confirm () {
-      this.$bvModal.hide('deleteModal')
-      this.resolvePromise(true)
+      mainServices.removeRow(this.url, this.rowId).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('deleteModal')
+        this.resolvePromise(true)
+      })
     },
     returnFalse () {
       this.rejectPromise(false)

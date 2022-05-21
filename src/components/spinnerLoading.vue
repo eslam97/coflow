@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-spinner small type="grow"></b-spinner>
-    {{ text }} ...
+    <span v-if="text">{{ text }} ...</span>
   </div>
 </template>
 <script>

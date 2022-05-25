@@ -260,13 +260,13 @@
     "icon": "las la-calendar-alt"
   },
   {
-    "title": "Dashboard",
+    "title": "FAQ's",
     "name": "FAQ's",
     "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "sales"
+      "name": "faqs"
     },
     "class_name": "",
     "is_icon_class": true,

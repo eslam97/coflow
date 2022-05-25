@@ -26,10 +26,11 @@
               <input-form
                   v-model="ticket.price_egp"
                   placeholder="000.00"
-                  :validate="'required|^[0-9]*\.[0-9]{2}$'"
+                  :validate="'required'"
                   name="price_egp"
                   :label="'Price'"
               />
+              <!-- |^[0-9]*\.[0-9]{2}$ -->
               <div class="input-group-append mb-5 pt-4"><span class="input-group-text">EGP</span></div>
             </div>
           </b-col>
@@ -89,9 +90,7 @@
   </div>
 </template>
 <script>
-/* import settingsService from '@/modules/superAdmin/settings/services/settings.services'
-import mainService from '@/services/main'
-import { core } from '@/config/pluginInit' */
+
 export default {
   props: {
     requestLoading: {
@@ -118,10 +117,7 @@ export default {
         discount_price_euro: null,
         discount_price_dollar: null,
         conditions: '',
-        status: 'active',
-        image: '',
-        level: '',
-        provider: ''
+        status: 'active'
       },
       selected: '',
       required: ''
@@ -140,14 +136,19 @@ export default {
   },
   computed: {},
   created () {
-    if (Object.getOwnPropertyNames(this.ticketDetails).length >= 1) {
-      this.landmark = {
-        name: this.ticketDetails.name,
-        details: this.ticketDetails.details,
-        price_egp: this.ticketDetails.price_egp
-      }
-    }
+    // if (Object.getOwnPropertyNames(this.ticketDetails).length >= 1) {
+    //   this.ticket = {
+    //     name: this.ticketDetails.name,
+    //     details: this.ticketDetails.details,
+    //     price_egp: this.ticketDetails.price_egp,
+    //     price_euro: this.ticketDetails.price_euro,
+    //     price_dollar: this.ticketDetails.price_dollar,
+    //     discount_price_egp: this.ticketDetails.discount_price_egp,
+    //     discount_price_euro: this.ticketDetails.discount_price_euro,
+    //     discount_price_dollar: this.ticketDetails.discount_price_dollar,
+    //     conditions: this.ticketDetails.conditions
+    //   }
+    // }
   }
-
 }
 </script>

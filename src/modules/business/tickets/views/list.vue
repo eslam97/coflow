@@ -97,7 +97,6 @@ export default {
       console.log(key)
     },
     openPopup () {
-      console.log('clicked')
       this.ticketId = ''
       this.typeOfModal = 'add'
       this.ticketDetails = {}
@@ -105,6 +104,7 @@ export default {
     },
     addTicket (ticket) {
       this.requestLoading = true
+      console.log(ticket)
       ticketServices.addNewTicket(ticket).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -127,6 +127,7 @@ export default {
       this.ticketId = ''
       this.typeOfModal = 'view'
       ticketServices.getTicketDetails(obj.id).then(res => {
+        console.log(res.data.data)
         this.ticketDetails = res.data.data
         this.$bvModal.show('ticketsDetailsModal')
       })

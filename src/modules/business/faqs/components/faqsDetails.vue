@@ -78,10 +78,10 @@ export default {
   watch: {},
   computed: {},
   created () {
-    if (this.faqs) {
+    if (this.faqsDetails) {
       this.faqs = {
-        question: this.faqs.question,
-        answer: this.faqs.answer
+        question: this.faqsDetails.question,
+        answer: this.faqsDetails.answer
       }
     }
   }

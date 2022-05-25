@@ -6,15 +6,15 @@ const faqsList = () => import('./views/list')
 // start routes
 export default [
   {
-    path: '/faqs',
-    name: 'faqs',
-    comopnent: VerticleLayout,
+    path: '/faq',
+    name: 'faq',
+    component: VerticleLayout,
     meta: { auth: true },
     children: [{
       path: '',
-      name: 'faqs',
-      meta: { auth: true, name: 'faqs' },
-      comopnent: faqsList
+      name: 'faq',
+      meta: { auth: true, name: 'faq' },
+      component: faqsList
     }]
   }
 ]

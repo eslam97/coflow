@@ -1,12 +1,12 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <main-modal id="faqsDetailsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> FAQ</h4>
         <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> FAQ</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info">Edit: </span> FAQ</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> FAQ</h4>
       </template>
-      <template v-solt:body>
+      <template v-slot:body>
         <faqs-details @addFaqs="addFaqs"
                       @editFaqs="editFaqs"
                       :requestLoading="requestLoading"
@@ -27,7 +27,7 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :list_url="'faqs'"
+            :list_url="'faq'"
             :reloadData="reloadTable"
         >
         </main-table>
@@ -35,54 +35,56 @@
     </b-row>
   </b-container>
 </template>
-
+<script>
 import { core } from '@/config/pluginInit'
 import faqsDetails from '@/modules/business/faqs/components/faqsDetails.vue'
 import faqsServices from '@/modules/business/faqs/services/faqs.services.js'
 export default {
   data () {
-    reloadTable: false,
-    requestLoading: false,
-    columns: [
-      { label: '#', key: 'id', class: 'text-left' },
-      { label: 'Question', key: 'question', class: 'text-left' },
-      { label: 'Answer', key: 'answer', class: 'text-left' },
-      {
-        label: 'Actions',
-        key: 'actions',
-        class: 'text-left',
-        type: 'actions',
-        actions: [
-          {
-            icon: 'las la-eye',
-            color: 'success-light',
-            text: 'View',
-            actionName: 'showFAQs',
-            actionParams: ['id']
-          },
-          {
-            icon: 'las la-pen',
-            color: 'info',
-            text: 'Edit',
-            actionName: 'showFAQsToEdit',
-            actionParams: ['id']
-          },
-          {
-            icon: 'las la-trash-alt',
-            color: 'danger',
-            text: 'Delete',
-            showAlert: true,
-            actionHeader: 'Delete',
-            titleHeader: 'FAQs',
-            textContent: 'name',
-            url: 'faqs'
-          }
-        ]
-      }
-    ],
-    typeOfModal: 'add',
-    faqsDetails: {},
-    faqsId: ''
+    return {
+      reloadTable: false,
+      requestLoading: false,
+      columns: [
+        { label: '#', key: 'id', class: 'text-left md-2' },
+        { label: 'Question', key: 'question', class: 'text-left' },
+        { label: 'Answer', key: 'answer', class: 'text-left' },
+        {
+          label: 'Actions',
+          key: 'actions',
+          class: 'text-left',
+          type: 'actions',
+          actions: [
+            {
+              icon: 'las la-eye',
+              color: 'success-light',
+              text: 'View',
+              actionName: 'showFAQs',
+              actionParams: ['id']
+            },
+            {
+              icon: 'las la-pen',
+              color: 'info',
+              text: 'Edit',
+              actionName: 'showFAQsToEdit',
+              actionParams: ['id']
+            },
+            {
+              icon: 'las la-trash-alt',
+              color: 'danger',
+              text: 'Delete',
+              showAlert: true,
+              actionHeader: 'Delete',
+              titleHeader: 'FAQs',
+              textContent: 'name',
+              url: 'faq'
+            }
+          ]
+        }
+      ],
+      typeOfModal: 'add',
+      faqsDetails: {},
+      faqsId: ''
+    }
   },
   components: {
     faqsDetails
@@ -118,9 +120,11 @@ export default {
       })
     },
     showDetails (obj) {
+      console.log('show')
       this.faqsId = ''
       this.typeOfModal = 'view'
       faqsServices.getFAQsDetails(obj.id).then(res => {
+        console.log(res)
         this.faqsDetails = res.data.data
         this.$bvModal.show('faqsDetailsModal')
       })
@@ -146,3 +150,4 @@ export default {
     core.index()
   }
 }
+</script>

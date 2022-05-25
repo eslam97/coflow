@@ -122,8 +122,11 @@ export default {
   },
   methods: {
     addTicket () {
-      console.log(this.ticket)
-      this.$emit('addTicket', this.ticket)
+      if (this.typeOfModal === 'add') {
+        this.$emit('addTicket', this.ticket)
+      } else {
+        this.$emit('editTicket', { ...this.ticket, _method: 'put' })
+      }
     }
   },
   watch: {

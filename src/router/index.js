@@ -19,6 +19,9 @@ import admin from '@/modules/superAdmin/admin/admin.routes'
 import welcomePage from '@/components/welcomePage'
 import charts from '@/views/Charts/charts.routes'
 
+// Import Business
+import tickets from '@/modules/business/tickets/tickets.routes.js'
+
 /* Layouts */
 const VerticleLayout = () => import('../layouts/VerticleLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
@@ -83,6 +86,7 @@ const routes = [
   ...analytics,
   ...admin,
   ...charts,
+  ...tickets,
   {
     path: '/welcome',
     name: 'welcome',

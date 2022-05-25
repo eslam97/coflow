@@ -46,8 +46,8 @@ export default {
       requestLoading: false,
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
-        { label: 'Question', key: 'question', class: 'text-left' },
-        { label: 'Answer', key: 'answer', class: 'text-left' },
+        { label: 'Question', key: 'question', class: 'text-left width-limit' },
+        { label: 'Answer', key: 'answer', class: 'text-left width-limit' },
         {
           label: 'Actions',
           key: 'actions',

@@ -296,6 +296,10 @@ table tr{
   font-size: 18px;
   cursor: pointer;
 }
+.width-limit p{
+  max-width: 500px;
+  overflow: hidden;
+}
 .tooltip{
   opacity: 1 !important;
 }

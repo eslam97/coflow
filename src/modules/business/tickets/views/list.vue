@@ -99,18 +99,18 @@ export default {
     openPopup () {
       this.ticketId = ''
       this.typeOfModal = 'add'
-      this.ticketDetails = {}
+      this.ticketDetails = false
       this.$bvModal.show('ticketsDetailsModal')
     },
     addTicket (ticket) {
       this.requestLoading = true
-      console.log(ticket)
       ticketServices.addNewTicket(ticket).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('ticketsDetailsModal')
       }).finally(() => {
         this.requestLoading = false
+        this.reloadTable = false
       })
     },
     editTicket (ticket) {

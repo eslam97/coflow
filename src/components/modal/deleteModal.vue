@@ -80,6 +80,7 @@ export default {
     confirm () {
       mainServices.removeRow(this.url, this.rowId).then(res => {
         core.showSnackbar('success', res.data.message)
+        Bus.$emit('reloadTableAfterDelete', true)
         this.$bvModal.hide('deleteModal')
         this.resolvePromise(true)
       })

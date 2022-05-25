@@ -110,7 +110,6 @@ export default {
         this.$bvModal.hide('ticketsDetailsModal')
       }).finally(() => {
         this.requestLoading = false
-        this.reloadTable = false
       })
     },
     editTicket (ticket) {

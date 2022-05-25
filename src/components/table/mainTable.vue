@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import Bus from '@/eventBus'
 import mainstatus from './status'
 import mainService from '@/services/main'
 import cellActions from './cellActions'
@@ -190,10 +191,14 @@ export default {
         total: List.data.total
       } */
       this.loadingTable = false
+      this.reloadData = false
     },
     sortChanged (data) {
       this.$emit('sortChanged', data)
     }
+  },
+  mounted () {
+    Bus.$on('reloadTableAfterDelete', ifReload => { this.reloadData = true })
   }
 }
 </script>

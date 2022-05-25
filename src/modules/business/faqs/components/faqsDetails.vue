@@ -72,7 +72,11 @@ export default {
   },
   methods: {
     addFaqs () {
-      this.$emit('addFaqs', this.faqs)
+      if (this.typeOfModal === 'add') {
+        this.$emit('addFaqs', this.faqs)
+      } else {
+        this.$emit('editFaqs', { ...this.faqs, _method: 'put' })
+      }
     }
   },
   watch: {},

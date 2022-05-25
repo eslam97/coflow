@@ -45,7 +45,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'id', class: 'text-left md-2' },
+        { label: '#', key: 'id', class: 'text-left' },
         { label: 'Question', key: 'question', class: 'text-left' },
         { label: 'Answer', key: 'answer', class: 'text-left' },
         {
@@ -111,7 +111,7 @@ export default {
     },
     editFaqs (faqs) {
       this.requestLoading = true
-      faqsServices.editFAQ(faqs).then(res => {
+      faqsServices.editFAQ(this.faqsId, faqs).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('faqsDetailsModal')
@@ -120,11 +120,9 @@ export default {
       })
     },
     showDetails (obj) {
-      console.log('show')
       this.faqsId = ''
       this.typeOfModal = 'view'
       faqsServices.getFAQsDetails(obj.id).then(res => {
-        console.log(res)
         this.faqsDetails = res.data.data
         this.$bvModal.show('faqsDetailsModal')
       })
@@ -132,6 +130,7 @@ export default {
     showFaqsToEdit (obj) {
       this.typeOfModal = 'edit'
       this.faqsId = obj.id
+      console.log(this.faqsId)
       faqsServices.getFAQsDetails(obj.id).then(res => {
         this.faqsDetails = res.data.data
         this.$bvModal.show('faqsDetailsModal')

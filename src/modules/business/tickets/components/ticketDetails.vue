@@ -21,28 +21,25 @@
                 :label="'Details'"
             />
           </b-col>
-          <b-col md="5" class="mb-3">
-            <div class="input-group">
-              <input-form
+          <b-col md="4" class="mb-3">
+            <b-form-group :label="'Price'"><b-input-group append="EGP">
+              <b-form-input
                   v-model="ticket.price_egp"
                   placeholder="000.00"
                   :validate="'required'"
                   name="price_egp"
-                  :label="'Price'"
               />
-              <!-- |^[0-9]*\.[0-9]{2}$ -->
-              <div class="input-group-append mb-5 pt-4"><span class="input-group-text">EGP</span></div>
-            </div>
+            </b-input-group></b-form-group>
           </b-col>
-          <b-col md="3" class="mb-5 pt-4">
-            <input
+          <b-col md="4" class="mb-5 pt-4">
+            <b-form-checkbox
                 type="checkbox"
                 id="checkbox"
                 v-model="selected"
                 label="Discounted Price"
-                class="form-check-input"
-            />
-            <label class="form-check-label" for="checkbox">Discounted Price</label>
+                class="custom-checkbox-color-check" color="warning"
+            ><span class="font-size-12 text-primary"> Discounted Price </span>
+            </b-form-checkbox>
           </b-col>
           <b-col md="4" class="mb-3">
             <input-form
@@ -130,8 +127,8 @@ export default {
     }
   },
   watch: {
-    selected (newSelected) {
-      this.required = newSelected ? 'required' : ''
+    selected () {
+      this.required = this.selected ? 'required' : ''
     }
   },
   computed: {},

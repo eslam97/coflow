@@ -31,6 +31,8 @@
                 <b-col class="mb-3" md="4" >
                   <main-select labelTitle='Operation Day (s)' :validate="'required'"
                                  :name="`Operation Day ${operationKey + 1}`"  placeholder="Choose" :options="allDays"
+                                  label="value"
+                               :reduce="data => data.key"
                                  :multiple="true"
                                  v-model="operation.days"></main-select>
                 </b-col>
@@ -95,7 +97,28 @@ export default {
   data () {
     return {
       typeOfOperation: '24 hours',
-      allDays: ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      allDays: [{
+        key: 'Sat',
+        value: 'Saturday'
+      }, {
+        key: 'Sun',
+        value: 'Sunday'
+      }, {
+        key: 'Mon',
+        value: 'Monday'
+      }, {
+        key: 'Tue',
+        value: 'Tuesday'
+      }, {
+        key: 'Wed',
+        value: 'Wednesday'
+      }, {
+        key: 'Thu',
+        value: 'Thursday'
+      }, {
+        key: 'Fri',
+        value: 'Friday'
+      }],
       allOperation: [
         {
           days: [],

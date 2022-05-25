@@ -45,7 +45,7 @@ export default {
           type: 'actions',
           actions: [{
             icon: 'las la-eye',
-            color: 'success',
+            color: 'success-light',
             text: 'View',
             actionName: 'viewLead',
             actionParams: ['id']

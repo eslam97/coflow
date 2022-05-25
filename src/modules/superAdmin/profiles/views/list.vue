@@ -1,5 +1,13 @@
 <template>
   <b-container fluid>
+    <main-modal id="activationDetalilsModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold">Profile</h4>
+      </template>
+      <template v-slot:body>
+
+      </template>
+    </main-modal>
     <b-row>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Profiles</h3>
@@ -12,7 +20,7 @@
         <main-table
             :fields="columns"
             class="mb-0 table-borderless"
-            :list_url="'profile'"
+            :list_url="'providers'"
             @sortChanged="sortChanged"
         >
         </main-table>
@@ -22,23 +30,24 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
+import profilesServices from '@/modules/superAdmin/profiles/services/profiles.services'
 export default {
   data () {
     return {
       columns: [
-        { label: '#', key: 'id', class: 'text-left' },
-        { label: 'Account Type', key: 'type', class: 'text-left', sortable: true },
+        { label: 'provider name', key: 'name', class: 'text-left' },
+        { label: 'Account Type', key: 'service_types', class: 'text-left' },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
-        { label: 'Governorate', key: 'governorate', class: 'text-left' },
-        { label: 'Area', key: 'area', class: 'text-left' },
-        { label: 'Facility Name', key: 'facility_name', class: 'text-left' },
+        { label: 'Country', key: 'country.name', class: 'text-left' },
+        { label: 'City', key: 'city.name', class: 'text-left' },
+        { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Year', key: 'year', class: 'text-left' },
         { label: 'Status', key: 'status', class: 'text-left' },
         { label: 'Views', key: 'views', class: 'text-left' },
         { label: 'Unique Views', key: 'unique_views', class: 'text-left' },
-        { label: 'Savers', key: 'savers', class: 'text-left' },
-        { label: 'Trackers', key: 'trackers', class: 'text-left' },
-        { label: 'User Status', key: 'user_status', class: 'text-left' },
+        { label: 'Savers', key: 'saves', class: 'text-left' },
+        { label: 'Trackers', key: 'tracks', class: 'text-left' },
+        { label: 'User Status', key: 'status', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',
@@ -47,8 +56,10 @@ export default {
           actions: [
             {
               icon: 'las la-eye',
-              color: 'success',
-              text: 'Show'
+              color: 'success-light',
+              text: 'View',
+              actionName: 'viewProfile',
+              actionParams: ['id']
             },
             {
               icon: 'las la-pen',
@@ -68,97 +79,29 @@ export default {
           ]
         }
       ],
-      callData: [
-        {
-          id: '01',
-          type: 'GO',
-          profile_type: 'Sky Dive',
-          governorate: 'Red Sea',
-          area: 'Hurgada',
-          facility_name: 'Fly Center',
-          year: '2002',
-          status: 'INVISIBLE',
-          Invisible: '100',
-          views: '200',
-          unique_views: '20',
-          savers: '15',
-          trackers: '10',
-          user_status: 'online'
-        },
-        {
-          id: '02',
-          type: 'GO',
-          profile_type: 'Sky Dive',
-          governorate: 'Red Sea',
-          area: 'Hurgada',
-          facility_name: 'Fly Center',
-          year: '2002',
-          status: 'INVISIBLE',
-          Invisible: '100',
-          views: '200',
-          unique_views: '20',
-          savers: '15',
-          trackers: '10',
-          user_status: 'online'
-        },
-        {
-          id: '03',
-          type: 'GO',
-          profile_type: 'Sky Dive',
-          governorate: 'Red Sea',
-          area: 'Hurgada',
-          facility_name: 'Fly Center',
-          year: '2002',
-          status: 'INVISIBLE',
-          Invisible: '100',
-          views: '200',
-          unique_views: '20',
-          savers: '15',
-          trackers: '10',
-          user_status: 'online'
-        },
-        {
-          id: '04',
-          type: 'GO',
-          profile_type: 'Sky Dive',
-          governorate: 'Red Sea',
-          area: 'Hurgada',
-          facility_name: 'Fly Center',
-          year: '2002',
-          status: 'INVISIBLE',
-          Invisible: '100',
-          views: '200',
-          unique_views: '20',
-          savers: '15',
-          trackers: '10',
-          user_status: 'online'
-        },
-        {
-          id: '05',
-          type: 'GO',
-          profile_type: 'Sky Dive',
-          governorate: 'Red Sea',
-          area: 'Hurgada',
-          facility_name: 'Fly Center',
-          year: '2002',
-          status: 'INVISIBLE',
-          Invisible: '100',
-          views: '200',
-          unique_views: '20',
-          savers: '15',
-          trackers: '10',
-          user_status: 'online'
-        }
-      ]
+      profileDetails: {}
     }
   },
   methods: {
     sortChanged (key) {
       console.log(key)
+    },
+    viewProfile (obj) {
+      profilesServices.getActivationDetails(obj.id).then(res => {
+        this.providerId = obj.id
+        this.profileDetails = res.data.data
+        this.$bvModal.show('profileDetalilsModal')
+      })
     }
   },
   mounted () {
     core.index()
+  },
+  beforeDestroy () {
+    this.$root.$off('viewProfile', this.viewProfile)
+  },
+  created () {
+    this.$root.$on('viewProfile', this.viewProfile)
   }
 }
 </script>

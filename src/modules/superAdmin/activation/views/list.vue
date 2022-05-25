@@ -1,5 +1,14 @@
 <template>
   <b-container fluid>
+    <main-modal id="activationDetalilsModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold">Business Request</h4>
+      </template>
+      <template v-slot:body>
+        <activation-details :activationDetails="activationDetails" @activation-provider="activate"
+                            :loadingActivation="loadingActivation"/>
+      </template>
+    </main-modal>
     <b-row>
       <b-col lg="12" class="mb-2">
         <h3>Activation</h3>
@@ -10,6 +19,7 @@
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
             :list_url="'activations'"
+            :reloadData="reloadTable"
         >
         </main-table>
       </b-col>
@@ -17,8 +27,14 @@
   </b-container>
 </template>
 <script>
+
 import { core } from '@/config/pluginInit'
+import activationsServices from '../services/activations.services'
+import activationDetails from '../components/activationDetails'
 export default {
+  components: {
+    activationDetails
+  },
   data () {
     return {
       columns: [
@@ -33,67 +49,50 @@ export default {
           type: 'actions',
           actions: [{
             icon: 'las la-eye',
-            color: 'success'
+            color: 'success-light',
+            text: 'View',
+            actionName: 'viewProfile',
+            actionParams: ['id']
           }
           ]
         }
       ],
-      callData: [
-        {
-          id: '01',
-          name: 'ahmed Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          status: 'active',
-          actions: 'Actions'
-        },
-        {
-          id: '02',
-          name: 'mohamed Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          status: 'active',
-          actions: 'Actions'
-        },
-        {
-          id: '03',
-          name: 'aad Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          status: 'active',
-          actions: 'Actions'
-        },
-        {
-          id: '04',
-          name: 'ahmsed Mohamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          status: 'Pending',
-          actions: 'Actions'
-        },
-        {
-          id: '05',
-          name: 'ahmed Modhamed',
-          phone: '01095097098',
-          category: 'category',
-          category1: 'category1',
-          status: 'active',
-          actions: 'Actions'
-        }
-      ]
+      activationDetails: {},
+      providerId: '',
+      reloadTable: false,
+      loadingActivation: false
     }
   },
   methods: {
     sortChanged (key) {
       console.log(key)
+    },
+    viewProfile (obj) {
+      activationsServices.getActivationDetails(obj.id).then(res => {
+        this.providerId = obj.id
+        this.activationDetails = res.data.data
+        this.$bvModal.show('activationDetalilsModal')
+      })
+    },
+    activate (obj) {
+      this.loadingActivation = true
+      activationsServices.activateProvider(this.providerId, obj).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.reloadTable = true
+        this.$bvModal.hide('activationDetalilsModal')
+      }).finally(() => {
+        this.loadingActivation = false
+      })
     }
   },
   mounted () {
     core.index()
+  },
+  beforeDestroy () {
+    this.$root.$off('viewProfile', this.viewProfile)
+  },
+  created () {
+    this.$root.$on('viewProfile', this.viewProfile)
   }
 }
 </script>

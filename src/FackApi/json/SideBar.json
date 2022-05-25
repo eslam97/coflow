@@ -11,7 +11,8 @@
     "class_name": "",
     "is_icon_class": true,
     "icon": "las la-headset"
-  },{
+  },
+  {
     "title": "amChart",
     "name": "amChart",
     "permission": "amChart",

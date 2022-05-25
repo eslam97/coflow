@@ -5,7 +5,7 @@ const amChart = () => import('./AmCharts')
 const apexChart = () => import('./ApexCharts')
 */
 
-const HighCharts = () => import('./HighCharts')
+const HighCharts = () => import('./AmCharts')
 
 export default [
   {

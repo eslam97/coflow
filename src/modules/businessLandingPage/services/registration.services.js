@@ -10,6 +10,9 @@ export default {
   uploadProviderImage (payload, config) {
     return Api().post('provider-image', payload, config)
   },
+  removeProviderImage (id) {
+    return Api().get(`remove-provider-image/${id}`)
+  },
   saveStepLocationBased (payload) {
     return Api().post('step-location-based', payload)
   },

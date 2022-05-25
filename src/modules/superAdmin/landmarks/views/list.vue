@@ -70,7 +70,7 @@ export default {
             {
               icon: 'las la-pen',
               color: 'info',
-              text: 'View',
+              text: 'Edit',
               actionName: 'showLandmarkToEdit',
               actionParams: ['id']
             },

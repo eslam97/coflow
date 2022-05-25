@@ -1,16 +1,29 @@
 <template>
   <div class="vueAnkaCropper">
     <label class="mb-2">{{ label }}</label>
-    <div class="mb-3 mt-1 d-flex align-items-center" v-for="(image, key) in allImages" :key="key">
-      <img  :src="image.image" class="img-fluid avatar-60 rounded" />
-      <div class="d-flex justify-content-between position-relative flex-grow-1">
-        <section>
-          <span class="text-dark ml-3 font-weight-bold">name of image</span>
-        </section>
-        <section>
-          <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage(image.id)">Remove</span>
-        </section>
+    <div v-if="multi">
+      <div class="mb-3 mt-1 d-flex align-items-center" v-for="(image, key) in allImages" :key="key">
+        <img  :src="image.image" class="img-fluid avatar-60 rounded" />
+        <div class="d-flex justify-content-between position-relative flex-grow-1">
+          <section>
+            <span class="text-dark ml-3 font-weight-bold">name of image</span>
+          </section>
+          <section>
+            <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage(image.id)">Remove</span>
+          </section>
+        </div>
       </div>
+    </div>
+    <div v-if="urlImage && !multi && progressLoading !== 100" class="mb-3 mt-1 d-flex align-items-center">
+        <img  :src="urlImage" class="img-fluid avatar-60 rounded" />
+        <div class="d-flex justify-content-between position-relative flex-grow-1">
+          <section>
+            <span class="text-dark ml-3 font-weight-bold">name of image</span>
+          </section>
+          <section>
+            <span class="cursor-pointer text-bold text-danger font-size-12" @click="triggerInput">Remove</span>
+          </section>
+        </div>
     </div>
     <div class="mb-3 d-flex justify-content-between align-items-center" v-if="finalData.croppedImageURI && !uploadServer">
       <section>
@@ -18,7 +31,7 @@
         <span class="text-dark ml-3 font-weight-bold">{{finalData.originalFile.name}}</span>
       </section>
       <section>
-        <span class="cursor-pointer text-bold" @click="removeImage">Remove</span>
+        <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage">Remove</span>
       </section>
     </div>
     <div class="mb-3 d-flex align-items-center" v-else-if="finalData.croppedImageURI && uploadServer &&
@@ -29,7 +42,23 @@
           <span class="text-dark ml-3 font-weight-bold">{{finalData.originalFile.name}}</span>
         </section>
         <section>
-          <span class="cursor-pointer text-bold" @click="removeImage" v-if="progressLoading == 100">Remove</span>
+          <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage" v-if="progressLoading == 100">Remove</span>
+          <span class="cursor-pointer text-bold" v-else>Uploading {{progressLoading}}%</span>
+        </section>
+        <section class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
+          <b-progress :value="progressLoading" :max="100" animated
+                      variant="primary" style="height: 0.25rem !important;"></b-progress>
+        </section>
+      </div>
+    </div>
+    <div class="mb-3 d-flex align-items-center" v-else-if="finalData.croppedImageURI && uploadServer && !multi">
+      <img :alt="finalData.originalFile.name" :src="finalData.croppedImageURI" class="img-fluid avatar-60 rounded" />
+      <div class="d-flex justify-content-between position-relative flex-grow-1">
+        <section>
+          <span class="text-dark ml-3 font-weight-bold">{{finalData.originalFile.name}}</span>
+        </section>
+        <section>
+          <span class="cursor-pointer text-bold text-danger font-size-12" @click="triggerInput" v-if="progressLoading == 100">Remove</span>
           <span class="cursor-pointer text-bold" v-else>Uploading {{progressLoading}}%</span>
         </section>
         <section class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
@@ -104,9 +133,9 @@ export default {
       defaultOptions: {
         aspectRatio: 1, // false or number, always width / height, locks aspect ratio of cropper. It should equal to croppedWidth / croppedHeight
         closeOnSave: true,
-        cropArea: 'circle', // box or circle for round selections. If circle, aspect ratio will be locked to 1
-        croppedHeight: 400, // desired height of cropped image (or false)
-        croppedWidth: 400, // desired width of cropped image (or false)
+        cropArea: 'box', // box or circle for round selections. If circle, aspect ratio will be locked to 1
+        croppedHeight: 500, // desired height of cropped image (or false)
+        croppedWidth: 500, // desired width of cropped image (or false)
         cropperHeight: false,
         dropareaMessage: 'You can also drop your files here.',
         frameLineDash: [5, 3], // dash pattern of the dashed line of the cropping frame
@@ -122,7 +151,7 @@ export default {
         overlayFill: 'rgba(0, 0, 0, 0.5)', // fill of the masking overlay
         previewOnDrag: false,
         previewQuality: 1,
-        resultQuality: 2,
+        resultQuality: 5,
         resultMimeType: 'image/jpeg',
         selectButtonLabel: 'Add photo',
         showPreview: false,
@@ -184,6 +213,13 @@ export default {
       type: Array
     },
     type: {
+      type: String
+    },
+    multi: {
+      default: true,
+      type: Boolean
+    },
+    urlImage: {
       type: String
     }
   },

@@ -12,7 +12,7 @@ import mainTable from '@/components/table/mainTable'
 import deletePopup from '@/components/modal/deleteModal'
 import DateRangePicker from 'vue2-daterange-picker'
 import RoundedModalButton from '@/components/buttons/roundedModalButton'
-
+import cropperImages from '@/components/cropperImages'
 // main modal
 import mainModal from '@/components/modal/mainModal'
 // form Elements
@@ -34,3 +34,4 @@ Vue.component('main-modal', mainModal)
 Vue.component('input-form', inputForm)
 Vue.component('main-select', mainSelect)
 Vue.component('model-button', RoundedModalButton)
+Vue.component('cropper-images', cropperImages)

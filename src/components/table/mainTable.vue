@@ -70,14 +70,12 @@
             </ul>
           </div>
           <!-- Multi-image handler -->
-          <div v-else-if="field.type == 'multi_image'">
-            <div class="d-flex align-items-center">
-              <div class="iq-media-group">
-                <b-link href="#" class="iq-media" v-for="(image, counter) in $_.get(data.item, field.key).slice(0,3)" :key="counter">
-                  <b-img class="avatar-50" rounded="circle" fluid :src="image.image" :alt="image.name" />
-                </b-link>
-                <div v-if="moreImages > 0" class="more-images text-white">{{ moreImages }}+</div>
-              </div>
+          <div class="min-width-image-cell" v-else-if="field.type == 'multi_image'">
+            <div class="iq-media-group position-relative">
+              <b-link href="#" class="iq-media" v-for="(image, counter) in $_.get(data.item, field.key).slice(0,3)" :key="counter">
+                <b-img class="avatar-50" rounded="circle" fluid :src="image.image" :alt="image.name" />
+                <div v-if="($_.get(data.item, field.key).length > 3) && counter === 2" class="more-images text-white">{{ $_.get(data.item, field.key).length-3 }}+</div>
+              </b-link>
             </div>
           </div>
           <!-- handle Text -->

@@ -66,18 +66,18 @@
                 <b-form-row>
                   <b-col md="5" class="mb-3">
                     <b-form-input
-                      v-model="flows.instructors.first_name"
+                      v-model="instructor.first_name"
                       placeholder="First Name"
                       :validate="'required'"
-                      name="flows.instructors.first_name"
+                      :name="`First name ${counter+1}`"
                     />
                   </b-col>
                   <b-col md="5" class="mb-3">
                     <b-form-input
-                      v-model="flows.instructors.last_name"
+                      v-model="instructor.last_name"
                       placeholder="Last Name"
                       :validate="'required'"
-                      name="flows.instructors.last_name"
+                      name="instructor.last_name"
                     />
                   </b-col>
                   <b-col><span v-if="counter != 0" class="deleteLabelButton text-danger cursor-pointer" @click="deleteInstructor(counter)">Delete</span></b-col>
@@ -184,15 +184,15 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: '',
-        price_dollar: '',
+        price_euro: 0,
+        price_dollar: 0,
         discounted_price_egp: '',
         status: 'active',
         images: [],
-        instructors: {
+        instructors: [{
           first_name: '',
           last_name: ''
-        },
+        }],
         level: ''
       },
       selected: '',
@@ -214,7 +214,7 @@ export default {
   methods: {
     addFlows () {
       if (this.typeOfModal === 'add') {
-        this.$emit('addFlows', this.flows)
+        this.$emit('addFlows', { ...this.flows, images: this.flows.images.map(data => data.id) })
       } else {
         this.$emit('editFlows', { ...this.flows, _method: 'put' })
       }

@@ -136,7 +136,6 @@ export default {
     showFlowsToEdit (obj) {
       this.typeOfModal = 'edit'
       this.flowsId = obj.id
-      console.log(this.flowsId)
       flowsServices.getFlowsDetails(obj.id).then(res => {
         this.flowsDetails = res.data.data
         this.$bvModal.show('flowsDetailsModal')

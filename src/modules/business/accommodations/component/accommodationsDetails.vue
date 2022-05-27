@@ -4,24 +4,24 @@
       <b-form @submit.prevent="handleSubmit(addAccommodations)">
         <b-row>
           <b-col md="6" class="mb-3">
-            <b-col md="6" class="mb-3">
-              <input-form
-                v-model="accommodations.name"
-                placeholder="Write accommodation name"
-                :validate="'required'"
-                name="name"
-                :label="'Accommodation Name'"
-              />
-            </b-col>
-            <b-col md="6" class="mb-3">
-              <input-form
-                v-model="accommodations.type"
-                placeholder="Pick accommodation type"
-                :validate="'required'"
-                name="requirements"
-                :label="'Type'"
-              />
-            </b-col>
+            <b-row>
+              <b-col md="6" class="mb-3">
+                <input-form
+                  v-model="accommodations.name"
+                  placeholder="Write accommodation name"
+                  :validate="'required'"
+                  name="name"
+                  :label="'Accommodation Name'"
+                />
+              </b-col>
+              <b-col md="6" class="mb-3">
+                <main-select labelTitle='Type' :validate="'required'"
+                      :name="`activity_line_id`" placeholder="Choose" :options="allAccommodationsTypes"
+                      label="name"
+                      :reduce="data => data.id"
+                      v-model="accommodations.type"></main-select>
+              </b-col>
+            </b-row>
             <b-row>
               <b-col md="4" class="mb-3">
                 <b-form-group :label="'Price'"
@@ -101,13 +101,12 @@
             </b-form-group>
           </b-col>
           <b-col md="6" class="mb-3">
-            <input-form
-              v-model="accommodations.amenities"
-              placeholder="Add multipule tags"
-              :validate="'required'"
-              name="amenities"
-              :label="'Amenities'"
-            />
+            <main-select labelTitle='Amenities' :validate="'required'"
+                    :taggable="true"
+                    multiple v-model="accommodations.amenities"
+                    :name="`amenities`" placeholder="Add multipule tags"
+                    :numberOfSelect=3
+            ></main-select>
             <b-form-group label="Description">
               <b-form-textarea
                   v-model="accommodations.description"
@@ -170,6 +169,7 @@
 </template>
 <script>
 import mainService from '@/services/main'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 import { core } from '@/config/pluginInit'
 export default {
   props: {
@@ -203,6 +203,7 @@ export default {
       },
       selectedEGP: '',
       selectedEUR: '',
+      allAccommodationsTypes: [],
       loadingGallery: 0,
       progressBar: 0,
       removeLoadingUi: false
@@ -248,6 +249,13 @@ export default {
         core.showSnackbar('success', res.data.message)
         const ind = this.accommodations.images.findIndex(image => image.id === id)
         this.accommodations.images.splice(ind, 1)
+      })
+    },
+    getAllAccommodationsTypes () {
+      console.log('types')
+      settingsService.getAllAccommodationsTypes().then(res => {
+        this.allAccommodationsTypes = res.data.data
+        console.log(this.allAccommodationsTypes)
       })
     }
   },

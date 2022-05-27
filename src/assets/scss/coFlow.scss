@@ -385,6 +385,35 @@ form legend {
 .button-blue-modal {
   background: var(--iq-info) !important;
 }
+
+.radio-btn {
+  border-radius: 4px;
+  padding: 15px 10px 15px 10px;
+  margin-left: 10px;
+  justify-content: center;
+  background: transparent;
+  font-family: "Dosis", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  border: 2px solid #cdcdcd;
+  
+}
+
+.more-images {
+  width: 50px;
+  height: 50px;
+  background-color: #fd9e11;
+  border-radius: 8px;
+  position: relative;
+  margin-left: -20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.min-width-image-cell {
+  min-width: 150px;
+}
+
 .promotion_button {
   background-color: #fff;
   border-radius: 4px !important;

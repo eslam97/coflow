@@ -7,6 +7,10 @@ $success:  #28a745;
 $black: black;
 $warning: #ffd369;
 $danger: #f14336;
+$dark_sky_blue: #2f9be8;
+$caribbean_water: #2fdac2;
+$orange: #ff9f00;
+$red: #da302b;
 $status: ( // Primary status
         "primary":$blue,
         "new": $blue,
@@ -147,6 +151,13 @@ $status: ( // Primary status
         'not_accept':$danger,
         "banned":$danger,
 
+);
+
+$levels: (
+      "all":$dark_sky_blue,
+      "beginner":$caribbean_water,
+      "intermediate":$orange,
+      "advanced":$red
 );
 
 .bg-RGB {
@@ -329,5 +340,19 @@ $color in $status {
       color: #fff !important;
     }
   }
+}
 
+@each $name, $color in $levels {
+  .radio-btn-#{$name} {
+    color: $color !important;
+    border: 2px solid $color !important;  
+  }
+  .radio-btn-#{$name}:hover {
+    color: white !important;
+    background: $color !important;  
+  }
+  .radio-btn-selected-#{$name} {
+    color: white !important;
+    background: $color !important;
+  }
 }

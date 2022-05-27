@@ -82,7 +82,7 @@ export default {
               actionHeader: 'Delete',
               titleHeader: 'Flows',
               textContent: 'name',
-              url: 'faq'
+              url: 'flows'
             }
           ]
         }

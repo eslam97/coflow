@@ -1,0 +1,259 @@
+<template>
+  <div>
+    <validationObserver v-slot="{ handleSubmit }">
+      <b-form @submit.prevent="handleSubmit(addAccommodations)">
+        <b-row>
+          <b-col md="6" class="mb-3">
+            <b-col md="6" class="mb-3">
+              <input-form
+                v-model="accommodations.name"
+                placeholder="Write accommodation name"
+                :validate="'required'"
+                name="name"
+                :label="'Accommodation Name'"
+              />
+            </b-col>
+            <b-col md="6" class="mb-3">
+              <input-form
+                v-model="accommodations.type"
+                placeholder="Pick accommodation type"
+                :validate="'required'"
+                name="requirements"
+                :label="'Type'"
+              />
+            </b-col>
+            <b-row>
+              <b-col md="4" class="mb-3">
+                <b-form-group :label="'Price'"
+                  ><b-input-group append="EGP">
+                    <b-form-input
+                      v-model="accommodations.price_egp"
+                      placeholder="000.00"
+                      :validate="'required'"
+                      name="price_egp"
+                    /> </b-input-group
+                ></b-form-group>
+              </b-col>
+              <b-col md="4" class="mb-5 pt-4">
+                <b-form-checkbox
+                  type="checkbox"
+                  v-model="selectedEGP"
+                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                  color="warning"
+                  >
+                    Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="EGP">
+                    <b-form-input
+                      v-model="accommodations.discount_price_egp"
+                      placeholder="000.00"
+                      :validate="required"
+                      :disabled="!selectedEGP"
+                      name="price_egp"
+                    /> </b-input-group
+                ></b-form-group>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="4" class="mb-3">
+                <b-form-group :label="'Foreigner Price'"
+                  ><b-input-group append="EUR">
+                    <b-form-input
+                      v-model="accommodations.price_euro"
+                      placeholder="000.00"
+                      name="price_euro"
+                    /> </b-input-group
+                ></b-form-group>
+              </b-col>
+              <b-col md="4" class="mb-5 pt-4">
+                <b-form-checkbox
+                  type="checkbox"
+                  v-model="selectedEUR"
+                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                  color="warning"
+                  >
+                    Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <b-form-group :label="'Discounted Foreigner Price'"
+                  ><b-input-group append="EUR">
+                    <b-form-input
+                      v-model="accommodations.discount_price_euro"
+                      placeholder="000.00"
+                      :validate="required"
+                      :disabled="!selectedEUR"
+                      name="price_euro"
+                    /> </b-input-group
+                ></b-form-group>
+              </b-col>
+            </b-row>
+            <b-form-group label="Conditions">
+              <b-form-textarea
+                  v-model="accommodations.description"
+                  :label="'Conditions'"
+                  placeholder="Any age, health, or weight requirements to participate"
+                  rows="2"
+              ></b-form-textarea>
+            </b-form-group>
+          </b-col>
+          <b-col md="6" class="mb-3">
+            <input-form
+              v-model="accommodations.amenities"
+              placeholder="Add multipule tags"
+              :validate="'required'"
+              name="amenities"
+              :label="'Amenities'"
+            />
+            <b-form-group label="Description">
+              <b-form-textarea
+                  v-model="accommodations.description"
+                  :label="'accommodations'"
+                  placeholder="Write your description about this activity…."
+                  rows="4"
+              ></b-form-textarea>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="12" class="mb-5">
+            <cropper-images
+                label="Upload Photos"
+                @cropper-save="saveGalleryImage"
+                @remove-image="removeGalleryImage"
+                :removeLoadingUi="removeLoadingUi"
+                :progressLoading="progressBar"
+                :images="accommodations.images"
+            ></cropper-images>
+          </b-col>
+        </b-row>
+        <b-row v-if="typeOfModal != 'view'">
+          <b-col md="12" class="mt-4">
+            <div
+              class="d-flex justify-content-center"
+              v-if="typeOfModal == 'add'"
+            >
+              <b-button
+                class="button-orange-modal"
+                type="submit"
+                v-if="!requestLoading"
+              >
+                <i class="las la-plus"></i>
+              </b-button>
+              <b-button class="button-orange-modal" v-else>
+                <spinner-loading></spinner-loading>
+              </b-button>
+            </div>
+            <div
+              class="d-flex justify-content-center"
+              v-if="typeOfModal == 'edit'"
+            >
+              <b-button
+                class="button-blue-modal"
+                type="submit"
+                v-if="!requestLoading"
+              >
+                <i class="las la-pen"></i>
+              </b-button>
+              <b-button class="button-blue-modal" v-else>
+                <spinner-loading></spinner-loading>
+              </b-button>
+            </div>
+          </b-col>
+        </b-row>
+      </b-form>
+    </validationObserver>
+  </div>
+</template>
+<script>
+import mainService from '@/services/main'
+import { core } from '@/config/pluginInit'
+export default {
+  props: {
+    requestLoading: {
+      type: Boolean,
+      default: false
+    },
+    typeOfModal: {
+      type: String,
+      default: 'add'
+    },
+    accommodationsDetails: {
+      type: Object
+    }
+  },
+  data () {
+    return {
+      accommodations: {
+        name: '',
+        requirments: '',
+        conditions: '',
+        description: '',
+        price_egp: '',
+        price_euro: '',
+        price_dollar: '',
+        discounted_price_egp: '',
+        discounted_price_euro: '',
+        status: 'active',
+        images: [],
+        amenities: ''
+      },
+      selectedEGP: '',
+      selectedEUR: '',
+      loadingGallery: 0,
+      progressBar: 0,
+      removeLoadingUi: false
+    }
+  },
+  components: {},
+  methods: {
+    addFaddAccommodations () {
+      if (this.typeOfModal === 'add') {
+        this.$emit('addAccommodations', this.accommodations)
+      } else {
+        this.$emit('editAccommodations', { ...this.accommodations, _method: 'put' })
+      }
+    },
+    saveGalleryImage (file) {
+      this.removeLoadingUi = false
+      this.requestLoading = true
+      const formData = new FormData()
+      formData.append('image', file.image)
+      formData.append('type', 'accommodation')
+      formData.append('status', this.accommodationsDetails ? 'exist' : 'new')
+      formData.append('name', file.imageInfo.name)
+      if (this.accommodationsDetails) {
+        formData.append('accommodation_id', this.accommodationsDetails.id)
+      }
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          console.log(percent)
+          this.progressBar = percent
+        }
+      }
+      mainService.addImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.accommodations.images.push(res.data.data)
+        this.removeLoadingUi = true
+        this.requestLoading = false
+      })
+    },
+    removeGalleryImage (id) {
+      mainService.removeImage(id, 'accommodation').then(res => {
+        core.showSnackbar('success', res.data.message)
+        const ind = this.accommodations.images.findIndex(image => image.id === id)
+        this.accommodations.images.splice(ind, 1)
+      })
+    }
+  },
+  watch: {},
+  computed: {},
+  created () {}
+}
+
+</script>

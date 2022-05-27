@@ -27,7 +27,7 @@
                 <b-form-group :label="'Price'"
                   ><b-input-group append="EGP">
                     <b-form-input
-                      v-model="flows.name"
+                      v-model="flows.price_egp"
                       placeholder="000.00"
                       :validate="'required'"
                       name="price_egp"
@@ -50,7 +50,7 @@
                 <b-form-group :label="'Discounted Price'"
                   ><b-input-group append="EGP">
                     <b-form-input
-                      v-model="flows.name"
+                      v-model="flows.discount_price_egp"
                       placeholder="000.00"
                       :validate="required"
                       :disabled="!selected"
@@ -59,25 +59,25 @@
                 ></b-form-group>
               </b-col>
             </b-row>
-            <span class="float-right text-warning cursor-pointer" @click="addInstructor">+ Add another</span>
+            <span class="d-flex"><span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span></span>
             <div v-for="(instructor, counter) in flows.instructors"
                 :key="counter">
-              <b-form-group inline :label="'Instructor'" :label-for="Instructor">
+              <b-form-group inline :label="'Instructor'" :label-for="'Instructor'">
                 <b-form-row>
                   <b-col md="5" class="mb-3">
                     <b-form-input
-                      v-model="instructor.firstName"
+                      v-model="flows.instructors.first_name"
                       placeholder="First Name"
                       :validate="'required'"
-                      name="instructor.firstName"
+                      name="flows.instructors.first_name"
                     />
                   </b-col>
                   <b-col md="5" class="mb-3">
                     <b-form-input
-                      v-model="instructor.lastName"
+                      v-model="flows.instructors.last_name"
                       placeholder="Last Name"
                       :validate="'required'"
-                      name="instructor.lastName"
+                      name="flows.instructors.last_name"
                     />
                   </b-col>
                   <b-col><span v-if="counter != 0" class="deleteLabelButton text-danger cursor-pointer" @click="deleteInstructor(counter)">Delete</span></b-col>
@@ -87,23 +87,15 @@
           </b-col>
           <b-col md="6" class="mb-3">
             <b-form-group label="Pick Level">
-              <div v-for="(option, counter) in options" :key="counter">
-              <!-- <b-form-radio-group
-                v-model="flows.level"
-                button-variant="outline-primary"
-                :options="options"
-                </b-form-radio-group>
-              > -->
-              <!-- <b-form-radio
-                button inline
-                class="btn-primary"
-                name="level"
-                v-modal="flows.level"
-                value="option.value"
-              >
-                {{ option.text }}
-              </b-form-radio> -->
-              </div>
+              <span v-for="(option, counter) in options" :key="counter">
+                <button
+                    class="btn radio-btn"
+                    :class="`radio-btn-${option.color} ${selectLevel(option.value) ? 'radio-btn-selected-'+option.color : ''}`"
+                    @click.prevent="flows.level = option.value"
+                >
+                    {{ option.text }}
+                </button>
+              </span>
             </b-form-group>
               <b-form-group label="Description">
                 <b-form-textarea
@@ -119,12 +111,11 @@
           <b-col md="12" class="mb-5">
             <cropper-images
                 label="Upload Photos"
-                :prograssLoading="progressLogo"
                 @cropper-save="saveGalleryImage"
                 @remove-image="removeGalleryImage"
-                :progressLoading="loadingGallery"
                 :removeLoadingUi="removeLoadingUi"
-                :images="images"
+                :progressLoading="progressBar"
+                :images="flows.images"
             ></cropper-images>
           </b-col>
         </b-row>
@@ -195,21 +186,26 @@ export default {
         price_egp: '',
         price_euro: '',
         price_dollar: '',
+        discounted_price_egp: '',
+        status: 'active',
         images: [],
-        instructors: [{
-          firstName: '',
-          lastName: ''
-        }],
+        instructors: {
+          first_name: '',
+          last_name: ''
+        },
         level: ''
       },
       selected: '',
       required: '',
       options: [
-        { text: 'ALL LEVEVLS', value: 'all', variant: 'outline-primary' },
-        { text: 'BEGINNER', value: 'beginner', variant: 'outline-danger' },
-        { text: 'INTERMEDIATE', value: 'intermediate', variant: 'outline-primary' },
-        { text: 'ADVANCED', value: 'advanced', variant: 'outline-primary' }
-      ]
+        { text: 'ALL LEVEVLS', value: 'all', color: 'all' },
+        { text: 'BEGINNER', value: 'beginner', color: 'beginner' },
+        { text: 'INTERMEDIATE', value: 'intermediate', color: 'intermediate' },
+        { text: 'ADVANCED', value: 'advanced', color: 'advanced' }
+      ],
+      loadingGallery: 0,
+      progressBar: 0,
+      removeLoadingUi: false
     }
   },
   components: {
@@ -225,8 +221,8 @@ export default {
     },
     addInstructor () {
       this.flows.instructors.push({
-        firstName: '',
-        lastName: ''
+        first_name: '',
+        last_name: ''
       })
     },
     deleteInstructor (counter) {
@@ -236,28 +232,40 @@ export default {
       console.log('file', file)
     },
     saveGalleryImage (file) {
+      this.removeLoadingUi = false
+      this.requestLoading = true
       const formData = new FormData()
-      formData.append('image', file.croppedFile)
+      formData.append('image', file.image)
       formData.append('type', 'flow')
       formData.append('status', this.flowsDetails ? 'exist' : 'new')
+      formData.append('name', file.imageInfo.name)
       if (this.flowsDetails) {
         formData.append('flow_id', this.flowsDetails.id)
       }
-      // const options = {
-      //   onUploadProgress: (progressEvent) => {
-      //     const { loaded, total } = progressEvent
-      //     const percent = Math.floor((loaded * 100) / total)
-      //     this.progressLogo = percent
-      //   }
-      // }
-      mainService.addImage(formData).then(res => {
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          console.log(percent)
+          this.progressBar = percent
+        }
+      }
+      mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.flows.images.push(res.data.data.id)
-        // this.allImages.push(res.data.data)
+        this.flows.images.push(res.data.data)
+        this.removeLoadingUi = true
+        this.requestLoading = false
       })
     },
-    removeGalleryImage () {
-
+    removeGalleryImage (id) {
+      mainService.removeImage(id, 'flow').then(res => {
+        core.showSnackbar('success', res.data.message)
+        const ind = this.flows.images.findIndex(image => image.id === id)
+        this.flows.images.splice(ind, 1)
+      })
+    },
+    selectLevel (value) {
+      return this.flows.level === value
     }
   },
   watch: {},

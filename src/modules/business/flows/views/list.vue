@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <main-modal id="flowsDetailsModal" size="lg">
+    <main-modal id="flowsDetailsModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Flow</h4>
         <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> Flow</h4>
@@ -47,7 +47,13 @@ export default {
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Answer', key: 'name', class: 'text-left' },
+        { label: 'Description', key: 'description', class: 'text-left' },
+        { label: 'Requirments', key: 'requirments', class: 'text-left' },
+        { label: 'Price EGP', key: 'price_egp', class: 'text-left' },
+        { label: 'Discounted Price', key: 'discounted_price_egp', class: 'text-left' },
+        { label: 'Level', key: 'level', class: 'text-left' },
+        { label: 'Instructors', key: 'instructors', array_keys: ['first_name', 'last_name'], type: 'array', class: 'text-left' },
+        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
           label: 'Actions',
           key: 'actions',

@@ -61,6 +61,25 @@
               :data-item="data.item"
             />
           </div>
+          <!-- Array handler -->
+          <div v-else-if="field.type == 'array'">
+            <ul>
+              <li v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
+                <span v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
+              </li>
+            </ul>
+          </div>
+          <!-- Multi-image handler -->
+          <div v-else-if="field.type == 'multi_image'">
+            <div class="d-flex align-items-center">
+              <div class="iq-media-group">
+                <b-link href="#" class="iq-media" v-for="(image, counter) in $_.get(data.item, field.key).slice(0,3)" :key="counter">
+                  <b-img class="avatar-50" rounded="circle" fluid :src="image.image" :alt="image.name" />
+                </b-link>
+                <div v-if="moreImages > 0" class="more-images text-white">{{ moreImages }}+</div>
+              </div>
+            </div>
+          </div>
           <!-- handle Text -->
           <p
             v-else
@@ -134,7 +153,8 @@ export default {
         per_page: 0,
         total: 0
       },
-      loadingTable: false
+      loadingTable: false,
+      moreImages: 2
     }
   },
   watch: {
@@ -195,6 +215,9 @@ export default {
     },
     sortChanged (data) {
       this.$emit('sortChanged', data)
+    },
+    calculateMoreImages () {
+      this.moreImages = 4 // array length
     }
   },
   mounted () {

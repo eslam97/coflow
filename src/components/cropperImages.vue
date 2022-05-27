@@ -78,7 +78,7 @@
             </button>
           </div>
           <div class="right">
-            <button class="square-button text-white px-4 font-weight-bold" @click="crop">Save</button>
+            <button class="square-button text-white px-4 font-weight-bold" @click.prevent="crop">Save</button>
           </div>
         </div>
         <div class="upload-example">

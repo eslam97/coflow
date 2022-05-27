@@ -1,12 +1,32 @@
 <template>
   <div>
     <ValidationObserver v-slot="{ handleSubmit }">
-      <b-form @submit.prevent="handleSubmit(saveChanges)">
-        <div class="mb-5">
-          <div class="border-bottom mb-2">
-            <h5 class="pb-2">General Admin Information: Contacts</h5>
-          </div>
-          <b-row v-for="(info, key) in adminInformation" :key="key">
+      <b-form @submit.prevent="handleSubmit(saveProfile)">
+        <div>
+          <b-row>
+            <b-col md="6" class="mb-4">
+              <input-form
+                  v-model="profile.email"
+                  placeholder="Ex: email@coflow.com"
+                  :validate="'required|email'"
+                  name="email"
+                  :label="'Email'"
+              />
+            </b-col>
+            <b-col md="6" class="mb-4">
+              <input-form
+                  v-model="profile.password"
+                  placeholder="**********"
+                  :validate="'required'"
+                  type="password"
+                  name="Password"
+                  :label="'Password'"
+              />
+            </b-col>
+          </b-row>
+        </div>
+        <div >
+          <b-row v-for="(info, key) in profile.contact" :key="key">
             <b-col md="4" class="mb-3" >
               <input-form
                   v-model="info.name"
@@ -39,30 +59,27 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col md="12">
+            <b-col md="12" class="mb-4">
                 <span class="text-warning cursor-pointer" @click="addNewGeneralAdminInformation">+ Add another
                   Contact</span>
             </b-col>
           </b-row>
         </div>
-        <div class="mb-5">
-          <div class="border-bottom my-2">
-            <h5 class="pb-2">Facility Information & Photos</h5>
-          </div>
+        <div>
           <b-row>
             <b-col md="2" class="mb-3">
               <main-select labelTitle='Activity Line' :validate="'required'"
                            :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
                            label="name"
                            :reduce="data=> data.id"
-                           v-model="info.activity_line_id"></main-select>
+                           v-model="profile.activity_line_id"></main-select>
             </b-col>
             <b-col class="mb-3" md="2">
               <main-select labelTitle='Activity Type' :validate="'required'"
                            :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
                            label="name"
                            :reduce="data=> data.id"
-                           v-model="info.activity_type_id"></main-select>
+                           v-model="profile.activity_type_id"></main-select>
             </b-col>
             <b-col class="mb-3" md="2">
               <input-form
@@ -70,7 +87,7 @@
                   :validate="'required|numeric'"
                   :name="`year`"
                   :label="'Launch Year'"
-                  v-model="info.year"
+                  v-model="profile.year"
               />
             </b-col>
             <b-col class="mb-3" md="6">
@@ -79,7 +96,7 @@
                   :validate="'required'"
                   :name="`name`"
                   :label="'Facility Name'"
-                  v-model="info.name"
+                  v-model="profile.name"
               />
             </b-col>
           </b-row>
@@ -90,7 +107,7 @@
                   :validate="'required'"
                   :name="`title`"
                   :label="'Facility Title'"
-                  v-model="info.title"
+                  v-model="profile.title"
               />
             </b-col>
             <b-col class="mb-3" md="6">
@@ -99,14 +116,14 @@
                            :name="`languages`" placeholder="Choose" :options="allLanguages"
                            label="name"
                            :reduce="data=> data.name"
-                           v-model="info.languages"></main-select>
+                           v-model="profile.languages"></main-select>
             </b-col>
           </b-row>
           <b-row>
             <b-col class="mb-3" md="12">
               <main-select labelTitle='Facility Tags' :validate="'required'"
                            :taggable="true"
-                           multiple v-model="info.tags"
+                           multiple v-model="profile.tags"
                            :name="`tags`" placeholder="Write Tags"
                            :numberOfSelect=3
               >
@@ -123,7 +140,7 @@
                   <b-form-textarea
                       placeholder="Facility Bio..."
                       rows="2"
-                      v-model="info.bio"
+                      v-model="profile.bio"
                       :class="(errors.length >
                              0 ? ' is-invalid' : '')"
                   ></b-form-textarea>
@@ -138,14 +155,14 @@
           <b-row>
             <label class="w-100 pl-3 mb-2">Amenities</label>
             <b-col md="4" lg="2" class="mb-3" v-for="(amenity, key) in allAmenities" :key="key">
-              <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="info.amenities"
+              <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="profile.amenities"
                                :value="amenity.id">
                 <span class="text-primary font-size-12">{{ amenity.name }}</span>
               </b-form-checkbox>
             </b-col>
           </b-row>
           <b-row>
-            <b-col  md="6" class="mb-1" v-for="(item, key) in info.links" :key="key">
+            <b-col  md="6" class="mb-1" v-for="(item, key) in profile.links" :key="key">
               <b-form-group
                   :label="'URL Links'"
                   :label-for="'URL Links'"
@@ -165,7 +182,7 @@
                         v-model="item.link"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="'Ex: https://www.google.com'"
-                        :disabled="!item.selectSocial"
+                        :disabled="!item.selectSocial.name"
                     />
                   </validation-provider>
                   <template #prepend>
@@ -182,11 +199,11 @@
                 </b-input-group>
               </b-form-group>
             </b-col>
-            <b-col md="12" class="mb-3" v-if="allLinks.length !== info.links.length">
+            <b-col md="12" class="mb-3" v-if="allLinks.length !== profile.links.length">
               <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
             </b-col>
           </b-row>
-          <b-row>
+<!--          <b-row>
             <b-col md="12" class="mb-5">
               <cropper-images
                   label="Upload Logo"
@@ -221,36 +238,35 @@
                   :images="images"
               ></cropper-images>
             </b-col>
-          </b-row>
+          </b-row>-->
         </div>
-        <div class="mb-5">
-          <div class="border-bottom mb-2">
-            <h5 class="pb-2">Facility Location</h5>
-          </div>
+        <div>
           <b-row class="mb-5">
             <b-col md="12">
               <label class="mb-3">Location</label>
               <div>
-                <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
-                              name="color" value="based" >
+                <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="profile.location_type"
+                              color="warning"
+                              name="color" value="address based" >
                   <span class="text-primary font-size-12">Address Based</span>
                 </b-form-radio>
-                <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
-                              name="color" value="remote" >
+                <b-form-radio class="custom-radio-color-checked" inline v-model="profile.location_type" color="warning"
+                              name="color" value="remote location" >
                   <span class="text-primary font-size-12">Remote</span>
                 </b-form-radio>
               </div>
             </b-col>
           </b-row>
-          <div v-if="typeOfLocation === 'based'">
+          <div v-if="profile.location_type === 'address based'">
             <b-row>
               <b-col class="mb-3" md="2">
                 <main-select labelTitle='Country' :validate="'required'"
-                             :name="`country_id`" placeholder="Choose" :options="allCountries"
+                             :name="`country_id`" placeholder="Choose"
+                             :options="allCountries"
                              label="name"
                              :reduce="data => data.id"
-                             @change="getCityDependOnCountry(based.country_id)"
-                             v-model="based.country_id"></main-select>
+                             @change="getCityDependOnCountry(profile.address.country_id)"
+                             v-model="profile.address.country_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="2">
                 <main-select labelTitle='Governorate'
@@ -260,15 +276,15 @@
                              :options="allGovernorates"
                              label="name"
                              :reduce="data => data.id"
-                             @change="getAreasDependOnCity(based.city_id)"
-                             v-model="based.city_id"></main-select>
+                             @change="getAreasDependOnCity(profile.address.city_id)"
+                             v-model="profile.address.city_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="4">
                 <main-select labelTitle='Area' :validate="'required'"
                              :name="`Area`"  placeholder="Choose" :options="allArea"
                              label="name"
                              :reduce="data => data.id"
-                             v-model="based.area_id"></main-select>
+                             v-model="profile.address.area_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="4">
                 <input-form
@@ -276,14 +292,14 @@
                     :validate="'required'"
                     :name="`Address`"
                     :label="'Address'"
-                    v-model="based.address"
+                    v-model="profile.address.address"
                 />
               </b-col>
             </b-row>
             <b-row>
               <b-col md="6" class="mb-4">
                 <input-form
-                    v-model="based.latitude"
+                    v-model="profile.address.latitude"
                     placeholder="Ex: 11.12345"
                     :validate="'required'"
                     name="latitude"
@@ -292,54 +308,12 @@
               </b-col>
               <b-col md="6" class="mb-4">
                 <input-form
-                    v-model="based.longitude"
+                    v-model="profile.address.longitude"
                     placeholder="Ex: 11.12345"
                     :validate="'required'"
                     name="longitude"
                     :label="'Longitude'"
                 />
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col  md="6" class="mb-1" v-for="(item, key) in based.phones" :key="key">
-                <b-form-group
-                    :label="`Contact Number ${key+1}`"
-                    :label-for="`Contact Number ${key+1}`"
-                    class="position-relative"
-                >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteContact(key)">Delete
-              </span>
-                  <b-input-group>
-                    <validation-provider
-                        #default="{ errors }"
-                        :name="`Contact Number ${key + 1}`"
-                        :rules="'required'"
-                        class="flex-grow-1"
-                    >
-                      <b-form-input
-                          id="mm"
-                          v-model="item.number"
-                          :class="[{ 'is-invalid': errors.length > 0 }]"
-                          :placeholder="'Ex: 020454684'"
-                          :disabled="!item.type"
-                      />
-                    </validation-provider>
-                    <template #prepend>
-                      <b-dropdown
-                          :text="item.type ? item.type : 'Choose'"
-                          class="selectWithInput"
-                      >
-                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                          {{i}}
-                        </b-dropdown-item>
-                      </b-dropdown>
-                    </template>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <b-col md="12" class="mb-3">
-                <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
               </b-col>
             </b-row>
             <b-row>
@@ -352,7 +326,7 @@
                     <b-form-textarea
                         placeholder="Location..."
                         rows="2"
-                        v-model="based.location"
+                        v-model="profile.address.location"
                         :class="(errors.length >
                              0 ? ' is-invalid' : '')"
                     ></b-form-textarea>
@@ -369,7 +343,7 @@
           </div>
           <div v-else>
             <b-row class="mb-5">
-              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote.location"
+              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in profile.location"
                      :key="locationKey">
                 <b-row class="d-flex align-items-center">
                   <b-col class="mb-2" md="3">
@@ -416,71 +390,70 @@
                 <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
               </b-col>
             </b-row>
-            <b-row>
-              <b-col  md="6" class="mb-1" v-for="(item, key) in remote.phones" :key="key">
-                <b-form-group
-                    :label="`Contact Number ${key+1}`"
-                    :label-for="`Contact Number ${key+1}`"
-                    class="position-relative"
-                >
+          </div>
+          <b-row>
+            <b-col  md="6" class="mb-1" v-for="(item, key) in profile.phones" :key="key">
+              <b-form-group
+                  :label="`Contact Number ${key+1}`"
+                  :label-for="`Contact Number ${key+1}`"
+                  class="position-relative"
+              >
               <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
                     @click="deleteRemoteContact(key)">Delete
               </span>
-                  <b-input-group>
-                    <validation-provider
-                        #default="{ errors }"
-                        :name="`Contact Number ${key + 1}`"
-                        :rules="'required'"
-                        class="flex-grow-1"
+                <b-input-group>
+                  <validation-provider
+                      #default="{ errors }"
+                      :name="`Contact Number ${key + 1}`"
+                      :rules="'required'"
+                      class="flex-grow-1"
+                  >
+                    <b-form-input
+                        id="mm"
+                        v-model="item.number"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                        :placeholder="'Ex: 020454684'"
+                        :disabled="!item.type"
+                    />
+                  </validation-provider>
+                  <template #prepend>
+                    <b-dropdown
+                        :text="item.type ? item.type : 'Choose'"
+                        class="selectWithInput"
                     >
-                      <b-form-input
-                          id="mm"
-                          v-model="item.number"
-                          :class="[{ 'is-invalid': errors.length > 0 }]"
-                          :placeholder="'Ex: 020454684'"
-                          :disabled="!item.type"
-                      />
-                    </validation-provider>
-                    <template #prepend>
-                      <b-dropdown
-                          :text="item.type ? item.type : 'Choose'"
-                          class="selectWithInput"
-                      >
-                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                          {{i}}
-                        </b-dropdown-item>
-                      </b-dropdown>
-                    </template>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <b-col md="12" class="mb-3">
-                <span class="text-warning cursor-pointer" @click="addNewRemoteContactNumber">+ Add another Contact Number</span>
-              </b-col>
-            </b-row>
-          </div>
+                      <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
+                        {{i}}
+                      </b-dropdown-item>
+                    </b-dropdown>
+                  </template>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col md="12" class="mb-3">
+              <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
+            </b-col>
+          </b-row>
         </div>
         <div class="mb-5">
-          <div class="border-bottom mb-2">
-            <h5 class="pb-2">Facility Operation Days and Hours</h5>
-          </div>
           <b-row class="mb-5">
             <b-col md="12">
               <label class="mb-3">Operation</label>
               <div>
-                <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfOperation" color="warning"
-                              name="typeOfOperation" value="24 hours" >
+                <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="profile.operation_type"
+                              color="warning"
+                              name="operation_type" value="24 hours" >
                   <span class="text-primary font-size-12">Open 24 Hours</span>
                 </b-form-radio>
-                <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
-                              name="typeOfOperation" value="specify days" >
+                <b-form-radio class="custom-radio-color-checked" inline v-model="profile.operation_type"
+                              color="warning"
+                              name="operation_type" value="specify days" >
                   <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
                 </b-form-radio>
               </div>
             </b-col>
           </b-row>
-          <b-row v-if="typeOfOperation !== '24 hours'">
-            <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in allOperation"
+          <b-row v-if="profile.operation_type !== '24 hours'">
+            <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in profile.operation"
                    :key="operationKey">
               <b-row class="d-flex align-items-center">
                 <b-col class="mb-3" md="4" >
@@ -531,16 +504,26 @@
                        :name="`account_type`"
                        placeholder="Choose"
                        :options="['Go', 'Flow', 'Pro', 'Shop', 'Camp']"
-                       v-model="service_types"></main-select>
+                       v-model="profile.service_types"></main-select>
         </div>
-        <b-row>
-          <b-col md="12" class="mt-3 d-flex justify-content-center">
-            <b-button class="container_button_blue slideNextArrow" type="submit" v-if="loadingActivation = true">
-              Activate
-            </b-button>
-            <b-button class="container_button_blue slideNextArrow"  v-else>
-              <spinner-loading text="Saving" />
-            </b-button>
+        <b-row v-if="typeOfModal != 'view'">
+          <b-col md="12" class="mt-4">
+            <div class="d-flex justify-content-center" v-if="typeOfModal == 'add'">
+              <b-button class="button-orange-modal" type="submit" v-if="!requestLoading">
+                <i class="las la-plus"></i>
+              </b-button>
+              <b-button class="button-orange-modal" v-else>
+                <spinner-loading ></spinner-loading>
+              </b-button>
+            </div>
+            <div class="d-flex justify-content-center" v-if="typeOfModal == 'edit'">
+              <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
+                <i class="las la-pen"></i>
+              </b-button>
+              <b-button class="button-blue-modal" v-else>
+                <spinner-loading ></spinner-loading>
+              </b-button>
+            </div>
           </b-col>
         </b-row>
       </b-form>
@@ -549,17 +532,22 @@
 </template>
 <script>
 // import { core } from '@/config/pluginInit'
-import registrationServices from '@/modules/businessLandingPage/services/registration.services'
+/*
 import { core } from '@/config/pluginInit'
+*/
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 export default {
   props: {
-    activationDetails: {
-      type: Object
-    },
-    loadingActivation: {
+    requestLoading: {
       type: Boolean,
       default: false
+    },
+    typeOfModal: {
+      type: String,
+      default: 'add'
+    },
+    profileDetails: {
+      type: Object
     }
   },
   data () {
@@ -589,7 +577,7 @@ export default {
         ],
         bio: '',
         amenities: [],
-        operation_type: '',
+        operation_type: '24 hours',
         operation: [
           {
             days: [],
@@ -598,7 +586,7 @@ export default {
           }
         ],
         service_types: '',
-        location_type: '',
+        location_type: 'address based',
         phones: [
           {
             type: '',
@@ -607,9 +595,9 @@ export default {
         ],
         location: [
           {
-            availability_type: null,
-            country_id: null,
-            city_id: null,
+            availability_type: '',
+            country_id: '',
+            city_id: '',
             areas: []
           }
         ],
@@ -623,8 +611,6 @@ export default {
         }
       },
       contactTypes: ['Landline', 'Mobile'],
-      typeOfLocation: '',
-      typeOfOperation: '',
       allDays: [
         {
           key: 'Sat',
@@ -655,24 +641,27 @@ export default {
       allAmenities: [],
       allCountries: [],
       allGovernorates: [],
-      allArea: [],
-      loadingLogo: 0,
+      allArea: []
+      /*      loadingLogo: 0,
       loadingCover: 0,
       loadingGallery: 0,
       images: [],
       logoImage: '',
       coverImage: '',
-      removeLoadingUi: false
+      removeLoadingUi: false,
+      providerId: '' */
     }
   },
   computed: {
     filterLinks () {
       var newLinksArr = [...this.allLinks]
       this.profile.links.forEach(e => {
-        if (newLinksArr.includes(e.selectSocial)) {
-          var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
-          newLinksArr.splice(socialIndex, 1)
-        }
+        newLinksArr.forEach(arr => {
+          if (arr.name === e.selectSocial.name) {
+            var socialIndex = newLinksArr.findIndex(item => item === arr)
+            newLinksArr.splice(socialIndex, 1)
+          }
+        })
       })
       return newLinksArr
     }
@@ -688,7 +677,126 @@ export default {
     deleteGeneralAdminInformation (key) {
       this.profile.contact.splice(key, 1)
     },
-    savelogoImage (data) {
+    addNewLink () {
+      this.profile.links.push({
+        selectSocial: { id: '', name: '' },
+        link: ''
+      })
+    },
+    deleteLink (key) {
+      this.profile.links.splice(key, 1)
+    },
+    deleteContact (key) {
+      this.profile.phones.splice(key, 1)
+    },
+    addNewContactNumber () {
+      this.profile.phones.push({
+        type: '',
+        number: ''
+      })
+    },
+    addNewzone () {
+      this.profile.location.push({
+        availability_type: '',
+        country_id: '',
+        city_id: '',
+        areas: []
+      })
+    },
+    deletezone (key) {
+      this.profile.location.splice(key, 1)
+    },
+    addNewOperation () {
+      this.allOperation.push({
+        days: [],
+        from: '',
+        to: ''
+      })
+    },
+    deleteOperationDay (key) {
+      this.profile.operation.splice(key, 1)
+    },
+    getAllCountries () {
+      settingsService.getAllCountries().then(res => {
+        this.allCountries = res.data.data
+      })
+    },
+    getCityDependOnCountry (id) {
+      this.allGovernorates = []
+      this.allArea = []
+      this.profile.address.area_id = ''
+      this.profile.address.city_id = ''
+      settingsService.getCountryCity(id).then(res => {
+        this.allGovernorates = res.data.data
+      })
+    },
+    getAreasDependOnCity (id) {
+      this.allArea = []
+      this.profile.address.area_id = ''
+      settingsService.getCityArea(id).then(res => {
+        console.log(res.data)
+        this.allArea = res.data.data
+      })
+    },
+    getAllActivityLine () {
+      settingsService.getAllActivityLine().then(res => {
+        this.allActivityLines = res.data.data
+      })
+    },
+    getAllActivityType () {
+      settingsService.getAllActivityType().then(res => {
+        this.allActivityTypes = res.data.data
+      })
+    },
+    getAllLanguages () {
+      settingsService.getAllLanguages().then(res => {
+        this.allLanguages = res.data.data
+      })
+    },
+    getAllLinks () {
+      settingsService.getAllLinks().then(res => {
+        this.allLinks = res.data.data
+      })
+    },
+    getAllAmenities () {
+      settingsService.getAllAmenities().then(res => {
+        this.allAmenities = res.data.data
+      })
+    },
+    /* fillData () {
+      /!* if (this.activationDetails) {
+        this.providerId = this.activationDetails.id
+        this.adminInformation = this.activationDetails.contacts
+        this.info.activity_line_id = this.activationDetails.activity_line_id
+        this.info.activity_type_id = this.activationDetails.activity_type_id
+        this.info.year = this.activationDetails.year
+        this.info.name = this.activationDetails.name
+        this.info.title = this.activationDetails.title
+        this.info.languages = this.activationDetails.languages
+        this.info.bio = this.activationDetails.bio
+        this.info.amenities = this.activationDetails.amenities.map(item => item.id)
+        this.info.links = this.activationDetails.links
+        this.info.tags = this.activationDetails.tags
+        this.service_types = this.activationDetails.service_types
+        this.logoImage = this.activationDetails.logo
+        this.coverImage = this.activationDetails.cover
+        this.images = this.activationDetails.images
+        if (this.activationDetails.operation_type === '24 hours') {
+          this.typeOfOperation = '24 hours'
+        } else {
+          this.typeOfOperation = 'specify days'
+          this.allOperation = this.activationDetails.operations
+        }
+        if (this.activationDetails.location_type === 'address based') {
+          this.based = this.activationDetails.address_based
+          this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
+          this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
+        } else {
+          this.allOperation = this.activationDetails.operations
+        }
+      } *!/
+    }, */
+    /*    savelogoImage (data) {
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
@@ -750,134 +858,18 @@ export default {
         const ind = this.images.findIndex(image => image.id === id)
         this.images.splice(ind, 1)
       })
-    },
-    addNewLink () {
-      this.profile.links.push({
-        selectSocial: { id: '', name: '' },
-        link: ''
-      })
-    },
-    deleteLink (key) {
-      this.profile.links.splice(key, 1)
-    },
-    deleteContact (key) {
-      this.based.phones.splice(key, 1)
-    },
-    deleteRemoteContact (key) {
-      this.remote.phones.splice(key, 1)
-    },
-    addNewContactNumber () {
-      this.based.phones.push({
-        type: '',
-        number: ''
-      })
-    },
-    addNewRemoteContactNumber () {
-      this.remote.phones.push({
-        type: '',
-        number: ''
-      })
-    },
-    addNewzone () {
-      this.remote.location.push({
-        availability_type: null,
-        country_id: null,
-        city_id: null,
-        areas: []
-      })
-    },
-    deletezone (key) {
-      this.remote.location.splice(key, 1)
-    },
-    addNewOperation () {
-      this.allOperation.push({
-        days: [],
-        from: '',
-        to: ''
-      })
-    },
-    deleteOperationDay (key) {
-      this.allOperation.splice(key, 1)
-    },
-    getAllCountries () {
-      settingsService.getAllCountries().then(res => {
-        this.allCountries = res.data.data
-      })
-    },
-    getCityDependOnCountry (id) {
-      this.allGovernorates = []
-      settingsService.getCountryCity(id).then(res => {
-        this.allGovernorates = res.data.data
-      })
-    },
-    getAreasDependOnCity (id) {
-      this.allArea = []
-      settingsService.getCityArea(id).then(res => {
-        this.allArea = res.data.data
-      })
-    },
-    getAllActivityLine () {
-      settingsService.getAllActivityLine().then(res => {
-        this.allActivityLines = res.data.data
-      })
-    },
-    getAllActivityType () {
-      settingsService.getAllActivityType().then(res => {
-        this.allActivityTypes = res.data.data
-      })
-    },
-    getAllLanguages () {
-      settingsService.getAllLanguages().then(res => {
-        this.allLanguages = res.data.data
-      })
-    },
-    getAllLinks () {
-      settingsService.getAllLinks().then(res => {
-        this.allLinks = res.data.data
-      })
-    },
-    getAllAmenities () {
-      settingsService.getAllAmenities().then(res => {
-        this.allAmenities = res.data.data
-      })
-    },
-    fillData () {
-      if (this.activationDetails) {
-        this.providerId = this.activationDetails.id
-        this.adminInformation = this.activationDetails.contacts
-        this.info.activity_line_id = this.activationDetails.activity_line_id
-        this.info.activity_type_id = this.activationDetails.activity_type_id
-        this.info.year = this.activationDetails.year
-        this.info.name = this.activationDetails.name
-        this.info.title = this.activationDetails.title
-        this.info.languages = this.activationDetails.languages
-        this.info.bio = this.activationDetails.bio
-        this.info.amenities = this.activationDetails.amenities.map(item => item.id)
-        this.info.links = this.activationDetails.links
-        this.info.tags = this.activationDetails.tags
-        this.service_types = this.activationDetails.service_types
-        this.logoImage = this.activationDetails.logo
-        this.coverImage = this.activationDetails.cover
-        this.images = this.activationDetails.images
-        if (this.activationDetails.operation_type === '24 hours') {
-          this.typeOfOperation = '24 hours'
-        } else {
-          this.typeOfOperation = 'specify days'
-          this.allOperation = this.activationDetails.operations
-        }
-        if (this.activationDetails.location_type === 'address based') {
-          this.typeOfLocation = 'based'
-          this.based = this.activationDetails.address_based
-          this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
-          this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
-        } else {
-          this.typeOfLocation = 'specify days'
-          this.allOperation = this.activationDetails.operations
-        }
-      }
-    },
+    }, */
     // save change
-    saveChanges () {
+    saveProfile () {
+      if (this.profile.location_type === 'address based' && this.profile.operation_type === '24 hours') {
+        this.$emit('addProfile', this.$_.omit(this.profile, ['location', 'operation']))
+      } else if (this.profile.location_type === 'address based' && this.profile.operation_type !== '24 hours') {
+        this.$emit('addProfile', this.$_.omit(this.profile, ['location']))
+      } else if (this.profile.location_type !== 'address based' && this.profile.operation_type === '24 hours') {
+        this.$emit('addProfile', this.$_.omit(this.profile, ['address', 'operation']))
+      } else if (this.profile.location_type !== 'address based' && this.profile.operation_type !== '24 hours') {
+        this.$emit('addProfile', this.$_.omit(this.profile, ['address']))
+      }
     }
   },
   mounted () {

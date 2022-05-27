@@ -97,7 +97,9 @@ export default {
           question: action.question ? action.question : `Are You Sure You Want Delete This ${action.titleHeader}?`,
           textDeleteButton: action.textDeleteButton ? action.textDeleteButton : `YES, ${action.actionHeader}`,
           textCancelButton: action.textCancelButton ? action.textCancelButton : 'NO, CANCEL',
-          icon: action.icon ? action.icon : 'las la-trash-alt'
+          icon: action.iconClass ? action.iconClass : 'las la-trash-alt',
+          type: action.type ? action.type : 'delete',
+          actionOnAlert: action.actionOnAlert ? action.actionOnAlert : ''
         })
       }
     }

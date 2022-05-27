@@ -381,3 +381,22 @@ form legend {
 .button-blue-modal {
   background: var(--iq-info) !important;
 }
+.promotion_button {
+  background-color: #fff;
+  border-radius: 4px !important;
+  border: none;
+  color:  #74798c;
+  font-weight: bold;
+}
+.promotion_button:hover, .promotion_button:focus, .promotion_button:active {
+  background: #fff !important;
+  color:  #74798c !important;
+}
+.activePromotion {
+  background: #2fdac2;
+  color: #fff
+}
+.activePromotion:hover , .activePromotion:focus, .activePromotion:active{
+  background: #2fdac2 !important;
+  color: #fff !important;
+}

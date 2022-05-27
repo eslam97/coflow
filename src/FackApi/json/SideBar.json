@@ -274,12 +274,12 @@
   },
   {
     "title": "Promotions",
-    "name": "Promotions",
+    "name": "promotions",
     "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeUser"
+      "name": "promotions"
     },
     "class_name": "",
     "is_icon_class": true,

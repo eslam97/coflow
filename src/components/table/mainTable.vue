@@ -46,7 +46,7 @@
           <!-- handle Image -->
           <b-avatar
             v-if="field.type=='image'"
-            :src="$_.get(data.item, field.key)"
+            :src="$_.get(data.item, field.key) ? $_.get(data.item, field.key) : require('@/assets/images/user/default-user-image.png')"
           />
 
           <!-- handle status -->
@@ -150,6 +150,7 @@ export default {
   },
   created () {
     this.getListData()
+    this.loadingTable = true
   },
   methods: {
     async getListData () {

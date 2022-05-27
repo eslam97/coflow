@@ -21,6 +21,7 @@ import charts from '@/views/Charts/charts.routes'
 
 // Import Business
 import tickets from '@/modules/business/tickets/tickets.routes.js'
+import bussinessPromotions from '@/modules/business/promotions/promotions.routes'
 import faq from '@/modules/business/faqs/faqs.routes.js'
 import flows from '@/modules/business/flows/flows.routes.js'
 import accommodations from '@/modules/business/accommodations/accommodations.routes.js'
@@ -90,6 +91,7 @@ const routes = [
   ...admin,
   ...charts,
   ...tickets,
+  ...bussinessPromotions,
   ...faq,
   ...flows,
   ...accommodations,

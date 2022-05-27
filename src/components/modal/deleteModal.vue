@@ -16,7 +16,11 @@
       <P class="text-center">{{question}}</P>
       <div class="d-flex justify-content-center mt-3">
         <span class="w-40 p-2">
-          <b-button @click="confirm" variant="danger" class="popupButton w-100">
+          <b-button v-if="type == 'delete'" @click="confirm" variant="danger" class="popupButton w-100">
+            <span class="mr-2">{{textDeleteButton}}</span>
+            <i :class="icon"></i>
+          </b-button>
+           <b-button v-else @click="takeAction" variant="danger" class="popupButton w-100">
             <span class="mr-2">{{textDeleteButton}}</span>
             <i :class="icon"></i>
           </b-button>
@@ -47,7 +51,9 @@ export default {
       textCancelButton: '',
       icon: '',
       url: '',
-      rowId: ''
+      rowId: '',
+      type: 'delete',
+      actionOnAlert: ''
     }
   },
   mounted () {
@@ -71,6 +77,8 @@ export default {
       this.icon = opts.icon
       this.url = opts.url
       this.rowId = opts.rowId
+      this.type = opts.type
+      this.actionOnAlert = opts.actionOnAlert
       this.$bvModal.show('deleteModal')
       return new Promise((resolve, reject) => {
         this.resolvePromise = resolve
@@ -84,6 +92,9 @@ export default {
         this.$bvModal.hide('deleteModal')
         this.resolvePromise(true)
       })
+    },
+    takeAction () {
+      this.$root.$emit(this.actionOnAlert, this.rowId)
     },
     returnFalse () {
       this.rejectPromise(false)

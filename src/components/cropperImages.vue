@@ -39,9 +39,13 @@
             <span class="cursor-pointer text-bold text-danger font-size-12" v-if="multi">Remove</span>
             <span class="cursor-pointer text-bold font-size-12" v-else>Uploaded</span>
           </span>
-          <span class="cursor-pointer text-bold" v-else>Uploading {{progressLoading}}%</span>
+          <span class="cursor-pointer text-bold" v-else>
+            <span v-if="showProgress">
+              Uploading {{progressLoading}}%
+              </span>
+          </span>
         </section>
-        <section class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
+        <section v-if="showProgress" class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
           <b-progress :value="progressLoading" :max="100" animated
                       variant="primary" style="height: 0.25rem !important;"></b-progress>
         </section>
@@ -157,6 +161,10 @@ export default {
       default: ''
     },
     multi: {
+      type: Boolean,
+      default: true
+    },
+    showProgress: {
       type: Boolean,
       default: true
     },

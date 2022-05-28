@@ -188,7 +188,7 @@ export default {
         price_egp: '',
         price_euro: 0,
         price_dollar: 0,
-        discounted_price_egp: '',
+        discount_price_egp: '',
         status: 'active',
         images: [],
         instructors: [{
@@ -218,7 +218,7 @@ export default {
       if (this.typeOfModal === 'add') {
         this.$emit('addFlows', { ...this.flows, images: this.flows.images.map(data => data.id) })
       } else {
-        this.$emit('editFlows', { ...this.flows, _method: 'put' })
+        this.$emit('editFlows', { ...this.flows, images: this.flows.images.map(data => data.id), _method: 'put' })
       }
     },
     addInstructor () {
@@ -274,8 +274,22 @@ export default {
   computed: {},
   created () {
     if (this.flowsDetails) {
+      if (this.flowsDetails.discount_price_egp) {
+        this.selected = true
+      }
       this.flows = {
-        name: this.flowsDetails.name
+        name: this.flowsDetails.name,
+        requirments: this.flowsDetails.requirments,
+        conditions: this.flowsDetails.conditions,
+        description: this.flowsDetails.description,
+        price_egp: this.flowsDetails.price_egp,
+        price_euro: this.flowsDetails.price_euro,
+        price_dollar: this.flowsDetails.price_dollar,
+        discount_price_egp: this.flowsDetails.discount_price_egp,
+        status: this.flowsDetails.status,
+        images: this.flowsDetails.images,
+        instructors: this.flowsDetails.instructors,
+        level: this.flowsDetails.level
       }
     }
   }

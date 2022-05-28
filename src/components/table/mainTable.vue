@@ -63,14 +63,19 @@
           </div>
           <!-- Array handler -->
           <div v-else-if="field.type == 'array'">
-            <ul>
-              <li v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
-                <span v-if="field.array_keys" >
-                  <span v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
-                </span>
-                <span v-else>{{ arr }}</span>
-              </li>
-            </ul>
+            <span v-if="field.array_keys" >
+              <ul>
+                <li v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
+                    <span v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
+                </li>
+              </ul>
+            </span>
+            <span v-else>
+              <span v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
+                {{ arr }}
+                <span v-if="(key < $_.get(data.item, field.key).length-1)">,</span>
+              </span>
+            </span>
           </div>
           <!-- Multi-image handler -->
           <div class="min-width-image-cell" v-else-if="field.type == 'multi_image'">

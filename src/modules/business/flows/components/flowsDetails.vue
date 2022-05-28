@@ -209,7 +209,7 @@ export default {
     return {
       flows: {
         name: '',
-        requirments: '',
+        requirements: '',
         conditions: '',
         description: '',
         price_egp: '',
@@ -226,7 +226,7 @@ export default {
       },
       selected: '',
       options: [
-        { text: 'ALL LEVEVLS', value: 'all', color: 'all' },
+        { text: 'ALL LEVELS', value: 'all', color: 'all' },
         { text: 'BEGINNER', value: 'beginner', color: 'beginner' },
         { text: 'INTERMEDIATE', value: 'intermediate', color: 'intermediate' },
         { text: 'ADVANCED', value: 'advanced', color: 'advanced' }
@@ -305,7 +305,7 @@ export default {
       }
       this.flows = {
         name: this.flowsDetails.name,
-        requirments: this.flowsDetails.requirments,
+        requirements: this.flowsDetails.requirements,
         conditions: this.flowsDetails.conditions,
         description: this.flowsDetails.description,
         price_egp: this.flowsDetails.price_egp,

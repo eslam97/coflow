@@ -106,7 +106,7 @@
                     :rules="'required|numeric'"
                     class="flex-grow-1"
                 >
-                  <b-form-group :label="'Discounted Foreigner Price'"
+                  <b-form-group :label="'Discounted Price'"
                   ><b-input-group append="EUR">
                     <b-form-input
                       v-model="accommodations.discount_price_euro"
@@ -138,7 +138,7 @@
             <main-select labelTitle='Amenities' :validate="'required'"
                     :taggable="true"
                     multiple v-model="accommodations.amenities"
-                    :name="`Amenities`" placeholder="Add multipule tags"
+                    :name="`Amenities`" placeholder="Add multiple tags"
                     :numberOfSelect=3
             ></main-select>
             <validation-provider

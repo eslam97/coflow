@@ -64,7 +64,7 @@ export default {
               icon: 'las la-eye',
               color: 'success-light',
               text: 'View',
-              actionName: 'showflows',
+              actionName: 'showFlows',
               actionParams: ['id']
             },
             {
@@ -143,12 +143,12 @@ export default {
     }
   },
   created () {
-    this.$root.$on('showflows', this.showDetails)
-    this.$root.$on('showflowsToEdit', this.showFlowsToEdit)
+    this.$root.$on('showFlows', this.showDetails)
+    this.$root.$on('showFlowsToEdit', this.showFlowsToEdit)
   },
   beforeDestroy () {
-    this.$root.$off('showflows')
-    this.$root.$off('showflowsToEdit')
+    this.$root.$off('showFlows')
+    this.$root.$off('showFlowsToEdit')
   },
   mounted () {
     core.index()

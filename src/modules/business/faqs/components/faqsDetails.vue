@@ -8,7 +8,7 @@
                 v-model="faqs.question"
                 placeholder="Write your question"
                 :validate="'required'"
-                name="question"
+                name="Question"
                 :label="'Question'"
             />
           </b-col>
@@ -17,7 +17,7 @@
                 v-model="faqs.answer"
                 placeholder="Write your answer"
                 :validate="'required'"
-                name="answer"
+                name="Answer"
                 :label="'Answer'"
             />
           </b-col>

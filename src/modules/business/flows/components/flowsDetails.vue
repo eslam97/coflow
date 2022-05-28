@@ -9,7 +9,7 @@
                 v-model="flows.name"
                 placeholder="Write flow name"
                 :validate="'required'"
-                name="name"
+                name="Flow name"
                 :label="'Flow Name'"
               />
             </b-col></b-row>
@@ -18,21 +18,27 @@
                 v-model="flows.requirements"
                 placeholder="Any required experince or equipment for the flow"
                 :validate="'required'"
-                name="requirements"
+                name="Flow requirements"
                 :label="'Requirements'"
               />
             </b-col></b-row>
             <b-row>
               <b-col md="4" class="mb-3">
-                <b-form-group :label="'Price'"
-                  ><b-input-group append="EGP">
-                    <b-form-input
-                      v-model="flows.price_egp"
-                      placeholder="000.00"
-                      :validate="'required'"
-                      name="price_egp"
-                    /> </b-input-group
-                ></b-form-group>
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`EGP price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Price'"
+                    ><b-input-group append="EGP">
+                        <b-form-input
+                            v-model="flows.price_egp"
+                            placeholder="000.00"
+                            :class="[{ 'is-invalid': errors.length > 0 }]"/>
+                  </b-input-group
+                  ></b-form-group>
+                </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5 pt-4">
                 <b-form-checkbox
@@ -47,42 +53,55 @@
                 </b-form-checkbox>
               </b-col>
               <b-col md="4" class="mb-3">
-                <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="EGP">
-                    <b-form-input
-                      v-model="flows.discount_price_egp"
-                      placeholder="000.00"
-                      :validate="required"
-                      :disabled="!selected"
-                      name="price_egp"
-                    /> </b-input-group
-                ></b-form-group>
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted EGP price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                    ><b-input-group append="EGP">
+                      <b-form-input
+                        v-model="flows.discount_price_egp"
+                        placeholder="000.00"
+                        :disabled="!selected"
+                        :class="[{ 'is-invalid': errors.length > 0 && selected}]"
+                      /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
               </b-col>
             </b-row>
             <span class="d-flex"><span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span></span>
             <div v-for="(instructor, counter) in flows.instructors"
                 :key="counter">
-              <b-form-group inline :label="'Instructor'" :label-for="'Instructor'">
-                <b-form-row>
-                  <b-col md="5" class="mb-3">
-                    <b-form-input
-                      v-model="instructor.first_name"
-                      placeholder="First Name"
-                      :validate="'required'"
-                      :name="`First name ${counter+1}`"
-                    />
-                  </b-col>
-                  <b-col md="5" class="mb-3">
-                    <b-form-input
-                      v-model="instructor.last_name"
-                      placeholder="Last Name"
-                      :validate="'required'"
-                      name="instructor.last_name"
-                    />
-                  </b-col>
-                  <b-col><span v-if="counter != 0" class="deleteLabelButton text-danger cursor-pointer" @click="deleteInstructor(counter)">Delete</span></b-col>
-                </b-form-row>
-              </b-form-group>
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`Instructor`"
+                  :rules="'required'"
+                  class="flex-grow-1"
+              >
+                <b-form-group inline :label="'Instructor'" :label-for="'Instructor'">
+                  <b-form-row>
+                    <b-col md="5" class="mb-3">
+                      <b-form-input
+                        v-model="instructor.first_name"
+                        placeholder="First Name"
+                        :name="`First name ${counter+1}`"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                      />
+                    </b-col>
+                    <b-col md="5" class="mb-3">
+                      <b-form-input
+                        v-model="instructor.last_name"
+                        placeholder="Last Name"
+                        :name="`Last name ${counter+1}`"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                      />
+                    </b-col>
+                    <b-col><span v-if="counter != 0" class="deleteLabelButton text-danger cursor-pointer" @click="deleteInstructor(counter)">Delete</span></b-col>
+                  </b-form-row>
+                </b-form-group>
+              </validation-provider>
             </div>
           </b-col>
           <b-col lg="6" class="mb-3">
@@ -99,14 +118,22 @@
                 </span>
               </div>
             </b-form-group>
+            <validation-provider
+                #default="{ errors }"
+                :name="`Description`"
+                :rules="'required'"
+                class="flex-grow-1"
+            >
               <b-form-group label="Description">
                 <b-form-textarea
                     v-model="flows.description"
                     :label="'Description'"
                     placeholder="Write your description about this flow…."
                     rows="4"
+                    :class="[{ 'is-invalid': errors.length > 0 }]"
                 ></b-form-textarea>
               </b-form-group>
+            </validation-provider>
           </b-col>
         </b-row>
         <b-row>
@@ -195,10 +222,9 @@ export default {
           first_name: '',
           last_name: ''
         }],
-        level: ''
+        level: 'all'
       },
       selected: '',
-      required: '',
       options: [
         { text: 'ALL LEVEVLS', value: 'all', color: 'all' },
         { text: 'BEGINNER', value: 'beginner', color: 'beginner' },

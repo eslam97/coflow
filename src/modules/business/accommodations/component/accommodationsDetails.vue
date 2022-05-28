@@ -10,29 +10,36 @@
                   v-model="accommodations.name"
                   placeholder="Write accommodation name"
                   :validate="'required'"
-                  name="name"
+                  name="Accommodation name"
                   :label="'Accommodation Name'"
                 />
               </b-col>
               <b-col md="6" class="mb-3">
                 <main-select labelTitle='Type' :validate="'required'"
-                      :name="`error`" placeholder="Choose" :options="allAccommodationsTypes"
-                      label="name"
+                      :name="`Accommodation type`" placeholder="Choose" :options="allAccommodationsTypes"
+                      label="type"
                       :reduce="data => data.id"
                       v-model="accommodations.accommodation_type_id"></main-select>
               </b-col>
             </b-row>
             <b-row>
               <b-col md="4" class="mb-3">
-                <b-form-group :label="'Price'"
-                  ><b-input-group append="EGP">
-                    <b-form-input
-                      v-model="accommodations.price_egp"
-                      placeholder="000.00"
-                      :validate="'required'"
-                      name="price_egp"
-                    /> </b-input-group
-                ></b-form-group>
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`EGP price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Price'"
+                    ><b-input-group append="EGP">
+                      <b-form-input
+                        v-model="accommodations.price_egp"
+                        placeholder="000.00"
+                        :validate="'required'"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                      /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5 pt-4">
                 <b-form-checkbox
@@ -45,28 +52,42 @@
                 </b-form-checkbox>
               </b-col>
               <b-col md="4" class="mb-3">
-                <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="EGP">
-                    <b-form-input
-                      v-model="accommodations.discount_price_egp"
-                      placeholder="000.00"
-                      :validate="'required'"
-                      :disabled="!selectedEGP"
-                      name="price_egp"
-                    /> </b-input-group
-                ></b-form-group>
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted EGP price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                    ><b-input-group append="EGP">
+                      <b-form-input
+                        v-model="accommodations.discount_price_egp"
+                        placeholder="000.00"
+                        :validate="'required'"
+                        :disabled="!selectedEGP"
+                        :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
+                      /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
               </b-col>
             </b-row>
             <b-row>
               <b-col md="4" class="mb-3">
-                <b-form-group :label="'Foreigner Price'"
-                  ><b-input-group append="EUR">
-                    <b-form-input
-                      v-model="accommodations.price_euro"
-                      placeholder="000.00"
-                      name="price_euro"
-                    /> </b-input-group
-                ></b-form-group>
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`EURO price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Foreigner Price'"
+                    ><b-input-group append="EUR">
+                      <b-form-input
+                        v-model="accommodations.price_euro"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                      /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5 pt-4">
                 <b-form-checkbox
@@ -79,42 +100,63 @@
                 </b-form-checkbox>
               </b-col>
               <b-col md="4" class="mb-3">
-                <b-form-group :label="'Discounted Foreigner Price'"
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted EURO price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Foreigner Price'"
                   ><b-input-group append="EUR">
                     <b-form-input
                       v-model="accommodations.discount_price_euro"
                       placeholder="000.00"
-                      :validate="'required'"
                       :disabled="!selectedEUR"
-                      name="price_euro"
+                      :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
                     /> </b-input-group
                 ></b-form-group>
+                </validation-provider>
               </b-col>
             </b-row>
-            <b-form-group label="Conditions">
-              <b-form-textarea
-                  v-model="accommodations.conditions"
-                  :label="'Conditions'"
-                  placeholder="Any age, health, or weight requirements to participate"
-                  rows="2"
-              ></b-form-textarea>
-            </b-form-group>
+            <validation-provider
+                #default="{ errors }"
+                :name="`Conditions`"
+                :rules="'required'"
+                class="flex-grow-1"
+            >
+              <b-form-group label="Conditions">
+                <b-form-textarea
+                    v-model="accommodations.conditions"
+                    placeholder="Any age, health, or weight requirements to participate"
+                    rows="2"
+                    :class="[{ 'is-invalid': errors.length > 0 }]"
+                ></b-form-textarea>
+              </b-form-group>
+            </validation-provider>
           </b-col>
           <b-col lg="6" class="mb-3">
             <main-select labelTitle='Amenities' :validate="'required'"
                     :taggable="true"
                     multiple v-model="accommodations.amenities"
-                    :name="`amenities`" placeholder="Add multipule tags"
+                    :name="`Amenities`" placeholder="Add multipule tags"
                     :numberOfSelect=3
             ></main-select>
-            <b-form-group label="Description">
+            <validation-provider
+                #default="{ errors }"
+                :name="`Description`"
+                :rules="'required'"
+                class="flex-grow-1"
+            >
+              <b-form-group label="Description">
               <b-form-textarea
                   v-model="accommodations.description"
                   :label="'accommodations'"
                   placeholder="Write your description about this activity…."
                   rows="4"
+                  :class="[{ 'is-invalid': errors.length > 0 }]"
               ></b-form-textarea>
             </b-form-group>
+            </validation-provider>
           </b-col>
         </b-row>
         <b-row>

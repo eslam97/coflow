@@ -1,13 +1,13 @@
 import Api from '@/axios'
 
 export default {
-  addNewAccommodations (payload) {
+  addNewAccommodation (payload) {
     return Api().post('accommodations', payload)
   },
   getAccommodationsDetails (id) {
     return Api().get(`accommodations/${id}`)
   },
-  editAccommodations (id, payload) {
+  editAccommodation (id, payload) {
     return Api().post(`accommodations/${id}`, payload)
   }
 }

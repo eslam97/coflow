@@ -49,10 +49,10 @@ export default {
         { label: 'Accommodation Name', key: 'name', class: 'text-left' },
         { label: 'Type', key: 'description', class: 'text-left' },
         { label: 'Description', key: 'description', class: 'text-left' },
-        { label: 'Price EGP Price EUR', key: 'price_egp', class: 'text-left' },
-        { label: 'Discounted Price', key: 'discounted_price_egp', class: 'text-left' },
+        { label: 'Price EGP/EUR', key: 'price_egp,price_euro', class: 'text-left', type: 'multi-value', pre: 'EGP,EUR' },
+        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro', class: 'text-left', type: 'multi-value' },
         { label: 'Conditions', key: 'conditions', class: 'text-left' },
-        { label: 'Amenities', key: 'amenities', class: 'text-left' },
+        { label: 'Amenities', key: 'amenities', class: 'text-left', type: 'array' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
           label: 'Actions',

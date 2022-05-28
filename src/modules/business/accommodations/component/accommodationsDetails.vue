@@ -3,7 +3,7 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addAccommodations)">
         <b-row>
-          <b-col md="6" class="mb-3">
+          <b-col lg="6" class="mb-3">
             <b-row>
               <b-col md="6" class="mb-3">
                 <input-form
@@ -16,10 +16,10 @@
               </b-col>
               <b-col md="6" class="mb-3">
                 <main-select labelTitle='Type' :validate="'required'"
-                      :name="`activity_line_id`" placeholder="Choose" :options="allAccommodationsTypes"
+                      :name="`error`" placeholder="Choose" :options="allAccommodationsTypes"
                       label="name"
                       :reduce="data => data.id"
-                      v-model="accommodations.type"></main-select>
+                      v-model="accommodations.accommodation_type_id"></main-select>
               </b-col>
             </b-row>
             <b-row>
@@ -50,7 +50,7 @@
                     <b-form-input
                       v-model="accommodations.discount_price_egp"
                       placeholder="000.00"
-                      :validate="required"
+                      :validate="'required'"
                       :disabled="!selectedEGP"
                       name="price_egp"
                     /> </b-input-group
@@ -84,7 +84,7 @@
                     <b-form-input
                       v-model="accommodations.discount_price_euro"
                       placeholder="000.00"
-                      :validate="required"
+                      :validate="'required'"
                       :disabled="!selectedEUR"
                       name="price_euro"
                     /> </b-input-group
@@ -93,14 +93,14 @@
             </b-row>
             <b-form-group label="Conditions">
               <b-form-textarea
-                  v-model="accommodations.description"
+                  v-model="accommodations.conditions"
                   :label="'Conditions'"
                   placeholder="Any age, health, or weight requirements to participate"
                   rows="2"
               ></b-form-textarea>
             </b-form-group>
           </b-col>
-          <b-col md="6" class="mb-3">
+          <b-col lg="6" class="mb-3">
             <main-select labelTitle='Amenities' :validate="'required'"
                     :taggable="true"
                     multiple v-model="accommodations.amenities"
@@ -175,14 +175,16 @@ export default {
   props: {
     requestLoading: {
       type: Boolean,
-      default: false
+      default: false,
+      required: false
     },
     typeOfModal: {
       type: String,
-      default: 'add'
+      default: 'add',
+      required: false
     },
     accommodationsDetails: {
-      type: Object
+      required: false
     }
   },
   data () {
@@ -193,13 +195,14 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: '',
-        price_dollar: '',
+        price_euro: 0,
+        price_dollar: 0,
         discounted_price_egp: '',
         discounted_price_euro: '',
         status: 'active',
         images: [],
-        amenities: ''
+        amenities: '',
+        accommodation_type_id: ''
       },
       selectedEGP: '',
       selectedEUR: '',
@@ -211,9 +214,9 @@ export default {
   },
   components: {},
   methods: {
-    addFaddAccommodations () {
+    addAccommodations () {
       if (this.typeOfModal === 'add') {
-        this.$emit('addAccommodations', this.accommodations)
+        this.$emit('addAccommodations', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
       } else {
         this.$emit('editAccommodations', { ...this.accommodations, _method: 'put' })
       }
@@ -252,16 +255,16 @@ export default {
       })
     },
     getAllAccommodationsTypes () {
-      console.log('types')
-      settingsService.getAllAccommodationsTypes().then(res => {
+      settingsService.getAllAccommodationTypes().then(res => {
         this.allAccommodationsTypes = res.data.data
-        console.log(this.allAccommodationsTypes)
       })
     }
   },
   watch: {},
   computed: {},
-  created () {}
+  created () {
+    this.getAllAccommodationsTypes()
+  }
 }
 
 </script>

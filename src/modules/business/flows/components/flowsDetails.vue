@@ -3,7 +3,7 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addFlows)">
         <b-row>
-          <b-col md="6" class="mb-3">
+          <b-col lg="6" class="mb-3">
             <b-row><b-col md="12">
               <input-form
                 v-model="flows.name"
@@ -85,17 +85,19 @@
               </b-form-group>
             </div>
           </b-col>
-          <b-col md="6" class="mb-3">
+          <b-col lg="6" class="mb-3">
             <b-form-group label="Pick Level">
-              <span v-for="(option, counter) in options" :key="counter">
-                <button
-                    class="btn radio-btn"
-                    :class="`radio-btn-${option.color} ${selectLevel(option.value) ? 'radio-btn-selected-'+option.color : ''}`"
-                    @click.prevent="flows.level = option.value"
-                >
-                    {{ option.text }}
-                </button>
-              </span>
+              <div class="d-flex flex-wrap mb-2 flex-grow-1 justify-content-around">
+                <span v-for="(option, counter) in options" :key="counter">
+                  <button
+                      class="btn radio-btn"
+                      :class="`radio-btn-${option.color} ${selectLevel(option.value) ? 'radio-btn-selected-'+option.color : ''}`"
+                      @click.prevent="flows.level = option.value"
+                  >
+                      {{ option.text }}
+                  </button>
+                </span>
+              </div>
             </b-form-group>
               <b-form-group label="Description">
                 <b-form-textarea

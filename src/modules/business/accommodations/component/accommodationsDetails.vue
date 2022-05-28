@@ -197,8 +197,8 @@ export default {
         price_egp: '',
         price_euro: 0,
         price_dollar: 0,
-        discounted_price_egp: '',
-        discounted_price_euro: '',
+        discount_price_egp: '',
+        discount_price_euro: '',
         status: 'active',
         images: [],
         amenities: '',
@@ -216,9 +216,9 @@ export default {
   methods: {
     addAccommodations () {
       if (this.typeOfModal === 'add') {
-        this.$emit('addAccommodations', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
+        this.$emit('addAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
       } else {
-        this.$emit('editAccommodations', { ...this.accommodations, _method: 'put' })
+        this.$emit('editAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id), _method: 'put' })
       }
     },
     saveGalleryImage (file) {
@@ -264,6 +264,29 @@ export default {
   computed: {},
   created () {
     this.getAllAccommodationsTypes()
+    if (this.accommodationsDetails) {
+      if (this.accommodationsDetails.discount_price_egp) {
+        this.selectedEGP = true
+      }
+      if (this.accommodationsDetails.discount_price_euro) {
+        this.selectedEUR = true
+      }
+      this.accommodations = {
+        name: this.accommodationsDetails.name,
+        requirments: this.accommodationsDetails.requirments,
+        conditions: this.accommodationsDetails.conditions,
+        description: this.accommodationsDetails.description,
+        price_egp: this.accommodationsDetails.price_egp,
+        price_euro: this.accommodationsDetails.price_euro,
+        price_dollar: this.accommodationsDetails.price_dollar,
+        discount_price_egp: this.accommodationsDetails.discount_price_egp,
+        discount_price_euro: this.accommodationsDetails.discount_price_euro,
+        status: this.accommodationsDetails.status,
+        images: this.accommodationsDetails.images,
+        amenities: this.accommodationsDetails.amenities,
+        accommodation_type_id: this.accommodationsDetails.accommodation_type_id
+      }
+    }
   }
 }
 

@@ -7,8 +7,8 @@
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Accommodation</h4>
       </template>
       <template v-slot:body>
-        <accommodations-details @addAccommodations="addAccommodations"
-                      @editAccommodations="editAccommodations"
+        <accommodations-details @addAccommodation="addAccommodation"
+                      @editAccommodation="editAccommodation"
                       :requestLoading="requestLoading"
                       :accommodationsDetails="accommodationsDetails"
                       :typeOfModal="typeOfModal"/>
@@ -105,7 +105,7 @@ export default {
       this.accommodationsDetails = false
       this.$bvModal.show('accommodationsDetailsModal')
     },
-    addAccommodations (accommodations) {
+    addAccommodation (accommodations) {
       this.requestLoading = true
       accommodationsServices.addNewAccommodation(accommodations).then(res => {
         this.reloadTable = true
@@ -115,7 +115,7 @@ export default {
         this.requestLoading = false
       })
     },
-    editAccommodations (accommodations) {
+    editAccommodation (accommodations) {
       this.requestLoading = true
       accommodationsServices.editAccommodation(this.accommodationsId, accommodations).then(res => {
         this.reloadTable = true
@@ -137,7 +137,7 @@ export default {
       this.typeOfModal = 'edit'
       this.accommodationsId = obj.id
       console.log(this.accommodationsId)
-      accommodationsServices.getaccommodationsDetails(obj.id).then(res => {
+      accommodationsServices.getAccommodationsDetails(obj.id).then(res => {
         this.accommodationsDetails = res.data.data
         this.$bvModal.show('accommodationsDetailsModal')
       })

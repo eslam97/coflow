@@ -28,6 +28,8 @@
             <spinner-loading v-if=(loading) text="Loading" />
             <business-tab v-else
                           @updateFacilityInfo="updateFacilityInfo"
+                          @updateFacilityLocation="updateFacilityLocation"
+                          @updateFacilityOperatingDays="updateFacilityOperatingDays"
                           :oldProfile="oldProfile"
             ></business-tab>
           </tab-content-item>
@@ -43,10 +45,11 @@ import { core } from '@/config/pluginInit'
 import adminTab from '@/modules/business/profile/components/adminTab'
 import businessTab from '@/modules/business/profile/components/businessTab'
 // save contact info
-import stepAdmin from '@/modules/businessLandingPage/services/registration.services'
+import adminInfoService from '@/modules/superAdmin/admin/services/admins.services'
 // get contact and business info
-import adminService from '@/modules/superAdmin/activation/services/activations.services'
-// get login credential info
+import activationService from '@/modules/superAdmin/activation/services/activations.services'
+// save facility info
+import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
 export default {
   data () {
@@ -67,22 +70,35 @@ export default {
     // Admin tab
     getOldAdminInfo () {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
-      adminService.getActivationDetails(this.id).then(res => {
+      activationService.getActivationDetails(this.id).then(res => {
         this.oldProfile = res.data.data
         core.showSnackbar('success', res.data.message)
         this.loading = false
       })
     },
-    updateLoginCredential () {},
+    updateLoginCredential (credential) {
+      adminInfoService.saveAdmin(credential).then(res => {
+        core.showSnackbar('success', res.data.message)
+      })
+    },
     updateContactInfo (contact) {
-      stepAdmin.saveStepAdmin(contact).then(res => {
+      facilityInfoService.saveStepAdmin(contact).then(res => {
         core.showSnackbar('success', res.data.message)
       })
     },
     // Business tab
     updateFacilityInfo (info) {
-      console.log(info)
-      stepAdmin.saveStepFacility(info).then(res => {
+      facilityInfoService.saveStepFacility(info).then(res => {
+        core.showSnackbar('success', res.data.message)
+      })
+    },
+    updateFacilityLocation (location) {
+      facilityInfoService.saveStepLocationBased(location).then(res => {
+        core.showSnackbar('success', res.data.message)
+      })
+    },
+    updateFacilityOperatingDays (days) {
+      facilityInfoService.saveStepOperation(days).then(res => {
         core.showSnackbar('success', res.data.message)
       })
     }

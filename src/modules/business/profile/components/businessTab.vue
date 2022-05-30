@@ -163,13 +163,21 @@
             </b-form>
           </validationObserver>
           <validationObserver v-slot="{ handleSubmit }">
-            <b-form @submit.prevent="handleSubmit()">
+            <b-form @submit.prevent="handleSubmit(saveChangesLocation)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4">
                   <h4>Facility Contacts and Location Details</h4>
                 </b-card-header>
                 <b-card-body>
-                  <b-row class="mb-4">
+                  <b-row v-if="typeOfLocation === 'based'" class="mb-4">
+                    <b-col md="3">
+                      {{ formattedBasedLocation }}
+                    </b-col>
+                    <b-col md="9">
+                      {{ based.location }}
+                    </b-col>
+                  </b-row>
+                  <b-row v-else class="mb-4">
                   </b-row>
                   <button
                       class="btn radio-btn radio-btn-orange save-changes-btn"
@@ -181,13 +189,73 @@
             </b-form>
           </validationObserver>
           <validationObserver v-slot="{ handleSubmit }">
-            <b-form @submit.prevent="handleSubmit()">
+            <b-form @submit.prevent="handleSubmit(saveChangesOperatingDays)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4">
                   <h4>Facility Operating Days & Hours</h4>
                 </b-card-header>
                 <b-card-body>
                   <b-row class="mb-4">
+                    <b-row class="mb-5">
+                      <b-col md="12">
+                        <label class="mb-3">Operation</label>
+                        <div>
+                          <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfOperation" color="warning"
+                                        name="typeOfOperation" value="24 hours" >
+                            <span class="text-primary font-size-12">Open 24 Hours</span>
+                          </b-form-radio>
+                          <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
+                                        name="typeOfOperation" value="specify days" >
+                            <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
+                          </b-form-radio>
+                        </div>
+                      </b-col>
+                    </b-row>
+                    <b-row v-if="typeOfOperation !== '24 hours'">
+                      <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in allOperation"
+                             :key="operationKey">
+                        <b-row class="d-flex align-items-center">
+                          <b-col class="mb-3" md="4" >
+                            <main-select labelTitle='Operation Day (s)' :validate="'required'"
+                                         :name="`Operation Day ${operationKey + 1}`"  placeholder="Choose" :options="allDays"
+                                         :multiple="true"
+                                         label="value"
+                                         :reduce="data => data.key"
+                                         v-model="operation.days"></main-select>
+                          </b-col>
+                          <b-col class="mb-3" md="4">
+                            <input-form
+                                placeholder="00:00 AM"
+                                :validate="'required'"
+                                :name="`From ${operationKey + 1}`"
+                                :label="'From'"
+                                v-model="operation.from"
+                                type="time"
+                            />
+                          </b-col>
+                          <b-col class="mb-3" md="4">
+                            <input-form
+                                placeholder="00:00 AM"
+                                :validate="'required'"
+                                :name="`To ${operationKey + 1}`"
+                                :label="'To'"
+                                v-model="operation.to"
+                                type="time"
+                            />
+                          </b-col>
+                        </b-row>
+                        <span class="text-danger deleteLabelButton cursor-pointer"
+                              @click="deleteOperationDay(operationKey)">Delete</span>
+                      </b-col>
+                      <b-col md="12" class="mb-3">
+                  <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add another Operation Day
+                    (s)</span>
+                      </b-col>
+                      <b-col md="12">
+                        <p class="text-gray">Note: Specify working days & hours only, any day unspecified will automatically be set as
+                          “closed”.</p>
+                      </b-col>
+                    </b-row>
                   </b-row>
                   <button
                       class="btn radio-btn radio-btn-orange save-changes-btn"
@@ -316,7 +384,9 @@ export default {
       allAmenities: [],
       allCountries: [],
       allGovernorates: [],
-      allArea: []
+      allArea: [],
+      formattedBasedLocation: '',
+      formattedRemoteLocation: ''
     }
   },
   computed: {
@@ -500,6 +570,12 @@ export default {
         this.allAmenities = res.data.data
       })
     },
+    formatBasedLocation () {
+      this.formattedBasedLocation = `${this.based.address},
+                                      ${this.allGovernorates[this.based.city_id]},
+                                      ${this.allCountries[this.based.country_id]}`
+    },
+    formatRemoteLocation () {},
     fillData () {
       if (this.oldProfile) {
         this.providerId = this.oldProfile.id
@@ -527,35 +603,42 @@ export default {
         if (this.oldProfile.location_type === 'address based') {
           this.typeOfLocation = 'based'
           this.based = this.oldProfile.address_based
+          console.log(this.oldProfile.address_based.country_id)
           this.getCityDependOnCountry(this.oldProfile.address_based.country_id)
           this.getAreasDependOnCity(this.oldProfile.address_based.city_id)
+          this.formatBasedLocation()
         } else {
           this.typeOfLocation = 'specify days'
           this.allOperation = this.oldProfile.operations
+          this.formatRemoteLocation()
         }
         this.loading = false
       }
     },
     // save changes
     saveChangesInfo () {
-      if (this.info === this.oldProfile.info) {
-        console.log('no change')
-      } else {
-        const newObj = {
-          _method: 'post',
-          ...this.info
-        }
-        this.$emit('updateFacilityInfo', newObj)
+      const newObj = {
+        _method: 'post',
+        ...this.info
       }
+      this.$emit('updateFacilityInfo', newObj)
     },
-    saveChangesBased () {
+    saveChangesLocation () {
       let location = {}
-      let operation = {}
       if (this.typeOfLocation === 'based') {
         location = { phones: this.based.phones, address: this.based, location_type: 'address based' }
       } else {
         location = { ...this.remote, location_type: 'remote location' }
       }
+      const newObj = {
+        _method: 'put',
+        ...location,
+        service_types: this.service_types
+      }
+      this.$emit('updateLocation', newObj)
+    },
+    saveChangesOperatingDays () {
+      let operation = {}
       if (this.typeOfOperation === '24 hours') {
         operation = { operation_type: '24 hours' }
       } else {
@@ -566,13 +649,10 @@ export default {
       }
       const newObj = {
         _method: 'put',
-        contact: this.adminInformation,
-        ...this.info,
-        ...location,
         ...operation,
         service_types: this.service_types
       }
-      this.$emit('activation-provider', newObj)
+      this.$emit('updateFacilityOperatingDays', newObj)
     }
   },
   mounted () {

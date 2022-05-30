@@ -17,7 +17,7 @@
               <b-col md="6" class="mb-3">
                 <main-select labelTitle='Type' :validate="'required'"
                       :name="`Accommodation type`" placeholder="Choose" :options="allAccommodationsTypes"
-                      label="type"
+                      label="name"
                       :reduce="data => data.id"
                       v-model="accommodations.accommodation_type_id"></main-select>
               </b-col>

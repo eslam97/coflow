@@ -12,6 +12,7 @@
                 <input-form
                     v-model="profile.email"
                     name="Email address"
+                    :validate="'required|email'"
                     :label="'Facility email address'"
                 />
               </b-col>
@@ -40,7 +41,7 @@
       </b-form>
     </validationObserver>
     <validationObserver v-slot="{ handleSubmit }">
-      <b-form @submit.prevent="handleSubmit(updateContanctInfo)">
+      <b-form @submit.prevent="handleSubmit(updateContactInfo)">
         <b-card>
           <b-card-header class="mb-5">
             <h4 class="pb-2">Contacts</h4>
@@ -73,9 +74,12 @@
                     :name="`Phone Number ${key + 1}`"
                     :label="'Phone Number'"
                 />
-                <span class="text-danger deleteLabelButtonAdmin cursor-pointer"
+                <span v-if="key == 0" class="text-danger deleteLabelButtonAdmin cursor-pointer"
+                      @click="clearFirstContact(key)">Clear Contact
+                </span>
+                <span v-else class="text-danger deleteLabelButtonAdmin cursor-pointer"
                       @click="deleteAdditionalContact(key)">Delete Contact
-                    </span>
+                </span>
               </b-col>
             </b-row>
             <b-row class="mb-5">
@@ -108,8 +112,10 @@ export default {
       newPassword: '',
       confirmPassword: '',
       profile: {
+        name: '',
         email: '',
-        password: ''
+        password: '',
+        role_id: ''
       },
       contacts: [{
         name: '',
@@ -122,11 +128,15 @@ export default {
     updateLoginCredential () {
       if (this.newPassword === this.confirmPassword) {
         this.profile.password = this.newPassword
-        this.$emit('updateLoginCredential', { ...this.profile, _method: 'put' })
+        this.$emit('updateLoginCredential', { ...this.profile, _method: 'post' })
       }
     },
-    updateContanctInfo () {
-      this.$emit('updateContactInfo', { contacts: this.contacts, _method: 'post' })
+    updateContactInfo () {
+      if (this.contacts.length > 0) {
+        this.$emit('updateContactInfo', { contact: this.contacts })
+      } else {
+        console.log('You should have at least 1 contact info')
+      }
     },
     addAdditionalContact () {
       this.contacts.push({
@@ -135,14 +145,22 @@ export default {
         phone: ''
       })
     },
+    clearFirstContact (ind) {
+      console.log(this.contacts)
+      this.contacts[ind].name = ''
+      this.contacts[ind].job = ''
+      this.contacts[ind].phone = ''
+      console.log(this.contacts)
+    },
     deleteAdditionalContact (ind) {
       this.contacts.splice(ind, 1)
     }
   },
   created () {
-    console.log(this.oldProfile.email)
     if (this.oldProfile) {
+      this.profile.name = this.oldProfile.name
       this.profile.email = this.oldProfile.email
+      this.profile.role_id = this.oldProfile.role_id
       this.contacts = this.oldProfile.contacts
     }
   }

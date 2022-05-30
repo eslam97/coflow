@@ -17,7 +17,7 @@
               <b-col md="6" class="mb-3">
                 <main-select labelTitle='Duration' :validate="'required'"
                              :name="`Course duration`" placeholder="Choose" :options="allDurationList"
-                             label="duration"
+                             label="name"
                              :reduce="data => data.id"
                              v-model="courses.duration_list_id"></main-select>
               </b-col>
@@ -328,10 +328,10 @@ export default {
       selectedEUR: '',
       selectedDollar: '',
       options: [
-        { text: 'ALL LEVELS', value: 'all', color: 'all' },
-        { text: 'BEGINNER', value: 'beginner', color: 'beginner' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'intermediate' },
-        { text: 'ADVANCED', value: 'advanced', color: 'advanced' }
+        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
+        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
+        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
+        { text: 'ADVANCED', value: 'advanced', color: 'red' }
       ],
       allDurationList: [],
       loadingGallery: 0,
@@ -384,7 +384,6 @@ export default {
     getDurationList () {
       settingsService.getDurationList().then(res => {
         this.allDurationList = res.data.data
-        console.log(this.allDurationList)
       })
     },
     selectLevel (value) {

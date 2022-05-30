@@ -433,10 +433,33 @@ form legend {
   color: #fff !important;
 }
 
-.activeProfile {
-  background: red !important;
+//@font-face {
+//  font-familiy: CircularStd;
+//  src: url("@/assets/fonts/circularstd.ttf");
+//}
+
+.nav-tabs {
+  border-bottom: 2px solid #f2edff;
+  background: transparent !important;
+  margin-bottom: 15px;
+}
+.nav-tabs .nav-item {
+  margin-bottom: -2px;
+}
+.nav-tabs .nav-item a {
+  font-family: CircularStd;
+  color: #B2B3BF;
+  font-family: 'Muli', sans-serif;
+  border: none;
+  border-bottom: 4px solid transparent; }
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  border-bottom: 3px solid #fe9e12;
+  color: var(--iq-primary) !important;
+  font-weight: bold;
+  background-color: transparent !important;
 }
 
-.profileBtnTab {
-  background: blue;
+.save-changes-btn {
+  width: 150px !important;
+  height: 50px !important;
 }

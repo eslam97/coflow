@@ -22,7 +22,7 @@ export default {
   data () {
     return {
       columns: [
-        { label: '#', key: 'id', class: 'text-left' },
+        { label: '#', key: 'id', class: 'text-left', sortable: true },
         { label: 'Image', key: 'image', class: 'text-left', type: 'image' },
         { label: 'User Name', key: 'name', class: 'text-left' },
         { label: 'Verified', key: 'verified', class: 'text-left' },

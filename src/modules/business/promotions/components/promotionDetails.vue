@@ -99,6 +99,9 @@
                   :rules="'required'"
               >
                 <flatPickr
+                    :config="{
+                          minDate: 'today'
+                        }"
                     :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
                     v-model="info.start_date"
                     placeholder="start date"
@@ -118,6 +121,9 @@
                   :rules="'required'"
               >
                 <flatPickr
+                    :config="{
+                          minDate: 'today'
+                        }"
                     :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
                     v-model="info.end_date"
                     placeholder="end date"

@@ -1,7 +1,7 @@
 <template>
   <div class="example-wrapper">
     <label class="mb-2">{{label}}</label>
-    <div class="mb-3 d-flex align-items-center" v-if="imageUrl && !multi">
+    <div class="mb-3 d-flex align-items-center flex" v-if="imageUrl && !multi">
       <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
            :style="{ 'background-image': 'url(' + imageUrl + ')' }"></div>
       <div class="d-flex justify-content-between position-relative flex-grow-1">

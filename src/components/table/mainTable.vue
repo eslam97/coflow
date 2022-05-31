@@ -73,7 +73,7 @@
       </template>
     </b-table>
     <b-pagination
-      v-if="pagination.total !==0"
+      v-if="pagination.total > pagination.per_page"
       v-model="pagination.current_page"
       :total-rows="pagination.total"
       :per-page="pagination.per_page"
@@ -150,7 +150,6 @@ export default {
   },
   created () {
     this.getListData()
-    this.loadingTable = true
   },
   methods: {
     async getListData () {
@@ -204,5 +203,7 @@ export default {
 }
 </script>
 <style>
-
+table#table-transition-example .flip-list-move {
+  transition: transform 0.5s;
+}
 </style>

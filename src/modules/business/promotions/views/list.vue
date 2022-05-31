@@ -8,6 +8,77 @@
         <promotion-details @savePromotion="savePromotion" :requestLoading="requestLoading"/>
       </template>
     </main-modal>
+    <main-modal id="promotionEdit" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-info" >Edit: </span> Promotion</h4>
+      </template>
+      <template v-slot:body>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <b-form @submit.prevent="handleSubmit(editPromotion)">
+            <b-row>
+              <b-col md="6" class="mb-3">
+                <b-form-group
+                    label="start date"
+                    label-for="start date"
+                >
+                  <validation-provider
+                      #default="{ errors }"
+                      name="start_date"
+                      :rules="'required'"
+                  >
+                    <flat-pickr
+                        :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
+                        v-model="editPromotions.start_date"
+                        placeholder="start date"
+                        name="start"
+                        :config="{
+                          minDate: 'today'
+                        }"
+                    />
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+              </b-col>
+              <b-col md="6" class="mb-3">
+                <b-form-group
+                    label="end date"
+                    label-for="end date"
+                >
+                  <validation-provider
+                      #default="{ errors }"
+                      name="end_date"
+                      :rules="'required'"
+                  >
+                    <flat-pickr
+                        name="end"
+                        :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
+                        v-model="editPromotions.end_date"
+                        :config="{
+                          minDate: 'today'
+                        }"
+                        placeholder="end date"
+                    />
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12" class="mt-4">
+                <div class="d-flex justify-content-center">
+                  <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
+                    <i class="las la-pen"></i>
+                  </b-button>
+                  <b-button class="button-blue-modal" v-else>
+                    <spinner-loading ></spinner-loading>
+                  </b-button>
+                </div>
+              </b-col>
+            </b-row>
+          </b-form>
+        </ValidationObserver>
+      </template>
+    </main-modal>
     <b-row>
       <b-col lg="12"
              class="mb-4 d-flex justify-content-between align-items-center">
@@ -20,13 +91,13 @@
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <div class="w-50 pr-2">
           <b-button :class="['w-100 promotion_button py-2', { 'activePromotion' : isSelected('current')}]"
-                    @click="type='current'">
+                    @click="type='current'; pagination.currentPage = 1">
             Current
           </b-button>
         </div>
         <div class="w-50 pl-2">
           <b-button :class="['w-100 promotion_button py-2', { 'activePromotion' : isSelected('history')}]"
-                    @click="type='history'">
+                    @click="type='history'; pagination.currentPage = 1">
             History
           </b-button>
         </div>
@@ -45,9 +116,25 @@
             </div>
           </template>
           <template v-slot:cell(actions)="data">
-            <b-button variant="danger" @click="end(data.item.id, data.item.offer_title)" class="w-100 rounded-0">End</b-button>
+            <b-button variant="danger" v-if="type === 'current'" @click="end(data.item.id, data.item.offer_title)" class="w-100 rounded-0">End</b-button>
+            <b-button variant="info" v-else @click="reEnd(data.item.id)" class="w-100 rounded-0">
+              Re-Add</b-button>
           </template>
         </b-table>
+        <b-pagination
+            v-if="pagination.total > pagination.per_page"
+            v-model="pagination.currentPage"
+            :total-rows="pagination.total"
+            :per-page="pagination.per_page"
+            first-number
+            last-number
+            class="mb-3 mt-1 mt-sm-0"
+            prev-class="prev-item"
+            next-class="next-item"
+            align="right"
+            @input="getAllData"
+        >
+        </b-pagination>
       </b-col>
     </b-row>
   </b-container>
@@ -67,12 +154,7 @@ export default {
         name: 'flip-list'
       },
       allData: [],
-      paginationCurrent: {
-        currentPage: 1,
-        per_page: 10,
-        total: 6
-      },
-      paginationHistory: {
+      pagination: {
         currentPage: 1,
         per_page: 10,
         total: 6
@@ -88,23 +170,23 @@ export default {
         { label: 'Actions', key: 'actions', class: 'text-left' }
       ],
       typeOfModal: 'add',
-      allCurrent: [],
-      allHistory: [],
       data: [],
       type: 'current',
-      loadingTable: false
+      loadingTable: false,
+      rowId: '',
+      editPromotions: {
+        start_date: '',
+        end_date: '',
+        _method: 'put'
+      }
     }
   },
   components: {
     promotionDetails
   },
   watch: {
-    type (val) {
-      if (val === 'current') {
-        this.data = this.allCurrent
-      } else {
-        this.data = this.allHistory
-      }
+    type () {
+      this.getAllData()
     }
   },
   methods: {
@@ -114,14 +196,14 @@ export default {
       }
     },
     getAllData () {
-      this.allCurrent = []
-      this.allHistory = []
-      this.data = []
       this.loadingTable = true
-      promotionsServices.getAllPromotions().then(res => {
-        this.allCurrent = res.data.data.current.data
-        this.allHistory = res.data.data.history.data
-        this.data = this.allCurrent
+      promotionsServices.getAllPromotions(this.pagination.currentPage, this.type).then(res => {
+        this.data = res.data.data.data
+        this.pagination = {
+          currentPage: res.data.data.current_page,
+          per_page: res.data.data.per_page,
+          total: res.data.data.total
+        }
       }).finally(() => {
         this.loadingTable = false
       })
@@ -139,6 +221,20 @@ export default {
         icon: '',
         type: 'delete',
         actionOnAlert: ''
+      })
+    },
+    reEnd (id) {
+      this.rowId = id
+      this.$bvModal.show('promotionEdit')
+    },
+    editPromotion () {
+      this.requestLoading = true
+      promotionsServices.editPromotion(this.rowId, this.editPromotions).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getAllData()
+        this.$bvModal.hide('promotionEdit')
+      }).finally(() => {
+        this.requestLoading = false
       })
     },
     savePromotion (data) {

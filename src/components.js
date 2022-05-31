@@ -18,6 +18,7 @@ import mainModal from '@/components/modal/mainModal'
 // form Elements
 import inputForm from '@/components/formElements/InputForm'
 import mainSelect from '@/components/formElements/VSelect'
+import flatPickr from 'vue-flatpickr-component'
 Vue.component('multiselect', Multiselect)
 Vue.component('DatePicker', DatePicker)
 Vue.component('spinner-loading', spinnerLoading)
@@ -35,3 +36,4 @@ Vue.component('input-form', inputForm)
 Vue.component('main-select', mainSelect)
 Vue.component('model-button', RoundedModalButton)
 Vue.component('cropper-images', cropperImages)
+Vue.component('flat-pickr', flatPickr)

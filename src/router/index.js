@@ -23,6 +23,7 @@ import charts from '@/views/Charts/charts.routes'
 import tickets from '@/modules/business/tickets/tickets.routes.js'
 import bussinessPromotions from '@/modules/business/promotions/promotions.routes'
 import faq from '@/modules/business/faqs/faqs.routes.js'
+import products from '@/modules/business/products/products.routes'
 
 /* Layouts */
 const VerticleLayout = () => import('../layouts/VerticleLayout')
@@ -91,6 +92,7 @@ const routes = [
   ...tickets,
   ...bussinessPromotions,
   ...faq,
+  ...products,
   {
     path: '/welcome',
     name: 'welcome',

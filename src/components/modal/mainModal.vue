@@ -16,6 +16,7 @@
         <img :src="require('@/assets/images/close.svg')" @click="close()" class="closeImage" />
       </div>
     </template>
+    <slot name="borderHeader"></slot>
     <div class="p-4">
       <slot name="body"></slot>
     </div>

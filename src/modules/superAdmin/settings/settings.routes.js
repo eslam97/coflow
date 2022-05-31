@@ -29,7 +29,7 @@ export default [
       children: [
         {
           path: '',
-          name: 'profileSetting',
+          name: 'settings',
           meta: {
             auth: true,
             name: 'profileSetting'

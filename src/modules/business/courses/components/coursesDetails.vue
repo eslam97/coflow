@@ -15,11 +15,28 @@
                 />
               </b-col>
               <b-col md="6" class="mb-3">
-                <main-select labelTitle='Duration' :validate="'required'"
-                             :name="`Course duration`" placeholder="Choose" :options="allDurationList"
-                             label="duration"
-                             :reduce="data => data.id"
-                             v-model="courses.duration_list_id"></main-select>
+                <label for="duration-group">Duration</label>
+                <b-input-group id="duration-group">
+                  <b-form-input
+                      labelTitle='Duration'
+                      :label="'Duration'"
+                      v-model="courses.duration"
+                      :placeholder="'000'"
+                  />
+                  <template #append>
+                    <b-dropdown
+                        :text="type ? type : 'Pick duration type'"
+                        class="selectWithInputAppend"
+                    >
+                      <b-dropdown-item v-for="(i, keyType) in allDurationList"
+                                       :key="keyType"
+                                       @click="courses.duration_list_id = i.id;
+                                         type = i.name">
+                        {{i.name}}
+                      </b-dropdown-item>
+                    </b-dropdown>
+                  </template>
+                </b-input-group>
               </b-col>
             </b-row>
             <b-row>
@@ -324,14 +341,15 @@ export default {
         duration_list_id: '',
         level: 'all'
       },
+      type: '',
       selectedEGP: '',
       selectedEUR: '',
       selectedDollar: '',
       options: [
-        { text: 'ALL LEVELS', value: 'all', color: 'all' },
-        { text: 'BEGINNER', value: 'beginner', color: 'beginner' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'intermediate' },
-        { text: 'ADVANCED', value: 'advanced', color: 'advanced' }
+        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
+        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
+        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
+        { text: 'ADVANCED', value: 'advanced', color: 'red' }
       ],
       allDurationList: [],
       loadingGallery: 0,
@@ -384,7 +402,6 @@ export default {
     getDurationList () {
       settingsService.getDurationList().then(res => {
         this.allDurationList = res.data.data
-        console.log(this.allDurationList)
       })
     },
     selectLevel (value) {

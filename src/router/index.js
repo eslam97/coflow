@@ -27,6 +27,8 @@ import products from '@/modules/business/products/products.routes'
 import flows from '@/modules/business/flows/flows.routes.js'
 import accommodations from '@/modules/business/accommodations/accommodations.routes.js'
 import courses from '@/modules/business/courses/courses.routes.js'
+import profile from '@/modules/business/profile/profile.routes'
+import activities from '@/modules/business/activities/activities.routes'
 
 /* Layouts */
 const VerticleLayout = () => import('../layouts/VerticleLayout')
@@ -99,6 +101,8 @@ const routes = [
   ...flows,
   ...accommodations,
   ...courses,
+  ...profile,
+  ...activities,
   {
     path: '/welcome',
     name: 'welcome',

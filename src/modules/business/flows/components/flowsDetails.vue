@@ -226,10 +226,10 @@ export default {
       },
       selected: '',
       options: [
-        { text: 'ALL LEVELS', value: 'all', color: 'all' },
-        { text: 'BEGINNER', value: 'beginner', color: 'beginner' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'intermediate' },
-        { text: 'ADVANCED', value: 'advanced', color: 'advanced' }
+        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
+        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
+        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
+        { text: 'ADVANCED', value: 'advanced', color: 'red' }
       ],
       loadingGallery: 0,
       progressBar: 0,

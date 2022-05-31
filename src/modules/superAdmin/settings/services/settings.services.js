@@ -26,6 +26,9 @@ export default {
   },
 
   // Durations
+  getDurationList () {
+    return Api().get('durationLists')
+  },
   addNewDurationList (payload) {
     return Api().post('durationLists', payload)
   },

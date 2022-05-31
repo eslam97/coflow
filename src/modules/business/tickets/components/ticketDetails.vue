@@ -8,7 +8,7 @@
                 v-model="ticket.name"
                 placeholder="Ticket Name"
                 :validate="'required'"
-                name="name"
+                name="Ticket name"
                 :label="'Ticket Name'"
             />
           </b-col>
@@ -17,19 +17,25 @@
                 v-model="ticket.details"
                 placeholder="Write a breif description"
                 :validate="'required'"
-                name="details"
+                name="Ticket details"
                 :label="'Details'"
             />
           </b-col>
           <b-col md="4" class="mb-3">
-            <b-form-group :label="'Price'"><b-input-group append="EGP">
-              <b-form-input
-                  v-model="ticket.price_egp"
-                  placeholder="000.00"
-                  :validate="'required'"
-                  name="price_egp"
-              />
-            </b-input-group></b-form-group>
+            <validation-provider
+                #default="{ errors }"
+                :name="`EGP price`"
+                :rules="'required|numeric'"
+                class="flex-grow-1"
+            >
+              <b-form-group :label="'Price'"><b-input-group append="EGP">
+                <b-form-input
+                    v-model="ticket.price_egp"
+                    placeholder="000.00"
+                    :class="[{ 'is-invalid': errors.length > 0 }]"
+                />
+              </b-input-group></b-form-group>
+            </validation-provider>
           </b-col>
           <b-col md="4" class="mb-5 pt-4">
             <b-form-checkbox
@@ -47,19 +53,27 @@
                 placeholder="000.00"
                 :disabled="!selected"
                 :validate="required"
-                name="discount_price_egp"
+                name="Discounted EGP price"
                 :label="'Discounted Price'"
             />
           </b-col>
           <b-col md="12" class="mb-3">
-            <b-form-textarea
-                v-model="ticket.conditions"
-                placeholder="Write your conditions in bullet points"
-                :validate="'required'"
-                rows="1"
-                name="condition"
-                :label="'Conditions'"
-            />
+            <validation-provider
+                #default="{ errors }"
+                :name="`Conditions`"
+                :rules="'required'"
+                class="flex-grow-1"
+            >
+              <b-form-group label="Conditions">
+                <b-form-textarea
+                    v-model="ticket.conditions"
+                    placeholder="Write your conditions in bullet points"
+                    :validate="'required'"
+                    rows="1"
+                    :class="[{ 'is-invalid': errors.length > 0 }]"
+                />
+              </b-form-group>
+            </validation-provider>
           </b-col>
         </b-row>
         <b-row v-if="typeOfModal != 'view'">

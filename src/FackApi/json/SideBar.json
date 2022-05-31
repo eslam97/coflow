@@ -201,7 +201,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "courses"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -227,7 +227,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "accommodations"
     },
     "class_name": "",
     "is_icon_class": true,
@@ -240,7 +240,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "franchise"
+      "name": "flows"
     },
     "class_name": "",
     "is_icon_class": true,

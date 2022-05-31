@@ -163,7 +163,7 @@
             </b-form>
           </validationObserver>
           <validationObserver v-slot="{ handleSubmit }">
-            <b-form @submit.prevent="handleSubmit(saveChangesLocation)">
+            <b-form @submit.prevent="handleSubmit(saveChangesPhone)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4">
                   <h4>Facility Contacts and Location Details</h4>
@@ -176,8 +176,58 @@
                     <b-col md="9">
                       {{ based.location }}
                     </b-col>
+                    <b-col md="12">
+                      <span class="text-warning cursor-pointer" @click="requestAddressChange">
+                        Request to Edit or change Address</span>
+                    </b-col>
                   </b-row>
                   <b-row v-else class="mb-4">
+                    <b-col>
+                      {{ formattedRemoteLocation }}
+                    </b-col>
+                  </b-row>
+                  <b-row class="mb-4">
+                    <b-col  md="6" class="mb-1" v-for="(item, key) in phones" :key="key">
+                      <b-form-group
+                          :label="`Contact Number ${key+1}`"
+                          :label-for="`Contact Number ${key+1}`"
+                          class="position-relative"
+                      >
+                      <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
+                            @click="deleteContact(key)">Delete
+                      </span>
+                        <b-input-group>
+                          <validation-provider
+                              #default="{ errors }"
+                              :name="`Contact Number ${key + 1}`"
+                              :rules="'required'"
+                              class="flex-grow-1"
+                          >
+                            <b-form-input
+                                id="mm"
+                                v-model="item.number"
+                                :class="[{ 'is-invalid': errors.length > 0 }]"
+                                :placeholder="'Ex: 020454684'"
+                                :disabled="!item.type"
+                            />
+                          </validation-provider>
+                          <template #prepend>
+                            <b-dropdown
+                                :text="item.type ? item.type : 'Choose'"
+                                class="selectWithInput"
+                            >
+                              <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType"
+                                               @click="item.type = i">
+                                {{i}}
+                              </b-dropdown-item>
+                            </b-dropdown>
+                          </template>
+                        </b-input-group>
+                      </b-form-group>
+                    </b-col>
+                    <b-col md="12" class="mb-3">
+                      <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
+                    </b-col>
                   </b-row>
                   <button
                       class="btn radio-btn radio-btn-orange save-changes-btn"
@@ -292,7 +342,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: '',
       info: {
         activity_line_id: '',
         activity_type_id: '',
@@ -317,12 +367,6 @@ export default {
         address: '',
         latitude: '',
         longitude: '',
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
-        ],
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
@@ -334,16 +378,19 @@ export default {
             city_id: null,
             areas: []
           }
-        ],
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
         ]
       },
+      phones: [
+        {
+          type: '',
+          number: ''
+        }
+      ],
       typeOfLocation: '',
       typeOfOperation: '',
+      city: '',
+      country: '',
+      area: '',
       images: [],
       logoImage: '',
       coverImage: '',
@@ -382,9 +429,6 @@ export default {
       allLanguages: [],
       allLinks: [],
       allAmenities: [],
-      allCountries: [],
-      allGovernorates: [],
-      allArea: [],
       formattedBasedLocation: '',
       formattedRemoteLocation: ''
     }
@@ -490,19 +534,10 @@ export default {
       this.info.links.splice(key, 1)
     },
     deleteContact (key) {
-      this.based.phones.splice(key, 1)
-    },
-    deleteRemoteContact (key) {
-      this.remote.phones.splice(key, 1)
+      this.phones.splice(key, 1)
     },
     addNewContactNumber () {
-      this.based.phones.push({
-        type: '',
-        number: ''
-      })
-    },
-    addNewRemoteContactNumber () {
-      this.remote.phones.push({
+      this.phones.push({
         type: '',
         number: ''
       })
@@ -527,23 +562,6 @@ export default {
     },
     deleteOperationDay (key) {
       this.allOperation.splice(key, 1)
-    },
-    getAllCountries () {
-      settingsService.getAllCountries().then(res => {
-        this.allCountries = res.data.data
-      })
-    },
-    getCityDependOnCountry (id) {
-      this.allGovernorates = []
-      settingsService.getCountryCity(id).then(res => {
-        this.allGovernorates = res.data.data
-      })
-    },
-    getAreasDependOnCity (id) {
-      this.allArea = []
-      settingsService.getCityArea(id).then(res => {
-        this.allArea = res.data.data
-      })
     },
     getAllActivityLine () {
       settingsService.getAllActivityLine().then(res => {
@@ -572,8 +590,9 @@ export default {
     },
     formatBasedLocation () {
       this.formattedBasedLocation = `${this.based.address},
-                                      ${this.allGovernorates[this.based.city_id]},
-                                      ${this.allCountries[this.based.country_id]}`
+                                      ${this.area},
+                                      ${this.city},
+                                      ${this.country}`
     },
     formatRemoteLocation () {},
     fillData () {
@@ -594,6 +613,7 @@ export default {
         this.logoImage = this.oldProfile.logo
         this.coverImage = this.oldProfile.cover
         this.images = this.oldProfile.images
+        this.phones = this.oldProfile.phones
         if (this.oldProfile.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'
         } else {
@@ -603,17 +623,19 @@ export default {
         if (this.oldProfile.location_type === 'address based') {
           this.typeOfLocation = 'based'
           this.based = this.oldProfile.address_based
-          console.log(this.oldProfile.address_based.country_id)
-          this.getCityDependOnCountry(this.oldProfile.address_based.country_id)
-          this.getAreasDependOnCity(this.oldProfile.address_based.city_id)
+          this.city = this.oldProfile.city.name
+          this.country = this.oldProfile.country.name
+          this.area = this.oldProfile.area.name
           this.formatBasedLocation()
         } else {
-          this.typeOfLocation = 'specify days'
-          this.allOperation = this.oldProfile.operations
+          this.typeOfLocation = 'remote'
+          this.remote = this.oldProfile.remote
           this.formatRemoteLocation()
         }
         this.loading = false
       }
+    },
+    checkLoading () {
     },
     // save changes
     saveChangesInfo () {
@@ -623,19 +645,19 @@ export default {
       }
       this.$emit('updateFacilityInfo', newObj)
     },
-    saveChangesLocation () {
+    saveChangesPhone () {
       let location = {}
       if (this.typeOfLocation === 'based') {
-        location = { phones: this.based.phones, address: this.based, location_type: 'address based' }
+        location = { phones: this.phones, ...this.based, location_type: 'address based' }
+        console.log(location)
       } else {
-        location = { ...this.remote, location_type: 'remote location' }
+        location = { phones: this.phones, ...this.remote, location_type: 'remote location' }
       }
       const newObj = {
-        _method: 'put',
-        ...location,
-        service_types: this.service_types
+        _method: 'post',
+        ...location
       }
-      this.$emit('updateLocation', newObj)
+      this.$emit('updateFacilityPhones', this.typeOfLocation, newObj)
     },
     saveChangesOperatingDays () {
       let operation = {}
@@ -653,7 +675,8 @@ export default {
         service_types: this.service_types
       }
       this.$emit('updateFacilityOperatingDays', newObj)
-    }
+    },
+    requestAddressChange () {}
   },
   mounted () {
     this.fillData()
@@ -664,7 +687,6 @@ export default {
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
-    this.getAllCountries()
   }
 }
 </script>

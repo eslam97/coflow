@@ -28,7 +28,7 @@
             <spinner-loading v-if=(loading) text="Loading" />
             <business-tab v-else
                           @updateFacilityInfo="updateFacilityInfo"
-                          @updateFacilityLocation="updateFacilityLocation"
+                          @updateFacilityPhones="updateFacilityPhones"
                           @updateFacilityOperatingDays="updateFacilityOperatingDays"
                           :oldProfile="oldProfile"
             ></business-tab>
@@ -67,7 +67,7 @@ export default {
     handleClick (newTab) {
       this.currentTab = newTab
     },
-    // Admin tab
+    // Get data
     getOldAdminInfo () {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
       activationService.getActivationDetails(this.id).then(res => {
@@ -76,6 +76,7 @@ export default {
         this.loading = false
       })
     },
+    // Admin tab
     updateLoginCredential (credential) {
       adminInfoService.saveAdmin(credential).then(res => {
         core.showSnackbar('success', res.data.message)
@@ -92,10 +93,16 @@ export default {
         core.showSnackbar('success', res.data.message)
       })
     },
-    updateFacilityLocation (location) {
-      facilityInfoService.saveStepLocationBased(location).then(res => {
-        core.showSnackbar('success', res.data.message)
-      })
+    updateFacilityPhones (typeOfLocation, location) {
+      if (this.typeOfLocation === 'based') {
+        facilityInfoService.saveStepLocationBased(location).then(res => {
+          core.showSnackbar('success', res.data.message)
+        })
+      } else {
+        facilityInfoService.saveStepLocationRemote(location).then(res => {
+          core.showSnackbar('success', res.data.message)
+        })
+      }
     },
     updateFacilityOperatingDays (days) {
       facilityInfoService.saveStepOperation(days).then(res => {

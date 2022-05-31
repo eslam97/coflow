@@ -214,7 +214,7 @@
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "productList"
     },
     "class_name": "",
     "is_icon_class": true,

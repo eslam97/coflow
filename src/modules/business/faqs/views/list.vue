@@ -96,7 +96,7 @@ export default {
     openPopup () {
       this.faqsId = ''
       this.typeOfModal = 'add'
-      this.faqsDetails = false
+      this.faqsDetails = {}
       this.$bvModal.show('faqsDetailsModal')
     },
     addFaqs (faqs) {

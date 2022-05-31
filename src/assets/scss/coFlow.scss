@@ -440,6 +440,84 @@ form legend {
   background: #2fdac2 !important;
   color: #fff !important;
 }
+.h-170px {
+  height: 170px;
+}
+.text-decoration-line-through {
+  text-decoration: line-through !important;
+}
+.iq-product-list .card-body {
+  padding: 0 !important;
+}
+.padding_product {
+  flex: 1 1 auto;
+  min-height: 1px;
+}
+.border-product-price {
+  border-top: 1px solid #e3e4e8;
+}
+.border-actions {
+  border-left: 1px solid #e3e4e8;
+}
+.font-size-10 {
+  font-size: 10px !important;
+}
+.font-size-20 {
+  font-size: 20px !important;
+}
+.iq-product-list .custom-switch.custom-switch-text .custom-control-input:checked ~ .custom-control-label::after {
+  transform: translateX(1.1rem) !important;
+}
+.iq-product-list .custom-switch.custom-switch-text .custom-control-label:after {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  transition: all 0.25s ease;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  height: 15px;
+  width: 15px;
+}
+.iq-product-list .custom-switch.custom-switch-text .custom-control-label {
+  width: 39px;
+}
+.swiper-pagination {
+  background: #ff000000;
+  width: 100%;
+  position: relative;
+  height: 14px;
+  z-index: 110;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -18px;
+}
+.swiper-pagination.swiper-pagination-bullets .swiper-pagination-bullet {
+  width: 5px;
+  height: 5px;
+  background: #b0b0b0;
+  border-radius: 50%;
+  margin: 0 2px;
+}
+.swiper-pagination.swiper-pagination-bullets .swiper-pagination-bullet-active {
+  background: var(--iq-primary-dark) !important;
+}
+.input-group {
+  flex-wrap: nowrap !important;
+}
+
+.modal-body {
+  padding: 0 !important;
+}
+
+.borderHeaderModal {
+  border-bottom: 1px solid #dee2e6;
+  font-weight: bold;
+  color: var(--iq-primary);
+  font-size: 18px;
+}
 
 //@font-face {
 //  font-familiy: CircularStd;

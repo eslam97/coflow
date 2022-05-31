@@ -47,7 +47,7 @@ export default {
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Accommodation Name', key: 'name', class: 'text-left' },
-        { label: 'Type', key: 'description', class: 'text-left' },
+        { label: 'Type', key: 'accommodation_type.name', class: 'text-left' },
         { label: 'Description', key: 'description', class: 'text-left' },
         { label: 'Price EGP/EUR', key: 'price_egp,price_euro', class: 'text-left', type: 'multi-value', pre: 'EGP,EUR' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro', class: 'text-left', type: 'multi-value' },

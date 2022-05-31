@@ -15,11 +15,28 @@
                 />
               </b-col>
               <b-col md="6" class="mb-3">
-                <main-select labelTitle='Duration' :validate="'required'"
-                             :name="`Course duration`" placeholder="Choose" :options="allDurationList"
-                             label="name"
-                             :reduce="data => data.id"
-                             v-model="courses.duration_list_id"></main-select>
+                <label for="duration-group">Duration</label>
+                <b-input-group id="duration-group">
+                  <b-form-input
+                      labelTitle='Duration'
+                      :label="'Duration'"
+                      v-model="courses.duration"
+                      :placeholder="'000'"
+                  />
+                  <template #append>
+                    <b-dropdown
+                        :text="type ? type : 'Pick duration type'"
+                        class="selectWithInputAppend"
+                    >
+                      <b-dropdown-item v-for="(i, keyType) in allDurationList"
+                                       :key="keyType"
+                                       @click="courses.duration_list_id = i.id;
+                                         type = i.name">
+                        {{i.name}}
+                      </b-dropdown-item>
+                    </b-dropdown>
+                  </template>
+                </b-input-group>
               </b-col>
             </b-row>
             <b-row>
@@ -324,6 +341,7 @@ export default {
         duration_list_id: '',
         level: 'all'
       },
+      type: '',
       selectedEGP: '',
       selectedEUR: '',
       selectedDollar: '',

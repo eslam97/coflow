@@ -549,3 +549,15 @@ form legend {
   width: 150px !important;
   height: 50px !important;
 }
+
+// Profile card
+.card-profile-img {
+  position: relative;
+  width: 180px;
+  margin-top: -100px;
+  margin-bottom: 15px;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 5px 10px rgb(0 0 0 / 15%);
+  z-index: 2;
+}

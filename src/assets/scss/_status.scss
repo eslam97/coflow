@@ -9,8 +9,9 @@ $warning: #ffd369;
 $danger: #f14336;
 $dark_sky_blue: #2f9be8;
 $caribbean_water: #2fdac2;
-$orange: #ff9f00;
-$red: #da302b;
+$sunny_gold: #ff9f00;
+$light_cherry: #da302b;
+$ladies_only: #ff7daa;
 $status: ( // Primary status
         "primary":$blue,
         "new": $blue,
@@ -156,8 +157,9 @@ $status: ( // Primary status
 $levels: (
       "blue":$dark_sky_blue,
       "cyan":$caribbean_water,
-      "orange":$orange,
-      "red":$red
+      "orange":$sunny_gold,
+      "red":$light_cherry,
+      "pink":$ladies_only
 );
 
 .bg-RGB {
@@ -341,7 +343,7 @@ $color in $status {
     }
   }
 }
-
+// Levels style
 @each $name, $color in $levels {
   .radio-btn-#{$name} {
     color: $color !important;
@@ -354,5 +356,14 @@ $color in $status {
   .radio-btn-selected-#{$name} {
     color: white !important;
     background: $color !important;
+  }
+  .slot-box-#{$name} {
+    width: 100%;
+    height: 300px;
+    color: $color;
+    background-color: rgba($color, 0.5);
+  }
+  .circle-#{$name} {
+    color: $color !important;
   }
 }

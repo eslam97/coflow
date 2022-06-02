@@ -524,6 +524,7 @@ form legend {
 //  src: url("@/assets/fonts/circularstd.ttf");
 //}
 
+//lined nav
 .nav-tabs {
   border-bottom: 2px solid #f2edff;
   background: transparent !important;
@@ -548,4 +549,22 @@ form legend {
 .save-changes-btn {
   width: 150px !important;
   height: 50px !important;
+}
+
+//schedule page style
+.levels-list {
+  list-style: none;
+}
+.levels-list li {
+  display: inline;
+}
+.slot-box-red {
+  height: 130px;
+  font-weight: bold;
+  font-size: 12px;
+  color: red;
+  background-color: rgba(#ff0000, 0.1);
+}
+.schedule-col {
+  min-width: 150px;
 }

@@ -1,6 +1,9 @@
 import Api from '@/axios'
 
 export default {
+  getAllFlows () {
+    return Api().get('all-flows')
+  },
   addNewFlow (payload) {
     return Api().post('flows', payload)
   },

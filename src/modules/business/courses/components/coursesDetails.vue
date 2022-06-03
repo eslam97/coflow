@@ -72,7 +72,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -80,6 +80,7 @@
                     <b-form-input
                         v-model="courses.discount_price_egp"
                         placeholder="000.00"
+                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
                     /> </b-input-group
@@ -119,7 +120,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -128,6 +129,7 @@
                         v-model="courses.discount_price_euro"
                         placeholder="000.00"
                         :disabled="!selectedEUR"
+                        :validate="selectedEUR ? 'required': ''"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
                     /> </b-input-group
                   ></b-form-group>
@@ -139,7 +141,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Dollar price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -166,7 +168,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted Dollar price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -174,8 +176,8 @@
                     <b-form-input
                         v-model="courses.discount_price_dollar"
                         placeholder="000.00"
-                        :validate="'required'"
                         :disabled="!selectedDollar"
+                        :validate="selectedDollar ? 'required': ''"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedDollar   }]"
                     /> </b-input-group
                   ></b-form-group>

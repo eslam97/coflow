@@ -15,7 +15,7 @@
           <b-col md="8" class="mb-3">
             <input-form
                 v-model="ticket.details"
-                placeholder="Write a breif description"
+                placeholder="Write a brief description"
                 :validate="'required'"
                 name="Ticket details"
                 :label="'Details'"
@@ -52,7 +52,7 @@
                 v-model="ticket.discount_price_egp"
                 placeholder="000.00"
                 :disabled="!selected"
-                :validate="required"
+                :validate="selected ? 'required': ''"
                 name="Discounted EGP price"
                 :label="'Discounted Price'"
             />
@@ -130,8 +130,7 @@ export default {
         conditions: '',
         status: 'active'
       },
-      selected: '',
-      required: ''
+      selected: ''
     }
   },
   methods: {
@@ -143,11 +142,7 @@ export default {
       }
     }
   },
-  watch: {
-    selected () {
-      this.required = this.selected ? 'required' : ''
-    }
-  },
+  watch: {},
   computed: {},
   created () {
     if (this.ticketDetails) {

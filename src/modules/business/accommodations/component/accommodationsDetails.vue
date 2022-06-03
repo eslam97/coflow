@@ -55,7 +55,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -63,7 +63,7 @@
                       <b-form-input
                         v-model="accommodations.discount_price_egp"
                         placeholder="000.00"
-                        :validate="'required'"
+                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
                       /> </b-input-group
@@ -76,7 +76,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -103,7 +103,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -111,6 +111,7 @@
                     <b-form-input
                       v-model="accommodations.discount_price_euro"
                       placeholder="000.00"
+                      :validate="selectedEUR ? 'required': ''"
                       :disabled="!selectedEUR"
                       :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
                     /> </b-input-group

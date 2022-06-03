@@ -79,7 +79,7 @@
                       <b-form-input
                         v-model="activities.discount_price_egp"
                         placeholder="000.00"
-                        :validate="selectedEGP"
+                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
                       /> </b-input-group
@@ -127,7 +127,7 @@
                     <b-form-input
                       v-model="activities.discount_price_euro"
                       placeholder="000.00"
-                      :validate="selectedEUR"
+                      :validate="selectedEUR ? 'required': ''"
                       :disabled="!selectedEUR"
                       :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
                     /> </b-input-group

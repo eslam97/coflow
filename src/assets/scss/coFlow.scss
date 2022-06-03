@@ -571,6 +571,9 @@ form legend {
   color: red;
   background-color: rgba(#ff0000, 0.07);
 }
+.schedule-card .card-body {
+  padding: 0 !important;
+}
 .schedule-col {
   min-width: 150px;
 }

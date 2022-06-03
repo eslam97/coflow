@@ -22,22 +22,16 @@
               </b-col>
               <b-col md="3">
                 <input-form
-                    placeholder="00:00"
-                    :validate="'required'"
-                    :name="`From ${slotKey + 1}`"
-                    :label="'From'"
-                    v-model="slot.from"
-                    type="time"
+                    placeholder="00:00" :validate="'required'"
+                    :name="`From ${slotKey + 1}`" :label="'From'"
+                    v-model="slot.from" type="time"
                 />
               </b-col>
               <b-col md="3">
                 <input-form
-                    placeholder="00:00"
-                    :validate="'required'"
-                    :name="`To ${slotKey + 1}`"
-                    :label="'To'"
-                    v-model="slot.to"
-                    type="time"
+                    placeholder="00:00" alidate="'required'"
+                    :name="`To ${slotKey + 1}`" :label="'To'"
+                    v-model="slot.to" type="time"
                 />
               </b-col>
               <b-col md="3">
@@ -156,7 +150,7 @@ export default {
       if (this.typeOfModal === 'add') {
         this.$emit('addSlots', this.schedule)
       } else {
-        console.log(this.schedule.flow_id)
+        this.schedule.slots[0].ladies_only = this.schedule.slots[0].ladies_only ? 1 : 0
         const obj = {
           flow_id: this.schedule.flow_id,
           ...this.schedule.slots[0],

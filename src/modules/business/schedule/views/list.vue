@@ -19,7 +19,9 @@
               <div
                   class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                 <div class="custom-switch-inner">
-                  <input type="checkbox" class="custom-control-input bg-info" :id="'status'" @change="changeStatus">
+                  <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
+                         @change="changeStatus(scheduleDetailsFront.id, scheduleDetailsFront.status)"
+                         v-model="slideStatus">
                   <label class="custom-control-label" :for="'status'">
                   </label>
                 </div>
@@ -53,14 +55,13 @@
       </b-col>
       <!--   Body   -->
       <b-col lg="12">
-        <b-card class="overflow-auto text-center">
-          <b-card-body class="p-0">
+        <b-card class="overflow-auto text-center schedule-card">
             <b-row class="flex-nowrap">
               <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
                 <h6 class="mb-3 schedule-header">{{ day.key }}</h6>
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                      :key="slotKey" class="slot-box-red p-2 d-flex justify-content-center align-items-end cursor-pointer"
-                      @click="showScheduleToEdit(slot.id)">
+                      @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
                     <li>{{ slot.from }} - {{ slot.to }}</li>
@@ -70,7 +71,6 @@
                 </div>
               </b-col>
             </b-row>
-          </b-card-body>
         </b-card>
       </b-col>
     </b-row>
@@ -82,7 +82,7 @@ import { core } from '@/config/pluginInit'
 import scheduleDetails from '@/modules/business/schedule/components/scheduleDetails'
 import scheduleServices from '@/modules/business/schedule/services/schedule.sevices'
 import flowsServices from '@/modules/business/flows/services/flows.services'
-
+import mainService from '@/services/main'
 export default {
   data () {
     return {
@@ -122,11 +122,17 @@ export default {
           key: 'SAT',
           value: 'saturday'
         }
-      ]
+      ],
+      scheduleDetailsFront: {}
     }
   },
   components: {
     scheduleDetails
+  },
+  computed: {
+    slideStatus () {
+      return this.scheduleDetailsFront.status === 'active'
+    }
   },
   methods: {
     openPopup () {
@@ -148,6 +154,7 @@ export default {
       this.requestLoading = true
       scheduleServices.editSchedule(slotId, schedule).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.getSchedule()
         this.$bvModal.hide('scheduleDetailsModal')
       }).finally(() => {
         this.requestLoading = false
@@ -162,11 +169,13 @@ export default {
         this.$bvModal.show('scheduleDetailsModal')
       })
     },
-    showScheduleToEdit (id) {
+    showScheduleToEdit (obj) {
       this.typeOfModal = 'edit'
-      scheduleServices.getScheduleDetails(id).then(res => {
+      this.scheduleDetailsFront = obj
+      scheduleServices.getScheduleDetails(obj.id).then(res => {
         this.scheduleDetails = res.data.data
-        this.scheduleDetails.slotId = id
+        this.scheduleDetails.slotId = obj.id
+        console.log(this.scheduleDetails)
         this.$bvModal.show('scheduleDetailsModal')
       })
     },
@@ -184,19 +193,23 @@ export default {
         this.requestLoading = false
       })
     },
-    changeStatus (e) {
-      console.log(e.target.value)
+    changeStatus (id, status) {
+      const obj = {
+        schedule_id: id,
+        status: this.scheduleDetailsFront.status ? 'inactive' : 'active',
+        type: 'schedule'
+      }
+      mainService.changeStatus(obj).then(res => {
+        this.scheduleDetailsFront.status = !this.scheduleDetailsFront.status
+        core.showSnackbar('success', res.data.message)
+      })
     }
   },
   created () {
     this.getSchedule()
     this.getAllFlows()
-    this.$root.$on('showSchedule', this.showDetails)
-    this.$root.$on('showScheduleToEdit', this.showScheduleToEdit)
   },
   beforeDestroy () {
-    this.$root.$off('showSchedule')
-    this.$root.$off('showScheduleToEdit')
   },
   mounted () {
     core.index()

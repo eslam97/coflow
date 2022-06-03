@@ -20,9 +20,7 @@ import inputForm from '@/components/formElements/InputForm'
 import mainSelect from '@/components/formElements/VSelect'
 import flatPickr from 'vue-flatpickr-component'
 import SliderThumbs from '@/components/core/slider/sliderThumbs'
-import Lingallery from 'lingallery'
 
-Vue.component('lingallery', Lingallery)
 Vue.component('SliderThumbs', SliderThumbs)
 Vue.component('multiselect', Multiselect)
 Vue.component('DatePicker', DatePicker)

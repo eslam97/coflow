@@ -551,6 +551,11 @@ form legend {
   height: 50px !important;
 }
 
+.modal-embed-actions {
+  min-width: 60px;
+  padding: 5px;
+}
+
 //schedule page style
 .levels-list {
   list-style: none;
@@ -559,12 +564,22 @@ form legend {
   display: inline;
 }
 .slot-box-red {
+  border:1px solid #efefef;
   height: 130px;
   font-weight: bold;
   font-size: 12px;
   color: red;
-  background-color: rgba(#ff0000, 0.1);
+  background-color: rgba(#ff0000, 0.07);
 }
 .schedule-col {
   min-width: 150px;
+}
+.schedule-header {
+  color: #a0a5bc !important;
+  font-weight: bold;
+}
+.ladies-only-tag {
+  font-size: 12px !important;
+  color: #ff7daa;
+  background-color: rgba(#ff7daa, 0.1);
 }

@@ -12,8 +12,12 @@
   >
     <template #modal-header="{ close }">
       <div class="py-2 d-flex justify-content-between align-items-center w-100">
-          <slot name="header"></slot>
-        <img :src="require('@/assets/images/close.svg')" @click="close()" class="closeImage" />
+        <slot name="header"></slot>
+        <div class="d-flex justify-content-end">
+          <slot name="actions" class=""></slot>
+          <img :src="require('@/assets/images/close.svg')"
+               @click="close()" class="closeImage ml-5 mr-4" />
+        </div>
       </div>
     </template>
     <slot name="borderHeader"></slot>

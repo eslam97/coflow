@@ -1,61 +1,68 @@
 <template>
   <div>
     <validationObserver v-slot="{ handleSubmit }">
-      <b-form @submit.prevent="handleSubmit(addSlot)">
+      <b-form @submit.prevent="handleSubmit(addSlots)">
         <b-row>
           <b-col md="12" class="mb-3">
             <main-select labelTitle='Flow' :validate="'required'"
                          :name="`Flow`" placeholder="Pick flow" :options="allFlows"
-                         label="name"
+                         label="name" :disabled="typeOfModal === 'edit'"
                          :reduce="data => data.id"
                          v-model="schedule.flow_id"></main-select>
           </b-col>
-          <b-col md="12" class="position-relative mb-3" v-for="(slot, slotKey) in schedule.slots"
-                 :key="slotKey">
-            <b-row class="d-flex align-items-center">
-              <b-col md="4" class="mb-4" >
+          <b-col md="12" class="position-relative mb-4 border-bottom"
+                 v-for="(slot, slotKey) in schedule.slots" :key="slotKey">
+            <b-row class="d-flex align-items-center mb-4">
+              <b-col md="3" >
                 <main-select labelTitle='Day of the week' :validate="'required'"
                              :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
-                             :multiple="true"
-                             label="value"
-                             :reduce="data => data.key"
-                             v-model="schedule.slots.day"></main-select>
+                             label="key"
+                             :reduce="data => data.value"
+                             v-model="slot.day"></main-select>
               </b-col>
-              <b-col md="2" class="mb-4">
+              <b-col md="3">
                 <input-form
-                    placeholder="00:00 AM"
+                    placeholder="00:00"
                     :validate="'required'"
                     :name="`From ${slotKey + 1}`"
                     :label="'From'"
-                    v-model="schedule.slots.from"
+                    v-model="slot.from"
                     type="time"
                 />
               </b-col>
-              <b-col md="2" class="mb-4">
+              <b-col md="3">
                 <input-form
-                    placeholder="00:00 AM"
+                    placeholder="00:00"
                     :validate="'required'"
                     :name="`To ${slotKey + 1}`"
                     :label="'To'"
-                    v-model="schedule.slots.to"
+                    v-model="slot.to"
                     type="time"
                 />
               </b-col>
-              <b-col md="4" class="mb-4">
+              <b-col md="3">
                 <main-select labelTitle='Instructor' :validate="'required'"
-                             :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor" :options="allDays"
-                             :multiple="true"
-                             label="value"
-                             :reduce="data => data.key"
-                             v-model="schedule.slots.instructor"></main-select>
+                             :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
+                             :options="!schedule.flow_id ? '':
+                             allFlows.find((flow) => flow.id === schedule.flow_id).instructors"
+                             label="first_name"
+                             :reduce="data => data.first_name"
+                             v-model="slot.instructor"></main-select>
+              </b-col>
+              <b-col>
+                <b-form-checkbox type="checkbox"
+                                 v-model="slot.ladies_only" label="Ladies only" :name="`Ladies only ${slotKey + 1}`"
+                                 class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0" color="warning">
+                  Ladies Only Class
+                </b-form-checkbox>
               </b-col>
             </b-row>
             <span v-if="(slotKey != 0)" class="text-danger deleteLabelButton cursor-pointer"
                   @click="deleteSlot(slotKey)">Delete</span>
           </b-col>
           <b-col md="12" class="mb-3">
-                  <span class="text-warning cursor-pointer" @click="addNewSlot">
-                    +Add another slot</span>
+            <span class="text-warning cursor-pointer deleteLabelButton " v-if="(typeOfModal === 'add')"
+                  @click="addNewSlot">+Add another slot</span>
           </b-col>
         </b-row>
         <b-row v-if="typeOfModal != 'view'">
@@ -106,11 +113,13 @@ export default {
     return {
       schedule: {
         slots: [{
+          id: '',
           day: '',
           from: '',
           to: '',
           instructor: '',
-          ladies_only: ''
+          ladies_only: 0,
+          status: ''
         }],
         status: 'active',
         flow_id: '',
@@ -118,26 +127,26 @@ export default {
       },
       allDays: [
         {
-          key: 'Sat',
-          value: 'Saturday'
+          key: 'Saturday',
+          value: 'saturday'
         }, {
-          key: 'Sun',
-          value: 'Sunday'
+          key: 'Sunday',
+          value: 'sunday'
         }, {
-          key: 'Mon',
-          value: 'Monday'
+          key: 'Monday',
+          value: 'monday'
         }, {
-          key: 'Tue',
-          value: 'Tuesday'
+          key: 'Tuesday',
+          value: 'tuesday'
         }, {
-          key: 'Wed',
-          value: 'Wednesday'
+          key: 'Wednesday',
+          value: 'wednesday'
         }, {
-          key: 'Thu',
-          value: 'Thursday'
+          key: 'Thursday',
+          value: 'thursday'
         }, {
-          key: 'Fri',
-          value: 'Friday'
+          key: 'Friday',
+          value: 'friday'
         }
       ]
     }
@@ -145,9 +154,15 @@ export default {
   methods: {
     addSlots () {
       if (this.typeOfModal === 'add') {
-        this.$emit('addSlot', this.slot)
+        this.$emit('addSlots', this.schedule)
       } else {
-        this.$emit('editSlot', { ...this.slot, _method: 'put' })
+        console.log(this.schedule.flow_id)
+        const obj = {
+          flow_id: this.schedule.flow_id,
+          ...this.schedule.slots[0],
+          _method: 'put'
+        }
+        this.$emit('editSlot', this.schedule.slots[0].id, obj)
       }
     },
     addNewSlot () {
@@ -164,19 +179,24 @@ export default {
     }
   },
   created () {
-    this.getAllFlows()
     if (this.scheduleDetails) {
       this.schedule = {
-        day: this.scheduleDetails.day,
-        from: this.scheduleDetails.from,
-        to: this.scheduleDetails.to,
-        instructor: this.scheduleDetails.instructor,
-        ladies_only: this.scheduleDetails.ladies_only,
+        slots: [{
+          id: this.scheduleDetails.slotId,
+          day: this.scheduleDetails.day,
+          from: this.scheduleDetails.from,
+          to: this.scheduleDetails.to,
+          instructor: this.scheduleDetails.instructor,
+          ladies_only: this.scheduleDetails.ladies_only,
+          status: this.scheduleDetails.status
+        }],
         status: 'active',
         flow_id: this.scheduleDetails.flow_id,
         flow_name: this.scheduleDetails.flow.name
       }
     }
+    console.log(this.schedule)
   }
+
 }
 </script>

@@ -8,6 +8,26 @@
           <span class="text-success-light">View: </span> Flow Slots</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Manage: </span> FlowSlots</h4>
       </template>
+      <template v-slot:actions v-if="typeOfModal == 'edit'">
+        <div class="d-flex">
+          <div class="modal-embed-actions">
+            <i class="las la-trash-alt text-danger font-size-20"></i>
+          </div>
+          <div class="modal-embed-actions">
+            <div class="d-flex justify-content-between">
+              <span class="text-info font-weight-bold font-size-12 mr-3">Active</span>
+              <div
+                  class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+                <div class="custom-switch-inner">
+                  <input type="checkbox" class="custom-control-input bg-info" :id="'status'" @change="changeStatus">
+                  <label class="custom-control-label" :for="'status'">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
       <template v-slot:body>
         <schedule-details @addSlots="addSlots"
                        @editSlot="editSlot"
@@ -18,34 +38,39 @@
       </template>
     </main-modal>
     <b-row>
+      <!--   Header   -->
       <b-col lg="12" class="mb-5 d-flex justify-content-between align-items-center">
         <h3>Schedule</h3>
-        <ul class="levels-list">
+        <ul class="levels-list m-0">
           <li class="p-1" v-for="(level, key) in levels" :key="key">
-            <i class="fas fa-circle ml-3 mr-1" :class="`circle-${level.color}`" ></i>{{ level.text }}
+            <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`" ></i>{{ level.text }}
           </li>
         </ul>
         <div>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Manage Schedule<i class="las la-cog ml-3"></i></b-button>
+            Manage Schedule<i class="las la-calendar ml-3"></i></b-button>
         </div>
       </b-col>
+      <!--   Body   -->
       <b-col lg="12">
-        <b-card class="mb-3 overflow-auto text-center">
-          <b-row class="flex-nowrap">
-            <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
-              <h5 class="mb-3">{{ day.key }}</h5>
-              <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
-                   :key="slotKey" class="slot-box-red mb-1 p-2 d-flex justify-content-center align-items-end">
-                <ul class="pl-0">
-                  <li>{{ slot.from }} - {{ slot.to }}</li>
-                  <li>{{ slot.flow.name }}</li>
-                  <li>{{ slot.instructor }}</li>
-                </ul>
-              </div>
-            </b-col>
-
-          </b-row>
+        <b-card class="overflow-auto text-center">
+          <b-card-body class="p-0">
+            <b-row class="flex-nowrap">
+              <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
+                <h6 class="mb-3 schedule-header">{{ day.key }}</h6>
+                <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
+                     :key="slotKey" class="slot-box-red p-2 d-flex justify-content-center align-items-end cursor-pointer"
+                      @click="showScheduleToEdit(slot.id)">
+                  <ul class="pl-0">
+                    <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
+                    <li>{{ slot.from }} - {{ slot.to }}</li>
+                    <li>{{ slot.flow.name }}</li>
+                    <li>{{ slot.instructor }}</li>
+                  </ul>
+                </div>
+              </b-col>
+            </b-row>
+          </b-card-body>
         </b-card>
       </b-col>
     </b-row>
@@ -76,25 +101,25 @@ export default {
       ],
       days: [
         {
-          key: 'Sun',
+          key: 'SUN',
           value: 'sunday'
         }, {
-          key: 'Mon',
+          key: 'MON',
           value: 'monday'
         }, {
-          key: 'Tue',
+          key: 'TUE',
           value: 'tuesday'
         }, {
-          key: 'Wed',
+          key: 'WED',
           value: 'wednesday'
         }, {
-          key: 'Thu',
+          key: 'THU',
           value: 'thursday'
         }, {
-          key: 'Fri',
+          key: 'FRI',
           value: 'friday'
         }, {
-          key: 'Sat',
+          key: 'SAT',
           value: 'saturday'
         }
       ]
@@ -113,18 +138,16 @@ export default {
     addSlots (schedule) {
       this.requestLoading = true
       scheduleServices.setNewSlot(schedule).then(res => {
-        this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('scheduleDetailsModal')
       }).finally(() => {
         this.requestLoading = false
       })
     },
-    editSlot (schedule) {
+    editSlot (slotId, schedule) {
       this.requestLoading = true
-      scheduleServices.editSchedule(this.scheduleId, schedule).then(res => {
-        this.reloadTable = true
-        core.showSnackbar('sucess', res.data.message)
+      scheduleServices.editSchedule(slotId, schedule).then(res => {
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('scheduleDetailsModal')
       }).finally(() => {
         this.requestLoading = false
@@ -139,19 +162,18 @@ export default {
         this.$bvModal.show('scheduleDetailsModal')
       })
     },
-    showScheduleToEdit (obj) {
+    showScheduleToEdit (id) {
       this.typeOfModal = 'edit'
-      this.scheduleId = obj.id
-      scheduleServices.getScheduleDetails(obj.id).then(res => {
+      scheduleServices.getScheduleDetails(id).then(res => {
         this.scheduleDetails = res.data.data
+        this.scheduleDetails.slotId = id
         this.$bvModal.show('scheduleDetailsModal')
       })
     },
     getAllFlows () {
       this.requestLoading = true
       flowsServices.getAllFlows().then(res => {
-        this.allFlows = res.data.data.data
-        console.log(this.allFlows)
+        this.allFlows = res.data.data
         this.requestLoading = false
       })
     },
@@ -160,8 +182,10 @@ export default {
       scheduleServices.getAllSlots().then(res => {
         this.allSlots = res.data.data.data
         this.requestLoading = false
-        console.log(this.allSlots.filter((ele) => { return ele.day === 'sunday' }))
       })
+    },
+    changeStatus (e) {
+      console.log(e.target.value)
     }
   },
   created () {

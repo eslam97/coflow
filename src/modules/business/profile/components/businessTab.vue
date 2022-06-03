@@ -318,11 +318,37 @@
           </validationObserver>
         </b-col>
         <b-col md="3">
-          <b-card-img></b-card-img>
-          <b-card-header><h4>Facility photo</h4></b-card-header>
-          <b-card-body>
-          </b-card-body>
-          <b-card-footer></b-card-footer>
+          <b-card :img-src="oldProfile.logo" img-top align="center">
+            <b-card-img :src="oldProfile.logo" class="card-profile-img mb-5"></b-card-img>
+            <h3 class="border-top border-bottom p-3 mb-3">Facility photos</h3>
+            <b-card-body>
+              <b-row class="row flex-nowrap mb-4">
+                <b-col md="3" v-for="(img, key) in oldProfile.images" :key="key" >
+                  <b-img class="img-fluid" :src="img.image" alt="img.name"></b-img>
+                </b-col>
+              </b-row>
+            </b-card-body>
+            <b-card-text>
+              <b-row class="border-top mb-2 pt-4">
+                <b-col>
+                  <span class="text-warning cursor-pointer"
+                        @click="addNewLink">Upload photo</span>
+                </b-col>
+                <b-col>
+                  <span class="text-secondry cursor-pointer"
+                        @click="addNewLink">Remove</span>
+                </b-col>
+              </b-row>
+            </b-card-text>
+          </b-card>
+<!--          <b-card-img :src="oldProfile.logo"></b-card-img>-->
+<!--          <div class="justify-content-center">-->
+<!--            <b-card-img :src="oldProfile.logo" class="card-profile-img"></b-card-img>-->
+<!--          </div>-->
+<!--          <b-card-header><h4>Facility photo</h4></b-card-header>-->
+<!--          <b-card-body>-->
+<!--          </b-card-body>-->
+<!--          <b-card-footer></b-card-footer>-->
         </b-col>
       </b-row>
     </div>

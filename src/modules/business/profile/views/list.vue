@@ -3,9 +3,14 @@
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">
         <h3>Profile</h3>
-        <div>
-          <b-button variant="warning" class="add_button text-white">
-            Temporary close account</b-button>
+        <div
+            class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+          <div class="custom-switch-inner">
+            <label for="">Temporary close account</label>
+            <input type="checkbox" class="custom-control-input bg-info" :id="'customSwitch-11'" v-model="closed">
+            <label class="custom-control-label" :for="'customSwitch-11'">
+            </label>
+          </div>
         </div>
       </b-col>
       <b-col md="12">
@@ -56,7 +61,8 @@ export default {
     return {
       loading: true,
       oldProfile: '',
-      id: ''
+      id: '',
+      closed: ''
     }
   },
   components: {
@@ -72,7 +78,6 @@ export default {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
       activationService.getActivationDetails(this.id).then(res => {
         this.oldProfile = res.data.data
-        core.showSnackbar('success', res.data.message)
         this.loading = false
       })
     },
@@ -112,6 +117,9 @@ export default {
   },
   created () {
     this.getOldAdminInfo()
+  },
+  mounted () {
+    core.index()
   }
 }
 </script>

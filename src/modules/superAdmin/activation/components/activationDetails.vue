@@ -301,48 +301,6 @@
                   </b-col>
                 </b-row>
                 <b-row>
-                  <b-col  md="6" class="mb-1" v-for="(item, key) in based.phones" :key="key">
-                    <b-form-group
-                        :label="`Contact Number ${key+1}`"
-                        :label-for="`Contact Number ${key+1}`"
-                        class="position-relative"
-                    >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteContact(key)">Delete
-              </span>
-                      <b-input-group>
-                        <validation-provider
-                            #default="{ errors }"
-                            :name="`Contact Number ${key + 1}`"
-                            :rules="'required'"
-                            class="flex-grow-1"
-                        >
-                          <b-form-input
-                              id="mm"
-                              v-model="item.number"
-                              :class="[{ 'is-invalid': errors.length > 0 }]"
-                              :placeholder="'Ex: 020454684'"
-                              :disabled="!item.type"
-                          />
-                        </validation-provider>
-                        <template #prepend>
-                          <b-dropdown
-                              :text="item.type ? item.type : 'Choose'"
-                              class="selectWithInput"
-                          >
-                            <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                              {{i}}
-                            </b-dropdown-item>
-                          </b-dropdown>
-                        </template>
-                      </b-input-group>
-                    </b-form-group>
-                  </b-col>
-                  <b-col md="12" class="mb-3">
-                    <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
-                  </b-col>
-                </b-row>
-                <b-row>
                   <b-col class="mb-3" md="12">
                     <b-form-group
                         label="Location"
@@ -416,49 +374,49 @@
                     <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
                   </b-col>
                 </b-row>
-                <b-row>
-                  <b-col  md="6" class="mb-1" v-for="(item, key) in remote.phones" :key="key">
-                    <b-form-group
-                        :label="`Contact Number ${key+1}`"
-                        :label-for="`Contact Number ${key+1}`"
-                        class="position-relative"
-                    >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteRemoteContact(key)">Delete
-              </span>
-                      <b-input-group>
-                        <validation-provider
-                            #default="{ errors }"
-                            :name="`Contact Number ${key + 1}`"
-                            :rules="'required'"
-                            class="flex-grow-1"
-                        >
-                          <b-form-input
-                              id="mm"
-                              v-model="item.number"
-                              :class="[{ 'is-invalid': errors.length > 0 }]"
-                              :placeholder="'Ex: 020454684'"
-                              :disabled="!item.type"
-                          />
-                        </validation-provider>
-                        <template #prepend>
-                          <b-dropdown
-                              :text="item.type ? item.type : 'Choose'"
-                              class="selectWithInput"
-                          >
-                            <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                              {{i}}
-                            </b-dropdown-item>
-                          </b-dropdown>
-                        </template>
-                      </b-input-group>
-                    </b-form-group>
-                  </b-col>
-                  <b-col md="12" class="mb-3">
-                    <span class="text-warning cursor-pointer" @click="addNewRemoteContactNumber">+ Add another Contact Number</span>
-                  </b-col>
-                </b-row>
               </div>
+              <b-row>
+                <b-col  md="6" class="mb-1" v-for="(item, key) in phones" :key="key">
+                  <b-form-group
+                      :label="`Contact Number ${key+1}`"
+                      :label-for="`Contact Number ${key+1}`"
+                      class="position-relative"
+                  >
+              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
+                    @click="deleteContact(key)">Delete
+              </span>
+                    <b-input-group>
+                      <validation-provider
+                          #default="{ errors }"
+                          :name="`Contact Number ${key + 1}`"
+                          :rules="'required'"
+                          class="flex-grow-1"
+                      >
+                        <b-form-input
+                            id="mm"
+                            v-model="item.number"
+                            :class="[{ 'is-invalid': errors.length > 0 }]"
+                            :placeholder="'Ex: 020454684'"
+                            :disabled="!item.type"
+                        />
+                      </validation-provider>
+                      <template #prepend>
+                        <b-dropdown
+                            :text="item.type ? item.type : 'Choose'"
+                            class="selectWithInput"
+                        >
+                          <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
+                            {{i}}
+                          </b-dropdown-item>
+                        </b-dropdown>
+                      </template>
+                    </b-input-group>
+                  </b-form-group>
+                </b-col>
+                <b-col md="12" class="mb-3">
+                  <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
+                </b-col>
+              </b-row>
             </div>
             <div class="mb-5">
               <div class="border-bottom mb-2">
@@ -599,12 +557,6 @@ export default {
         address: '',
         latitude: '',
         longitude: '',
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
-        ],
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
@@ -616,14 +568,14 @@ export default {
             city_id: null,
             areas: []
           }
-        ],
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
         ]
       },
+      phones: [
+        {
+          type: '',
+          number: ''
+        }
+      ],
       typeOfLocation: '',
       typeOfOperation: '',
       images: [],
@@ -774,13 +726,13 @@ export default {
       this.info.links.splice(key, 1)
     },
     deleteContact (key) {
-      this.based.phones.splice(key, 1)
+      this.phones.splice(key, 1)
     },
     deleteRemoteContact (key) {
       this.remote.phones.splice(key, 1)
     },
     addNewContactNumber () {
-      this.based.phones.push({
+      this.phones.push({
         type: '',
         number: ''
       })
@@ -856,6 +808,7 @@ export default {
     },
     fillData () {
       if (this.activationDetails) {
+        console.log('this.activationDetails', this.activationDetails)
         this.providerId = this.activationDetails.id
         this.adminInformation = this.activationDetails.contacts
         this.info.activity_line_id = this.activationDetails.activity_line_id
@@ -872,6 +825,7 @@ export default {
         this.logoImage = this.activationDetails.logo
         this.coverImage = this.activationDetails.cover
         this.images = this.activationDetails.images
+        this.phones = this.activationDetails.phones
         if (this.activationDetails.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'
         } else {
@@ -894,9 +848,9 @@ export default {
       let location = {}
       let operation = {}
       if (this.typeOfLocation === 'based') {
-        location = { phones: this.based.phones, address: this.based, location_type: 'address based' }
+        location = { phones: this.phones, address: this.based, location_type: 'address based' }
       } else {
-        location = { ...this.remote, location_type: 'remote location' }
+        location = { phones: this.phones, ...this.remote, location_type: 'remote location' }
       }
       if (this.typeOfOperation === '24 hours') {
         operation = { operation_type: '24 hours' }
@@ -912,6 +866,7 @@ export default {
         ...this.info,
         ...location,
         ...operation,
+        phones: this.phones,
         service_types: this.service_types
       }
       this.$emit('activation-provider', newObj)

@@ -52,6 +52,9 @@ import activationService from '@/modules/superAdmin/activation/services/activati
 import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
 export default {
+  mounted () {
+    core.index()
+  },
   data () {
     return {
       loading: true,
@@ -72,7 +75,7 @@ export default {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
       activationService.getActivationDetails(this.id).then(res => {
         this.oldProfile = res.data.data
-        core.showSnackbar('success', res.data.message)
+        /* core.showSnackbar('success', res.data.message) */
         this.loading = false
       })
     },

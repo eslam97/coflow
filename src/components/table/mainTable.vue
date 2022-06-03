@@ -81,14 +81,14 @@
           <div class="min-width-image-cell" v-else-if="field.type == 'multi_image'">
             <div class="iq-media-group position-relative">
               <b-link href="#" class="iq-media" v-for="(image, counter) in $_.get(data.item, field.key).slice(0,3)" :key="counter">
-                <b-img class="avatar-50" rounded="circle" fluid :src="image.image" :alt="image.name" />
+                <b-img class="avatar-40" rounded="circle" fluid :src="image.image" :alt="image.name" />
                 <div v-if="($_.get(data.item, field.key).length > 3) && counter === 2" class="more-images text-white">{{ $_.get(data.item, field.key).length-3 }}+</div>
               </b-link>
             </div>
           </div>
           <!-- Multi-value handler -->
           <div v-else-if="field.type == 'multi-value'">
-            <ul>
+            <ul class="p-0">
               <li v-for="(arrKey, key) in field.key.split(',')" :key="key">
                 <span v-if="$_.get(data.item, arrKey)">
                   <span v-if="arrKey.includes('egp')">EGP </span>

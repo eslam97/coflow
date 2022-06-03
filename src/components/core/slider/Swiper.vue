@@ -35,10 +35,10 @@
   </div>
 </template>
 <script>
-import Swiper, { Navigation, Pagination, Parallax, Autoplay } from 'swiper'
+import Swiper, { Navigation, Pagination, Parallax, Autoplay, Thumbs, Controller } from 'swiper'
 import { mapGetters } from 'vuex'
 import 'swiper/swiper.scss'
-Swiper.use([Navigation, Pagination, Parallax, Autoplay])
+Swiper.use([Navigation, Pagination, Parallax, Autoplay, Thumbs, Controller])
 let swiper
 export default {
   name: 'Swiper',

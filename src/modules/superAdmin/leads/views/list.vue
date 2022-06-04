@@ -79,9 +79,11 @@ export default {
     },
     viewLead (obj) {
       this.selectedLead = obj.id
+      core.startLoader()
       leadsServices.showLeadData(obj.id).then(res => {
         this.leadDetails = res.data.data
         this.$bvModal.show('leadDetalilsModal')
+        core.endLoader()
       })
     },
     acceptOrReject (data) {

@@ -21,6 +21,18 @@ export const core = {
   mainIndex () {
     this.fixedHeader()
   },
+  /*  startLoader () {
+    const load = document.getElementById('loading')
+    animation.fadeIn(load, { duration: 0 })
+    load.classList.remove('d-none')
+  },
+  endLoader () {
+    const load = document.getElementById('loading')
+    animation.fadeOut(load, { duration: 1000 })
+    setTimeout(() => {
+      load.classList.add('d-none')
+    }, 1000)
+  }, */
   bodyClassCheck () {
     const body = document.querySelector('body')
     const sidebar = document.getElementsByClassName('iq-sidebar')

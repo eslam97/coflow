@@ -1,5 +1,5 @@
 <template>
-  <b-badge :class="`font-size-14 status--${filterStatus}`">
+  <b-badge :class="`font-size-12 status--${filterStatus}`">
     <span >{{ status }}</span>
   </b-badge>
 </template>

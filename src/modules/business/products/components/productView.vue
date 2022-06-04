@@ -1,28 +1,21 @@
 <template>
   <div>
-    <swipperThumbs />
-    <div class="row align-items-center justify-content-center">
-      <div class="col-md-5 iq-item-product-left ">
-        <Swiper id="post-slider" :options="swiperOptions" :pagination="true" class="w-100">
-          <swiperSlide v-for="(image, key1) in images" :key="key1">
-            <img :src="image" class="w-100" alt="image"/>
-          </swiperSlide>
-        </Swiper>
+   <div class="row justify-content-center">
+      <div class="col-md-6">
+        <slider-thumbs :images="productDetails.images"/>
       </div>
-      <div class="col-md-7 iq-item-product-right">
+      <div class="col-md-6 iq-item-product-right">
         <div class="product-additional-details">
           <div class="product-price">
-            <div class="regular-price">
-              <b class="mr-5"> $ 200</b>
-              <span class="offer-price ml-2 text-danger">$ 500</span>
+            <label class="text-gray font-size-12 mb-2">Product Price</label>
+            <div class="regular-price font-size-14">
+              <b class="mr-5 font-weight-bold font-siz-14"> EGP {{productDetails.discount_price_egp}}</b>
+              <span class="offer-price ml-2 text-danger font-weight-bold font-size-12">EGP {{productDetails.price_egp}}</span>
             </div>
           </div>
+          <label class="text-gray font-size-12 mb-2">Product Information</label>
           <div class="product-descriptio">
-            <p>dsadasldmsd jsfksjf  v h jg  gjajhjla ajh adjh dfj adj fdjhadf hdf ajd fhda jg dgh ajgd ldj</p>
-          </div>
-          <div class="stock">
-            <p>Stock: <span class="text-success">Available</span></p>
-          </div>
+            <p class="text-black font-weight-bold font-size-12 text-justify">{{productDetails.description}}</p></div>
         </div>
       </div>
     </div>
@@ -30,37 +23,14 @@
 </template>
 
 <script>
-import swipperThumbs from '@/components/swipperThumbs'
 export default {
+  props: ['productDetails'],
   name: 'productView',
-  components: {
-    swipperThumbs
+  created () {
   },
-  data () {
-    return {
-      images: [require('@/assets/images/products/1.jpg'), require('@/assets/images/products/3.jpg')],
-      /* allProducts: [{
-        name: 'Xiaomi Mi Bluetooth 4.0',
-        images: [require('@/assets/images/products/1.jpg'), require('@/assets/images/products/3.jpg')],
-        description: 'Forced reflow while executing JavaScript took 45ms',
-        price: 500,
-        discount: 800
-      }
-      ], */
-      swiperOptions: {
-        spaceBetween: 30,
-        autoplay: false,
-        pagination: {
-          clickable: true,
-          el: '.swiper-pagination',
-          type: 'bullets'
-        }
-      }
-    }
+  methods: {
   }
 }
 </script>
-
-<style scoped>
-
+<style>
 </style>

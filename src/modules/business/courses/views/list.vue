@@ -52,7 +52,7 @@ export default {
         { label: 'Price EGP/EUR', key: 'price_egp,price_euro', class: 'text-left', type: 'multi-value', pre: 'EGP,EUR' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro', class: 'text-left', type: 'multi-value' },
         { label: 'Description', key: 'description', class: 'text-left' },
-        { label: 'Duration', key: 'duration', class: 'text-left' },
+        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
         { label: 'Requirements', key: 'requirements', class: 'text-left' },
         { label: 'Conditions', key: 'conditions', class: 'text-left' },
         { label: 'Location', key: 'location', class: 'text-left', type: 'array' },

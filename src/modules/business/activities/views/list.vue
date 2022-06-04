@@ -80,7 +80,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Activities',
-              textContent: 'name',
+              textContnet: 'name',
               url: 'activities'
             }
           ]

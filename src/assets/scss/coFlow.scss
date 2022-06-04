@@ -402,19 +402,20 @@ form legend {
   font-family: "Dosis", Arial, Helvetica, sans-serif;
   font-size: 12px;
   border: 2px solid #cdcdcd;
-  
+
 }
 
 .more-images {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: #fd9e11;
   border-radius: 8px;
   position: relative;
-  margin-left: -20px;
+  margin-left: -18px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 12px;
 }
 
 .min-width-image-cell {
@@ -524,7 +525,6 @@ form legend {
 //  src: url("@/assets/fonts/circularstd.ttf");
 //}
 
-//lined nav
 .nav-tabs {
   border-bottom: 2px solid #f2edff;
   background: transparent !important;
@@ -549,6 +549,30 @@ form legend {
 .save-changes-btn {
   width: 150px !important;
   height: 50px !important;
+}
+.swiper-container.gallery-thumbs.swiper-container-initialized.swiper-container-horizontal.swiper-container-pointer-events img {
+  opacity: 0.1;
+}
+.swiper-container.gallery-thumbs.swiper-container-initialized.swiper-container-horizontal.swiper-container-pointer-events .swiper-slide-active img {
+  opacity: 1;
+}
+.loading-images {
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 100%;
+}
+
+// Profile card
+.card-profile-img {
+  position: relative;
+  width: 180px;
+  margin-top: -100px;
+  margin-bottom: 15px;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 5px 10px rgb(0 0 0 / 15%);
+  z-index: 2;
 }
 
 .modal-embed-actions {

@@ -19,6 +19,9 @@ import mainModal from '@/components/modal/mainModal'
 import inputForm from '@/components/formElements/InputForm'
 import mainSelect from '@/components/formElements/VSelect'
 import flatPickr from 'vue-flatpickr-component'
+import SliderThumbs from '@/components/core/slider/sliderThumbs'
+
+Vue.component('SliderThumbs', SliderThumbs)
 Vue.component('multiselect', Multiselect)
 Vue.component('DatePicker', DatePicker)
 Vue.component('spinner-loading', spinnerLoading)

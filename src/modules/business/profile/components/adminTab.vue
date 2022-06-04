@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-row><b-col md="9">
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(updateLoginCredential)">
         <b-card class="mb-5">
@@ -42,7 +43,7 @@
     </validationObserver>
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(updateContactInfo)">
-        <b-card>
+        <b-card class="mb-5">
           <b-card-header class="mb-5">
             <h4 class="pb-2">Contacts</h4>
           </b-card-header>
@@ -97,6 +98,7 @@
         </b-card>
       </b-form>
     </validationObserver>
+  </b-col></b-row>
   </div>
 </template>
 

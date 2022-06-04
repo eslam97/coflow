@@ -10,7 +10,7 @@
       </template>
       <template v-slot:actions v-if="typeOfModal == 'edit'">
         <div class="d-flex">
-          <div class="modal-embed-actions">
+          <div class="modal-embed-actions cursor-pointer" @click="deleteSlot">
             <i class="las la-trash-alt text-danger font-size-20"></i>
           </div>
           <div class="modal-embed-actions">
@@ -83,6 +83,7 @@ import scheduleDetails from '@/modules/business/schedule/components/scheduleDeta
 import scheduleServices from '@/modules/business/schedule/services/schedule.sevices'
 import flowsServices from '@/modules/business/flows/services/flows.services'
 import mainService from '@/services/main'
+import EventBus from '@/eventBus'
 export default {
   data () {
     return {
@@ -145,6 +146,7 @@ export default {
       this.requestLoading = true
       scheduleServices.setNewSlot(schedule).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.getSchedule()
         this.$bvModal.hide('scheduleDetailsModal')
       }).finally(() => {
         this.requestLoading = false
@@ -193,6 +195,22 @@ export default {
         this.requestLoading = false
       })
     },
+    deleteSlot () {
+      EventBus.$emit('openDeleteModal', {
+        actionHeader: 'Delete',
+        titleHeader: 'Slot',
+        textContnet: `${this.scheduleDetailsFront.flow.name} in ${this.scheduleDetailsFront.day} `,
+        question: 'Are You Sure You Want Delete This Slot?',
+        textDeleteButton: 'YES, Delete',
+        textCancelButton: 'NO, CANCEL',
+        icon: 'las la-trash-alt',
+        type: 'delete',
+        actionOnAlert: '',
+        text: 'Delete',
+        url: 'schedules',
+        rowId: this.scheduleDetailsFront.id
+      })
+    },
     changeStatus (id, status) {
       const obj = {
         schedule_id: id,
@@ -208,6 +226,11 @@ export default {
   created () {
     this.getSchedule()
     this.getAllFlows()
+    EventBus.$on('reloadTableAfterDelete', ifReload => {
+      this.$bvModal.hide('scheduleDetailsModal')
+      this.getSchedule()
+      core.showSnackbar('success', 'Data deleted successfully')
+    })
   },
   beforeDestroy () {
   },

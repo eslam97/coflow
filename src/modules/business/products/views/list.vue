@@ -20,11 +20,11 @@
       </template>
       <template v-slot:borderHeader>
         <p class="p-4 borderHeaderModal">
-          Name Of Product
+          {{productDetailsInfo.name}}
         </p>
       </template>
       <template v-slot:body>
-        <product-details-view/>
+        <ProductDetailsView v-if="productDetailsInfo.name" :productDetails="productDetailsInfo"/>
       </template>
     </main-modal>
     <b-row>
@@ -33,8 +33,6 @@
         <div>
           <b-button variant="warning" class="add_button text-white" @click="openProductPopup">
             Add Product<i class="las la-plus ml-3"></i></b-button>
-          <b-button variant="warning" class="add_button text-white" v-b-modal:productDetailsViewModal>
-            Show Product<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
     </b-row>
@@ -43,13 +41,13 @@
         <b-card class="iq-product iq-product-list iq-product-item iq-border-radius-10">
           <div class="pt-3 pr-3 pl-3">
             <div class="mb-2 w-100 h-170px iq-border-radius-10">
-              <Swiper id="post-slider"  :options="swiperOptions" :pagination="true">
+              <Swiper :id="`post-slider-${key}`"  :options="swiperOptions" :pagination="true">
                 <swiperSlide v-for="(image, key1) in item.images" :key="key1">
                   <section :style="{
               'background-size': 'cover',
               'background-image':
            'url(' + image.image + ')' }"
-                           class="w-100 h-170px pt-5 px-4 pb-2 position-relative testimonials-card iq-border-radius-10">
+                           class="w-100 h-170px pt-5 px-4 pb-2 position-relative iq-border-radius-10">
                   </section>
                 </swiperSlide>
               </Swiper>
@@ -71,9 +69,9 @@
           </div>
           <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
               <div class="d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
-                <i class="cursor-pointer las la-eye text-success-light"></i>
+                <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
                 <i class="cursor-pointer las la-pen text-info"></i>
-                <i class="cursor-pointer las la-trash-alt text-danger"></i>
+                <i class="cursor-pointer las la-trash-alt text-danger" @click="deleteProduct(item)"></i>
               </div>
               <div class="w-50 pt-3 py-3 pl-2 pr-1 border-actions">
                 <p class="text-primary font-weight-bold font-size-12 mb-2">Product Status:</p>
@@ -82,7 +80,7 @@
                   <div
                       class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                     <div class="custom-switch-inner">
-                      <input type="checkbox" class="custom-control-input bg-info" :id="'customSwitch-11'+item.name" >
+                      <input type="checkbox" class="custom-control-input bg-info" :id="'customSwitch-11'+item.name">
                       <label class="custom-control-label" :for="'customSwitch-11'+item.name">
                       </label>
                     </div>
@@ -100,6 +98,7 @@ import { core } from '@/config/pluginInit'
 import ProductDetails from '@/modules/business/products/components/productDetails'
 import ProductDetailsView from '@/modules/business/products/components/productView'
 import productsServices from '@/modules/business/products/services/products.services'
+import EventBus from '@/eventBus'
 
 export default {
   components: { ProductDetails, ProductDetailsView },
@@ -110,42 +109,15 @@ export default {
       swiperOptions: {
         spaceBetween: 30,
         autoplay: false,
+        slidesPerView: 1,
         pagination: {
           clickable: true,
           el: '.swiper-pagination',
           type: 'bullets'
         }
       },
+      productDetailsInfo: {},
       allProducts: []
-      /* {
-        name: 'Xiaomi Mi Bluetooth 4.0',
-        images: [require('@/assets/images/products/1.jpg'), require('@/assets/images/products/3.jpg')],
-        description: 'Forced reflow while executing JavaScript took 45ms',
-        price: 500,
-        discount: 800
-      },
-      {
-        name: 'Waterproof Sport Smart Watch',
-        images: [require('@/assets/images/products/2.jpg'), require('@/assets/images/products/3.jpg')],
-        description: 'Forced reflow while executing JavaScript took 45ms',
-        price: 500,
-        discount: 800
-      },
-      {
-        name: 'Amazon - Fire TV Stick while executing JavaScript',
-        images: [require('@/assets/images/products/4.jpg'), require('@/assets/images/products/3.jpg'),
-          require('@/assets/images/products/4.jpg'), require('@/assets/images/products/2.jpg'), require('@/assets/images/products/3.jpg')],
-        description: 'Forced reflow while executing JavaScript took 45ms',
-        price: 500,
-        discount: 800
-      },
-      {
-        name: 'Xiaomi Mi Bluetooth',
-        images: [require('@/assets/images/products/4.jpg')],
-        description: 'Forced reflow while executing JavaScript took 45ms',
-        price: 500,
-        discount: 800
-      } */
     }
   },
   methods: {
@@ -165,13 +137,40 @@ export default {
       productsServices.getAllProducts().then(res => {
         this.allProducts = res.data.data.data
       })
+    },
+    viewProduct (item) {
+      this.productDetailsInfo = item
+      this.$bvModal.show('productDetailsViewModal')
+    },
+    deleteProduct (item) {
+      EventBus.$emit('openDeleteModal', {
+        actionHeader: 'Delete',
+        titleHeader: 'Product',
+        textContnet: item.name,
+        question: 'Are You Sure You Want Delete This Product?',
+        textDeleteButton: 'YES, Delete',
+        textCancelButton: 'NO, CANCEL',
+        icon: 'las la-trash-alt',
+        type: 'delete',
+        actionOnAlert: '',
+        text: 'Delete',
+        url: 'products',
+        rowId: item.id
+      })
     }
   },
   created () {
     this.getAllProducts()
+    EventBus.$on('reloadTableAfterDelete', ifReload => {
+      this.$bvModal.hide('productDetailsModal')
+      this.getAllProducts()
+      core.showSnackbar('success', 'Product deleted successfully')
+    })
   },
   mounted () {
     core.index()
   }
 }
 </script>
+<style lang="scss" scoped>
+</style>

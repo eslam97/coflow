@@ -54,6 +54,14 @@ export default {
         { label: 'Duration', key: 'duration', class: 'text-left' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
+          label: 'Change Status',
+          key: 'change_status',
+          type: 'switch',
+          tableType: 'activity',
+          idKey: 'activity_id',
+          class: 'text-left'
+        },
+        {
           label: 'Actions',
           key: 'actions',
           class: 'text-left',

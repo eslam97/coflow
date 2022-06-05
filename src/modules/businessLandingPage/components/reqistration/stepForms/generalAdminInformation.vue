@@ -81,6 +81,11 @@ export default {
       ]
     }
   },
+  props: {
+    providerInfo: {
+      required: false
+    }
+  },
   methods: {
     addNewGeneralAdminInformation () {
       this.adminInformation.push({
@@ -107,6 +112,11 @@ export default {
       }).finally(() => {
         this.loadingGeneralAdminInformation = false
       })
+    }
+  },
+  created () {
+    if (this.providerInfo && this.providerInfo.contacts) {
+      this.adminInformation = this.providerInfo.contacts
     }
   }
 }

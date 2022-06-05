@@ -38,6 +38,7 @@
           />
         </div>
       </template>
+
       <template
         v-for="(field,key) in fields"
         v-slot:[`cell(${field.key})`]="data"
@@ -61,6 +62,7 @@
               :data-item="data.item"
             />
           </div>
+
           <!-- Array handler -->
           <div v-else-if="field.type == 'array'">
             <span v-if="field.array_keys" >
@@ -77,6 +79,7 @@
               </span>
             </span>
           </div>
+
           <!-- Multi-image handler -->
           <div class="min-width-image-cell" v-else-if="field.type == 'multi_image'">
             <div class="iq-media-group position-relative">
@@ -86,6 +89,7 @@
               </b-link>
             </div>
           </div>
+
           <!-- Multi-value handler -->
           <div v-else-if="field.type == 'multi-value'">
             <ul class="p-0">
@@ -99,6 +103,7 @@
               </li>
             </ul>
           </div>
+
           <!-- handle Text -->
           <p
             v-else
@@ -108,6 +113,16 @@
           </p>
         </div>
 
+      </template>
+      <template v-slot:cell(change_status)="data">
+        <changeStatus
+            :allData = data
+            :id="data.item.id"
+            :type="data.field.tableType"
+            :status="data.item.status"
+            :statusKeyId="data.field.idKey"
+            @changeStatus="changeStatus"
+        />
       </template>
     </b-table>
     <b-pagination
@@ -132,11 +147,13 @@ import Bus from '@/eventBus'
 import mainstatus from './status'
 import mainService from '@/services/main'
 import cellActions from './cellActions'
-
+import changeStatus from './changeStatus'
+import { core } from '@/config/pluginInit'
 export default {
   components: {
     mainstatus,
-    cellActions
+    cellActions,
+    changeStatus
   },
   props: {
     fields: {
@@ -237,6 +254,19 @@ export default {
     },
     calculateMoreImages () {
       this.moreImages = 4 // array length
+    },
+    changeStatus (data) {
+      mainService.changeStatus(data.payload).then(res => {
+        core.showSnackbar('success', res.data.message)
+        const IndexRow = this.listOfData.findIndex(row => row.id === data.data.item.id)
+        if (this.listOfData[IndexRow].status === 'active') {
+          this.listOfData[IndexRow].status = 'inactive'
+          this.listOfData[IndexRow]._rowVariant = 'secondary'
+        } else {
+          this.listOfData[IndexRow].status = 'active'
+          this.listOfData[IndexRow]._rowVariant = ''
+        }
+      })
     }
   },
   mounted () {

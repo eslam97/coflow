@@ -125,7 +125,7 @@
                         v-model="item.link"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="'Ex: https://www.google.com'"
-                        :disabled="!item.selectSocial"
+                        :disabled="!item.selectSocial.name"
                     />
                   </validation-provider>
                   <template #prepend>
@@ -148,37 +148,38 @@
           </b-row>
           <b-row>
             <b-col md="12" class="mb-5">
-              <cropper
-                  :label="'Upload Logo'"
-                  :progressLoading= "progressLogo"
-                  :uploadServer="true"
-                  @cropper-file-selected="cropperFile"
-                  @cropper-saved="saveLogoImage"
-                  @remove-image="removeLogoImage"
-              ></cropper>
+              <cropper-images
+                  label="Upload Logo"
+                  nameOfImage="logo.jpg"
+                  @cropper-save="savelogoImage"
+                  :progressLoading="loadingLogo"
+                  :multi="false"
+                  :imageUrl="logoImage"
+              />
             </b-col>
           </b-row>
           <b-row>
             <b-col md="12" class="mb-5">
-              <cropper
-                  :label="'Upload Cover'"
-                  :progressLoading= "progressCover"
-                  :uploadServer="true"
-                  @cropper-file-selected="cropperFile"
-                  @cropper-saved="saveCoverImage"
-                  @remove-image="removeCoverImage"
-              ></cropper>
+              <cropper-images
+                  label="Upload Cover"
+                  nameOfImage="cover.jpg"
+                  @cropper-save="saveCoverImage"
+                  :progressLoading="loadingCover"
+                  :multi="false"
+                  :imageUrl="coverImage"
+              ></cropper-images>
             </b-col>
           </b-row>
           <b-row>
             <b-col md="12" class="mb-5">
-              <cropper
-                  :label="'Upload Facility Photos'"
-                  :uploadServer="true"
-                  :options="{
-                    selectButtonLabel:'Add Photos'
-                  }"
-              ></cropper>
+              <cropper-images
+                  label="Upload Facility Photos"
+                  @cropper-save="saveGalleryImage"
+                  @remove-image="removeGalleryImage"
+                  :progressLoading="loadingGallery"
+                  :removeLoadingUi="removeLoadingUi"
+                  :images="images"
+              ></cropper-images>
             </b-col>
           </b-row>
           <b-row>
@@ -205,11 +206,12 @@
 <script>
 import registrationServices from '../../../services/registration.services'
 import { core } from '@/config/pluginInit'
-import cropper from '@/components/cropper'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 export default {
-  components: {
-    cropper
+  props: {
+    providerInfo: {
+      required: false
+    }
   },
   data () {
     return {
@@ -232,7 +234,6 @@ export default {
         ]
       },
       providerId: JSON.parse(localStorage.getItem('userInfo')).id,
-      progressLogo: 0,
       progressCover: 0,
       fileInfo: {},
       allActivityLines: [],
@@ -241,7 +242,14 @@ export default {
       allLinks: [],
       allAmenities: [],
       // loading Steps
-      loadingFacilityInformation: false
+      loadingFacilityInformation: false,
+      loadingLogo: 0,
+      loadingCover: 0,
+      loadingGallery: 0,
+      removeLoadingUi: false,
+      logoImage: '',
+      coverImage: '',
+      images: []
     }
   },
   methods: {
@@ -267,45 +275,70 @@ export default {
     cropperFile (file) {
       console.log('file', file)
     },
-    saveLogoImage (file) {
+    savelogoImage (data) {
       const formData = new FormData()
-      formData.append('image', file.croppedFile)
+      console.log(data)
+      formData.append('image', data.image)
+      formData.append('name', data.imageInfo.name)
       formData.append('type', 'logo')
       formData.append('provider_id', this.providerId)
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const percent = Math.floor((loaded * 100) / total)
-          this.progressLogo = percent
+          this.loadingLogo = percent
         }
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.logoImage = ''
       })
     },
-    saveCoverImage (file) {
+    saveCoverImage (data) {
       const formData = new FormData()
-      formData.append('image', file.croppedFile)
+      console.log(data)
+      formData.append('image', data.image)
+      formData.append('name', data.imageInfo.name)
       formData.append('type', 'cover')
       formData.append('provider_id', this.providerId)
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const percent = Math.floor((loaded * 100) / total)
-          this.progressCover = percent
+          this.loadingCover = percent
         }
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.coverImage = ''
       })
     },
-    removeLogoImage () {
-      this.fileInfo = {
+    saveGalleryImage (data) {
+      this.removeLoadingUi = false
+      const formData = new FormData()
+      formData.append('image', data.image)
+      formData.append('name', data.imageInfo.name)
+      formData.append('type', 'gallery')
+      formData.append('provider_id', this.providerId)
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          this.loadingGallery = percent
+        }
       }
+      registrationServices.uploadProviderImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.images.push(res.data.data)
+        this.removeLoadingUi = true
+      })
     },
-    removeCoverImage () {
-      this.fileInfo = {
-      }
+    removeGalleryImage (id) {
+      registrationServices.removeProviderImage(id).then(res => {
+        core.showSnackbar('success', res.data.message)
+        const ind = this.images.findIndex(image => image.id === id)
+        this.images.splice(ind, 1)
+      })
     },
     addNewLink () {
       this.info.links.push({
@@ -346,10 +379,12 @@ export default {
     filterLinks () {
       var newLinksArr = [...this.allLinks]
       this.info.links.forEach(e => {
-        if (newLinksArr.includes(e.selectSocial)) {
-          var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
-          newLinksArr.splice(socialIndex, 1)
-        }
+        newLinksArr.forEach(arr => {
+          if (arr.name === e.selectSocial.name) {
+            var socialIndex = newLinksArr.findIndex(item => item === arr)
+            newLinksArr.splice(socialIndex, 1)
+          }
+        })
       })
       return newLinksArr
     }
@@ -365,6 +400,23 @@ export default {
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
+    if (this.providerInfo) {
+      this.logoImage = this.providerInfo.logo
+      this.coverImage = this.providerInfo.cover
+      this.images = this.providerInfo.images
+      this.info = {
+        activity_line_id: this.providerInfo.activity_line_id,
+        activity_type_id: this.providerInfo.activity_type_id,
+        year: this.providerInfo.year,
+        name: this.providerInfo.name,
+        title: this.providerInfo.title,
+        languages: this.providerInfo.languages,
+        bio: this.providerInfo.bio,
+        tags: this.providerInfo.tags,
+        amenities: this.providerInfo.amenities.map(ameny => ameny.id),
+        links: this.providerInfo.links
+      }
+    }
   }
 }
 </script>

@@ -24,6 +24,48 @@
               </div>
               </b-col>
           </b-row>
+          <b-row>
+            <b-col  md="6" class="mb-1" v-for="(item, key) in phones" :key="key">
+              <b-form-group
+                  :label="`Contact Number ${key+1}`"
+                  :label-for="`Contact Number ${key+1}`"
+                  class="position-relative"
+              >
+              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
+                    @click="deleteContact(key)">Delete
+              </span>
+                <b-input-group>
+                  <validation-provider
+                      #default="{ errors }"
+                      :name="`Contact Number ${key + 1}`"
+                      :rules="'required'"
+                      class="flex-grow-1"
+                  >
+                    <b-form-input
+                        id="mm"
+                        v-model="item.number"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                        :placeholder="'Ex: 020454684'"
+                        :disabled="!item.type"
+                    />
+                  </validation-provider>
+                  <template #prepend>
+                    <b-dropdown
+                        :text="item.type ? item.type : 'Choose'"
+                        class="selectWithInput"
+                    >
+                      <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
+                        {{i}}
+                      </b-dropdown-item>
+                    </b-dropdown>
+                  </template>
+                </b-input-group>
+              </b-form-group>
+            </b-col>
+            <b-col md="12" class="mb-4">
+              <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
+            </b-col>
+          </b-row>
           <div v-if="typeOfLocation === 'based'">
             <b-row>
               <b-col class="mb-3" md="2">
@@ -60,48 +102,6 @@
                     :label="'Address'"
                     v-model="based.address"
                 />
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col  md="6" class="mb-1" v-for="(item, key) in based.phones" :key="key">
-                <b-form-group
-                    :label="`Contact Number ${key+1}`"
-                    :label-for="`Contact Number ${key+1}`"
-                    class="position-relative"
-                >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteContact(key)">Delete
-              </span>
-                  <b-input-group>
-                    <validation-provider
-                        #default="{ errors }"
-                        :name="`Contact Number ${key + 1}`"
-                        :rules="'required'"
-                        class="flex-grow-1"
-                    >
-                      <b-form-input
-                          id="mm"
-                          v-model="item.number"
-                          :class="[{ 'is-invalid': errors.length > 0 }]"
-                          :placeholder="'Ex: 020454684'"
-                          :disabled="!item.type"
-                      />
-                    </validation-provider>
-                    <template #prepend>
-                      <b-dropdown
-                          :text="item.type ? item.type : 'Choose'"
-                          class="selectWithInput"
-                      >
-                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                          {{i}}
-                        </b-dropdown-item>
-                      </b-dropdown>
-                    </template>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <b-col md="12" class="mb-3">
-                <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
               </b-col>
             </b-row>
             <b-row>
@@ -188,48 +188,6 @@
                 <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
               </b-col>
             </b-row>
-            <b-row>
-              <b-col  md="6" class="mb-1" v-for="(item, key) in remote.phones" :key="key">
-                <b-form-group
-                    :label="`Contact Number ${key+1}`"
-                    :label-for="`Contact Number ${key+1}`"
-                    class="position-relative"
-                >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteRemoteContact(key)">Delete
-              </span>
-                  <b-input-group>
-                    <validation-provider
-                        #default="{ errors }"
-                        :name="`Contact Number ${key + 1}`"
-                        :rules="'required'"
-                        class="flex-grow-1"
-                    >
-                      <b-form-input
-                          id="mm"
-                          v-model="item.number"
-                          :class="[{ 'is-invalid': errors.length > 0 }]"
-                          :placeholder="'Ex: 020454684'"
-                          :disabled="!item.type"
-                      />
-                    </validation-provider>
-                    <template #prepend>
-                      <b-dropdown
-                          :text="item.type ? item.type : 'Choose'"
-                          class="selectWithInput"
-                      >
-                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                          {{i}}
-                        </b-dropdown-item>
-                      </b-dropdown>
-                    </template>
-                  </b-input-group>
-                </b-form-group>
-              </b-col>
-              <b-col md="12" class="mb-3">
-                <span class="text-warning cursor-pointer" @click="addNewRemoteContactNumber">+ Add another Contact Number</span>
-              </b-col>
-            </b-row>
           </div>
           <b-row>
             <b-col md="12" class="mt-3 mb-5 d-flex justify-content-between align-items-center">
@@ -257,6 +215,11 @@ import settingsService from '@/modules/superAdmin/settings/services/settings.ser
 import registrationServices from '@/modules/businessLandingPage/services/registration.services'
 import { core } from '@/config/pluginInit'
 export default {
+  props: {
+    providerInfo: {
+      required: false
+    }
+  },
   data () {
     return {
       typeOfLocation: 'based',
@@ -265,21 +228,21 @@ export default {
         city_id: '',
         area_id: '',
         address: '',
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
-        ],
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
+      phones: [
+        {
+          type: '',
+          number: ''
+        }
+      ],
       remote: {
         location: [
           {
             availability_type: '',
-            country_id: '',
-            city_id: '',
+            country_id: null,
+            city_id: null,
             areas: []
           }
         ],
@@ -301,7 +264,7 @@ export default {
     saveFacilityLocation () {
       this.loadingFacilityLocation = true
       if (this.typeOfLocation === 'based') {
-        registrationServices.saveStepLocationBased(this.based).then(res => {
+        registrationServices.saveStepLocationBased({ ...this.based, phones: this.phones }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
           localStorage.setItem('formStep', 4)
@@ -315,7 +278,7 @@ export default {
           this.loadingFacilityLocation = false
         })
       } else {
-        registrationServices.saveStepLocationRemote(this.remote).then(res => {
+        registrationServices.saveStepLocationRemote({ ...this.remote, phones: this.phones }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
           localStorage.setItem('formStep', 4)
@@ -334,19 +297,10 @@ export default {
       this.$store.commit('formSteps/setActiveStepForm', 2)
     },
     deleteContact (key) {
-      this.based.phones.splice(key, 1)
-    },
-    deleteRemoteContact (key) {
-      this.remote.phones.splice(key, 1)
+      this.phones.splice(key, 1)
     },
     addNewContactNumber () {
-      this.based.phones.push({
-        type: '',
-        number: ''
-      })
-    },
-    addNewRemoteContactNumber () {
-      this.remote.phones.push({
+      this.phones.push({
         type: '',
         number: ''
       })
@@ -369,19 +323,44 @@ export default {
     },
     getCityDependOnCountry (id) {
       this.allGovernorates = []
+      this.based.city_id = ''
+      this.based.area_id = ''
       settingsService.getCountryCity(id).then(res => {
         this.allGovernorates = res.data.data
       })
     },
     getAreasDependOnCity (id) {
       this.allArea = []
+      this.based.area_id = ''
       settingsService.getCityArea(id).then(res => {
         this.allArea = res.data.data
       })
+    },
+    fillData () {
+      if (this.providerInfo) {
+        if (this.providerInfo.location_type === 'address based') {
+          this.typeOfLocation = 'based'
+          this.based.city_id = this.providerInfo.city_id
+          this.based.country_id = this.providerInfo.country_id
+          this.based.area_id = this.providerInfo.area_id
+          this.based.address = this.providerInfo.address_based.address
+          this.based.location = this.providerInfo.address_based.location
+          this.phones = this.providerInfo.phones
+          settingsService.getCountryCity(this.providerInfo.country_id).then(res => {
+            this.allGovernorates = res.data.data
+          })
+          settingsService.getCityArea(this.providerInfo.city_id).then(res => {
+            this.allArea = res.data.data
+          })
+        } else {
+          // Remote Errors
+        }
+      }
     }
   },
   created () {
     this.getAllCountries()
+    this.fillData()
   }
 }
 </script>

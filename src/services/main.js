@@ -15,5 +15,8 @@ export default {
   removeRow (url, rowId) {
     console.log(url, rowId)
     return Api().delete(`${url}/${rowId}`)
+  },
+  changeStatus (payload) {
+    return Api().post('change-status', payload)
   }
 }

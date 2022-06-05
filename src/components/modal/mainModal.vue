@@ -9,6 +9,7 @@
       centered
       no-close-on-backdrop
       hide-footer
+      no-close-on-esc
   >
     <template #modal-header="{ close }">
       <div class="py-2 d-flex justify-content-between align-items-center w-100">

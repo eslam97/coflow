@@ -7,7 +7,7 @@
       <p class="text-white m-0">{{title}}</p>
     </b-col>
     <b-col class="p-4  border-left border-2 border-secondary">
-      <p class="text-white m-0"><span class="cursor-pointer" @click="goToHome">Exit</span></p>
+      <p class="text-white m-0"><span class="cursor-pointer" @click="logout">Exit</span></p>
     </b-col>
     <div v-if="progressBarGradient" class="progress-bar-gradient"></div>
   </b-row>
@@ -24,8 +24,10 @@ export default {
     }
   },
   methods: {
-    goToHome () {
-      // logout
+    logout () {
+      localStorage.removeItem('userToken')
+      localStorage.removeItem('userInfo')
+      localStorage.removeItem('formStep')
       this.$router.push('/')
     }
   }

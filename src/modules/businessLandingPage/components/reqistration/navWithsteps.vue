@@ -12,7 +12,7 @@
       step.classProgress]"></div>
     </b-col>
     <b-col md="2" class="p-4  border-left border-2 border-secondary position-relative text-bold text-white font-size-12">
-      <span class="cursor-pointer" @click="goToHome">Save And Exit</span>
+      <span class="cursor-pointer" @click="logout">Exit</span>
       <div v-if="$store.getters['formSteps/getActiveStepForm'] != 4" class="progress-bar-gradient-solid"></div>
     </b-col>
     <div  class="progress-bar-gradient"></div>
@@ -65,8 +65,10 @@ export default {
       }
       return color
     },
-    goToHome () {
-      // logout
+    logout () {
+      localStorage.removeItem('userToken')
+      localStorage.removeItem('userInfo')
+      localStorage.removeItem('formStep')
       this.$router.push('/')
     },
     clickStep (step) {

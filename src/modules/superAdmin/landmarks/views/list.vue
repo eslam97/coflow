@@ -55,6 +55,14 @@ export default {
         { label: 'Views', key: 'views', class: 'text-left' },
         { label: 'Unique Views', key: 'unique_views', class: 'text-left' },
         {
+          label: 'Change Status',
+          key: 'change_status',
+          type: 'switch',
+          tableType: 'landmark',
+          idKey: 'landmark_id',
+          class: 'text-left'
+        },
+        {
           label: 'Actions',
           key: 'actions',
           class: 'text-left',

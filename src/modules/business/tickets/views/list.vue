@@ -52,6 +52,14 @@ export default {
         { label: 'Discounted Price', key: 'discount_price_egp', class: 'text-left' },
         { label: 'Conditions', key: 'conditions', class: 'text-left' },
         {
+          label: 'Change Status',
+          key: 'change_status',
+          type: 'switch',
+          tableType: 'ticket',
+          idKey: 'ticket_id',
+          class: 'text-left'
+        },
+        {
           label: 'Actions',
           key: 'actions',
           class: 'text-left',

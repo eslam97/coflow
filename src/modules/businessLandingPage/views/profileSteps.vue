@@ -2,7 +2,7 @@
   <div class="profile-information">
     <navSteps />
     <keep-alive>
-      <component :is="activeForm" />
+      <component :is="activeForm" :providerInfo="providerInfo"/>
     </keep-alive>
   </div>
 </template>
@@ -12,8 +12,14 @@ import generalAdminInformation from '../components/reqistration/stepForms/genera
 import facilityInformationAndPhoto from '../components/reqistration/stepForms/facilityInformationAndPhoto'
 import facilityLocation from '../components/reqistration/stepForms/facilityLocation'
 import facilityOperation from '../components/reqistration/stepForms/facilityOperation'
+import registrationServices from '../services/registration.services'
 export default {
   name: 'profileSteps',
+  data () {
+    return {
+      providerInfo: {}
+    }
+  },
   components: {
     navSteps,
     step1: generalAdminInformation,
@@ -31,6 +37,11 @@ export default {
   },
   beforeDestroy () {
     document.body.style.backgroundColor = ''
+  },
+  created () {
+    registrationServices.getProfileDetails(JSON.parse(localStorage.getItem('userInfo')).id).then(res => {
+      this.providerInfo = res.data.data
+    })
   }
 }
 </script>

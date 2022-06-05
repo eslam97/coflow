@@ -3,13 +3,14 @@
     <main-modal id="productDetailsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Product</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> FAQ</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> FAQ</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Product</h4>
       </template>
       <template v-slot:body>
         <product-details
             :requestLoading="requestLoading"
-            :productDetails="''"
+            :productDetails="productDetailsInfo"
+            :typeOfModal="typeOfModal"
+            @editProduct="editProduct"
             @saveProduct="addProduct"
         />
       </template>
@@ -36,41 +37,51 @@
         </div>
       </b-col>
     </b-row>
-    <b-row v-if="allProducts">
-      <b-col md="3" v-for="(item, key) in allProducts" :key="key" class="mb-3">
-        <b-card class="iq-product iq-product-list iq-product-item iq-border-radius-10">
-          <div class="pt-3 pr-3 pl-3">
-            <div class="mb-2 w-100 h-170px iq-border-radius-10">
-              <Swiper :id="`post-slider-${key}`"  :options="swiperOptions" :pagination="true">
-                <swiperSlide v-for="(image, key1) in item.images" :key="key1">
-                  <section :style="{
+    <div v-if="loadingPage">
+      <b-row>
+        <b-col md="12">
+          <b-card class="text-center text-black">
+            <spinner-loading text="Loading Products" />
+          </b-card>
+        </b-col>
+      </b-row>
+    </div>
+    <div v-else>
+      <b-row v-if="allProducts">
+        <b-col md="3" v-for="(item, key) in allProducts" :key="key" class="mb-3">
+          <b-card class="iq-product iq-product-list iq-product-item iq-border-radius-10">
+            <div class="pt-3 pr-3 pl-3">
+              <div class="mb-2 w-100 h-170px iq-border-radius-10">
+                <Swiper :id="`post-slider-${key}`"  :options="swiperOptions" :pagination="true">
+                  <swiperSlide v-for="(image, key1) in item.images" :key="key1">
+                    <section :style="{
               'background-size': 'cover',
               'background-image':
            'url(' + image.image + ')' }"
-                           class="w-100 h-170px pt-5 px-4 pb-2 position-relative iq-border-radius-10">
-                  </section>
-                </swiperSlide>
-              </Swiper>
-            </div>
-            <div class="mt-2">
-              <div class="text-justify mb-2">
-                <a  href="javascript:void(0)" class="font-weight-bold" :title="item.name">
-                  {{ item.name.length > 30 ? item.name.substring(0,30) + '...' : item.name }}
-                </a>
-                <p class="font-size-12 font-weight-bold text-primary">{{ item.description.length > 35 ?
-                    item.description.substring(0,35)
-                    + '...' : item.description }}</p>
+                             class="w-100 h-170px pt-5 px-4 pb-2 position-relative iq-border-radius-10">
+                    </section>
+                  </swiperSlide>
+                </Swiper>
               </div>
-              <div class="d-flex justify-content-between align-items-start">
-                <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.price_egp }}</p>
-                <p class="font-size-16 text-danger text-decoration-line-through">EGP {{ item.discount_price_egp }}</p>
+              <div class="mt-2">
+                <div class="text-justify mb-2">
+                  <a  href="javascript:void(0)" class="font-weight-bold" :title="item.name">
+                    {{ item.name.length > 30 ? item.name.substring(0,30) + '...' : item.name }}
+                  </a>
+                  <p class="font-size-12 font-weight-bold text-primary">{{ item.description.length > 35 ?
+                      item.description.substring(0,35)
+                      + '...' : item.description }}</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                  <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.price_egp }}</p>
+                  <p class="font-size-16 text-danger text-decoration-line-through">EGP {{ item.discount_price_egp }}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
+            <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
               <div class="d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
                 <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
-                <i class="cursor-pointer las la-pen text-info"></i>
+                <i class="cursor-pointer las la-pen text-info" @click="viewProductToEdit(item)"></i>
                 <i class="cursor-pointer las la-trash-alt text-danger" @click="deleteProduct(item)"></i>
               </div>
               <div class="w-50 pt-3 py-3 pl-2 pr-1 border-actions">
@@ -87,10 +98,16 @@
                   </div>
                 </div>
               </div>
-           </div>
-        </b-card>
-      </b-col>
-    </b-row>
+            </div>
+          </b-card>
+        </b-col>
+      </b-row>
+      <b-row v-else>
+        <b-col md="12" class="text-center text-black">
+          <b-card> No Available Product</b-card>
+        </b-col>
+      </b-row>
+    </div>
   </b-container>
 </template>
 <script>
@@ -117,7 +134,8 @@ export default {
         }
       },
       productDetailsInfo: {},
-      allProducts: []
+      allProducts: [],
+      loadingPage: true
     }
   },
   methods: {
@@ -126,16 +144,22 @@ export default {
       this.$bvModal.show('productDetailsModal')
     },
     addProduct (data) {
+      this.productDetailsInfo = {}
       this.requestLoading = true
       productsServices.addProduct(data).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('productDetailsModal')
+        this.getAllProducts()
       }).finally(() => {
         this.requestLoading = false
       })
     },
     getAllProducts () {
+      this.loadingPage = true
       productsServices.getAllProducts().then(res => {
         this.allProducts = res.data.data.data
+      }).finally(() => {
+        this.loadingPage = false
       })
     },
     viewProduct (item) {
@@ -156,6 +180,21 @@ export default {
         text: 'Delete',
         url: 'products',
         rowId: item.id
+      })
+    },
+    viewProductToEdit (item) {
+      this.typeOfModal = 'edit'
+      this.productDetailsInfo = item
+      this.$bvModal.show('productDetailsModal')
+    },
+    editProduct (data) {
+      this.requestLoading = true
+      productsServices.editProduct(this.productDetailsInfo.id, data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('productDetailsModal')
+        this.getAllProducts()
+      }).finally(() => {
+        this.requestLoading = false
       })
     }
   },

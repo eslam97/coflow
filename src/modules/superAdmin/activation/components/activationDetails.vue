@@ -165,7 +165,7 @@
                             v-model="item.link"
                             :class="[{ 'is-invalid': errors.length > 0 }]"
                             :placeholder="'Ex: https://www.google.com'"
-                            :disabled="!item.selectSocial"
+                            :disabled="!item.selectSocial.name"
                         />
                       </validation-provider>
                       <template #prepend>
@@ -629,10 +629,12 @@ export default {
     filterLinks () {
       var newLinksArr = [...this.allLinks]
       this.info.links.forEach(e => {
-        if (newLinksArr.includes(e.selectSocial)) {
-          var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
-          newLinksArr.splice(socialIndex, 1)
-        }
+        newLinksArr.forEach(arr => {
+          if (arr.name === e.selectSocial.name) {
+            var socialIndex = newLinksArr.findIndex(item => item === arr)
+            newLinksArr.splice(socialIndex, 1)
+          }
+        })
       })
       return newLinksArr
     }

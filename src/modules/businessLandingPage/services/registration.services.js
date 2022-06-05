@@ -21,5 +21,8 @@ export default {
   },
   saveStepOperation (payload) {
     return Api().post('step-operation', payload)
+  },
+  getProfileDetails (id) {
+    return Api().get(`providers/${id}`)
   }
 }

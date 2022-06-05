@@ -99,7 +99,7 @@ export default {
             case 'admin':
               this.$store.commit('formSteps/setActiveStepForm', 1)
               localStorage.setItem('formStep', 1)
-              this.$router.push({ name: 'profileSteps' })
+              this.$router.push({ name: 'profileInfo' })
               break
             case 'facility':
               this.$store.commit('formSteps/setActiveStepForm', 2)

@@ -115,11 +115,19 @@
         </b-row>
         <b-row>
           <b-col md="12" class="mt-4">
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center" v-if="typeOfModal == 'add'">
               <b-button class="button-orange-modal" type="submit" v-if="!requestLoading">
                 <i class="las la-plus"></i>
               </b-button>
               <b-button class="button-orange-modal" v-else>
+                <spinner-loading ></spinner-loading>
+              </b-button>
+            </div>
+            <div class="d-flex justify-content-center" v-else>
+              <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
+                <i class="las la-pen"></i>
+              </b-button>
+              <b-button class="button-blue-modal" v-else>
                 <spinner-loading ></spinner-loading>
               </b-button>
             </div>
@@ -141,6 +149,10 @@ export default {
     },
     productDetails: {
       default: false
+    },
+    typeOfModal: {
+      type: String,
+      default: 'add'
     }
   },
   components: {
@@ -174,6 +186,9 @@ export default {
       formData.append('name', data.imageInfo.name)
       formData.append('type', 'product')
       formData.append('status', this.productDetails ? 'exist' : 'new')
+      if (this.productDetails) {
+        formData.append('product_id', this.productDetails.id)
+      }
       const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
@@ -196,13 +211,39 @@ export default {
       })
     },
     saveProduct () {
-      this.$emit('saveProduct', this.product)
+      if (this.product.images.length > 0) {
+        if (this.productDetails) {
+          this.$emit('editProduct', { ...this.product, _method: 'put' })
+        } else {
+          this.$emit('saveProduct', this.product)
+        }
+      } else {
+        core.showSnackbar('error', 'You Should Upload At Least One Image')
+      }
     }
   },
   computed: {
   },
   created () {
     // this.getAllLinks()
+    if (Object.entries(this.productDetails).length !== 0) {
+      var allImagesIds = this.productDetails.images.map(item => item.id)
+      this.product = {
+        name: this.productDetails.name,
+        title: this.productDetails.title,
+        price_egp: this.productDetails.price_egp,
+        price_auro: this.productDetails.price_auro,
+        price_dollar: this.productDetails.price_dollar,
+        discount_price_egp: this.productDetails.discount_price_egp,
+        discount_price_dollar: this.productDetails.discount_price_dollar,
+        discount_price_auro: this.productDetails.discount_price_auro,
+        status: this.productDetails.status,
+        available: this.productDetails.available,
+        description: this.productDetails.description,
+        images: allImagesIds
+      }
+      this.allImages = this.productDetails.images
+    }
   }
 }
 </script>

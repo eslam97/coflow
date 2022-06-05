@@ -58,6 +58,14 @@ export default {
         { label: 'Location', key: 'location', class: 'text-left', type: 'array' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
+          label: 'Change Status',
+          key: 'change_status',
+          type: 'switch',
+          tableType: 'course',
+          idKey: 'course_id',
+          class: 'text-left'
+        },
+        {
           label: 'Actions',
           key: 'actions',
           class: 'text-left',

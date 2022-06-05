@@ -20,7 +20,7 @@ Props:
 -->
 <template>
   <div>
-    <div v-if="cellActions.actions.length"  class="d-flex justify-content-around w-full">
+    <div v-if="cellActions.actions.length"  class="d-flex justify-content-start w-full gap-20">
       <template v-for="(i, key) in cellActions.actions">
         <span
           v-if="i.showIf ? i.showIf(dataItem) : true"

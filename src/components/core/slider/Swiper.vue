@@ -1,7 +1,7 @@
 <template>
   <div :id="id">
     <slot name="nav" v-if="navTop" />
-    <div class="swiper-container" v-if="tag == 'div'" :dir="rtl ? 'rtl' : ''">
+    <div :class="`swiper-container-${id}`" v-if="tag == 'div'" :dir="rtl ? 'rtl' : ''">
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
         <!-- Slides -->
@@ -16,7 +16,7 @@
         <slot name="scrollbar" />
       </div>
     </div>
-    <ul class="swiper-container" v-else-if="tag == 'ul'" :dir="rtl ? 'rtl' : ''">
+    <ul :class="`swiper-container-${id}`" v-else-if="tag == 'ul'" :dir="rtl ? 'rtl' : ''">
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
         <!-- Slides -->
@@ -44,7 +44,7 @@ export default {
   name: 'Swiper',
   props: {
     className: { type: String, default: 'vue-swiper-class' },
-    id: { type: String, default: 'vue-swiper-id' },
+    id: { type: String, default: '' },
     options: {
       type: Object,
       default: () => {
@@ -109,7 +109,10 @@ export default {
   },
   methods: {
     init () {
-      swiper = new Swiper('.swiper-container', this.options)
+      if (this.id) {
+        document.querySelector(`.swiper-container-${this.id}`).style.overflow = 'hidden'
+      }
+      swiper = new Swiper(`.swiper-container-${this.id}`, this.options)
     },
     reInit () {
       swiper.destroy(true, true)

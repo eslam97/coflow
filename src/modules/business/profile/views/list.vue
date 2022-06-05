@@ -1,16 +1,30 @@
 <template>
   <b-container fluid>
+    <main-modal id="tempCloseModal" size="lg" @unsavedMsg="unsavedMsg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-warning">Set: </span> Temporary close message</h4>
+      </template>
+      <template v-slot:body>
+        <temp-msg-modal @setMsg="setTempCloseMsg"
+                        :statusDetails="statusDetails"/>
+      </template>
+    </main-modal>
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">
         <h3>Profile</h3>
-        <div
-            class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
-          <div class="custom-switch-inner">
-            <label for="">Temporary close account</label>
-            <input type="checkbox" class="custom-control-input bg-info" :id="'customSwitch-11'" v-model="closed">
-            <label class="custom-control-label" :for="'customSwitch-11'">
-            </label>
-          </div>
+        <div>
+          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
+                        name="status" value="visible" @change="changeStatus(0)">
+            <span class="text-primary font-size-14">Visible</span>
+          </b-form-radio>
+          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
+                        name="status" value="invisible" @change="changeStatus(0)">
+            <span class="text-primary font-size-14">Invisible</span>
+          </b-form-radio>
+          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
+                        name="status" value="temp_closed" @change="changeStatus(1)">
+            <span class="text-primary font-size-14">Temporary closed</span>
+          </b-form-radio>
         </div>
       </b-col>
       <b-col md="12">
@@ -49,6 +63,8 @@
 import { core } from '@/config/pluginInit'
 import adminTab from '@/modules/business/profile/components/adminTab'
 import businessTab from '@/modules/business/profile/components/businessTab'
+import tempMsgModal from '@/modules/business/profile/components/tempMsgModal'
+import profileServices from '@/modules/business/profile/services/profile.services'
 // save contact info
 import adminInfoService from '@/modules/superAdmin/admin/services/admins.services'
 // get contact and business info
@@ -61,23 +77,43 @@ export default {
     return {
       loading: true,
       oldProfile: '',
-      id: ''
+      id: '',
+      statusDetails: {
+        status: '',
+        status_msg: ''
+      }
     }
   },
   components: {
+    tempMsgModal,
     adminTab,
     businessTab
   },
   methods: {
-    handleClick (newTab) {
-      this.currentTab = newTab
+    changeStatus (state) {
+      state ? this.$bvModal.show('tempCloseModal') : this.setStatus()
+    },
+    setStatus () {
+      profileServices.changeStatus({ status: this.oldProfile.status }).then(res => {
+        core.showSnackbar('success', res.data.message)
+      })
+    },
+    setTempCloseMsg (obj) {
+      profileServices.changeStatus(obj).then(res => {
+        this.$bvModal.hide('tempCloseModal')
+        core.showSnackbar('success', res.data.message)
+      })
+    },
+    unsavedMsg () {
+      this.oldProfile.status = this.statusDetails.status
     },
     // Get data
     getOldAdminInfo () {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
       activationService.getActivationDetails(this.id).then(res => {
         this.oldProfile = res.data.data
-        core.showSnackbar('success', res.data.message)
+        this.statusDetails = { status: this.oldProfile.status, status_msg: this.oldProfile.status_msg }
+        console.log(this.statusDetails)
         this.loading = false
       })
     },

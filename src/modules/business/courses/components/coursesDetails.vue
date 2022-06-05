@@ -52,7 +52,6 @@
                     <b-form-input
                         v-model="courses.price_egp"
                         placeholder="000.00"
-                        :validate="'required'"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                     /> </b-input-group
                   ></b-form-group>
@@ -72,7 +71,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -80,6 +79,7 @@
                     <b-form-input
                         v-model="courses.discount_price_egp"
                         placeholder="000.00"
+                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
                     /> </b-input-group
@@ -92,7 +92,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -119,7 +119,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -128,6 +128,7 @@
                         v-model="courses.discount_price_euro"
                         placeholder="000.00"
                         :disabled="!selectedEUR"
+                        :validate="selectedEUR ? 'required': ''"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
                     /> </b-input-group
                   ></b-form-group>
@@ -139,7 +140,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Dollar price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -166,7 +167,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted Dollar price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -174,8 +175,8 @@
                     <b-form-input
                         v-model="courses.discount_price_dollar"
                         placeholder="000.00"
-                        :validate="'required'"
                         :disabled="!selectedDollar"
+                        :validate="selectedDollar ? 'required': ''"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedDollar   }]"
                     /> </b-input-group
                   ></b-form-group>
@@ -329,8 +330,8 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: 0,
-        price_dollar: 0,
+        price_euro: '',
+        price_dollar: '',
         discount_price_egp: '',
         discount_price_euro: '',
         discount_price_dollar: '',
@@ -360,6 +361,8 @@ export default {
   components: {},
   methods: {
     addCourses () {
+      this.courses.price_euro = this.courses.price_euro ? this.courses.price_euro : 0
+      this.courses.price_dollar = this.courses.price_dollar ? this.courses.price_dollar : 0
       if (this.typeOfModal === 'add') {
         this.$emit('addCourses', { ...this.courses, images: this.courses.images.map(data => data.id) })
       } else {
@@ -428,8 +431,8 @@ export default {
         conditions: this.coursesDetails.conditions,
         description: this.coursesDetails.description,
         price_egp: this.coursesDetails.price_egp,
-        price_euro: this.coursesDetails.price_euro,
-        price_dollar: this.coursesDetails.price_dollar,
+        price_euro: this.coursesDetails.price_euro ? this.coursesDetails.price_euro : '',
+        price_dollar: this.coursesDetails.price_dollar ? this.coursesDetails.price_dollar : '',
         discount_price_egp: this.coursesDetails.discount_price_egp,
         discount_price_euro: this.coursesDetails.discount_price_euro,
         discount_price_dollar: this.coursesDetails.discount_price_dollar,

@@ -79,7 +79,7 @@
                       <b-form-input
                         v-model="activities.discount_price_egp"
                         placeholder="000.00"
-                        :validate="selectedEGP"
+                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
                       /> </b-input-group
@@ -127,7 +127,7 @@
                     <b-form-input
                       v-model="activities.discount_price_euro"
                       placeholder="000.00"
-                      :validate="selectedEUR"
+                      :validate="selectedEUR ? 'required': ''"
                       :disabled="!selectedEUR"
                       :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
                     /> </b-input-group
@@ -249,8 +249,8 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: 0,
-        price_dollar: 0,
+        price_euro: '',
+        price_dollar: '',
         discount_price_egp: '',
         discount_price_euro: '',
         status: 'active',
@@ -268,8 +268,8 @@ export default {
   components: {},
   methods: {
     addActivities () {
-      console.log(this.typeOfModal)
-      console.log(this.activities)
+      this.activities.price_euro = this.activities.price_euro ? this.activities.price_euro : 0
+      this.activities.price_dollar = this.activities.price_dollar ? this.activities.price_dollar : 0
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', { ...this.activities, images: this.activities.images.map(data => data.id) })
       } else {
@@ -332,8 +332,8 @@ export default {
         conditions: this.activitiesDetails.conditions,
         description: this.activitiesDetails.description,
         price_egp: this.activitiesDetails.price_egp,
-        price_euro: this.activitiesDetails.price_euro,
-        price_dollar: this.activitiesDetails.price_dollar,
+        price_euro: this.activitiesDetails.price_euro ? this.activitiesDetails.price_euro : '',
+        price_dollar: this.activitiesDetails.price_dollar ? this.activitiesDetails.price_dollar : '',
         discount_price_egp: this.activitiesDetails.discount_price_egp,
         discount_price_euro: this.activitiesDetails.discount_price_euro,
         status: this.activitiesDetails.status,

@@ -82,7 +82,7 @@
               <div class="d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
                 <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
                 <i class="cursor-pointer las la-pen text-info" @click="viewProductToEdit(item)"></i>
-                <i class="cursor-pointer las la-trash-alt text-danger"></i>
+                <i class="cursor-pointer las la-trash-alt text-danger" @click="deleteProduct(item)"></i>
               </div>
               <div class="w-50 pt-3 py-3 pl-2 pr-1 border-actions">
                 <p class="text-primary font-weight-bold font-size-12 mb-2">Product Status:</p>
@@ -115,6 +115,7 @@ import { core } from '@/config/pluginInit'
 import ProductDetails from '@/modules/business/products/components/productDetails'
 import ProductDetailsView from '@/modules/business/products/components/productView'
 import productsServices from '@/modules/business/products/services/products.services'
+import EventBus from '@/eventBus'
 
 export default {
   components: { ProductDetails, ProductDetailsView },
@@ -165,6 +166,22 @@ export default {
       this.productDetailsInfo = item
       this.$bvModal.show('productDetailsViewModal')
     },
+    deleteProduct (item) {
+      EventBus.$emit('openDeleteModal', {
+        actionHeader: 'Delete',
+        titleHeader: 'Product',
+        textContnet: item.name,
+        question: 'Are You Sure You Want Delete This Product?',
+        textDeleteButton: 'YES, Delete',
+        textCancelButton: 'NO, CANCEL',
+        icon: 'las la-trash-alt',
+        type: 'delete',
+        actionOnAlert: '',
+        text: 'Delete',
+        url: 'products',
+        rowId: item.id
+      })
+    },
     viewProductToEdit (item) {
       this.typeOfModal = 'edit'
       this.productDetailsInfo = item
@@ -183,6 +200,11 @@ export default {
   },
   created () {
     this.getAllProducts()
+    EventBus.$on('reloadTableAfterDelete', ifReload => {
+      this.$bvModal.hide('productDetailsModal')
+      this.getAllProducts()
+      core.showSnackbar('success', 'Product deleted successfully')
+    })
   },
   mounted () {
     core.index()

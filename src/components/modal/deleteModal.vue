@@ -98,6 +98,9 @@ export default {
     },
     returnFalse () {
       this.rejectPromise(false)
+    },
+    closePopup () {
+      this.$bvModal.hide('deleteModal')
     }
   }
 }

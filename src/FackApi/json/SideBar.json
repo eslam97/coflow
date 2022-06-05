@@ -247,13 +247,13 @@
     "icon": "las la-infinity"
   },
   {
-    "title": "schedule",
-    "name": "schedule",
+    "title": "Schedule",
+    "name": "Schedule",
     "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "leads"
+      "name": "schedule"
     },
     "class_name": "",
     "is_icon_class": true,

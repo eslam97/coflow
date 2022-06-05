@@ -37,7 +37,7 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import accommodationsDetails from '@/modules/business/accommodations/component/accommodationsDetails.vue'
+import accommodationsDetails from '@/modules/business/accommodations/components/accommodationsDetails.vue'
 import accommodationsServices from '@/modules/business/accommodations/services/accommodations.services.js'
 export default {
   data () {

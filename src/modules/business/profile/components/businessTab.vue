@@ -318,14 +318,19 @@
           </validationObserver>
         </b-col>
         <b-col md="3">
-          <b-card :img-src="oldProfile.logo" img-top align="center">
-            <b-card-img :src="oldProfile.logo" class="card-profile-img mb-5"></b-card-img>
+          <b-card :img-src="coverImage" img-top align="center">
+            <b-card-img :src="logoImage" class="card-profile-img mb-5"></b-card-img>
             <h3 class="border-top border-bottom p-3 mb-3">Facility photos</h3>
             <b-card-body>
               <b-row class="row flex-nowrap mb-4">
-                <b-col md="3" v-for="(img, key) in oldProfile.images" :key="key" >
-                  <b-img class="img-fluid" :src="img.image" alt="img.name"></b-img>
-                </b-col>
+                <div v-if="(images)">
+                  <b-col md="3" v-for="(img, key) in images" :key="key" >
+                    <b-img class="img-fluid" :src="img.image" alt="img.name"></b-img>
+                  </b-col>
+                </div>
+                <div v-else>
+                  <span>No images to show</span>
+                </div>
               </b-row>
             </b-card-body>
             <b-card-text>
@@ -341,14 +346,6 @@
               </b-row>
             </b-card-text>
           </b-card>
-<!--          <b-card-img :src="oldProfile.logo"></b-card-img>-->
-<!--          <div class="justify-content-center">-->
-<!--            <b-card-img :src="oldProfile.logo" class="card-profile-img"></b-card-img>-->
-<!--          </div>-->
-<!--          <b-card-header><h4>Facility photo</h4></b-card-header>-->
-<!--          <b-card-body>-->
-<!--          </b-card-body>-->
-<!--          <b-card-footer></b-card-footer>-->
         </b-col>
       </b-row>
     </div>
@@ -636,8 +633,8 @@ export default {
         this.info.links = this.oldProfile.links
         this.info.tags = this.oldProfile.tags
         this.service_types = this.oldProfile.service_types
-        this.logoImage = this.oldProfile.logo
-        this.coverImage = this.oldProfile.cover
+        this.logoImage = this.oldProfile.logo ? this.oldProfile.logo : require('@/assets/images/user/default-user-image.png')
+        this.coverImage = this.oldProfile.cover ? this.oldProfile.cover : require('@/assets/images/user/default-user-image.png')
         this.images = this.oldProfile.images
         this.phones = this.oldProfile.phones
         if (this.oldProfile.operation_type === '24 hours') {

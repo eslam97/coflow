@@ -14,21 +14,6 @@
       @sort-changed="sortChanged"
       :no-sort-reset="true"
     >
-      <!--      <template #cell(show_details)="row">
-        <b-form-checkbox
-          v-model="row.detailsShowing"
-          plain
-          class="vs-checkbox-con"
-          @change="row.toggleDetails"
-        >
-          <span class="vs-checkbox">
-            <span class="vs-checkbox&#45;&#45;check">
-              <i class="vs-icon feather icon-check" />
-            </span>
-          </span>
-          <span class="vs-label">{{ row.detailsShowing ? 'Hide' : 'Show' }}</span>
-        </b-form-checkbox>
-      </template>-->
       <template #table-busy>
         <div class="text-center text-danger my-2">
           <b-spinner
@@ -90,6 +75,15 @@
             </div>
           </div>
 
+          <!-- Multi-text handler -->
+          <div v-else-if="field.type == 'multi-text'">
+            <span v-for="(arrKey, key) in field.key.split(',')" :key="key">
+              <span v-if="$_.get(data.item, arrKey)">
+                {{ $_.get(data.item, arrKey) }}
+              </span>
+            </span>
+          </div>
+
           <!-- Multi-value handler -->
           <div v-else-if="field.type == 'multi-value'">
             <ul class="p-0">
@@ -109,7 +103,10 @@
             v-else
             class="text-nowrap m-0"
           >
-            {{ $_.get(data.item, field.key) }}
+            <span v-if="$_.get(data.item, field.key)">
+              {{ $_.get(data.item, field.key).length > 30 ? $_.get(data.item, field.key).substring(0,30) + '...' : $_.get(data.item, field.key) }}
+            </span>
+            <span v-else>{{ $_.get(data.item, field.key) }}</span>
           </p>
         </div>
 
@@ -240,20 +237,11 @@ export default {
       } else {
         List = this.items
       }
-      // this.listOfData = List
-      /* this.pagination = {
-        current_page: List.data.current_page,
-        per_page: List.data.per_page,
-        total: List.data.total
-      } */
       this.loadingTable = false
       this.reloadData = false
     },
     sortChanged (data) {
       this.$emit('sortChanged', data)
-    },
-    calculateMoreImages () {
-      this.moreImages = 4 // array length
     },
     changeStatus (data) {
       mainService.changeStatus(data.payload).then(res => {

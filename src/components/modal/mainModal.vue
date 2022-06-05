@@ -9,6 +9,7 @@
       centered
       no-close-on-backdrop
       hide-footer
+      no-close-on-esc
   >
     <template #modal-header="{ close }">
       <div class="py-2 d-flex justify-content-between align-items-center w-100">
@@ -16,7 +17,7 @@
         <div class="d-flex justify-content-end">
           <slot name="actions" class=""></slot>
           <img :src="require('@/assets/images/close.svg')"
-               @click="close()" class="closeImage ml-5 mr-4" />
+               @click="close(); $emit('unsavedMsg')" class="closeImage ml-5 mr-4" />
         </div>
       </div>
     </template>

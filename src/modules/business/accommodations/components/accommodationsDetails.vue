@@ -238,7 +238,7 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: 0,
+        price_euro: '',
         price_dollar: 0,
         discount_price_egp: '',
         discount_price_euro: '',
@@ -258,6 +258,8 @@ export default {
   components: {},
   methods: {
     addAccommodations () {
+      this.accommodations.price_euro = this.accommodations.price_euro ? this.accommodations.price_euro : 0
+      this.accommodations.price_dollar = this.accommodations.price_dollar ? this.accommodations.price_dollar : 0
       if (this.typeOfModal === 'add') {
         this.$emit('addAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
       } else {
@@ -320,8 +322,8 @@ export default {
         conditions: this.accommodationsDetails.conditions,
         description: this.accommodationsDetails.description,
         price_egp: this.accommodationsDetails.price_egp,
-        price_euro: this.accommodationsDetails.price_euro,
-        price_dollar: this.accommodationsDetails.price_dollar,
+        price_euro: this.accommodationsDetails.price_euro ? this.accommodationsDetails.price_euro : '',
+        price_dollar: this.accommodationsDetails.price_dollar ? this.accommodationsDetails.price_dollar : '',
         discount_price_egp: this.accommodationsDetails.discount_price_egp,
         discount_price_euro: this.accommodationsDetails.discount_price_euro,
         status: this.accommodationsDetails.status,

@@ -112,7 +112,10 @@
             v-else
             class="text-nowrap m-0"
           >
-            {{ $_.get(data.item, field.key).length > 30 ? $_.get(data.item, field.key).substring(0,30) + '...' : $_.get(data.item, field.key) }}
+            <span v-if="$_.get(data.item, field.key)">
+              {{ $_.get(data.item, field.key).length > 30 ? $_.get(data.item, field.key).substring(0,30) + '...' : $_.get(data.item, field.key) }}
+            </span>
+            <span v-else>{{ $_.get(data.item, field.key) }}</span>
           </p>
         </div>
 

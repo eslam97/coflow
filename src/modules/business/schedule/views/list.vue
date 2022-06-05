@@ -41,26 +41,30 @@
     </main-modal>
     <b-row>
       <!--   Header   -->
-      <b-col lg="12" class="mb-5 d-flex justify-content-between align-items-center">
+      <b-col lg="12" class="mb-4 d-flex justify-content-between align-items-center">
         <h3>Schedule</h3>
+        <div>
+          <b-button @click="openPopup" variant="warning" class="add_button text-white">
+            Manage Schedule<i class="las la-calendar ml-3"></i></b-button>
+        </div>
+      </b-col>
+      <b-col md="12" class="mb-4 d-flex justify-content-center align-items-center">
         <ul class="levels-list m-0">
           <li class="p-1" v-for="(level, key) in levels" :key="key">
             <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`" ></i>{{ level.text }}
           </li>
         </ul>
-        <div>
-          <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Manage Schedule<i class="las la-calendar ml-3"></i></b-button>
-        </div>
       </b-col>
       <!--   Body   -->
       <b-col lg="12">
         <b-card class="overflow-auto text-center schedule-card">
             <b-row class="flex-nowrap">
               <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
-                <h6 class="mb-3 schedule-header">{{ day.key }}</h6>
+                <h6 class="mb-3 pt-3 schedule-header">{{ day.key }}</h6>
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
-                     :key="slotKey" class="slot-box-red p-2 d-flex justify-content-center align-items-end cursor-pointer"
+                     :key="slotKey"
+                     class="p-2 d-flex justify-content-center align-items-center cursor-pointer"
+                     :class="slot.status === 'inactive'? 'slot-box-grey' : 'slot-box-red'"
                       @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>

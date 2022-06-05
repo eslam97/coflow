@@ -48,8 +48,8 @@ export default {
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Ticket Name', key: 'name', class: 'text-left' },
         { label: 'Details', key: 'details', class: 'text-left' },
-        { label: 'Price EGP', key: 'price_egp', class: 'text-left' },
-        { label: 'Discounted Price', key: 'discount_price_egp', class: 'text-left' },
+        { label: 'Price EGP', key: 'price_egp', class: 'text-left', type: 'multi-value' },
+        { label: 'Discounted Price', key: 'discount_price_egp', class: 'text-left', type: 'multi-value' },
         { label: 'Conditions', key: 'conditions', class: 'text-left' },
         {
           label: 'Actions',

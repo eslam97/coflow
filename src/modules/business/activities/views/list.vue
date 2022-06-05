@@ -37,7 +37,7 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import activitiesDetails from '@/modules/business/activities/component/activitiesDetails.vue'
+import activitiesDetails from '@/modules/business/activities/components/activitiesDetails.vue'
 import activitiesServices from '@/modules/business/activities/services/activities.services.js'
 export default {
   data () {

@@ -12,6 +12,7 @@ $caribbean_water: #2fdac2;
 $sunny_gold: #ff9f00;
 $light_cherry: #da302b;
 $ladies_only: #ff7daa;
+$light_grey: #a0a5bc;
 $status: ( // Primary status
         "primary":$blue,
         "new": $blue,
@@ -159,7 +160,8 @@ $levels: (
       "cyan":$caribbean_water,
       "orange":$sunny_gold,
       "red":$light_cherry,
-      "pink":$ladies_only
+      "pink":$ladies_only,
+      "grey":$light_grey
 );
 
 .bg-RGB {
@@ -358,10 +360,12 @@ $color in $status {
     background: $color !important;
   }
   .slot-box-#{$name} {
-    width: 100%;
-    height: 300px;
+    border:1px solid #efefef;
+    height: 150px;
+    font-weight: bold;
+    font-size: 12px;
     color: $color;
-    background-color: rgba($color, 0.5);
+    background-color: rgba($color, 0.1);
   }
   .circle-#{$name} {
     color: $color !important;

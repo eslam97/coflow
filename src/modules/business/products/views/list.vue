@@ -47,7 +47,7 @@
       </b-row>
     </div>
     <div v-else>
-      <b-row v-if="allProducts">
+      <b-row v-if="allProducts.length > 0">
         <b-col md="3" v-for="(item, key) in allProducts" :key="key" class="mb-3">
           <b-card class="iq-product iq-product-list iq-product-item iq-border-radius-10">
             <div class="pt-3 pr-3 pl-3">

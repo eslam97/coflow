@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
+    <!--  Add and Edit Modal  -->
     <main-modal id="faqsDetailsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> FAQ</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> FAQ</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> FAQ</h4>
       </template>
       <template v-slot:body>
@@ -12,6 +12,15 @@
                       :requestLoading="requestLoading"
                       :faqsDetails="faqsDetails"
                       :typeOfModal="typeOfModal"/>
+      </template>
+    </main-modal>
+    <!--  View Modal  -->
+    <main-modal id="faqsDetailsViewModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> FAQs</h4>
+      </template>
+      <template v-slot:body>
+        <faqs-view :faqsDetails="faqsDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -38,6 +47,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import faqsDetails from '@/modules/business/faqs/components/faqsDetails.vue'
+import faqsView from '@/modules/business/faqs/components/faqsView.vue'
 import faqsServices from '@/modules/business/faqs/services/faqs.services.js'
 export default {
   data () {
@@ -59,14 +69,14 @@ export default {
               color: 'success-light',
               text: 'View',
               actionName: 'showFAQs',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
               actionName: 'showFAQsToEdit',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-trash-alt',
@@ -75,7 +85,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'FAQs',
-              textContent: 'name',
+              textContent: 'question',
               url: 'faq'
             }
           ]
@@ -87,7 +97,8 @@ export default {
     }
   },
   components: {
-    faqsDetails
+    faqsDetails,
+    faqsView
   },
   methods: {
     sortChanged (key) {
@@ -101,6 +112,7 @@ export default {
     },
     addFaqs (faqs) {
       this.requestLoading = true
+      this.reloadTable = false
       faqsServices.addNewFAQ(faqs).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -111,6 +123,7 @@ export default {
     },
     editFaqs (faqs) {
       this.requestLoading = true
+      this.reloadTable = false
       faqsServices.editFAQ(this.faqsId, faqs).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -120,21 +133,15 @@ export default {
       })
     },
     showDetails (obj) {
-      this.faqsId = ''
       this.typeOfModal = 'view'
-      faqsServices.getFAQsDetails(obj.id).then(res => {
-        this.faqsDetails = res.data.data
-        this.$bvModal.show('faqsDetailsModal')
-      })
+      this.faqsDetails = obj
+      this.$bvModal.show('faqsDetailsViewModal')
     },
     showFaqsToEdit (obj) {
       this.typeOfModal = 'edit'
       this.faqsId = obj.id
-      console.log(this.faqsId)
-      faqsServices.getFAQsDetails(obj.id).then(res => {
-        this.faqsDetails = res.data.data
-        this.$bvModal.show('faqsDetailsModal')
-      })
+      this.faqsDetails = obj
+      this.$bvModal.show('faqsDetailsModal')
     }
   },
   created () {

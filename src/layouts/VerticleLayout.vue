@@ -12,7 +12,8 @@
           <ul class="navbar-nav ml-auto navbar-list">
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
-                <img :src="userProfile" class="img-fluid rounded_image" alt="user" style="background-color: #f2f2f2">
+                <img :src="userData.logo ? userData.logo : require('@/assets/images/user/default-user-image.png')"
+                     class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
               </a>
               <!--              <div class="iq-sub-dropdown iq-user-dropdown">
                               <div class="iq-card shadow-none m-0">
@@ -79,8 +80,8 @@
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pr-1 pt-2">
                 <div class="caption mr-3">
-                  <h6 class="mb-0 line-height text-primary">Eslam Ashraf</h6>
-                  <span class="font-size-12 text-success" >Flow</span>
+                  <h6 class="mb-0 line-height text-primary">{{ userData.name }}</h6>
+                  <span class="font-size-12 text-success" >{{ userData.service_types }}</span>
                 </div>
               </a>
             </li>
@@ -133,6 +134,7 @@ export default {
   name: 'VerticleLayout',
   data () {
     return {
+      userData: JSON.parse(localStorage.getItem('userInfo')),
       ifSearch: false,
       notFoundImage: require('../assets/images/error/search.png'),
       infiniteId: +new Date(),

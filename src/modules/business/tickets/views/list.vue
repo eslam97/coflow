@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
+    <!--  Add and Edit Modal  -->
     <main-modal id="ticketsDetailsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Ticket</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light" >View: </span> Ticket</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Ticket</h4>
       </template>
       <template v-slot:body>
@@ -12,6 +12,20 @@
                         :requestLoading="requestLoading"
                         :ticketDetails="ticketDetails"
                         :typeOfModal="typeOfModal"/>
+      </template>
+    </main-modal>
+    <!--  View Modal  -->
+    <main-modal id="ticketDetailsViewModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Ticket</h4>
+      </template>
+      <template v-slot:borderHeader>
+        <p class="p-4 borderHeaderModal">
+          {{ticketDetails.name}}
+        </p>
+      </template>
+      <template v-slot:body>
+        <ticket-view :ticketDetails="ticketDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -38,6 +52,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import ticketDetails from '@/modules/business/tickets/components/ticketDetails.vue'
+import ticketView from '@/modules/business/tickets/components/ticketView'
 import ticketServices from '@/modules/business/tickets/services/tickets.services.js'
 export default {
   data () {
@@ -70,14 +85,14 @@ export default {
               color: 'success-light',
               text: 'View',
               actionName: 'showTicket',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
               actionName: 'showTicketToEdit',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-trash-alt',
@@ -98,7 +113,8 @@ export default {
     }
   },
   components: {
-    ticketDetails
+    ticketDetails,
+    ticketView
   },
   methods: {
     sortChanged (key) {
@@ -112,6 +128,7 @@ export default {
     },
     addTicket (ticket) {
       this.requestLoading = true
+      this.reloadTable = false
       ticketServices.addNewTicket(ticket).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -122,30 +139,25 @@ export default {
     },
     editTicket (ticket) {
       this.requestLoading = true
+      this.reloadTable = false
       ticketServices.editTicket(this.ticketId, ticket).then(res => {
         this.reloadTable = true
-        core.showSnackbar('sucess', res.data.message)
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('ticketsDetailsModal')
       }).finally(() => {
         this.requestLoading = false
       })
     },
     showDetails (obj) {
-      this.ticketId = ''
       this.typeOfModal = 'view'
-      ticketServices.getTicketDetails(obj.id).then(res => {
-        console.log(res.data.data)
-        this.ticketDetails = res.data.data
-        this.$bvModal.show('ticketsDetailsModal')
-      })
+      this.ticketDetails = obj
+      this.$bvModal.show('ticketDetailsViewModal')
     },
     showTicketToEdit (obj) {
-      this.typeOfModal = 'edit'
       this.ticketId = obj.id
-      ticketServices.getTicketDetails(obj.id).then(res => {
-        this.ticketDetails = res.data.data
-        this.$bvModal.show('ticketsDetailsModal')
-      })
+      this.typeOfModal = 'edit'
+      this.ticketDetails = obj
+      this.$bvModal.show('ticketsDetailsModal')
     }
   },
   created () {

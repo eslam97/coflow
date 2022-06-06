@@ -92,7 +92,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -268,8 +268,10 @@ export default {
   components: {},
   methods: {
     addActivities () {
+      // if foreigner price is empty send 0 to server
       this.activities.price_euro = this.activities.price_euro ? this.activities.price_euro : 0
-      this.activities.price_dollar = this.activities.price_dollar ? this.activities.price_dollar : 0
+      // if discount isn't checked, discounted field should be emptied
+      this.activities.discount_price_euro = this.selectedEUR ? this.activities.discount_price_euro : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', { ...this.activities, images: this.activities.images.map(data => data.id) })
       } else {

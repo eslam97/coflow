@@ -56,7 +56,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -65,7 +65,8 @@
                         v-model="flows.discount_price_egp"
                         placeholder="000.00"
                         :disabled="!selected"
-                        :class="[{ 'is-invalid': errors.length > 0 && selected}]"
+                        :validate="selected ? 'required': ''"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
                       /> </b-input-group
                   ></b-form-group>
                 </validation-provider>
@@ -241,6 +242,7 @@ export default {
   },
   methods: {
     addFlows () {
+      this.flows.discount_price_egp = this.selected ? this.flows.discount_price_egp : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addFlows', { ...this.flows, images: this.flows.images.map(data => data.id) })
       } else {

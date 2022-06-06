@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
+    <!--  Add and Edit Modal  -->
     <main-modal id="activitiesDetailsModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Activity</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> Activity</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Activity</h4>
       </template>
       <template v-slot:body>
@@ -12,6 +12,23 @@
                                 :requestLoading="requestLoading"
                                 :activitiesDetails="activitiesDetails"
                                 :typeOfModal="typeOfModal"/>
+      </template>
+    </main-modal>
+    <!--  View Modal  -->
+    <main-modal id="activitiesDetailsViewModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
+      </template>
+      <template v-slot:borderHeader class="flex-nowrap">
+        <p class="p-4 borderHeaderModal">
+          {{activitiesDetails.name}}
+          <button class="ml-4 p-2 btn radio-btn" :class="`radio-btn-cyan`" active>
+            {{ activitiesDetails.duration }} {{ activitiesDetails.duration_list.name }}
+          </button>
+        </p>
+      </template>
+      <template v-slot:body>
+        <activities-view :activitiesDetails="activitiesDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -38,6 +55,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import activitiesDetails from '@/modules/business/activities/components/activitiesDetails.vue'
+import activitiesView from '@/modules/business/activities/components/activitiesView.vue'
 import activitiesServices from '@/modules/business/activities/services/activities.services.js'
 export default {
   data () {
@@ -51,7 +69,7 @@ export default {
         { label: 'Price EGP/EUR', key: 'price_egp,price_euro', class: 'text-left', type: 'multi-value', pre: 'EGP,EUR' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro', class: 'text-left', type: 'multi-value' },
         { label: 'Conditions', key: 'conditions', class: 'text-left' },
-        { label: 'Duration', key: 'duration', class: 'text-left' },
+        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
           label: 'Change Status',
@@ -72,14 +90,14 @@ export default {
               color: 'success-light',
               text: 'View',
               actionName: 'showActivities',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
               actionName: 'showActivitiesToEdit',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-trash-alt',
@@ -100,7 +118,8 @@ export default {
     }
   },
   components: {
-    activitiesDetails
+    activitiesDetails,
+    activitiesView
   },
   methods: {
     sortChanged (key) {
@@ -114,6 +133,7 @@ export default {
     },
     addActivity (activities) {
       this.requestLoading = true
+      this.reloadTable = false
       activitiesServices.addNewActivity(activities).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -124,6 +144,7 @@ export default {
     },
     editActivity (activities) {
       this.requestLoading = true
+      this.reloadTable = false
       activitiesServices.editActivity(this.activitiesId, activities).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -133,21 +154,15 @@ export default {
       })
     },
     showDetails (obj) {
-      this.activitiesId = ''
       this.typeOfModal = 'view'
-      activitiesServices.getActivitiesDetails(obj.id).then(res => {
-        this.activitiesDetails = res.data.data
-        this.$bvModal.show('activitiesDetailsModal')
-      })
+      this.activitiesDetails = obj
+      this.$bvModal.show('activitiesDetailsViewModal')
     },
     showActivitiesToEdit (obj) {
       this.typeOfModal = 'edit'
       this.activitiesId = obj.id
-      console.log(this.activitiesId)
-      activitiesServices.getActivitiesDetails(obj.id).then(res => {
-        this.activitiesDetails = res.data.data
-        this.$bvModal.show('activitiesDetailsModal')
-      })
+      this.activitiesDetails = obj
+      this.$bvModal.show('activitiesDetailsModal')
     }
   },
   created () {

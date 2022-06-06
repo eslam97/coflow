@@ -258,8 +258,12 @@ export default {
   components: {},
   methods: {
     addAccommodations () {
+      // if foreigner price is empty send 0 to server
       this.accommodations.price_euro = this.accommodations.price_euro ? this.accommodations.price_euro : 0
       this.accommodations.price_dollar = this.accommodations.price_dollar ? this.accommodations.price_dollar : 0
+      // if discount isn't checked, discounted field should be emptied
+      this.accommodations.discount_price_euro = this.selectedEUR ? this.accommodations.discount_price_euro : ''
+      this.accommodations.discount_price_dollar = this.selectedDollar ? this.accommodations.discount_price_dollar : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
       } else {

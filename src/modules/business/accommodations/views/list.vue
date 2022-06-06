@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
+    <!--  Add and Edit Modal  -->
     <main-modal id="accommodationsDetailsModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Accommodation</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> Accommodation</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Accommodation</h4>
       </template>
       <template v-slot:body>
@@ -12,6 +12,20 @@
                       :requestLoading="requestLoading"
                       :accommodationsDetails="accommodationsDetails"
                       :typeOfModal="typeOfModal"/>
+      </template>
+    </main-modal>
+    <!--  View Modal  -->
+    <main-modal id="accommodationDetailsViewModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
+      </template>
+      <template v-slot:borderHeader class="flex-nowrap">
+        <p class="p-4 borderHeaderModal">
+          {{accommodationsDetails.name}}, {{accommodationsDetails.accommodation_type.name}}
+        </p>
+      </template>
+      <template v-slot:body>
+        <accommodations-view :accommodationsDetails="accommodationsDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -38,6 +52,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import accommodationsDetails from '@/modules/business/accommodations/components/accommodationsDetails.vue'
+import accommodationsView from '@/modules/business/accommodations/components/accommodationsView'
 import accommodationsServices from '@/modules/business/accommodations/services/accommodations.services.js'
 export default {
   data () {
@@ -73,14 +88,14 @@ export default {
               color: 'success-light',
               text: 'View',
               actionName: 'showAccommodations',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
               actionName: 'showAccommodationsToEdit',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-trash-alt',
@@ -101,7 +116,8 @@ export default {
     }
   },
   components: {
-    accommodationsDetails
+    accommodationsDetails,
+    accommodationsView
   },
   methods: {
     sortChanged (key) {
@@ -115,6 +131,7 @@ export default {
     },
     addAccommodation (accommodations) {
       this.requestLoading = true
+      this.reloadTable = false
       accommodationsServices.addNewAccommodation(accommodations).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -125,6 +142,7 @@ export default {
     },
     editAccommodation (accommodations) {
       this.requestLoading = true
+      this.reloadTable = false
       accommodationsServices.editAccommodation(this.accommodationsId, accommodations).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -136,19 +154,14 @@ export default {
     showDetails (obj) {
       this.accommodationsId = ''
       this.typeOfModal = 'view'
-      accommodationsServices.getAccommodationsDetails(obj.id).then(res => {
-        this.accommodationsDetails = res.data.data
-        this.$bvModal.show('accommodationsDetailsModal')
-      })
+      this.accommodationsDetails = obj
+      this.$bvModal.show('accommodationDetailsViewModal')
     },
     showAccommodationsToEdit (obj) {
       this.typeOfModal = 'edit'
       this.accommodationsId = obj.id
-      console.log(this.accommodationsId)
-      accommodationsServices.getAccommodationsDetails(obj.id).then(res => {
-        this.accommodationsDetails = res.data.data
-        this.$bvModal.show('accommodationsDetailsModal')
-      })
+      this.accommodationsDetails = obj
+      this.$bvModal.show('accommodationsDetailsModal')
     }
   },
   created () {

@@ -37,13 +37,13 @@
               </b-input-group></b-form-group>
             </validation-provider>
           </b-col>
-          <b-col md="4" class="mb-5 pt-4">
+          <b-col md="4" class="mb-5 d-flex justify-content-center">
             <b-form-checkbox
                 type="checkbox"
                 id="checkbox"
                 v-model="selected"
                 label="Discounted Price"
-                class="custom-checkbox-color-check" color="warning"
+                class="custom-checkbox-color-check mt-4 pt-3" color="warning"
             ><span class="font-size-12 text-primary"> Discounted Price </span>
             </b-form-checkbox>
           </b-col>
@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     addTicket () {
+      this.ticket.discount_price_egp = this.selected ? this.ticket.discount_price_egp : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addTicket', this.ticket)
       } else {
@@ -158,6 +159,9 @@ export default {
         conditions: this.ticketDetails.conditions,
         status: this.ticketDetails.status
       }
+    }
+    if (this.ticket.discount_price_egp) {
+      this.selected = true
     }
   }
 }

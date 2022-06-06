@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
+    <!--  Add and Edit Modal  -->
     <main-modal id="flowsDetailsModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Flow</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" ><span class="text-success-light">View: </span> Flow</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Flow</h4>
       </template>
       <template v-slot:body>
@@ -12,6 +12,25 @@
                       :requestLoading="requestLoading"
                       :flowsDetails="flowsDetails"
                       :typeOfModal="typeOfModal"/>
+      </template>
+    </main-modal>
+    <!--  View Modal  -->
+    <main-modal id="flowDetailsViewModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
+      </template>
+      <template v-slot:borderHeader class="flex-nowrap">
+        <p class="p-4 borderHeaderModal">
+          {{flowsDetails.name}}
+          <button v-if="optionInd > -1"
+                  class="ml-4 p-2 btn radio-btn" active
+                  :class="`radio-btn-${options[optionInd].color} radio-btn-selected-${options[optionInd].color}`">
+            {{ options[optionInd].text }}
+          </button>
+        </p>
+      </template>
+      <template v-slot:body>
+        <flows-view :flowsDetails="flowsDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -38,6 +57,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import flowsDetails from '@/modules/business/flows/components/flowsDetails.vue'
+import flowsView from '@/modules/business/flows/components/flowsView.vue'
 import flowsServices from '@/modules/business/flows/services/flows.services.js'
 export default {
   data () {
@@ -48,7 +68,7 @@ export default {
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Description', key: 'description', class: 'text-left' },
-        { label: 'Requirements', key: 'requirments', class: 'text-left' },
+        { label: 'Requirements', key: 'requirements', class: 'text-left' },
         { label: 'Price EGP', key: 'price_egp', class: 'text-left', type: 'multi-value' },
         { label: 'Discounted Price', key: 'discounted_price_egp', class: 'text-left', type: 'multi-value' },
         { label: 'Level', key: 'level', class: 'text-left' },
@@ -65,14 +85,14 @@ export default {
               color: 'success-light',
               text: 'View',
               actionName: 'showFlows',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
               actionName: 'showFlowsToEdit',
-              actionParams: ['id']
+              actionParams: 'fullObj'
             },
             {
               icon: 'las la-trash-alt',
@@ -87,13 +107,21 @@ export default {
           ]
         }
       ],
+      options: [
+        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
+        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
+        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
+        { text: 'ADVANCED', value: 'advanced', color: 'red' }
+      ],
+      optionInd: '',
       typeOfModal: 'add',
       flowsDetails: {},
       flowsId: ''
     }
   },
   components: {
-    flowsDetails
+    flowsDetails,
+    flowsView
   },
   methods: {
     sortChanged (key) {
@@ -107,6 +135,7 @@ export default {
     },
     addFlows (flows) {
       this.requestLoading = true
+      this.reloadTable = false
       flowsServices.addNewFlow(flows).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -117,6 +146,7 @@ export default {
     },
     editFlows (flows) {
       this.requestLoading = true
+      this.reloadTable = false
       flowsServices.editFlow(this.flowsId, flows).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
@@ -127,19 +157,16 @@ export default {
     },
     showDetails (obj) {
       this.flowsId = ''
+      this.optionInd = this.options.findIndex(ele => ele.value === obj.level)
       this.typeOfModal = 'view'
-      flowsServices.getFlowsDetails(obj.id).then(res => {
-        this.flowsDetails = res.data.data
-        this.$bvModal.show('flowsDetailsModal')
-      })
+      this.flowsDetails = obj
+      this.$bvModal.show('flowDetailsViewModal')
     },
     showFlowsToEdit (obj) {
       this.typeOfModal = 'edit'
       this.flowsId = obj.id
-      flowsServices.getFlowsDetails(obj.id).then(res => {
-        this.flowsDetails = res.data.data
-        this.$bvModal.show('flowsDetailsModal')
-      })
+      this.flowsDetails = obj
+      this.$bvModal.show('flowsDetailsModal')
     }
   },
   created () {

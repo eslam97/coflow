@@ -51,7 +51,7 @@
           <!-- Array handler -->
           <div v-else-if="field.type == 'array'">
             <span v-if="field.array_keys" >
-              <ul>
+              <ul class="p-0">
                 <li v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
                     <span v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
                 </li>
@@ -88,12 +88,13 @@
           <div v-else-if="field.type == 'multi-value'">
             <ul class="p-0">
               <li v-for="(arrKey, key) in field.key.split(',')" :key="key">
-                <span v-if="$_.get(data.item, arrKey)">
+                <span v-if="$_.get(data.item, arrKey) > 0">
                   <span v-if="arrKey.includes('egp')">EGP </span>
                   <span v-else-if="arrKey.includes('euro')">EUR </span>
                   <span v-else-if="arrKey.includes('dollar')">$ </span>
                   {{ $_.get(data.item, arrKey) }}
                 </span>
+                <span v-else>N/A</span>
               </li>
             </ul>
           </div>
@@ -106,7 +107,6 @@
             <span v-if="$_.get(data.item, field.key)">
               {{ $_.get(data.item, field.key).length > 30 ? $_.get(data.item, field.key).substring(0,30) + '...' : $_.get(data.item, field.key) }}
             </span>
-            <span v-else>{{ $_.get(data.item, field.key) }}</span>
           </p>
         </div>
 

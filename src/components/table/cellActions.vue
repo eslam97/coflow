@@ -78,8 +78,10 @@ export default {
         )
       } else if (action.actionName) {
         console.log(action)
-        const objData = {}
-        if (action.actionParams) {
+        let objData = {}
+        if (action.actionParams === 'fullObj') {
+          objData = this.dataItem
+        } else if (action.actionParams) {
           action.actionParams.forEach(params => {
             if (this.dataItem[params]) {
               objData[params] = this.dataItem[params]

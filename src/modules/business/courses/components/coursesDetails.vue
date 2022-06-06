@@ -361,8 +361,12 @@ export default {
   components: {},
   methods: {
     addCourses () {
+      // if foreigner price is empty send 0 to server
       this.courses.price_euro = this.courses.price_euro ? this.courses.price_euro : 0
       this.courses.price_dollar = this.courses.price_dollar ? this.courses.price_dollar : 0
+      // if discount isn't checked, discounted field should be emptied
+      this.courses.discount_price_euro = this.selectedEUR ? this.courses.discount_price_euro : ''
+      this.courses.discount_price_dollar = this.selectedDollar ? this.courses.discount_price_dollar : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addCourses', { ...this.courses, images: this.courses.images.map(data => data.id) })
       } else {

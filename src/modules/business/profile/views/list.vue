@@ -1,8 +1,8 @@
 <template>
   <b-container fluid>
-    <main-modal id="tempCloseModal" size="lg" @unsavedMsg="unsavedMsg">
-      <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-warning">Set: </span> Temporary close message</h4>
+    <main-modal id="tempCloseModal" size="md" @unsavedMsg="unsavedMsg">
+      <template v-slot:header class="p-2">
+        <h4 class="font-weight-bold"><span class="text-danger">Temporary close: </span> Account</h4>
       </template>
       <template v-slot:body>
         <temp-msg-modal @setMsg="setTempCloseMsg"

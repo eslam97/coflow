@@ -11,7 +11,7 @@
     </main-modal>
     <b-row>
       <b-col lg="12" class="mb-2">
-        <h3>Leadss</h3>
+        <h3>leads</h3>
       </b-col>
       <b-col lg="12">
             <main-table

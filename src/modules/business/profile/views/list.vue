@@ -1,5 +1,6 @@
 <template>
   <b-container fluid>
+    <!--  Temporary close modal  -->
     <main-modal id="tempCloseModal" size="md" @unsavedMsg="unsavedMsg">
       <template v-slot:header class="p-2">
         <h4 class="font-weight-bold"><span class="text-danger">Temporary close: </span> Account</h4>
@@ -8,6 +9,12 @@
         <temp-msg-modal @setMsg="setTempCloseMsg"
                         :statusDetails="statusDetails"/>
       </template>
+    </main-modal>
+    <!--  Photos edit modal  -->
+    <main-modal id="photosView" size="lg">
+        <template v-slot:header class="p2">
+          <h4 class="font-weight-bold"><span class="text-sucess">Edit: </span>{{ photoToEdit }}</h4>
+        </template>
     </main-modal>
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">

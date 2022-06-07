@@ -9,12 +9,11 @@ export default [
     path: '/flows',
     name: 'flows',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'flows',
-      meta: { auth: true, name: 'flows' },
-      component: flowsList
+      component: flowsList,
+      meta: { name: 'flows', userType: 'provider', serviceTypes: 'FLOW' }
     }]
   }
 ]

@@ -30,100 +30,67 @@ export default [
         {
           path: '',
           name: 'settings',
-          meta: {
-            auth: true,
-            name: 'profileSetting'
-          },
+          meta: { name: 'settings', userType: 'admin', permission: '' },
           component: profileSetting
         },
         {
           path: 'activity-lines',
           name: 'activityLines',
-          meta: {
-            auth: true,
-            name: 'activityLines'
-          },
+          meta: { name: 'activityLines', userType: 'admin', permission: '' },
           component: activityLines
         },
         {
           path: 'activity-types',
           name: 'activityTypes',
-          meta: {
-            auth: true,
-            name: 'activityTypes'
-          },
+          meta: { name: 'activityTypes', userType: 'admin', permission: '' },
           component: activityTypes
         },
         {
           path: 'duration-lists',
           name: 'durationLists',
-          meta: {
-            auth: true,
-            name: 'durationLists'
-          },
+          meta: { name: 'durationLists', userType: 'admin', permission: '' },
           component: durationList
         },
         {
           path: 'nationalities',
           name: 'nationalities',
-          meta: {
-            auth: true,
-            name: 'nationalities'
-          },
+          meta: { name: 'nationalities', userType: 'admin', permission: '' },
           component: nationalities
         },
         {
           path: 'accommodation-types',
           name: 'accommodationTypes',
-          meta: {
-            auth: true,
-            name: 'accommodationTypes'
-          },
+          meta: { name: 'accommodationTypes', userType: 'admin', permission: '' },
           component: accommodationTypes
         },
         {
           path: 'links',
           name: 'links',
-          meta: {
-            auth: true,
-            name: 'links'
-          },
+          meta: { name: 'links', userType: 'admin', permission: '' },
           component: links
         },
         {
           path: 'languages',
           name: 'languages',
-          meta: {
-            auth: true,
-            name: 'languages'
-          },
+          meta: { name: 'languages', userType: 'admin', permission: '' },
           component: languages
         },
         {
           path: 'countries',
           name: 'countries',
-          meta: {
-            auth: true,
-            name: 'countries'
-          },
+          meta: { name: 'countries', userType: 'admin', permission: '' },
           component: countries
         },
         {
           path: 'cities',
           name: 'cities',
-          meta: {
-            auth: true,
-            name: 'cities'
-          },
+          meta: { name: 'cities', userType: 'admin', permission: '' },
           component: cities
         },
         {
           path: 'areas',
           name: 'areas',
-          meta: {
-            auth: true,
-            name: 'areas'
-          },
+          meta: { name: 'areas', userType: 'admin', permission: '' },
           component: areas
         }
       ]

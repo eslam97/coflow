@@ -107,6 +107,9 @@
             <span v-if="$_.get(data.item, field.key)">
               {{ $_.get(data.item, field.key).length > 30 ? $_.get(data.item, field.key).substring(0,30) + '...' : $_.get(data.item, field.key) }}
             </span>
+            <span v-else>
+              ---
+            </span>
           </p>
         </div>
 

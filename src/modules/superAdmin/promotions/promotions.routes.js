@@ -9,11 +9,10 @@ export default [
     path: '/all-promotions',
     name: 'promostionslist',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'promostionslist',
-      meta: { auth: true, name: 'promostionslist' },
+      meta: { name: 'promostionslist', userType: 'admin', permission: '' },
       component: promostionslist
     }
     ]

@@ -9,12 +9,11 @@ export default [
     path: '/schedule',
     name: 'schedule',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'schedule',
-      meta: { auth: true, name: 'schedule' },
-      component: scheduleList
+      component: scheduleList,
+      meta: { name: 'schedule', userType: 'provider', serviceTypes: 'FLOW' }
     }]
   }
 ]

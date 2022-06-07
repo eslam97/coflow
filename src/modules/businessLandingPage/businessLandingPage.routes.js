@@ -9,24 +9,24 @@ export default [
     path: '',
     name: 'businessLandingPage',
     component: index,
-    meta: { auth: false }
+    meta: { auth: false, userType: 'both' }
   },
   {
     path: '/profile-info',
     name: 'profileInfo',
     component: profileInfo,
-    meta: { auth: false }
+    meta: { auth: false, userType: 'provider', serviceTypes: 'all' }
   },
   {
     path: '/profile-complete',
     name: 'profileComplete',
     component: profileComplete,
-    meta: { auth: false }
+    meta: { auth: false, userType: 'provider', serviceTypes: 'all' }
   },
   {
     path: '/profile-data',
     name: 'profileSteps',
     component: profileSteps,
-    meta: { auth: false }
+    meta: { auth: false, userType: 'provider', serviceTypes: 'all' }
   }
 ]

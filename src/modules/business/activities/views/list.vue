@@ -15,12 +15,12 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="activitiesDetailsViewModal" size="lg">
+    <main-modal id="activitiesDetailsViewModal" size="lg" border="true">
       <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Activity</h4>
       </template>
       <template v-slot:borderHeader class="flex-nowrap">
-        <p class="p-4 borderHeaderModal">
+        <p class="p-4 borderHeaderModal m-0">
           {{activitiesDetails.name}}
           <button class="ml-4 p-2 btn radio-btn" :class="`radio-btn-cyan`" active>
             {{ activitiesDetails.duration }} {{ activitiesDetails.duration_list.name }}

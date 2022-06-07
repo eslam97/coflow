@@ -127,7 +127,9 @@ export default {
           this.$router.push({ name: 'profileComplete' })
           localStorage.setItem('formStep', 'completed')
         } else {
-          this.$router.push({ name: 'leads' })
+          if (res.data.data.type === 'admin') {
+            this.$router.push({ name: 'leads' })
+          } else this.$router.push({ name: 'dashboard' })
         }
         localStorage.setItem('userToken', res.data.data.token)
         this.openPopupLogin = false

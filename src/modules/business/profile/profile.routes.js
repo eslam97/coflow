@@ -13,8 +13,8 @@ export default [
     children: [{
       path: '',
       name: 'profile',
-      meta: { auth: true, name: 'profile' },
-      component: profileList
+      component: profileList,
+      meta: { name: 'profile', userType: 'provider', serviceTypes: 'all' }
     }]
   }
 ]

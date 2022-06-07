@@ -250,9 +250,10 @@ export default {
         description: '',
         price_egp: '',
         price_euro: '',
-        price_dollar: '',
+        price_dollar: 0,
         discount_price_egp: '',
         discount_price_euro: '',
+        discount_price_dollar: 0,
         status: 'active',
         images: []
       },

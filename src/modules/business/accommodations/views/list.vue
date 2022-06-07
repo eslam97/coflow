@@ -15,12 +15,12 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="accommodationDetailsViewModal" size="lg">
+    <main-modal id="accommodationDetailsViewModal" size="lg" border="true">
       <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Accommodation</h4>
       </template>
       <template v-slot:borderHeader class="flex-nowrap">
-        <p class="p-4 borderHeaderModal">
+        <p class="p-4 borderHeaderModal m-0" v-if="accommodationsDetails">
           {{accommodationsDetails.name}}, {{accommodationsDetails.accommodation_type.name}}
         </p>
       </template>

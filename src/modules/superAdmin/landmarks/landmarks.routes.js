@@ -9,11 +9,10 @@ export default [
     path: '/landmarks',
     name: 'landmarks',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'landmarks',
-      meta: { auth: true, name: 'landmarks' },
+      meta: { name: 'landmarks', userType: 'admin', permission: '' },
       component: landmarkslist
     }
     ]

@@ -10,17 +10,16 @@ export default [
     path: '/admin',
     name: 'admin',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'admin',
-      meta: { auth: true, name: 'admin' },
+      meta: { name: 'admin', userType: 'admin', permission: '' },
       component: Adminlist
     },
     {
       path: 'roles',
       name: 'roles',
-      meta: { auth: true, name: 'roles' },
+      meta: { name: 'roles', userType: 'admin', permission: '' },
       component: rolelist
     }
     ]

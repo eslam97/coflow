@@ -287,6 +287,10 @@ table tr{
 }
 .table td{
   padding: 1.5rem;
+  vertical-align: middle;
+}
+.table td ul {
+  margin: 0 !important;
 }
 .iq-top-navbar{
   min-height: 71px;
@@ -621,4 +625,7 @@ form legend {
 .infoValue {
   color: black;
   font-weight: bold;
+}
+.las.la-infinity{
+  transform: rotate(90deg) !important;
 }

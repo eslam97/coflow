@@ -8,10 +8,12 @@
         <b-collapse id="nav-business" is-nav>
         <b-navbar-nav class="ml-auto d-flex align-items-center">
             <span class="px-3 py-2 mb-2 mb-lg-0 p-lg-0 cursor-pointer"  @click="$emit('openPopup')"
-                  v-if="!userToken">Login
+                  v-if="!userToken || (typeOfUser !== 'admin' && !typeOfService)">Login
             </span>
               <span class="px-3 py-2 mb-2 mb-lg-0 p-lg-0 cursor-pointer" v-else>
-               <router-link to="/leads"><span class="text-white">Dashboard</span></router-link>
+               <router-link v-if="typeOfUser === 'admin'"
+                            to="/leads"><span class="text-white">Dashboard</span></router-link>
+               <router-link v-else :to="{name : 'dashboard'}"><span class="text-white">Dashboard</span></router-link>
               </span>
               <span class="container_button ml-0 ml-lg-5" @click="$emit('businessRequest')">
                 <b-button variant="primary" class="navButton">
@@ -27,7 +29,9 @@
 export default {
   data () {
     return {
-      userToken: localStorage.getItem('userToken')
+      userToken: localStorage.getItem('userToken'),
+      typeOfUser: JSON.parse(localStorage.getItem('userInfo')).type,
+      typeOfService: JSON.parse(localStorage.getItem('userInfo')).service_types
     }
   }
 }

@@ -1,18 +1,8 @@
 <template>
   <div class="pl-3 pr-3">
-    <v-row class="flex-nowrap">
-      <v-col md="6">
-        <!--          <v-col md="12">-->
-        <!--            <p>ACCOMMODATION PHOTOS</p>-->
-        <!--          </v-col>-->
-        <slider-thumbs :images="accommodationsDetails.images"/>
-      </v-col>
-      <v-col md="6">
-        <v-row>
-          <v-col md="12">
-            <p>ACCOMMODATION INFORMATION</p>
-          </v-col>
-        </v-row>
+    <b-row>
+      <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
+        <h5 class="mb-4 font-size-14">ACCOMMODATION INFORMATION</h5>
         <b-row class="pl-3 mb-2">
           <b-col md="12" class="infoKey">
             <p>Description</p>
@@ -22,32 +12,24 @@
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
-          <b-col md="3" class="infoKey">
+          <b-col md="6" class="infoKey">
             <p>Price</p>
+            <p class="text-black font-weight-bold">EGP {{accommodationsDetails.price_egp}}</p>
           </b-col>
-          <b-col md="3" class="infoKey">
+          <b-col md="6" class="infoKey">
             <p>Discounted price</p>
-          </b-col>
-          <b-col md="3" class="infoKey">
-            <p>Price EUR</p>
-          </b-col>
-          <b-col md="3" class="infoKey">
-            <p>Discounted price</p>
-          </b-col>
-          <b-col md="3" class="infoValue">
-            <p>EGP {{accommodationsDetails.price_egp}}</p>
-          </b-col>
-          <b-col md="3" class="infoValue">
-            <p><span v-if="accommodationsDetails.discount_price_egp">
+            <p class="text-black font-weight-bold"><span v-if="accommodationsDetails.discount_price_egp">
               EGP {{accommodationsDetails.discount_price_egp}}</span>
               <span v-else>N/A</span></p>
           </b-col>
-          <b-col md="3" class="infoValue">
-            <p>EGP {{accommodationsDetails.price_egp}}</p>
+          <b-col md="6" class="infoKey">
+            <p>Price EUR</p>
+            <p class="text-black font-weight-bold">EUR {{accommodationsDetails.price_euro}}</p>
           </b-col>
-          <b-col md="3" class="infoValue">
-            <p><span v-if="accommodationsDetails.discount_price_euro">
-              EUR {{accommodationsDetails.discount_price_euro}}</span>
+          <b-col md="6" class="infoKey">
+            <p>Discounted price</p>
+            <p class="text-black font-weight-bold"><span v-if="accommodationsDetails.discount_price_auro">
+              EUR {{accommodationsDetails.discount_price_auro}}</span>
               <span v-else>N/A</span></p>
           </b-col>
         </b-row>
@@ -59,8 +41,12 @@
             <p>{{accommodationsDetails.conditions}}</p>
           </b-col>
         </b-row>
-      </v-col>
-    </v-row>
+      </b-col>
+      <b-col lg="6" class="py-5" order-lg="2" order="1">
+        <h5 class="mb-4 font-size-14">ACCOMMODATION PHOTOS</h5>
+        <slider-thumbs :images="accommodationsDetails.images"/>
+      </b-col>
+    </b-row>
   </div>
 </template>
 

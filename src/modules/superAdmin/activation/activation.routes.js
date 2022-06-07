@@ -9,11 +9,10 @@ export default [
     path: '/activation',
     name: 'activation',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'activation',
-      meta: { auth: true, name: 'activation' },
+      meta: { name: 'activation', userType: 'admin', permission: '' },
       component: activationlist
     }
     ]

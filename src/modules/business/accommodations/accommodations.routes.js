@@ -9,12 +9,11 @@ export default [
     path: '/accommodations',
     name: 'accommodations',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'accommodations',
-      meta: { auth: true, name: 'accommodations' },
-      component: accommodationsList
+      component: accommodationsList,
+      meta: { name: 'accommodations', userType: 'provider', serviceTypes: 'CAMP' }
     }]
   }
 ]

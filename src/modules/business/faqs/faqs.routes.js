@@ -9,12 +9,11 @@ export default [
     path: '/faq',
     name: 'faq',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'faq',
-      meta: { auth: true, name: 'faq' },
-      component: faqsList
+      component: faqsList,
+      meta: { name: 'faq', userType: 'provider', serviceTypes: 'all' }
     }]
   }
 ]

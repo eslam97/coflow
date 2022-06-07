@@ -9,12 +9,11 @@ export default [
     path: '/activities',
     name: 'activities',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'activities',
-      meta: { auth: true, name: 'activities' },
-      component: activitiesList
+      component: activitiesList,
+      meta: { name: 'activities', userType: 'activities', serviceTypes: 'PRO' }
     }]
   }
 ]

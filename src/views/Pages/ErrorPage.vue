@@ -15,13 +15,8 @@
   </div>
 </template>
 <script>
-import { core } from '../../config/pluginInit'
-
 export default {
-  name: 'ErrorPage',
-  mounted () {
-    core.index()
-  },
+  name: 'errorPage',
   data () {
     return {
       image404: require('../../assets/images/error/error-01.png'),

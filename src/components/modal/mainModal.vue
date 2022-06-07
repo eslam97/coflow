@@ -22,7 +22,7 @@
       </div>
     </template>
     <slot name="borderHeader"></slot>
-    <div class="p-4">
+    <div :class="{'p-4': !border}">
       <slot name="body"></slot>
     </div>
   </b-modal>
@@ -43,6 +43,10 @@ export default {
     icon: {
       type: String,
       default: () => 'las la-trash-alt'
+    },
+    border: {
+      type: String,
+      default: ''
     }
   },
 

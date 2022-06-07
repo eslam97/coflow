@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+/* import securityFunctions from '@/mixins/auth-permission' */
 // Import Business Landing
 import businessLanding from '@/modules/businessLandingPage/businessLandingPage.routes'
 
@@ -20,6 +20,7 @@ import welcomePage from '@/components/welcomePage'
 import charts from '@/views/Charts/charts.routes'
 
 // Import Business
+import dashboard from '@/modules/business/dashboard/dashboard.routes'
 import tickets from '@/modules/business/tickets/tickets.routes.js'
 import bussinessPromotions from '@/modules/business/promotions/promotions.routes'
 import faq from '@/modules/business/faqs/faqs.routes.js'
@@ -95,6 +96,7 @@ const routes = [
   ...analytics,
   ...admin,
   ...charts,
+  ...dashboard,
   ...tickets,
   ...bussinessPromotions,
   ...faq,
@@ -128,6 +130,7 @@ const routes = [
   {
     path: '*',
     name: 'errorPage',
+    meta: { name: 'dashboard', userType: 'both' },
     component: ErrorPage
   }
 ]
@@ -140,24 +143,21 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   }
 })
-
 /* router.beforeEach((to, from, next) => {
-  const publicPages = ['/auth/sign-in1', '/auth/sign-up1', '/dark/auth/sign-in1', '/dark/auth/sign-up1']
-  if (publicPages.includes(to.path)) {
-    localStorage.removeItem('user')
-    localStorage.removeItem('access_token')
-  }
-  const authRequired = !publicPages.includes(to.path)
-  const loggedIn = localStorage.getItem('access_token')
-  if (to.meta.auth) {
-    // console.log(to.meta.auth)
-    if (authRequired && loggedIn === null) {
-      return next('/auth/sign-in1')
-    } else if (to.name === 'dashboard' || to.name === 'mini.dashboard') {
-      return next('/index')
+  if (to.meta.userType === 'both') {
+    next()
+  } else if (securityFunctions.methods.isAdmin(to.meta.userType)) {
+    if (securityFunctions.methods.hasPer(to.meta.permission)) {
+      next()
+    } else {
+      next({ name: 'errorPage' })
+    }
+  } else {
+    if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes)) {
+      next()
+    } else {
+      next({ name: 'errorPage' })
     }
   }
-  next()
 }) */
-
 export default router

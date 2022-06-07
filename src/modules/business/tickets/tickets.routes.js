@@ -9,12 +9,11 @@ export default [
     path: '/tickets',
     name: 'tickets',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'tickets',
-      meta: { auth: true, name: 'tickets' },
-      component: ticketsList
+      component: ticketsList,
+      meta: { name: 'tickets', userType: 'provider', serviceTypes: 'GO' }
     }]
   }
 ]

@@ -1,19 +1,9 @@
 <template>
-  <div class="pl-3 pr-3">
-    <v-row class="flex-nowrap">
-      <v-col md="6">
-        <!--          <v-col md="12">-->
-        <!--            <p>FLOW PHOTOS</p>-->
-        <!--          </v-col>-->
-        <slider-thumbs :images="flowsDetails.images"/>
-      </v-col>
-      <v-col md="6">
-        <v-row>
-          <v-col md="12">
-            <p>FLOW INFORMATION</p>
-          </v-col>
-        </v-row>
-        <b-row class="pl-3 mb-2">
+  <div class="px-3">
+    <b-row>
+      <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
+        <h5 class="mb-4 font-size-14">FLOW INFORMATION</h5>
+        <b-row class="pl-3 mb-3">
           <b-col md="12" class="infoKey">
             <p>Description</p>
           </b-col>
@@ -21,7 +11,7 @@
             <p>{{flowsDetails.description}}</p>
           </b-col>
         </b-row>
-        <b-row class="pl-3 mb-2">
+        <b-row class="pl-3 mb-3">
           <b-col md="12" class="infoKey">
             <p>Requirements</p>
           </b-col>
@@ -29,7 +19,7 @@
             <p>{{flowsDetails.requirements}}</p>
           </b-col>
         </b-row>
-        <b-row class="pl-3 mb-2">
+        <b-row class="pl-3 mb-3">
           <b-col md="4" class="infoKey">
             <p>Price</p>
           </b-col>
@@ -44,7 +34,7 @@
               <span v-else>N/A</span></p>
           </b-col>
         </b-row>
-        <b-row class="pl-3 mb-2">
+        <b-row class="pl-3 mb-3">
           <b-col md="12" class="infoKey">
             <p>Instructors</p>
           </b-col>
@@ -52,8 +42,12 @@
             <p>{{ inst.first_name }} {{ inst.last_name }}</p>
           </b-col>
         </b-row>
-      </v-col>
-    </v-row>
+      </b-col>
+      <b-col lg="6" class="py-5" order-lg="2" order="1">
+        <h5 class="mb-4 font-size-14">FLOW PHOTOS</h5>
+        <slider-thumbs :images="flowsDetails.images"/>
+      </b-col>
+    </b-row>
   </div>
 </template>
 

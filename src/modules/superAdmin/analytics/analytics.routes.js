@@ -9,11 +9,10 @@ export default [
     path: '/analytics',
     name: 'analytics',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'analytics',
-      meta: { auth: true, name: 'analytics' },
+      meta: { name: 'analytics', userType: 'admin', permission: '' },
       component: analyticslist
     }
     ]

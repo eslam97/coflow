@@ -1,5 +1,5 @@
 <template>
-  <div class="testimonials py-5" id="testimonials">
+  <div class="testimonials py-5 overflow-hidden" id="testimonials">
     <b-container>
       <div class="pt-5 pb-3 my-5">
         <div class="header">

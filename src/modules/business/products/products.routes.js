@@ -9,12 +9,11 @@ export default [
     path: '/products',
     name: 'productList',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'productList',
-      meta: { auth: true, name: 'productList' },
-      component: productList
+      component: productList,
+      meta: { name: 'productList', userType: 'provider', serviceTypes: 'SHOP' }
     }]
   }
 ]

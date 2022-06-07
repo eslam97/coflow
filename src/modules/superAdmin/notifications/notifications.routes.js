@@ -9,11 +9,10 @@ export default [
     path: '/notifications',
     name: 'notifications',
     component: VerticleLayout,
-    meta: { auth: true },
     children: [{
       path: '',
       name: 'notifications',
-      meta: { auth: true, name: 'notifications' },
+      meta: { name: 'notifications', userType: 'admin', permission: '' },
       component: notificationslist
     }
     ]

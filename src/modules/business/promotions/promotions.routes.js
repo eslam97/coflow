@@ -13,7 +13,7 @@ export default [
     children: [{
       path: '',
       name: 'promotions',
-      meta: { auth: true, name: 'promotions' },
+      meta: { name: 'promotions', userType: 'provider', serviceTypes: 'all' },
       component: promotionslist
     }
     ]

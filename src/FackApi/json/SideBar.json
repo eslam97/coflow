@@ -10,7 +10,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-headset"
+    "icon": "las la-headset",
+    "userType": "admin"
   },
   {
     "title": "amChart",
@@ -23,7 +24,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-chart"
+    "icon": "las la-chart",
+    "userType": "admin"
   },
   {
     "title": "Activation",
@@ -36,7 +38,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-check-circle"
+    "icon": "las la-check-circle",
+    "userType": "admin"
   },
   {
     "title": "Profiles",
@@ -49,7 +52,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-id-card"
+    "icon": "las la-id-card",
+    "userType": "admin"
   },
   {
     "title": "Landmarks",
@@ -62,7 +66,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-landmark"
+    "icon": "las la-landmark",
+    "userType": "admin"
   },
   {
     "title": "Services",
@@ -75,7 +80,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-hand-holding-heart"
+    "icon": "las la-hand-holding-heart",
+    "userType": "admin"
   },
   {
     "title": "Promotions",
@@ -88,7 +94,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-percentage"
+    "icon": "las la-percentage",
+    "userType": "admin"
   },
   {
     "title": "Customers",
@@ -101,7 +108,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-users"
+    "icon": "las la-users",
+    "userType": "admin"
   },
   {
     "title": "Settings",
@@ -114,7 +122,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-cog"
+    "icon": "las la-cog",
+    "userType": "admin"
   },
   {
     "title": "Notifications",
@@ -127,7 +136,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-bell"
+    "icon": "las la-bell",
+    "userType": "admin"
   },
   {
     "title": "Analytics",
@@ -140,7 +150,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-chart-bar"
+    "icon": "las la-chart-bar",
+    "userType": "admin"
   },
   {
     "title": "Admin",
@@ -153,25 +164,25 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-user-lock"
+    "icon": "las la-user-lock",
+    "userType": "admin"
   },
   {
     "title": "Dashboard",
-    "name": "sidebar.dashboard2",
-    "permission": "dashboard",
+    "name": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "dashboard.home-2"
+      "name": "dashboard"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-home"
+    "icon": "las la-home",
+    "userType": "both"
   },
   {
     "title": "Tickets",
     "name": "Tickets",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -179,12 +190,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-ticket-alt"
+    "icon": "las la-ticket-alt",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Activity",
     "name": "Activity",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -192,12 +204,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-brush"
+    "icon": "las la-brush",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Courses",
     "name": "Courses",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -205,12 +218,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-file-alt"
+    "icon": "las la-file-alt",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Products",
     "name": "Products",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -218,12 +232,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-shopping-bag"
+    "icon": "las la-shopping-bag",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Accommodations",
     "name": "Accommodations",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -231,12 +246,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-procedures"
+    "icon": "las la-procedures",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Flows",
     "name": "Flows",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -244,12 +260,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-infinity"
+    "icon": "las la-infinity",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Schedule",
     "name": "Schedule",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -257,12 +274,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-calendar-alt"
+    "icon": "las la-calendar-alt",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "FAQ's",
     "name": "FAQ's",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -270,12 +288,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-question-circle"
+    "icon": "las la-question-circle",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Promotions",
     "name": "promotions",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -283,12 +302,13 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-percentage"
+    "icon": "las la-percentage",
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Profile",
     "name": "Profile",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -296,6 +316,8 @@
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-user"
+    "icon": "las la-user",
+    "userType": "provider",
+    "serviceTypes": "all"
   }
 ]

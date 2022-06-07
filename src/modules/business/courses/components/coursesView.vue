@@ -1,18 +1,8 @@
 <template>
   <div class="pl-3 pr-3">
-    <v-row class="flex-nowrap">
-      <v-col md="6">
-        <!--          <v-col md="12">-->
-        <!--            <p>COURSE PHOTOS</p>-->
-        <!--          </v-col>-->
-        <slider-thumbs :images="coursesDetails.images"/>
-      </v-col>
-      <v-col md="6">
-        <v-row>
-          <v-col md="12">
-            <p>COURSE INFORMATION</p>
-          </v-col>
-        </v-row>
+    <b-row>
+      <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
+        <h5 class="mb-4 font-size-14">COURSE INFORMATION</h5>
         <b-row class="pl-3 mb-2">
           <b-col md="12" class="infoKey">
             <p>Description</p>
@@ -60,8 +50,12 @@
             <p>{{ location }}</p>
           </b-col>
         </b-row>
-      </v-col>
-    </v-row>
+      </b-col>
+      <b-col lg="6" class="py-5" order-lg="2" order="1">
+        <h5 class="mb-4 font-size-14">COURSE PHOTOS</h5>
+        <slider-thumbs :images="coursesDetails.images"/>
+      </b-col>
+    </b-row>
   </div>
 </template>
 

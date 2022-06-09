@@ -49,7 +49,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'duration List',
-              textContnet: 'name'
+              textContent: 'name'
             }
           ]
         }

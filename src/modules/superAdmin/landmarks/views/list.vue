@@ -89,7 +89,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Landmark',
-              textContnet: 'name',
+              textContent: 'name',
               url: 'landmarks'
             }
           ]

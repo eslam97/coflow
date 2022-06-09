@@ -271,7 +271,9 @@ export default {
     addActivities () {
       // if foreigner price is empty send 0 to server
       this.activities.price_euro = this.activities.price_euro ? this.activities.price_euro : 0
+      this.activities.price_dollar = this.activities.pricedollar ? this.activities.price_dollar : 0
       // if discount isn't checked, discounted field should be emptied
+      this.activities.discount_price_egp = this.selectedEGP ? this.activities.discount_price_egp : ''
       this.activities.discount_price_euro = this.selectedEUR ? this.activities.discount_price_euro : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', { ...this.activities, images: this.activities.images.map(data => data.id) })

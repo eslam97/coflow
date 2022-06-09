@@ -89,7 +89,7 @@ export default {
             showAlert: true,
             actionHeader: 'Delete',
             titleHeader: 'Role',
-            textContnet: 'name',
+            textContent: 'name',
             url: 'roles'
           }
           ]

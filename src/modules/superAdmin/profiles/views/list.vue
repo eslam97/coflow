@@ -79,7 +79,7 @@ export default {
               actionHeader: 'Alert',
               titleHeader: 'change login status',
               question: "Are You Sure You Want Change This Status To Can't login ?",
-              textContnet: 'name',
+              textContent: 'name',
               textDeleteButton: 'Change Status',
               type: 'deactivate',
               iconClass: 'la la-lock-open',
@@ -94,7 +94,7 @@ export default {
               actionHeader: 'Alert',
               titleHeader: 'change login status',
               question: 'Are You Sure You Want Change This Status To Can login ?',
-              textContnet: 'name',
+              textContent: 'name',
               textDeleteButton: 'Change Status',
               type: 'deactivate',
               iconClass: 'las la-lock',
@@ -107,7 +107,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Profile',
-              textContnet: 'name',
+              textContent: 'name',
               url: 'providers'
             }
           ]

@@ -303,7 +303,9 @@
                             />
                           </b-col>
                         </b-row>
-                        <span class="text-danger deleteLabelButton cursor-pointer"
+                        <span v-if="operationKey === 0" class="text-danger deleteLabelButton cursor-pointer"
+                              @click="clearFirstDay(operationKey)">Clear</span>
+                        <span v-else class="text-danger deleteLabelButton cursor-pointer"
                               @click="deleteOperationDay(operationKey)">Delete</span>
                       </b-col>
                       <b-col md="12" class="mb-3">
@@ -711,6 +713,11 @@ export default {
         service_types: this.service_types
       }
       this.$emit('updateFacilityOperatingDays', newObj)
+    },
+    clearFirstDay (ind) {
+      this.allOperation[0].days = []
+      this.allOperation[0].from = ''
+      this.allOperation[0].to = ''
     },
     requestAddressChange () {},
     // photos handlers

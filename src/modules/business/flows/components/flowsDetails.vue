@@ -242,6 +242,10 @@ export default {
   },
   methods: {
     addFlows () {
+      // if foreigner price is empty send 0 to server
+      this.flows.price_euro = this.flows.price_euro ? this.flows.price_euro : 0
+      this.flows.price_dollar = this.flows.price_dollar ? this.flows.price_dollar : 0
+      // if discount isn't checked, discounted field should be emptied
       this.flows.discount_price_egp = this.selected ? this.flows.discount_price_egp : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addFlows', { ...this.flows, images: this.flows.images.map(data => data.id) })
@@ -311,8 +315,8 @@ export default {
         conditions: this.flowsDetails.conditions,
         description: this.flowsDetails.description,
         price_egp: this.flowsDetails.price_egp,
-        price_euro: this.flowsDetails.price_euro,
-        price_dollar: this.flowsDetails.price_dollar,
+        price_euro: this.flowsDetails.price_euro ? this.flowsDetails.price_euro : '',
+        price_dollar: this.flowsDetails.price_dollar ? this.flowsDetails.price_dollar : '',
         discount_price_egp: this.flowsDetails.discount_price_egp,
         status: this.flowsDetails.status,
         images: this.flowsDetails.images,

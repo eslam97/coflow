@@ -101,7 +101,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Ticket',
-              textContnet: 'name',
+              textContent: 'name',
               url: 'tickets'
             }
           ]

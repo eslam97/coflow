@@ -148,7 +148,7 @@ export default {
     },
     updateFacilityOperatingDays (days) {
       facilityInfoService.saveStepOperation(days).then(res => {
-        core.showSnackbar('success', res.data.message)
+        core.showSnackbar('success', 'Data updated successfully')
       })
     }
   },

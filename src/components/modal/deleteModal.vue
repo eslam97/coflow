@@ -12,7 +12,7 @@
     </template>
     <template #default="{ close }">
       <h2 class="font-weight-bold text-danger text-center">{{ actionHeader }}</h2>
-      <p class="text-black font-weight-bold text-center font-size-22 mb-0">{{ textContnet }}</p>
+      <p class="text-black font-weight-bold text-center font-size-22 mb-0">{{ textContent }}</p>
       <P class="text-center">{{question}}</P>
       <div class="d-flex justify-content-center mt-3">
         <span class="w-40 p-2">
@@ -45,7 +45,7 @@ export default {
       id: '',
       actionHeader: '',
       titleHeader: '',
-      textContnet: '',
+      textContent: '',
       question: '',
       textDeleteButton: '',
       textCancelButton: '',
@@ -70,7 +70,7 @@ export default {
     show (opts = {}) {
       this.actionHeader = opts.actionHeader
       this.titleHeader = opts.titleHeader
-      this.textContnet = opts.textContnet
+      this.textContent = opts.textContent
       this.question = opts.question
       this.textDeleteButton = opts.textDeleteButton
       this.textCancelButton = opts.textCancelButton

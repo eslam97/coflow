@@ -56,7 +56,8 @@
         </ul>
       </b-col>
       <!--   Body   -->
-      <b-col lg="12">
+      <spinner-loading v-if="requestLoading"></spinner-loading>
+      <b-col lg="12" v-if="allSlots.length > 0">
         <b-card class="overflow-auto text-center schedule-card">
             <b-row class="flex-nowrap">
               <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
@@ -76,6 +77,9 @@
               </b-col>
             </b-row>
         </b-card>
+      </b-col>
+      <b-col v-else md="12" class="text-center text-black">
+        <b-card> No Available slots</b-card>
       </b-col>
     </b-row>
   </b-container>
@@ -203,7 +207,7 @@ export default {
       EventBus.$emit('openDeleteModal', {
         actionHeader: 'Delete',
         titleHeader: 'Slot',
-        textContnet: `${this.scheduleDetailsFront.flow.name} in ${this.scheduleDetailsFront.day} `,
+        textContent: `${this.scheduleDetailsFront.flow.name} in ${this.scheduleDetailsFront.day} `,
         question: 'Are You Sure You Want Delete This Slot?',
         textDeleteButton: 'YES, Delete',
         textCancelButton: 'NO, CANCEL',

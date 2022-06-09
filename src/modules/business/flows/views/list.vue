@@ -160,7 +160,7 @@ export default {
       this.optionInd = this.options.findIndex(ele => ele.value === obj.level)
       this.typeOfModal = 'view'
       this.flowsDetails = obj
-      this.$bvModal.show('flowDetailsViewModal')
+      setTimeout(() => this.$bvModal.show('flowDetailsViewModal'), 0)
     },
     showFlowsToEdit (obj) {
       this.typeOfModal = 'edit'

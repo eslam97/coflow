@@ -28,8 +28,8 @@
           </b-col>
           <b-col md="6" class="infoKey">
             <p>Discounted price</p>
-            <p class="text-black font-weight-bold"><span v-if="accommodationsDetails.discount_price_auro">
-              EUR {{accommodationsDetails.discount_price_auro}}</span>
+            <p class="text-black font-weight-bold"><span v-if="accommodationsDetails.discount_price_euro">
+              EUR {{accommodationsDetails.discount_price_euro}}</span>
               <span v-else>N/A</span></p>
           </b-col>
         </b-row>

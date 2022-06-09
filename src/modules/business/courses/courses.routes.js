@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'courses',
       component: coursesList,
-      meta: { name: 'courses', userType: 'provider', serviceTypes: 'PRO' }
+      meta: { name: 'courses', userType: 'provider', serviceTypes: 'Pro' }
     }]
   }
 ]

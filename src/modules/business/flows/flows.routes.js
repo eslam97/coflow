@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'flows',
       component: flowsList,
-      meta: { name: 'flows', userType: 'provider', serviceTypes: 'FLOW' }
+      meta: { name: 'flows', userType: 'provider', serviceTypes: 'Flow' }
     }]
   }
 ]

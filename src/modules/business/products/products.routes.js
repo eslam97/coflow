@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'productList',
       component: productList,
-      meta: { name: 'productList', userType: 'provider', serviceTypes: 'SHOP' }
+      meta: { name: 'productList', userType: 'provider', serviceTypes: 'Shop' }
     }]
   }
 ]

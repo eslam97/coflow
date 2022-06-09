@@ -150,12 +150,14 @@ router.beforeEach((to, from, next) => {
     if (securityFunctions.methods.hasPer(to.meta.permission)) {
       next()
     } else {
+      debugger
       next({ name: 'errorPage' })
     }
   } else {
     if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes) || to.meta.serviceTypes === 'all') {
       next()
     } else {
+      debugger
       next({ name: 'errorPage' })
     }
   }

@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'tickets',
       component: ticketsList,
-      meta: { name: 'tickets', userType: 'provider', serviceTypes: 'GO' }
+      meta: { name: 'tickets', userType: 'provider', serviceTypes: 'Go' }
     }]
   }
 ]

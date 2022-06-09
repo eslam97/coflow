@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'schedule',
       component: scheduleList,
-      meta: { name: 'schedule', userType: 'provider', serviceTypes: 'FLOW' }
+      meta: { name: 'schedule', userType: 'provider', serviceTypes: 'Flow' }
     }]
   }
 ]

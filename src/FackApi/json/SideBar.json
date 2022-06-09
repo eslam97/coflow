@@ -262,7 +262,7 @@
     "is_icon_class": true,
     "icon": "las la-infinity",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "FLOW"
   },
   {
     "title": "Schedule",

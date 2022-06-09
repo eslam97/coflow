@@ -693,7 +693,7 @@ export default {
         }
       }
       const newObj = {
-        _method: 'put',
+        _method: 'post',
         ...operation,
         service_types: this.service_types
       }

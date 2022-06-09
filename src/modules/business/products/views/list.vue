@@ -140,6 +140,7 @@ export default {
   },
   methods: {
     openProductPopup () {
+      this.productDetailsInfo = false
       this.typeOfModal = 'add'
       this.$bvModal.show('productDetailsModal')
     },

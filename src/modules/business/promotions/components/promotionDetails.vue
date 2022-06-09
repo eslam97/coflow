@@ -184,7 +184,7 @@
           </b-col>
           <b-col md="6" class="mb-3" >
             <input-form
-                v-model="packages.price_auro"
+                v-model="packages.price_euro"
                 placeholder="Ex: 0.0"
                 :validate="{
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
@@ -196,7 +196,7 @@
           </b-col>
           <b-col md="6" class="mb-3">
             <input-form
-                v-model="packages.discount_price_auro"
+                v-model="packages.discount_price_euro"
                 placeholder="Ex: 0.0"
                 :validate="{
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
@@ -270,11 +270,11 @@ export default {
       packages: {
         package: '',
         price_egp: '',
-        price_auro: '',
+        price_euro: '',
         price_dollar: '',
         discount_price_egp: '',
         discount_price_dollar: '',
-        discount_price_auro: ''
+        discount_price_euro: ''
       },
       buy2Get1: {
         buy_x: '',

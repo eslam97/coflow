@@ -234,7 +234,7 @@ export default {
     return {
       accommodations: {
         name: '',
-        requirments: '',
+        requirements: '',
         conditions: '',
         description: '',
         price_egp: '',
@@ -262,11 +262,12 @@ export default {
       this.accommodations.price_euro = this.accommodations.price_euro ? this.accommodations.price_euro : 0
       this.accommodations.price_dollar = this.accommodations.price_dollar ? this.accommodations.price_dollar : 0
       // if discount isn't checked, discounted field should be emptied
+      this.accommodations.discount_price_egp = this.selectedEGP ? this.accommodations.discount_price_egp : ''
       this.accommodations.discount_price_euro = this.selectedEUR ? this.accommodations.discount_price_euro : ''
-      this.accommodations.discount_price_dollar = this.selectedDollar ? this.accommodations.discount_price_dollar : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
       } else {
+        console.log(this.accommodations)
         this.$emit('editAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id), _method: 'put' })
       }
     },
@@ -285,7 +286,6 @@ export default {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const percent = Math.floor((loaded * 100) / total)
-          console.log(percent)
           this.progressBar = percent
         }
       }
@@ -322,7 +322,7 @@ export default {
       }
       this.accommodations = {
         name: this.accommodationsDetails.name,
-        requirments: this.accommodationsDetails.requirments,
+        requirements: this.accommodationsDetails.requirements,
         conditions: this.accommodationsDetails.conditions,
         description: this.accommodationsDetails.description,
         price_egp: this.accommodationsDetails.price_egp,

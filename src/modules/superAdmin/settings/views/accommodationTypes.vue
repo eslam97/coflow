@@ -50,7 +50,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Accommodation Type',
-              textContnet: 'name'
+              textContent: 'name'
             }
           ]
         }

@@ -135,6 +135,10 @@ export default {
   },
   methods: {
     addTicket () {
+      // if foreigner price is empty send 0 to server
+      this.ticket.price_euro = this.ticket.price_euro ? this.ticket.price_euro : 0
+      this.ticket.price_dollar = this.ticket.price_dollar ? this.ticket.price_dollar : 0
+      // if discount isn't checked, discounted field should be emptied
       this.ticket.discount_price_egp = this.selected ? this.ticket.discount_price_egp : ''
       if (this.typeOfModal === 'add') {
         this.$emit('addTicket', this.ticket)
@@ -151,8 +155,8 @@ export default {
         name: this.ticketDetails.name,
         details: this.ticketDetails.details,
         price_egp: this.ticketDetails.price_egp,
-        price_euro: this.ticketDetails.price_euro,
-        price_dollar: this.ticketDetails.price_dollar,
+        price_euro: this.ticketDetails.price_euro ? this.ticketDetails.price_euro : '',
+        price_dollar: this.ticketDetails.price_dollar ? this.ticketDetails.price_dollar : '',
         discount_price_egp: this.ticketDetails.discount_price_egp,
         discount_price_euro: this.ticketDetails.discount_price_euro,
         discount_price_dollar: this.ticketDetails.discount_price_dollar,

@@ -21,9 +21,9 @@
       </template>
       <template v-slot:borderHeader class="flex-nowrap">
         <p class="p-4 borderHeaderModal m-0">
-          {{activitiesDetails.name}}
+          {{activitiesViewData.name}}
           <button class="ml-4 p-2 btn radio-btn" :class="`radio-btn-cyan`" active>
-            {{ activitiesDetails.duration }} {{ activitiesDetails.duration_list.name }}
+            {{ activitiesViewData.durationn }} {{ activitiesViewData.durationType }}
           </button>
         </p>
       </template>
@@ -106,7 +106,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Activities',
-              textContnet: 'name',
+              textContent: 'name',
               url: 'activities'
             }
           ]
@@ -114,6 +114,7 @@ export default {
       ],
       typeOfModal: 'add',
       activitiesDetails: {},
+      activitiesViewData: {},
       activitiesId: ''
     }
   },
@@ -154,8 +155,11 @@ export default {
       })
     },
     showDetails (obj) {
-      this.typeOfModal = 'view'
+      this.activitiesViewData.name = obj.name
+      this.activitiesViewData.duration = obj.duration
+      this.activitiesViewData.durationType = obj.duration_list.name
       this.activitiesDetails = obj
+      this.typeOfModal = 'view'
       this.$bvModal.show('activitiesDetailsViewModal')
     },
     showActivitiesToEdit (obj) {

@@ -50,7 +50,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'City',
-              textContnet: 'name'
+              textContent: 'name'
             }
           ]
         }

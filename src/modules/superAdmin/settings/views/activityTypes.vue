@@ -49,7 +49,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Activity Type',
-              textContnet: 'name'
+              textContent: 'name'
             }
           ]
         }

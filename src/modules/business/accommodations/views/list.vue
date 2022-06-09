@@ -20,9 +20,9 @@
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Accommodation</h4>
       </template>
       <template v-slot:borderHeader class="flex-nowrap">
-        <p class="p-4 borderHeaderModal m-0" v-if="accommodationsDetails">
-          {{accommodationsDetails.name}}, {{accommodationsDetails.accommodation_type.name}}
-        </p>
+        <span class="p-4 borderHeaderModal m-0" v-if="accommodationsDetails">
+          {{accommodationsViewData.name}}, {{accommodationsViewData.type}}
+        </span>
       </template>
       <template v-slot:body>
         <accommodations-view :accommodationsDetails="accommodationsDetails"/>
@@ -112,6 +112,7 @@ export default {
       ],
       typeOfModal: 'add',
       accommodationsDetails: {},
+      accommodationsViewData: {},
       accommodationsId: ''
     }
   },
@@ -152,9 +153,11 @@ export default {
       })
     },
     showDetails (obj) {
+      this.accommodationsViewData.name = obj.name
+      this.accommodationsViewData.type = obj.accommodation_type.name
+      this.accommodationsDetails = obj
       this.accommodationsId = ''
       this.typeOfModal = 'view'
-      this.accommodationsDetails = obj
       this.$bvModal.show('accommodationDetailsViewModal')
     },
     showAccommodationsToEdit (obj) {

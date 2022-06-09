@@ -51,7 +51,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Area',
-              textContnet: 'name'
+              textContent: 'name'
             }
           ]
         }

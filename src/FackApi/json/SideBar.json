@@ -192,7 +192,7 @@
     "is_icon_class": true,
     "icon": "las la-ticket-alt",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "GO"
   },
   {
     "title": "Activity",
@@ -206,7 +206,7 @@
     "is_icon_class": true,
     "icon": "las la-brush",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "PRO"
   },
   {
     "title": "Courses",
@@ -220,7 +220,7 @@
     "is_icon_class": true,
     "icon": "las la-file-alt",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "PRO"
   },
   {
     "title": "Products",
@@ -234,7 +234,7 @@
     "is_icon_class": true,
     "icon": "las la-shopping-bag",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "SHOP"
   },
   {
     "title": "Accommodations",
@@ -248,7 +248,7 @@
     "is_icon_class": true,
     "icon": "las la-procedures",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "CAMP"
   },
   {
     "title": "Flows",
@@ -276,7 +276,7 @@
     "is_icon_class": true,
     "icon": "las la-calendar-alt",
     "userType": "provider",
-    "serviceTypes": "all"
+    "serviceTypes": "FLOW"
   },
   {
     "title": "FAQ's",

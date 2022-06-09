@@ -153,7 +153,7 @@ router.beforeEach((to, from, next) => {
       next({ name: 'errorPage' })
     }
   } else {
-    if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes)) {
+    if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes) || to.meta.serviceTypes === 'all') {
       next()
     } else {
       next({ name: 'errorPage' })

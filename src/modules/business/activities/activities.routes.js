@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'activities',
       component: activitiesList,
-      meta: { name: 'activities', userType: 'activities', serviceTypes: 'PRO' }
+      meta: { name: 'activities', userType: 'activities', serviceTypes: 'Pro' }
     }]
   }
 ]

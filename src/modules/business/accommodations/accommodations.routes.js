@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'accommodations',
       component: accommodationsList,
-      meta: { name: 'accommodations', userType: 'provider', serviceTypes: 'CAMP' }
+      meta: { name: 'accommodations', userType: 'provider', serviceTypes: 'Camp' }
     }]
   }
 ]

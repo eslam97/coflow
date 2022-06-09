@@ -10,12 +10,6 @@
                         :statusDetails="statusDetails"/>
       </template>
     </main-modal>
-    <!--  Photos edit modal  -->
-    <main-modal id="photosView" size="lg">
-        <template v-slot:header class="p2">
-          <h4 class="font-weight-bold"><span class="text-sucess">Edit: </span>{{ photoToEdit }}</h4>
-        </template>
-    </main-modal>
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">
         <h3>Profile</h3>

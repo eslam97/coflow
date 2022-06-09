@@ -1,5 +1,6 @@
 <template>
   <b-container fluid>
+    <!--  Temporary close modal  -->
     <main-modal id="tempCloseModal" size="md" @unsavedMsg="unsavedMsg">
       <template v-slot:header class="p-2">
         <h4 class="font-weight-bold"><span class="text-danger">Temporary close: </span> Account</h4>

@@ -273,16 +273,14 @@ ul.nav.nav-tabs::-webkit-scrollbar {
   color: transparent;
   height: 0px;
 }
-ul a.nav-link.router-link-exact-active.router-link-active {
-  padding-bottom: 6px;
-}
 [dir=ltr][mode=light] svg {
   overflow: visible !important;
   vertical-align: middle;
 }
 .nav-link.router-link-exact-active.router-link-active{
-  background: var(--iq-primary) !important;
-  color: #fff !important;
+  color: var(--iq-primary) !important;
+  border-bottom: 3px solid var(--iq-warning) !important;
+  font-weight: bold;
 }
 .activeButton{
   color: #ff5f35;

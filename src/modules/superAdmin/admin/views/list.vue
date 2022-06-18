@@ -58,13 +58,6 @@ export default {
           class: 'text-left',
           type: 'actions',
           actions: [{
-            icon: 'las la-eye',
-            color: 'success',
-            text: 'View',
-            actionName: 'viewLead',
-            actionParams: ['id']
-          },
-          {
             icon: 'las la-pen',
             color: 'info',
             text: 'Edit',
@@ -78,7 +71,7 @@ export default {
             showAlert: true,
             actionHeader: 'Delete',
             titleHeader: 'Admin',
-            textContnet: 'name',
+            textContent: 'name',
             url: 'admins'
           }
           ]

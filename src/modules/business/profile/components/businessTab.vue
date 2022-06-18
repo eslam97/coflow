@@ -1,5 +1,14 @@
 <template>
   <div>
+    <!--  Photos edit modal  -->
+    <main-modal id="photosView" size="lg">
+      <template v-slot:header class="p2">
+        <h4 class="font-weight-bold"><span class="text-info">Edit: </span>{{ photoToEdit.type }}</h4>
+      </template>
+      <template v-slot:body>
+        <photo-view :photoToEdit="photoToEdit"></photo-view>
+      </template>
+    </main-modal>
     <spinner-loading v-if=(loading) text="Loading" />
     <div v-else>
       <b-row>
@@ -294,7 +303,9 @@
                             />
                           </b-col>
                         </b-row>
-                        <span class="text-danger deleteLabelButton cursor-pointer"
+                        <span v-if="operationKey === 0" class="text-danger deleteLabelButton cursor-pointer"
+                              @click="clearFirstDay(operationKey)">Clear</span>
+                        <span v-else class="text-danger deleteLabelButton cursor-pointer"
                               @click="deleteOperationDay(operationKey)">Delete</span>
                       </b-col>
                       <b-col md="12" class="mb-3">
@@ -318,8 +329,9 @@
           </validationObserver>
         </b-col>
         <b-col md="3">
-          <b-card :img-src="coverImage" img-top align="center">
-            <b-card-img :src="logoImage" class="card-profile-img mb-5"></b-card-img>
+          <b-card :img-src="coverImage" img-top align="center" @click.self="openPhotoView('cover')">
+            <b-link @click="openPhotoView('logo')">
+              <b-card-img :src="logoImage" class="card-profile-img mb-5"></b-card-img></b-link>
             <h3 class="border-top border-bottom p-3 mb-3">Facility photos</h3>
             <b-card-body>
               <b-row class="row flex-nowrap mb-4">
@@ -356,12 +368,16 @@
 import registrationServices from '@/modules/businessLandingPage/services/registration.services'
 import { core } from '@/config/pluginInit'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+import photoView from '@/modules/business/profile/components/photoView'
 
 export default {
   props: {
     oldProfile: {
       type: Object
     }
+  },
+  components: {
+    photoView
   },
   data () {
     return {
@@ -453,7 +469,8 @@ export default {
       allLinks: [],
       allAmenities: [],
       formattedBasedLocation: '',
-      formattedRemoteLocation: ''
+      formattedRemoteLocation: '',
+      photoToEdit: {}
     }
   },
   computed: {
@@ -658,8 +675,6 @@ export default {
         this.loading = false
       }
     },
-    checkLoading () {
-    },
     // save changes
     saveChangesInfo () {
       const newObj = {
@@ -693,13 +708,30 @@ export default {
         }
       }
       const newObj = {
-        _method: 'put',
+        _method: 'post',
         ...operation,
         service_types: this.service_types
       }
       this.$emit('updateFacilityOperatingDays', newObj)
     },
-    requestAddressChange () {}
+    clearFirstDay (ind) {
+      this.allOperation[0].days = []
+      this.allOperation[0].from = ''
+      this.allOperation[0].to = ''
+    },
+    requestAddressChange () {},
+    // photos handlers
+    openPhotoView (type) {
+      this.photoToEdit.type = type
+      if (type === 'cover') {
+        this.photoToEdit.image = this.coverImage
+      } else if (type === 'logo') {
+        this.photoToEdit.image = this.logoImage
+      } else {
+        this.photoToEdit.image = this.images
+      }
+      this.$bvModal.show('photosView')
+    }
   },
   mounted () {
     this.fillData()

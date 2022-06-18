@@ -74,7 +74,8 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-start">
                   <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.price_egp }}</p>
-                  <p class="font-size-16 text-danger text-decoration-line-through">EGP {{ item.discount_price_egp }}</p>
+                  <p class="font-size-16 text-danger text-decoration-line-through" v-if="item.discount_price_egp">
+                    EGP {{ item.discount_price_egp }}</p>
                 </div>
               </div>
             </div>
@@ -91,7 +92,8 @@
                   <div
                       class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                     <div class="custom-switch-inner">
-                      <input type="checkbox" class="custom-control-input bg-info" :id="'customSwitch-11'+item.name">
+                      <input @change="changeAvailability(item)" v-model="item.available" type="checkbox"
+                             class="custom-control-input bg-info" :id="'customSwitch-11'+item.name">
                       <label class="custom-control-label" :for="'customSwitch-11'+item.name">
                       </label>
                     </div>
@@ -135,11 +137,13 @@ export default {
       },
       productDetailsInfo: {},
       allProducts: [],
-      loadingPage: true
+      loadingPage: true,
+      available: ''
     }
   },
   methods: {
     openProductPopup () {
+      this.productDetailsInfo = false
       this.typeOfModal = 'add'
       this.$bvModal.show('productDetailsModal')
     },
@@ -170,7 +174,7 @@ export default {
       EventBus.$emit('openDeleteModal', {
         actionHeader: 'Delete',
         titleHeader: 'Product',
-        textContnet: item.name,
+        textContent: item.name,
         question: 'Are You Sure You Want Delete This Product?',
         textDeleteButton: 'YES, Delete',
         textCancelButton: 'NO, CANCEL',
@@ -192,6 +196,19 @@ export default {
       productsServices.editProduct(this.productDetailsInfo.id, data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('productDetailsModal')
+        this.getAllProducts()
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    changeAvailability (item) {
+      this.requestLoading = true
+      const allImagesIds = item.images.map(item => item.id)
+      item.available = item.available ? 1 : 0
+      item.images = allImagesIds
+      item._method = 'put'
+      productsServices.editProduct(item.id, item).then(res => {
+        core.showSnackbar('success', res.data.message)
         this.getAllProducts()
       }).finally(() => {
         this.requestLoading = false

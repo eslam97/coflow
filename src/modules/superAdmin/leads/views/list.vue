@@ -62,7 +62,7 @@ export default {
             showAlert: true,
             actionHeader: 'Delete',
             titleHeader: 'Lead',
-            textContnet: 'name'
+            textContent: 'name'
           } */
           ]
         }

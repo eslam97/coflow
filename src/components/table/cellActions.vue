@@ -93,7 +93,7 @@ export default {
         EventBus.$emit('openDeleteModal', {
           actionHeader: action.actionHeader ? action.actionHeader : 'Delete',
           titleHeader: action.titleHeader ? action.titleHeader : '',
-          textContnet: action.textContnet ? this.dataItem[action.textContnet] : '',
+          textContent: action.textContent ? this.dataItem[action.textContent] : '',
           url: action.url ? action.url : '',
           rowId: this.dataItem.id,
           question: action.question ? action.question : `Are You Sure You Want Delete This ${action.titleHeader}?`,

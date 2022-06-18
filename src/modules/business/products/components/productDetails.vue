@@ -32,7 +32,7 @@
               <b-input-group append="EGP">
                 <validation-provider
                     #default="{ errors }"
-                    :name="`price_egp`"
+                    :name="`Price`"
                     :rules="'required|numeric'"
                     class="flex-grow-1"
                 >
@@ -49,6 +49,7 @@
           <b-col md="4" class="mb-3 d-flex justify-content-center align-items-center" >
             <b-form-checkbox
                 type="checkbox"
+                v-model="selectedEGP"
                 id="checkbox"
                 label="Discounted Price"
                 class="custom-checkbox-color-check" color="warning">
@@ -57,20 +58,21 @@
           </b-col>
           <b-col md="4" class="mb-3" >
             <b-form-group
-                :label="`price_egp`"
-                :label-for="`price_egp`"
+                :label="`Discounted price`"
+                :label-for="`Discounted price`"
                 class="position-relative"
             >
               <b-input-group append="EGP">
                 <validation-provider
                     #default="{ errors }"
                     :name="`price_egp`"
-                    :rules="'required|numeric'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-input
                       id="mm"
                       v-model="product.discount_price_egp"
+                      :disabled="!selectedEGP"
                       :class="[{ 'is-invalid': errors.length > 0 }]"
                       :placeholder="'0.0'"
                   />
@@ -165,22 +167,24 @@ export default {
         name: '',
         title: '',
         price_egp: '',
-        price_auro: 0,
+        price_euro: 0,
         price_dollar: 0,
         discount_price_egp: '',
         discount_price_dollar: 0,
-        discount_price_auro: 0,
+        discount_price_euro: 0,
         status: 'active',
         available: 1,
         description: '',
         images: []
       },
-      allImages: []
+      allImages: [],
+      selectedEGP: ''
     }
   },
   methods: {
     saveGalleryImage (data) {
       this.removeLoadingUi = false
+      this.requestLoading = true
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
@@ -201,6 +205,7 @@ export default {
         this.product.images.push(res.data.data.id)
         this.allImages.push(res.data.data)
         this.removeLoadingUi = true
+        this.requestLoading = false
       })
     },
     removeGalleryImage (id) {
@@ -212,6 +217,7 @@ export default {
     },
     saveProduct () {
       if (this.product.images.length > 0) {
+        this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : ''
         if (this.productDetails) {
           this.$emit('editProduct', { ...this.product, _method: 'put' })
         } else {
@@ -227,16 +233,19 @@ export default {
   created () {
     // this.getAllLinks()
     if (Object.entries(this.productDetails).length !== 0) {
-      var allImagesIds = this.productDetails.images.map(item => item.id)
+      if (this.productDetails.discount_price_egp) {
+        this.selectedEGP = true
+      }
+      const allImagesIds = this.productDetails.images.map(item => item.id)
       this.product = {
         name: this.productDetails.name,
         title: this.productDetails.title,
         price_egp: this.productDetails.price_egp,
-        price_auro: this.productDetails.price_auro,
+        price_euro: this.productDetails.price_euro,
         price_dollar: this.productDetails.price_dollar,
         discount_price_egp: this.productDetails.discount_price_egp,
         discount_price_dollar: this.productDetails.discount_price_dollar,
-        discount_price_auro: this.productDetails.discount_price_auro,
+        discount_price_euro: this.productDetails.discount_price_euro,
         status: this.productDetails.status,
         available: this.productDetails.available,
         description: this.productDetails.description,

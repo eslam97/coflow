@@ -49,7 +49,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Link',
-              textContnet: 'name'
+              textContent: 'name'
             }
           ]
         }

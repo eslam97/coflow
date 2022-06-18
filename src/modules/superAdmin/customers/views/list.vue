@@ -45,7 +45,7 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Customer',
-              textContnet: 'name',
+              textContent: 'name',
               url: 'users'
             }
           ]

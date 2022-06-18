@@ -172,7 +172,7 @@ export default {
       this.typeOfModal = 'view'
       this.optionInd = this.options.findIndex(ele => ele.value === obj.level)
       this.coursesDetails = obj
-      this.$bvModal.show('coursesDetailsViewModal')
+      setTimeout(() => this.$bvModal.show('coursesDetailsViewModal'), 0)
     },
     showCoursesToEdit (obj) {
       this.typeOfModal = 'edit'

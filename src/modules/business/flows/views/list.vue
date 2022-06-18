@@ -70,7 +70,7 @@ export default {
         { label: 'Description', key: 'description', class: 'text-left' },
         { label: 'Requirements', key: 'requirements', class: 'text-left' },
         { label: 'Price EGP', key: 'price_egp', class: 'text-left', type: 'multi-value' },
-        { label: 'Discounted Price', key: 'discounted_price_egp', class: 'text-left', type: 'multi-value' },
+        { label: 'Discounted Price', key: 'discount_price_egp', class: 'text-left', type: 'multi-value' },
         { label: 'Level', key: 'level', class: 'text-left' },
         { label: 'Instructors', key: 'instructors', array_keys: ['first_name', 'last_name'], type: 'array', class: 'text-left' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
@@ -160,7 +160,7 @@ export default {
       this.optionInd = this.options.findIndex(ele => ele.value === obj.level)
       this.typeOfModal = 'view'
       this.flowsDetails = obj
-      this.$bvModal.show('flowDetailsViewModal')
+      setTimeout(() => this.$bvModal.show('flowDetailsViewModal'), 0)
     },
     showFlowsToEdit (obj) {
       this.typeOfModal = 'edit'

@@ -365,6 +365,7 @@ export default {
       this.courses.price_euro = this.courses.price_euro ? this.courses.price_euro : 0
       this.courses.price_dollar = this.courses.price_dollar ? this.courses.price_dollar : 0
       // if discount isn't checked, discounted field should be emptied
+      this.courses.discount_price_egp = this.selectedEGP ? this.courses.discount_price_egp : ''
       this.courses.discount_price_euro = this.selectedEUR ? this.courses.discount_price_euro : ''
       this.courses.discount_price_dollar = this.selectedDollar ? this.courses.discount_price_dollar : ''
       if (this.typeOfModal === 'add') {

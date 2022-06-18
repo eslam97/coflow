@@ -212,7 +212,7 @@ export default {
       EventBus.$emit('openDeleteModal', {
         actionHeader: 'End',
         titleHeader: 'Promotion',
-        textContnet: title,
+        textContent: title,
         url: 'promotions',
         rowId: id,
         question: 'Are You Sure You Want Delete This Promotion?',

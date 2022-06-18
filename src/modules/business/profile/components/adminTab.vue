@@ -148,11 +148,9 @@ export default {
       })
     },
     clearFirstContact (ind) {
-      console.log(this.contacts)
       this.contacts[ind].name = ''
       this.contacts[ind].job = ''
       this.contacts[ind].phone = ''
-      console.log(this.contacts)
     },
     deleteAdditionalContact (ind) {
       this.contacts.splice(ind, 1)

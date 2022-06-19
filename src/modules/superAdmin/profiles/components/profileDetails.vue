@@ -2,7 +2,10 @@
   <div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(saveProfile)">
-        <div>
+        <div v-if="profileDetails">
+          <b-alert show variant="warning">
+            <span class="text-bold">Password : </span> {{profileDetails.password_text}}
+          </b-alert>
           <b-row>
             <b-col md="6" class="mb-4">
               <input-form
@@ -763,39 +766,36 @@ export default {
         this.allAmenities = res.data.data
       })
     },
-    /* fillData () {
-      /!* if (this.activationDetails) {
-        this.providerId = this.activationDetails.id
-        this.adminInformation = this.activationDetails.contacts
-        this.info.activity_line_id = this.activationDetails.activity_line_id
-        this.info.activity_type_id = this.activationDetails.activity_type_id
-        this.info.year = this.activationDetails.year
-        this.info.name = this.activationDetails.name
-        this.info.title = this.activationDetails.title
-        this.info.languages = this.activationDetails.languages
-        this.info.bio = this.activationDetails.bio
-        this.info.amenities = this.activationDetails.amenities.map(item => item.id)
-        this.info.links = this.activationDetails.links
-        this.info.tags = this.activationDetails.tags
-        this.service_types = this.activationDetails.service_types
-        this.logoImage = this.activationDetails.logo
-        this.coverImage = this.activationDetails.cover
-        this.images = this.activationDetails.images
-        if (this.activationDetails.operation_type === '24 hours') {
+    fillData () {
+      if (this.profileDetails) {
+        this.profile.email = this.profileDetails.email
+        this.profile.password = this.profileDetails.password_text
+        this.profile.contact = this.profileDetails.contacts
+        this.profile.activity_line_id = this.profileDetails.activity_line_id
+        this.profile.activity_type_id = this.profileDetails.activity_type_id
+        this.profile.year = this.profileDetails.year
+        this.profile.name = this.profileDetails.name
+        this.profile.title = this.profileDetails.title
+        this.profile.languages = this.profileDetails.languages
+        this.profile.tags = this.profileDetails.tags
+        this.profile.links = this.profileDetails.links
+        this.profile.bio = this.profileDetails.bio
+        this.profile.amenities = this.profileDetails.amenities.map(data => data.id)
+        if (this.profileDetails.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'
         } else {
           this.typeOfOperation = 'specify days'
-          this.allOperation = this.activationDetails.operations
+          this.allOperation = this.profileDetails.operations
         }
-        if (this.activationDetails.location_type === 'address based') {
-          this.based = this.activationDetails.address_based
-          this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
-          this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
+        if (this.profileDetails.location_type === 'address based') {
+          this.profile.address = this.profileDetails.address_based
+          this.getCityDependOnCountry(this.profileDetails.country_id)
+          this.getAreasDependOnCity(this.profileDetails.city_id)
         } else {
-          this.allOperation = this.activationDetails.operations
+          this.allOperation = this.profileDetails.operations
         }
-      } *!/
-    }, */
+      }
+    },
     /*    savelogoImage (data) {
       const formData = new FormData()
       formData.append('image', data.image)
@@ -881,6 +881,7 @@ export default {
     this.getAllLinks()
     this.getAllAmenities()
     this.getAllCountries()
+    this.fillData()
   }
 }
 </script>

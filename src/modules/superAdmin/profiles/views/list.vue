@@ -19,7 +19,7 @@
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Profiles</h3>
         <div>
-          <b-button  variant="warning" v-b-modal:profileDetalilsModal class="add_button text-white">Create
+          <b-button  variant="warning" @click="openAddModal" class="add_button text-white">Create
             Profile<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
@@ -123,6 +123,10 @@ export default {
     sortChanged (key) {
       console.log(key)
     },
+    openAddModal () {
+      this.typeOfModal = 'add'
+      this.$bvModal.show('profileDetalilsModal')
+    },
     addProfile (data) {
       this.requestLoading = true
       profilesServices.addNewProfile(data).then(res => {
@@ -143,6 +147,7 @@ export default {
       console.log('edit')
     },
     viewProfile (obj) {
+      this.typeOfModal = 'view'
       profilesServices.getActivationDetails(obj.id).then(res => {
         this.providerId = obj.id
         this.profileDetails = res.data.data

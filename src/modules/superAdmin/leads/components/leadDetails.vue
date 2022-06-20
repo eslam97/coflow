@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div v-if="leadDetails">
+      <b-alert show variant="warning">
+        <span class="text-bold">Password : </span> {{leadDetails.password_text}}
+      </b-alert>
+    </div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(makeBusinessRequest)">
         <b-row>

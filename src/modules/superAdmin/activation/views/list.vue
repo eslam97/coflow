@@ -42,6 +42,7 @@ export default {
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
         { label: 'Status', key: 'status', class: 'text-left' },
+        { label: 'Password', key: 'password_text', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',

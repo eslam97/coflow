@@ -9,6 +9,10 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
     "start": "node server.js"
   },
+  "engines": {
+    "node": "14.16.0",
+    "npm": "6.14.11"
+  },
   "dependencies": {
     "@ag-grid-enterprise/all-modules": "^22.1.2",
     "@amcharts/amcharts4": "^4.9.37",

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { core } from '@/config/pluginInit'
 export default () => {
   const apiClient = axios.create({
-    baseURL: process.env.VUE_APP_AXSIOS_LINK,
+    baseURL: 'https://cashflow.redgits.com/CoFlow/apiProvider/',
     headers: {
       Authorization: `Bearer ${localStorage.getItem('userToken') ? localStorage.getItem('userToken') : null}`,
       Accept: 'application/json'

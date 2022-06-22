@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.bb0a52f8f56e59b384d659ff350e892c.js"
+  "/precache-manifest.45838eee5062ee8e8a5f2c8fac9f8c80.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "meyvia"});

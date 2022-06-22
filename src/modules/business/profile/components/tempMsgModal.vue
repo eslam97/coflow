@@ -66,7 +66,6 @@ export default {
     }
   },
   created () {
-    console.log(this.statusDetails)
     if (this.statusDetails) {
       this.status_msg = this.statusDetails.status_msg
     }

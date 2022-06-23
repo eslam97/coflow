@@ -1,6 +1,9 @@
 import Api from '@/axios'
 
 export default {
+  getProfileData () {
+    return Api().get('profile')
+  },
   changeStatus (payload) {
     return Api().post('update-status', payload)
   },

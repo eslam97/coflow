@@ -13,20 +13,32 @@
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">
         <h3>Profile</h3>
-        <div>
-          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
-                        name="status" value="visible" @change="changeStatus(0)">
-            <span class="text-primary font-size-14">Visible</span>
-          </b-form-radio>
-          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
-                        name="status" value="invisible" @change="changeStatus(0)">
-            <span class="text-primary font-size-14">Invisible</span>
-          </b-form-radio>
-          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
-                        name="status" value="temp_closed" @change="changeStatus(1)">
-            <span class="text-primary font-size-14">Temporary closed</span>
-          </b-form-radio>
-        </div>
+          <div class="d-flex justify-content-between temp-btn">
+            <span class="text-dark font-weight-bold font-size-14 mr-3">
+              {{ statusDetails.status === 'visible'? 'Temporary close account' : 'Temporarily closed account' }}
+            </span>
+            <div
+                class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+              <div class="custom-switch-inner">
+                <input type="checkbox" class="custom-control-input bg-danger" :id="'status'"
+                       @change="changeStatus()" v-model="switchStatus">
+                <label class="custom-control-label" :for="'status'">
+                </label>
+              </div>
+            </div>
+          </div>
+<!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
+<!--                        name="status" value="visible" @change="changeStatus(0)">-->
+<!--            <span class="text-primary font-size-14">Visible</span>-->
+<!--          </b-form-radio>-->
+<!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
+<!--                        name="status" value="invisible" @change="changeStatus(0)">-->
+<!--            <span class="text-primary font-size-14">Invisible</span>-->
+<!--          </b-form-radio>-->
+<!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
+<!--                        name="status" value="temp_closed" @change="changeStatus(1)">-->
+<!--            <span class="text-primary font-size-14">Temporary closed</span>-->
+<!--          </b-form-radio>-->
       </b-col>
       <b-col md="12">
         <tab-nav :tabs="true" id="myTab-1">
@@ -69,7 +81,7 @@ import profileServices from '@/modules/business/profile/services/profile.service
 // save contact info
 import adminInfoService from '@/modules/superAdmin/admin/services/admins.services'
 // get contact and business info
-import activationService from '@/modules/superAdmin/activation/services/activations.services'
+// import activationService from '@/modules/superAdmin/activation/services/activations.services'
 // save facility info
 import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
@@ -82,7 +94,8 @@ export default {
       statusDetails: {
         status: '',
         status_msg: ''
-      }
+      },
+      switchStatus: ''
     }
   },
   components: {
@@ -91,16 +104,19 @@ export default {
     businessTab
   },
   methods: {
-    changeStatus (state) {
-      state ? this.$bvModal.show('tempCloseModal') : this.setStatus()
+    changeStatus () {
+      console.log(this.switchStatus)
+      this.switchStatus ? this.$bvModal.show('tempCloseModal') : this.setStatus()
     },
     setStatus () {
-      profileServices.changeStatus({ status: this.oldProfile.status }).then(res => {
+      profileServices.changeStatus({ status: 'visible' }).then(res => {
+        this.statusDetails.status = 'visible'
         core.showSnackbar('success', res.data.message)
       })
     },
     setTempCloseMsg (obj) {
       profileServices.changeStatus(obj).then(res => {
+        this.statusDetails.status = 'temp_closed'
         this.$bvModal.hide('tempCloseModal')
         core.showSnackbar('success', res.data.message)
       })
@@ -111,10 +127,10 @@ export default {
     // Get data
     getOldAdminInfo () {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
-      activationService.getActivationDetails(this.id).then(res => {
+      profileServices.getProfileData(this.id).then(res => {
         this.oldProfile = res.data.data
         this.statusDetails = { status: this.oldProfile.status, status_msg: this.oldProfile.status_msg }
-        console.log(this.statusDetails)
+        this.switchStatus = !(this.statusDetails.status === ('visible' || 'invisible'))
         this.loading = false
       })
     },
@@ -160,3 +176,9 @@ export default {
   }
 }
 </script>
+<style>
+.temp-btn {
+  background-color: white;
+  padding: 12px 20px;
+}
+</style>

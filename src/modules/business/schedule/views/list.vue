@@ -191,8 +191,9 @@ export default {
     },
     getAllFlows () {
       this.requestLoading = true
-      flowsServices.getAllFlows().then(res => {
-        this.allFlows = res.data.data
+      flowsServices.getAllFlowsLimit().then(res => {
+        this.allFlows = res.data.data.data
+        console.log(this.allFlows)
         this.requestLoading = false
       })
     },

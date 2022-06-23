@@ -17,7 +17,8 @@
             <b-form @submit.prevent="handleSubmit(saveChangesInfo)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4">
-                  <h4>Facility Information & Details</h4>
+                  <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Information & Details</span>
+                    Use this section to update your business and facility inforamtion</p>
                 </b-card-header>
                 <b-card-body>
                   <b-row md="12">
@@ -175,7 +176,8 @@
             <b-form @submit.prevent="handleSubmit(saveChangesPhone)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4">
-                  <h4>Facility Contacts and Location Details</h4>
+                  <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Contacts and Location Details</span>
+                    Use this section to update your contact and location information</p>
                 </b-card-header>
                 <b-card-body>
                   <b-row v-if="typeOfLocation === 'based'" class="mb-4">
@@ -251,7 +253,8 @@
             <b-form @submit.prevent="handleSubmit(saveChangesOperatingDays)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4">
-                  <h4>Facility Operating Days & Hours</h4>
+                  <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Operating Days & Hours</span>
+                    Use this section to update your operating days and hours</p>
                 </b-card-header>
                 <b-card-body>
                   <b-row class="mb-4">

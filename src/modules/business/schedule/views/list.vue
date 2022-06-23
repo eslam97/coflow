@@ -78,7 +78,7 @@
             </b-row>
         </b-card>
       </b-col>
-      <b-col v-else md="12" class="text-center text-black">
+      <b-col v-else-if="!requestLoading" md="12" class="text-center text-black">
         <b-card> No Available slots</b-card>
       </b-col>
     </b-row>

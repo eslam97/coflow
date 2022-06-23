@@ -13,7 +13,7 @@
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">
         <h3>Profile</h3>
-          <div class="d-flex justify-content-between temp-btn">
+          <b-card v-if="!loading">
             <span class="text-dark font-weight-bold font-size-14 mr-3">
               {{ statusDetails.status === 'visible'? 'Temporary close account' : 'Temporarily closed account' }}
             </span>
@@ -26,7 +26,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </b-card>
 <!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
 <!--                        name="status" value="visible" @change="changeStatus(0)">-->
 <!--            <span class="text-primary font-size-14">Visible</span>-->

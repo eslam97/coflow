@@ -4,8 +4,6 @@
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" >
           <span class="text-warning">Set: </span> Flow Slots</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'" >
-          <span class="text-success-light">View: </span> Flow Slots</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Manage: </span> FlowSlots</h4>
       </template>
       <template v-slot:actions v-if="typeOfModal == 'edit'">
@@ -21,7 +19,7 @@
                 <div class="custom-switch-inner">
                   <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
                          @change="changeStatus(scheduleDetailsFront.id, scheduleDetailsFront.status)"
-                         v-model="slideStatus">
+                         v-model="scheduleDetailsFront.status">
                   <label class="custom-control-label" :for="'status'">
                   </label>
                 </div>
@@ -64,8 +62,8 @@
                 <h6 class="mb-3 pt-3 schedule-header">{{ day.key }}</h6>
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                      :key="slotKey"
-                     class="p-2 d-flex justify-content-center align-items-center cursor-pointer"
-                     :class="slot.status === 'inactive'? 'slot-box-grey' : 'slot-box-red'"
+                     class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
+                     :class="(slot.status === 'inactive' || !slot.status)? 'slot-box-grey' : 'slot-box-red'"
                       @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
@@ -138,11 +136,6 @@ export default {
   components: {
     scheduleDetails
   },
-  computed: {
-    slideStatus () {
-      return this.scheduleDetailsFront.status === 'active'
-    }
-  },
   methods: {
     openPopup () {
       this.scheduleId = ''
@@ -170,22 +163,13 @@ export default {
         this.requestLoading = false
       })
     },
-    showDetails (obj) {
-      this.scheduleId = ''
-      this.typeOfModal = 'view'
-      scheduleServices.getScheduleDetails(obj.id).then(res => {
-        console.log(res.data.data)
-        this.scheduleDetails = res.data.data
-        this.$bvModal.show('scheduleDetailsModal')
-      })
-    },
     showScheduleToEdit (obj) {
       this.typeOfModal = 'edit'
       this.scheduleDetailsFront = obj
       scheduleServices.getScheduleDetails(obj.id).then(res => {
         this.scheduleDetails = res.data.data
         this.scheduleDetails.slotId = obj.id
-        console.log(this.scheduleDetails)
+        this.scheduleDetailsFront.status = this.scheduleDetailsFront.status === 'active'
         this.$bvModal.show('scheduleDetailsModal')
       })
     },
@@ -193,7 +177,6 @@ export default {
       this.requestLoading = true
       flowsServices.getAllFlowsLimit().then(res => {
         this.allFlows = res.data.data.data
-        console.log(this.allFlows)
         this.requestLoading = false
       })
     },
@@ -221,13 +204,16 @@ export default {
       })
     },
     changeStatus (id, status) {
+      console.log(status)
       const obj = {
         schedule_id: id,
-        status: this.scheduleDetailsFront.status ? 'inactive' : 'active',
+        status: status ? 'active' : 'inactive',
         type: 'schedule'
       }
+      console.log(obj)
       mainService.changeStatus(obj).then(res => {
-        this.scheduleDetailsFront.status = !this.scheduleDetailsFront.status
+        this.slot.status = obj.status
+        this.getSchedule()
         core.showSnackbar('success', res.data.message)
       })
     }

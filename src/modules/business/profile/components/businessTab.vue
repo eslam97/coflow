@@ -332,11 +332,13 @@
           </validationObserver>
         </b-col>
         <b-col md="3">
-          <b-card :img-src="coverImage" img-top align="center" @click.self="openPhotoView('cover')">
-            <b-link @click="openPhotoView('logo')">
-              <b-card-img :src="logoImage" class="card-profile-img mb-5"></b-card-img></b-link>
-            <h3 class="border-top border-bottom p-3 mb-3">Facility photos</h3>
-            <b-card-body>
+          <b-card :img-src="coverImage" img-top class="p-0 mb-5" align="center"
+                  @click.self="openPhotoView('cover')">
+            <b-link>
+              <b-card-img :style="`background-image: url(${logoImage})`"
+                          class="card-profile-img mb-5"></b-card-img></b-link>
+            <h5 class="border-top border-bottom p-3 mb-3 mt-5">Facility photos</h5>
+            <b-card-body class="m-0">
               <b-row class="row flex-nowrap mb-4">
                 <div v-if="(images)">
                   <b-col md="3" v-for="(img, key) in images" :key="key" >
@@ -351,12 +353,10 @@
             <b-card-text>
               <b-row class="border-top mb-2 pt-4">
                 <b-col>
-                  <span class="text-warning cursor-pointer"
-                        @click="addNewLink">Upload photo</span>
+                  <span class="text-warning cursor-pointer">Upload photo</span>
                 </b-col>
                 <b-col>
-                  <span class="text-secondry cursor-pointer"
-                        @click="addNewLink">Remove</span>
+                  <span class="text-secondry cursor-pointer">Remove</span>
                 </b-col>
               </b-row>
             </b-card-text>
@@ -748,3 +748,8 @@ export default {
   }
 }
 </script>
+<style>
+.card.p-0.text-center .card-body{
+  padding: 0 !important;
+}
+</style>

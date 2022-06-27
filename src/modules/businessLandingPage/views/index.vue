@@ -6,7 +6,7 @@
     <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in" :leave-active-class="`animated ${animated.exit}`">
       <main-modal id="successModalMessage" size="md">
         <template v-slot:header>
-          Business Request
+          <h4 class="font-weight-bold" >Business Request</h4>
         </template>
         <template v-slot:body>
           <h2 class="gradient-blue-text text-center">Received</h2>

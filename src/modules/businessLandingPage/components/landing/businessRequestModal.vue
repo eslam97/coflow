@@ -60,7 +60,10 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`URL Link ${key + 1}`"
-                    :rules="'required'"
+                    :rules="{
+                    regex: /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
+                    required:true
+                    }"
                     class="flex-grow-1"
                 >
                   <b-form-input
@@ -114,8 +117,9 @@ export default {
       test: '',
       allLinks: [
         'Website',
-        'Google',
-        'Facebook'
+        'Twitter',
+        'Facebook',
+        'Instagram'
       ],
       businessRequest: {
         email: '',

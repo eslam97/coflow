@@ -1,5 +1,23 @@
 <template>
   <div>
+    <main-modal id="activationAccount" size="md">
+      <template v-slot:header>
+        <h4 class="font-weight-bold" >Activation</h4>
+      </template>
+      <template v-slot:body>
+        <h1 class="text-warning font-weight-bold text-center mb-2">Account</h1>
+        <p class="text-center mb-4">Once your account is activated, some fields will be uneditable.
+          Please ensure that you’re satisfied with the spelling/grammar of the information provided before proceeding.</p>
+        <div class="d-flex justify-content-center">
+        <span>
+                <spinner-loading class="gradient-orange-button" text="Saving" v-if="loadingFacilityOperation"/>
+                <b-button class="gradient-orange-button" @click="saveFacilityOperation" v-else>
+                <span class="d-flex align-items-center">Ready For Activation</span>
+              </b-button>
+        </span>
+        </div>
+      </template>
+    </main-modal>
     <div class="border-bottom my-5">
       <b-container>
         <h4 class="py-4">Facility Operation Days and Hours</h4>
@@ -8,7 +26,7 @@
     <b-container>
       <div class="w-75">
         <ValidationObserver v-slot="{ handleSubmit }">
-        <b-form @submit.prevent="handleSubmit(saveFacilityOperation)">
+        <b-form @submit.prevent="handleSubmit(openPopUpActiviation)">
           <b-row class="mb-5">
             <b-col md="12">
               <label class="mb-3">Operation</label>
@@ -76,8 +94,7 @@
                 <span class="text-bold">Back</span>
               </span>
               <span>
-                <spinner-loading class="gradient-orange-button" text="Saving" v-if="loadingFacilityOperation"/>
-                <b-button class="gradient-orange-button" type="submit" v-else>
+                <b-button class="gradient-orange-button" type="submit">
                 <span class="d-flex align-items-center">Done</span>
               </b-button>
               </span>
@@ -163,8 +180,12 @@ export default {
           }
         }).finally(() => {
           this.loadingFacilityOperation = false
+          this.$bvModal.hide('activationAccount')
         })
       }
+    },
+    openPopUpActiviation () {
+      this.$bvModal.show('activationAccount')
     },
     addNewOperation () {
       this.allOperation.push({

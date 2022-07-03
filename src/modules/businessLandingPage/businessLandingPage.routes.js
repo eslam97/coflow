@@ -6,7 +6,7 @@ const profileSteps = () => import('./views/profileSteps')
 // start Routes
 export default [
   {
-    path: '',
+    path: '/business',
     name: 'businessLandingPage',
     component: index,
     meta: { auth: false, userType: 'both' }

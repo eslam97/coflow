@@ -4,6 +4,9 @@ import securityFunctions from '@/mixins/auth-permission'
 // Import Business Landing
 import businessLanding from '@/modules/businessLandingPage/businessLandingPage.routes'
 
+// Import mobila App Landing
+import mobilaAppLanding from '@/modules/mobikeAppLandingPage/mobileAppLandingPage.routes'
+
 // Import Super Admin Routes
 import leads from '@/modules/superAdmin/leads/leads.routes'
 import activation from '@/modules/superAdmin/activation/activation.routes'
@@ -83,6 +86,7 @@ const authChildRoutes = (prop) => [
 ]
 
 const routes = [
+  ...mobilaAppLanding,
   ...businessLanding,
   ...leads,
   ...activation,

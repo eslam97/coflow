@@ -92,7 +92,7 @@
           <b-col md="12" v-if="allLinks.length !== businessRequest.links.length"
           ><span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span></b-col>
         </b-row>
-        <b-row>
+        <b-row  v-if="status === 'pending acceptance'">
           <b-col md="12" class="mt-4">
             <p v-if="requestLoading" class="text-center">
               <spinner-loading  text="Loading" />
@@ -147,7 +147,8 @@ export default {
           }
         ]
       },
-      selectedStatus: ''
+      selectedStatus: '',
+      status: ''
     }
   },
   methods: {
@@ -187,6 +188,7 @@ export default {
         contact: this.leadDetails.contacts[0],
         links: this.leadDetails.links
       }
+      this.status = this.leadDetails.status
     }
   }
 }

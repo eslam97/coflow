@@ -185,16 +185,16 @@
                         v-model="item.link"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="'Ex: https://www.google.com'"
-                        :disabled="!item.selectSocial.name"
+                        :disabled="!item.selectSocial"
                     />
                   </validation-provider>
                   <template #prepend>
                     <b-dropdown
-                        :text="item.selectSocial.name ? item.selectSocial.name : 'Choose'"
+                        :text="item.selectSocial ? item.selectSocial : 'Choose'"
                         class="selectWithInput"
                     >
                       <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
-                                       @click="item.selectSocial.name =i.name; item.selectSocial.id = i.id">
+                                       @click="item.selectSocial = i.name">
                         {{i.name}}
                       </b-dropdown-item>
                     </b-dropdown>
@@ -574,7 +574,7 @@ export default {
         tags: [],
         links: [
           {
-            selectSocial: { id: '', name: '' },
+            selectSocial: '',
             link: ''
           }
         ],
@@ -682,7 +682,7 @@ export default {
     },
     addNewLink () {
       this.profile.links.push({
-        selectSocial: { id: '', name: '' },
+        selectSocial: '',
         link: ''
       })
     },

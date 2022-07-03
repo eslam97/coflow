@@ -125,16 +125,16 @@
                         v-model="item.link"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="'Ex: https://www.google.com'"
-                        :disabled="!item.selectSocial.name"
+                        :disabled="!item.selectSocial"
                     />
                   </validation-provider>
                   <template #prepend>
                     <b-dropdown
-                        :text="item.selectSocial.name ? item.selectSocial.name : 'Choose'"
+                        :text="item.selectSocial ? item.selectSocial : 'Choose'"
                         class="selectWithInput"
                     >
                       <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
-                                       @click="item.selectSocial.name =i.name; item.selectSocial.id = i.id">
+                                       @click="item.selectSocial = i.name">
                         {{i.name}}
                       </b-dropdown-item>
                     </b-dropdown>
@@ -228,7 +228,7 @@ export default {
         amenities: [],
         links: [
           {
-            selectSocial: { id: '', name: '' },
+            selectSocial: '',
             link: ''
           }
         ]
@@ -342,7 +342,7 @@ export default {
     },
     addNewLink () {
       this.info.links.push({
-        selectSocial: { id: '', name: '' },
+        selectSocial: '',
         link: ''
       })
     },
@@ -380,7 +380,7 @@ export default {
       var newLinksArr = [...this.allLinks]
       this.info.links.forEach(e => {
         newLinksArr.forEach(arr => {
-          if (arr.name === e.selectSocial.name) {
+          if (arr.name === e.selectSocial) {
             var socialIndex = newLinksArr.findIndex(item => item === arr)
             newLinksArr.splice(socialIndex, 1)
           }

@@ -113,7 +113,7 @@ export default {
           ]
         }
       ],
-      profileDetails: {},
+      profileDetails: false,
       typeOfModal: 'add',
       requestLoading: false,
       reloadTable: false
@@ -124,6 +124,7 @@ export default {
       console.log(key)
     },
     openAddModal () {
+      this.profileDetails = false
       this.typeOfModal = 'add'
       this.$bvModal.show('profileDetalilsModal')
     },

@@ -660,7 +660,7 @@ export default {
       var newLinksArr = [...this.allLinks]
       this.profile.links.forEach(e => {
         newLinksArr.forEach(arr => {
-          if (arr.name === e.selectSocial.name) {
+          if (arr.name === e.selectSocial) {
             var socialIndex = newLinksArr.findIndex(item => item === arr)
             newLinksArr.splice(socialIndex, 1)
           }

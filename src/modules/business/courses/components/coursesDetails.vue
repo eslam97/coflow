@@ -105,7 +105,7 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5 pt-4 mt-3">
                 <b-form-checkbox
                     type="checkbox"
                     v-model="selectedEUR"
@@ -153,7 +153,7 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5 pt-4 mt-3">
                 <b-form-checkbox
                     type="checkbox"
                     v-model="selectedDollar"

@@ -78,11 +78,7 @@ import adminTab from '@/modules/business/profile/components/adminTab'
 import businessTab from '@/modules/business/profile/components/businessTab'
 import tempMsgModal from '@/modules/business/profile/components/tempMsgModal'
 import profileServices from '@/modules/business/profile/services/profile.services'
-// save contact info
 import adminInfoService from '@/modules/superAdmin/admin/services/admins.services'
-// get contact and business info
-// import activationService from '@/modules/superAdmin/activation/services/activations.services'
-// save facility info
 import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
 export default {

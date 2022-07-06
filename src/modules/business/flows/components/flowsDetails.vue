@@ -40,7 +40,7 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5 pt-4 mt-3">
                 <b-form-checkbox
                   type="checkbox"
                   id="checkbox"
@@ -56,7 +56,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'numeric'"
+                    :rules="`numeric|numeric|between:0,${flows.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"

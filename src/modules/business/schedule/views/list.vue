@@ -67,7 +67,7 @@
                       @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
-                    <li>{{ slot.from }} - {{ slot.to }}</li>
+                    <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
                     <li>{{ slot.flow.name }}</li>
                     <li>{{ slot.instructor }}</li>
                   </ul>
@@ -216,6 +216,16 @@ export default {
         this.getSchedule()
         core.showSnackbar('success', res.data.message)
       })
+    },
+    formatTime (time) {
+      time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time]
+      time.splice(4)
+      if (time.length > 1) {
+        time = time.slice(1)
+        time[5] = +time[0] < 12 ? ' AM' : ' PM'
+        time[0] = +time[0] % 12 || 12
+      }
+      return time.join('')
     }
   },
   created () {

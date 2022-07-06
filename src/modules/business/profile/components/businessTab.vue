@@ -412,7 +412,7 @@ export default {
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
-      remote: {
+      remote_locations: {
         location: [
           {
             availability_type: null,
@@ -471,8 +471,7 @@ export default {
       allLanguages: [],
       allLinks: [],
       allAmenities: [],
-      formattedBasedLocation: '',
-      formattedRemoteLocation: '',
+      formattedLocation: '',
       photoToEdit: {}
     }
   },
@@ -631,13 +630,14 @@ export default {
         this.allAmenities = res.data.data
       })
     },
-    formatBasedLocation () {
-      this.formattedBasedLocation = `${this.based.address},
+    formatLocation () {
+      if (this.profile.location_type === 'remote location') {
+        this.formattedLocation = `${this.based.address},
                                       ${this.area},
                                       ${this.city},
                                       ${this.country}`
+      }
     },
-    formatRemoteLocation () {},
     fillData () {
       if (this.oldProfile) {
         this.providerId = this.oldProfile.id

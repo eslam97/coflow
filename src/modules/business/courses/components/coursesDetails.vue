@@ -52,15 +52,17 @@
                     <b-form-input
                         v-model="courses.price_egp"
                         placeholder="000.00"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group
+                        :class="[{ 'is-invalid': errors.length > 0 }]"/>
+                  </b-input-group
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5 pt-4 mt-3">
                 <b-form-checkbox
                     type="checkbox"
+                    id="checkbox"
                     v-model="selectedEGP"
+                    label="Discounted Price"
                     class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
                     color="warning"
                 >
@@ -71,7 +73,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'numeric'"
+                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${courses.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -79,15 +81,20 @@
                     <b-form-input
                         v-model="courses.discount_price_egp"
                         placeholder="000.00"
-                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
-                        :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
                     /> </b-input-group
                   ></b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
             <b-row>
+              <b-col md="4" class="mb-3">
+                <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
+                             v-model="foreignerPrice"></main-select>
+              </b-col>
+            </b-row>
+            <b-row v-if="foreignerPrice === 'Euro'">
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
@@ -105,7 +112,7 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3">
+              <b-col md="4" class="mb-5  pt-4 mt-3">
                 <b-form-checkbox
                     type="checkbox"
                     v-model="selectedEUR"
@@ -119,7 +126,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="'numeric'"
+                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${courses.price_euro}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -128,14 +135,13 @@
                         v-model="courses.discount_price_euro"
                         placeholder="000.00"
                         :disabled="!selectedEUR"
-                        :validate="selectedEUR ? 'required': ''"
-                        :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
                     /> </b-input-group
                   ></b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
-            <b-row>
+            <b-row v-else-if="foreignerPrice === 'Dollar'">
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
@@ -167,7 +173,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted Dollar price`"
-                    :rules="'numeric'"
+                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${courses.price_dollar}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -176,8 +182,7 @@
                         v-model="courses.discount_price_dollar"
                         placeholder="000.00"
                         :disabled="!selectedDollar"
-                        :validate="selectedDollar ? 'required': ''"
-                        :class="[{ 'is-invalid': errors.length > 0 && selectedDollar   }]"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
                     /> </b-input-group
                   ></b-form-group>
                 </validation-provider>
@@ -330,11 +335,11 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: '',
-        price_dollar: '',
-        discount_price_egp: '',
-        discount_price_euro: '',
-        discount_price_dollar: '',
+        price_euro: '0',
+        price_dollar: '0',
+        discount_price_egp: null,
+        discount_price_euro: null,
+        discount_price_dollar: null,
         duration: '',
         status: 'active',
         images: [],
@@ -343,6 +348,7 @@ export default {
         level: 'all'
       },
       type: '',
+      foreignerPrice: 'None',
       selectedEGP: '',
       selectedEUR: '',
       selectedDollar: '',
@@ -368,6 +374,19 @@ export default {
       this.courses.discount_price_egp = this.selectedEGP ? this.courses.discount_price_egp : ''
       this.courses.discount_price_euro = this.selectedEUR ? this.courses.discount_price_euro : ''
       this.courses.discount_price_dollar = this.selectedDollar ? this.courses.discount_price_dollar : ''
+      // empty non selected currency
+      if (this.foreignerPrice === 'None') {
+        this.courses.price_euro = 0
+        this.courses.discount_price_euro = 0
+        this.courses.price_dollar = 0
+        this.courses.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Euro') {
+        this.courses.price_dollar = 0
+        this.courses.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Dollar') {
+        this.courses.price_euro = 0
+        this.courses.discount_price_euro = 0
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addCourses', { ...this.courses, images: this.courses.images.map(data => data.id) })
       } else {
@@ -421,15 +440,6 @@ export default {
   created () {
     this.getDurationList()
     if (this.coursesDetails) {
-      if (this.coursesDetails.discount_price_egp) {
-        this.selectedEGP = true
-      }
-      if (this.coursesDetails.discount_price_euro) {
-        this.selectedEUR = true
-      }
-      if (this.coursesDetails.discount_price_dollar) {
-        this.selectedDollar = true
-      }
       this.courses = {
         name: this.coursesDetails.name,
         requirements: this.coursesDetails.requirements,
@@ -447,6 +457,21 @@ export default {
         duration_list_id: this.coursesDetails.duration_list_id,
         level: this.coursesDetails.level,
         duration: this.coursesDetails.duration
+      }
+      if (this.courses.price_euro) {
+        this.foreignerPrice = 'Euro'
+      }
+      if (this.courses.price_dollar) {
+        this.foreignerPrice = 'Dollar'
+      }
+      if (this.coursesDetails.discount_price_egp) {
+        this.selectedEGP = true
+      }
+      if (this.coursesDetails.discount_price_euro) {
+        this.selectedEUR = true
+      }
+      if (this.coursesDetails.discount_price_dollar) {
+        this.selectedDollar = true
       }
     }
   }

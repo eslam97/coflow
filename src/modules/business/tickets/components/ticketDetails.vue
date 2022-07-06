@@ -21,42 +21,155 @@
                 :label="'Details'"
             />
           </b-col>
-          <b-col md="4" class="mb-3">
-            <validation-provider
-                #default="{ errors }"
-                :name="`EGP price`"
-                :rules="'required|numeric'"
-                class="flex-grow-1"
-            >
-              <b-form-group :label="'Price'"><b-input-group append="EGP">
-                <b-form-input
-                    v-model="ticket.price_egp"
-                    placeholder="000.00"
-                    :class="[{ 'is-invalid': errors.length > 0 }]"
-                />
-              </b-input-group></b-form-group>
-            </validation-provider>
-          </b-col>
-          <b-col md="4" class="mb-5 d-flex justify-content-center">
-            <b-form-checkbox
-                type="checkbox"
-                id="checkbox"
-                v-model="selected"
-                label="Discounted Price"
-                class="custom-checkbox-color-check mt-4 pt-3" color="warning"
-            ><span class="font-size-12 text-primary"> Discounted Price </span>
-            </b-form-checkbox>
-          </b-col>
-          <b-col md="4" class="mb-3">
-            <input-form
-                v-model="ticket.discount_price_egp"
-                placeholder="000.00"
-                :disabled="!selected"
-                :validate="selected ? 'required': ''"
-                name="Discounted EGP price"
-                :label="'Discounted Price'"
-            />
-          </b-col>
+          <b-row>
+            <b-col md="4" class="mb-3">
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`EGP price`"
+                  :rules="'required|numeric'"
+                  class="flex-grow-1"
+              >
+                <b-form-group :label="'Price'"
+                ><b-input-group append="EGP">
+                  <b-form-input
+                      v-model="ticket.price_egp"
+                      placeholder="000.00"
+                      :class="[{ 'is-invalid': errors.length > 0 }]"/>
+                </b-input-group
+                ></b-form-group>
+              </validation-provider>
+            </b-col>
+            <b-col md="4" class="mb-5 pt-4 mt-3">
+              <b-form-checkbox
+                  type="checkbox"
+                  id="checkbox"
+                  v-model="selectedEGP"
+                  label="Discounted Price"
+                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                  color="warning"
+              >
+                Discounted Price
+              </b-form-checkbox>
+            </b-col>
+            <b-col md="4" class="mb-3">
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`Discounted EGP price`"
+                  :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${ticket.price_egp}`"
+                  class="flex-grow-1"
+              >
+                <b-form-group :label="'Discounted Price'"
+                ><b-input-group append="EGP">
+                  <b-form-input
+                      v-model="ticket.discount_price_egp"
+                      placeholder="000.00"
+                      :disabled="!selectedEGP"
+                      :class="[{ 'is-invalid': errors.length > 0}]"
+                  /> </b-input-group
+                ></b-form-group>
+              </validation-provider>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col md="4" class="mb-3">
+              <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
+                           v-model="foreignerPrice"></main-select>
+            </b-col>
+          </b-row>
+          <b-row v-if="foreignerPrice === 'Euro'">
+            <b-col md="4" class="mb-3">
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`EURO price`"
+                  :rules="'numeric'"
+                  class="flex-grow-1"
+              >
+                <b-form-group :label="'Foreigner Price'"
+                ><b-input-group append="EUR">
+                  <b-form-input
+                      v-model="ticket.price_euro"
+                      placeholder="000.00"
+                      :class="[{ 'is-invalid': errors.length > 0 }]"
+                  /> </b-input-group
+                ></b-form-group>
+              </validation-provider>
+            </b-col>
+            <b-col md="4" class="mb-5  pt-4 mt-3">
+              <b-form-checkbox
+                  type="checkbox"
+                  v-model="selectedEUR"
+                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                  color="warning"
+              >
+                Discounted Price
+              </b-form-checkbox>
+            </b-col>
+            <b-col md="4" class="mb-3">
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`Discounted EURO price`"
+                  :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${ticket.price_euro}`"
+                  class="flex-grow-1"
+              >
+                <b-form-group :label="'Discounted Price'"
+                ><b-input-group append="EUR">
+                  <b-form-input
+                      v-model="ticket.discount_price_euro"
+                      placeholder="000.00"
+                      :disabled="!selectedEUR"
+                      :class="[{ 'is-invalid': errors.length > 0 }]"
+                  /> </b-input-group
+                ></b-form-group>
+              </validation-provider>
+            </b-col>
+          </b-row>
+          <b-row v-else-if="foreignerPrice === 'Dollar'">
+            <b-col md="4" class="mb-3">
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`Dollar price`"
+                  :rules="'numeric'"
+                  class="flex-grow-1"
+              >
+                <b-form-group :label="'Foreigner Price'"
+                ><b-input-group append="$">
+                  <b-form-input
+                      v-model="ticket.price_dollar"
+                      placeholder="000.00"
+                      :class="[{ 'is-invalid': errors.length > 0 }]"
+                  /> </b-input-group
+                ></b-form-group>
+              </validation-provider>
+            </b-col>
+            <b-col md="4" class="mb-5 pt-4 mt-3">
+              <b-form-checkbox
+                  type="checkbox"
+                  v-model="selectedDollar"
+                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                  color="warning"
+              >
+                Discounted Price
+              </b-form-checkbox>
+            </b-col>
+            <b-col md="4" class="mb-3">
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`Discounted Dollar price`"
+                  :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${ticket.price_dollar}`"
+                  class="flex-grow-1"
+              >
+                <b-form-group :label="'Discounted Price'"
+                ><b-input-group append="$">
+                  <b-form-input
+                      v-model="ticket.discount_price_dollar"
+                      placeholder="000.00"
+                      :disabled="!selectedDollar"
+                      :class="[{ 'is-invalid': errors.length > 0}]"
+                  /> </b-input-group
+                ></b-form-group>
+              </validation-provider>
+            </b-col>
+          </b-row>
           <b-col md="12" class="mb-3">
             <validation-provider
                 #default="{ errors }"
@@ -130,7 +243,10 @@ export default {
         conditions: '',
         status: 'active'
       },
-      selected: ''
+      foreignerPrice: 'None',
+      selectedEGP: '',
+      selectedEUR: '',
+      selectedDollar: ''
     }
   },
   methods: {
@@ -139,7 +255,22 @@ export default {
       this.ticket.price_euro = this.ticket.price_euro ? this.ticket.price_euro : 0
       this.ticket.price_dollar = this.ticket.price_dollar ? this.ticket.price_dollar : 0
       // if discount isn't checked, discounted field should be emptied
-      this.ticket.discount_price_egp = this.selected ? this.ticket.discount_price_egp : ''
+      this.ticket.discount_price_egp = this.selectedEGP ? this.ticket.discount_price_egp : ''
+      this.ticket.discount_price_euro = this.selectedEUR ? this.ticket.discount_price_euro : ''
+      this.ticket.discount_price_dollar = this.selectedDollar ? this.ticket.discount_price_dollar : ''
+      // empty non selected currency
+      if (this.foreignerPrice === 'None') {
+        this.ticket.price_euro = 0
+        this.ticket.discount_price_euro = 0
+        this.ticket.price_dollar = 0
+        this.ticket.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Euro') {
+        this.ticket.price_dollar = 0
+        this.ticket.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Dollar') {
+        this.ticket.price_euro = 0
+        this.ticket.discount_price_euro = 0
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addTicket', this.ticket)
       } else {
@@ -163,9 +294,21 @@ export default {
         conditions: this.ticketDetails.conditions,
         status: this.ticketDetails.status
       }
-    }
-    if (this.ticket.discount_price_egp) {
-      this.selected = true
+      if (this.ticket.price_euro) {
+        this.foreignerPrice = 'Euro'
+      }
+      if (this.ticket.price_dollar) {
+        this.foreignerPrice = 'Dollar'
+      }
+      if (this.ticketDetails.discount_price_egp) {
+        this.selectedEGP = true
+      }
+      if (this.ticketDetails.discount_price_euro) {
+        this.selectedEUR = true
+      }
+      if (this.ticketDetails.discount_price_dollar) {
+        this.selectedDollar = true
+      }
     }
   }
 }

@@ -24,12 +24,42 @@
         <span v-else>N/A</span></p>
       </b-col>
     </b-row>
+    <b-row class="pl-3 mb-2" v-if="ticketDetails.price_euro">
+      <b-col md="4" class="infoKey">
+        <p>Foreigner Price</p>
+      </b-col>
+      <b-col md="8" class="infoKey">
+        <p>Discounted Price</p>
+      </b-col>
+      <b-col md="4" class="infoValue">
+        <p>€ {{ticketDetails.price_euro}}</p>
+      </b-col>
+      <b-col md="8" class="infoValue">
+        <p><span v-if="ticketDetails.discount_price_euro">€ {{ticketDetails.discount_price_euro}}</span>
+          <span v-else>N/A</span></p>
+      </b-col>
+    </b-row>
+    <b-row class="pl-3 mb-2" v-if="ticketDetails.price_dollar">
+      <b-col md="4" class="infoKey">
+        <p>Foreigner Price</p>
+      </b-col>
+      <b-col md="8" class="infoKey">
+        <p>Discounted Price</p>
+      </b-col>
+      <b-col md="4" class="infoValue">
+        <p>$ {{ticketDetails.price_dollar}}</p>
+      </b-col>
+      <b-col md="8" class="infoValue">
+        <p><span v-if="ticketDetails.discount_price_dollar">$ {{ticketDetails.discount_price_dollar}}</span>
+          <span v-else>N/A</span></p>
+      </b-col>
+    </b-row>
     <b-row class="pl-3 mb-2">
       <b-col md="12" class="infoKey">
         <p>Conditions</p>
       </b-col>
       <b-col md="12" class="infoValue">
-        <p>{{ticketDetails.conditions}}</p>
+        <pre class="font-size-14">{{ticketDetails.conditions.replaceAll('•', '\n' + ' •').substring(1)}}</pre>
       </b-col>
     </b-row>
   </div>

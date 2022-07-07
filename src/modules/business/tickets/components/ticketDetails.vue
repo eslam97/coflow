@@ -3,190 +3,197 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addTicket)">
         <b-row>
-          <b-col md="4" class="mb-3">
-            <input-form
-                v-model="ticket.name"
-                placeholder="Ticket Name"
-                :validate="'required'"
-                name="Ticket name"
-                :label="'Ticket Name'"
-            />
-          </b-col>
-          <b-col md="8" class="mb-3">
-            <input-form
-                v-model="ticket.details"
-                placeholder="Write a brief description"
-                :validate="'required'"
-                name="Ticket details"
-                :label="'Details'"
-            />
-          </b-col>
-          <b-row>
-            <b-col md="4" class="mb-3">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`EGP price`"
-                  :rules="'required|numeric'"
-                  class="flex-grow-1"
-              >
-                <b-form-group :label="'Price'"
-                ><b-input-group append="EGP">
-                  <b-form-input
-                      v-model="ticket.price_egp"
-                      placeholder="000.00"
-                      :class="[{ 'is-invalid': errors.length > 0 }]"/>
-                </b-input-group
-                ></b-form-group>
-              </validation-provider>
-            </b-col>
-            <b-col md="4" class="mb-5 pt-4 mt-3">
-              <b-form-checkbox
-                  type="checkbox"
-                  id="checkbox"
-                  v-model="selectedEGP"
-                  label="Discounted Price"
-                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                  color="warning"
-              >
-                Discounted Price
-              </b-form-checkbox>
-            </b-col>
-            <b-col md="4" class="mb-3">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`Discounted EGP price`"
-                  :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${ticket.price_egp}`"
-                  class="flex-grow-1"
-              >
-                <b-form-group :label="'Discounted Price'"
-                ><b-input-group append="EGP">
-                  <b-form-input
-                      v-model="ticket.discount_price_egp"
-                      placeholder="000.00"
-                      :disabled="!selectedEGP"
-                      :class="[{ 'is-invalid': errors.length > 0}]"
-                  /> </b-input-group
-                ></b-form-group>
-              </validation-provider>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="4" class="mb-3">
-              <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
-                           v-model="foreignerPrice"></main-select>
-            </b-col>
-          </b-row>
-          <b-row v-if="foreignerPrice === 'Euro'">
-            <b-col md="4" class="mb-3">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`EURO price`"
-                  :rules="'numeric'"
-                  class="flex-grow-1"
-              >
-                <b-form-group :label="'Foreigner Price'"
-                ><b-input-group append="EUR">
-                  <b-form-input
-                      v-model="ticket.price_euro"
-                      placeholder="000.00"
-                      :class="[{ 'is-invalid': errors.length > 0 }]"
-                  /> </b-input-group
-                ></b-form-group>
-              </validation-provider>
-            </b-col>
-            <b-col md="4" class="mb-5  pt-4 mt-3">
-              <b-form-checkbox
-                  type="checkbox"
-                  v-model="selectedEUR"
-                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                  color="warning"
-              >
-                Discounted Price
-              </b-form-checkbox>
-            </b-col>
-            <b-col md="4" class="mb-3">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`Discounted EURO price`"
-                  :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${ticket.price_euro}`"
-                  class="flex-grow-1"
-              >
-                <b-form-group :label="'Discounted Price'"
-                ><b-input-group append="EUR">
-                  <b-form-input
-                      v-model="ticket.discount_price_euro"
-                      placeholder="000.00"
-                      :disabled="!selectedEUR"
-                      :class="[{ 'is-invalid': errors.length > 0 }]"
-                  /> </b-input-group
-                ></b-form-group>
-              </validation-provider>
-            </b-col>
-          </b-row>
-          <b-row v-else-if="foreignerPrice === 'Dollar'">
-            <b-col md="4" class="mb-3">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`Dollar price`"
-                  :rules="'numeric'"
-                  class="flex-grow-1"
-              >
-                <b-form-group :label="'Foreigner Price'"
-                ><b-input-group append="$">
-                  <b-form-input
-                      v-model="ticket.price_dollar"
-                      placeholder="000.00"
-                      :class="[{ 'is-invalid': errors.length > 0 }]"
-                  /> </b-input-group
-                ></b-form-group>
-              </validation-provider>
-            </b-col>
-            <b-col md="4" class="mb-5 pt-4 mt-3">
-              <b-form-checkbox
-                  type="checkbox"
-                  v-model="selectedDollar"
-                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                  color="warning"
-              >
-                Discounted Price
-              </b-form-checkbox>
-            </b-col>
-            <b-col md="4" class="mb-3">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`Discounted Dollar price`"
-                  :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${ticket.price_dollar}`"
-                  class="flex-grow-1"
-              >
-                <b-form-group :label="'Discounted Price'"
-                ><b-input-group append="$">
-                  <b-form-input
-                      v-model="ticket.discount_price_dollar"
-                      placeholder="000.00"
-                      :disabled="!selectedDollar"
-                      :class="[{ 'is-invalid': errors.length > 0}]"
-                  /> </b-input-group
-                ></b-form-group>
-              </validation-provider>
-            </b-col>
-          </b-row>
-          <b-col md="12" class="mb-3">
-            <validation-provider
-                #default="{ errors }"
-                :name="`Conditions`"
-                :rules="'required'"
-                class="flex-grow-1"
-            >
-              <b-form-group label="Conditions">
-                <b-form-textarea
-                    v-model="ticket.conditions"
-                    placeholder="Write your conditions in bullet points"
-                    :validate="'required'"
-                    rows="1"
-                    :class="[{ 'is-invalid': errors.length > 0 }]"
+          <b-col>
+            <b-row>
+              <b-col md="4" class="mb-3">
+                <input-form
+                    v-model="ticket.name"
+                    placeholder="Ticket Name"
+                    :validate="'required|max:20'"
+                    name="Ticket name"
+                    :label="'Ticket Name'"
                 />
-              </b-form-group>
-            </validation-provider>
+              </b-col>
+              <b-col md="8" class="mb-3">
+                <input-form
+                    v-model="ticket.details"
+                    placeholder="Write a brief description"
+                    :validate="'required|max:40'"
+                    name="Ticket details"
+                    :label="'Details'"
+                />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`EGP price`"
+                    :rules="'required|numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Price'"
+                  ><b-input-group append="EGP">
+                    <b-form-input
+                        v-model="ticket.price_egp"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"/>
+                  </b-input-group
+                  ></b-form-group>
+                </validation-provider>
+              </b-col>
+              <b-col md="4" class="mb-5 pt-4 mt-3">
+                <b-form-checkbox
+                    type="checkbox"
+                    id="checkbox"
+                    v-model="selectedEGP"
+                    label="Discounted Price"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted EGP price`"
+                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${ticket.price_egp}`"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="EGP">
+                    <b-form-input
+                        v-model="ticket.discount_price_egp"
+                        placeholder="000.00"
+                        :disabled="!selectedEGP"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
+                    /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="4" class="mb-3">
+                <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
+                             v-model="foreignerPrice"></main-select>
+              </b-col>
+            </b-row>
+            <b-row v-if="foreignerPrice === 'Euro'">
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`EURO price`"
+                    :rules="'numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Foreigner Price'"
+                  ><b-input-group append="EUR">
+                    <b-form-input
+                        v-model="ticket.price_euro"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
+              </b-col>
+              <b-col md="4" class="mb-5  pt-4 mt-3">
+                <b-form-checkbox
+                    type="checkbox"
+                    v-model="selectedEUR"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted EURO price`"
+                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${ticket.price_euro}`"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="EUR">
+                    <b-form-input
+                        v-model="ticket.discount_price_euro"
+                        placeholder="000.00"
+                        :disabled="!selectedEUR"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
+            <b-row v-else-if="foreignerPrice === 'Dollar'">
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Dollar price`"
+                    :rules="'numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Foreigner Price'"
+                  ><b-input-group append="$">
+                    <b-form-input
+                        v-model="ticket.price_dollar"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
+              </b-col>
+              <b-col md="4" class="mb-5 pt-4 mt-3">
+                <b-form-checkbox
+                    type="checkbox"
+                    v-model="selectedDollar"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted Dollar price`"
+                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${ticket.price_dollar}`"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="$">
+                    <b-form-input
+                        v-model="ticket.discount_price_dollar"
+                        placeholder="000.00"
+                        :disabled="!selectedDollar"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
+                    /> </b-input-group
+                  ></b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Conditions`"
+                    :rules="'required|max:88'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group label="Conditions">
+                    <b-form-textarea
+                        @focus="ticket.conditions = ticket.conditions === '' ? '• ' : ticket.conditions"
+                        @keyup.enter="ticket.conditions += '• '"
+                        v-model="ticket.conditions"
+                        placeholder="Write your conditions in bullet points"
+                        rows="3"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    />
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
         <b-row v-if="typeOfModal != 'view'">

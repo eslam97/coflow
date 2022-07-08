@@ -10,6 +10,7 @@
                 :validate="'required'"
                 name="name"
                 :label="'Name'"
+                :limit="25"
             />
           </b-col>
           <b-col md="6" class="mb-3">
@@ -19,6 +20,7 @@
                 :validate="'required'"
                 name="title"
                 :label="'Title'"
+                :limit="20"
             />
           </b-col>
         </b-row>
@@ -33,7 +35,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Price`"
-                    :rules="'required|numeric'"
+                    :rules="'required|decimal:1'"
                     class="flex-grow-1"
                 >
                   <b-form-input
@@ -50,8 +52,6 @@
             <b-form-checkbox
                 type="checkbox"
                 v-model="selectedEGP"
-                id="checkbox"
-                label="Discounted Price"
                 class="custom-checkbox-color-check" color="warning">
               <span class="text-secondary font-size-12">Discounted Price</span>
             </b-form-checkbox>
@@ -62,13 +62,13 @@
                 :label-for="`Discounted price`"
                 class="position-relative"
             >
-              <b-input-group append="EGP">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`price_egp`"
-                    :rules="'numeric'"
-                    class="flex-grow-1"
-                >
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`price_egp`"
+                  :rules="`${selectedEGP ? 'required': ''}|decimal:1|between:0,${product.price_egp}`"
+                  class="flex-grow-1"
+              >
+                <b-input-group append="EGP">
                   <b-form-input
                       id="mm"
                       v-model="product.discount_price_egp"
@@ -76,8 +76,12 @@
                       :class="[{ 'is-invalid': errors.length > 0 }]"
                       :placeholder="'0.0'"
                   />
-                </validation-provider>
-              </b-input-group>
+                </b-input-group>
+                <small class="text-danger" v-if="!product.discount_price_egp">{{ errors[0] }}</small>
+                <small class="text-danger" v-if="Number(product.discount_price_egp) > Number(product.price_egp)">
+                  More than price
+                </small>
+              </validation-provider>
             </b-form-group>
           </b-col>
         </b-row>

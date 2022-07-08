@@ -12,6 +12,7 @@
                   :validate="'required'"
                   name="Accommodation name"
                   :label="'Accommodation Name'"
+                  :limit="50"
                 />
               </b-col>
               <b-col md="6" class="mb-3">
@@ -27,7 +28,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="'required|decimal:1'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Price'"
@@ -40,12 +41,10 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3">
+              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
                 <b-form-checkbox
                     type="checkbox"
-                    id="checkbox"
                     v-model="selectedEGP"
-                    label="Discounted Price"
                     class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
                     color="warning"
                 >
@@ -56,7 +55,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${accommodations.price_egp}`"
+                    :rules="`${selectedEGP ? 'required': ''}|decimal:1|between:0,${accommodations.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -66,8 +65,12 @@
                         placeholder="000.00"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0}]"
-                    /> </b-input-group
-                  ></b-form-group>
+                    /></b-input-group>
+                    <small class="text-danger" v-if="!accommodations.discount_price_egp">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(accommodations.discount_price_egp) > Number(accommodations.price_egp)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
@@ -82,7 +85,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'numeric'"
+                    :rules="'decimal:1'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -95,7 +98,7 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5  pt-4 mt-3">
+              <b-col md="4" class="mb-5  pt-4 mt-3 text-center">
                 <b-form-checkbox
                     type="checkbox"
                     v-model="selectedEUR"
@@ -109,7 +112,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${accommodations.price_euro}`"
+                    :rules="`${selectedEUR ? 'required': ''}|decimal:1|between:0,${accommodations.price_euro}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -119,8 +122,13 @@
                         placeholder="000.00"
                         :disabled="!selectedEUR"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group
-                  ></b-form-group>
+                    /> </b-input-group>
+                    <small class="text-danger" v-if="!accommodations.discount_price_euro">{{ errors[0] }}</small>
+                    <small class="text-danger"
+                           v-if="Number(accommodations.discount_price_euro) > Number(accommodations.price_uro)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
@@ -129,7 +137,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Dollar price`"
-                    :rules="'numeric'"
+                    :rules="'decimal:1'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -142,7 +150,7 @@
                   ></b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3">
+              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
                 <b-form-checkbox
                     type="checkbox"
                     v-model="selectedDollar"
@@ -166,8 +174,13 @@
                         placeholder="000.00"
                         :disabled="!selectedDollar"
                         :class="[{ 'is-invalid': errors.length > 0}]"
-                    /> </b-input-group
-                  ></b-form-group>
+                    /></b-input-group>
+                    <small class="text-danger" v-if="!accommodations.discount_price_dollar">{{ errors[0] }}</small>
+                    <small class="text-danger"
+                           v-if="Number(accommodations.discount_price_dollar) > Number(accommodations.price_dollar)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>

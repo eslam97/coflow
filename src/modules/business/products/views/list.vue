@@ -99,7 +99,7 @@
                 </div>
               </div>
             </div>
-            <div v-if="item.status === 'inactive'" class="inactive-overlay"></div>
+            <div v-if="item.status === 'inactive' || !item.status" class="inactive-overlay"></div>
             <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
               <div class="d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
                 <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
@@ -211,7 +211,7 @@ export default {
     viewProductToEdit (item) {
       this.typeOfModal = 'edit'
       this.productDetailsInfo = item
-      console.log(this.productDetailsInfo)
+      this.productDetailsInfo.status = this.productDetailsInfo.status === 'active'
       this.$bvModal.show('productDetailsModal')
     },
     editProduct (data) {
@@ -238,16 +238,12 @@ export default {
       })
     },
     changeStatus (id, status) {
-      console.log(this.productDetailsInfo)
-      console.log(id)
-      console.log(status)
       const obj = {
         product_id: id,
         status: status ? 'active' : 'inactive',
         type: 'product'
       }
       mainService.changeStatus(obj).then(res => {
-        this.productDetailsInfo = status
         this.getAllProducts()
         core.showSnackbar('success', res.data.message)
       }).catch(() => {

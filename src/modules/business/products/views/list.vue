@@ -15,13 +15,13 @@
         />
       </template>
     </main-modal>
-    <main-modal id="productDetailsViewModal" size="lg">
+    <main-modal id="productDetailsViewModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Product</h4>
       </template>
       <template v-slot:borderHeader>
-        <p class="p-4 borderHeaderModal">
-          {{productDetailsInfo.name}}
+        <p class="p-4 pl-5 borderHeaderModal">
+          <span class="font-size-22">{{productDetailsInfo.name}}</span><br/>{{productDetailsInfo.title}}
         </p>
       </template>
       <template v-slot:body>

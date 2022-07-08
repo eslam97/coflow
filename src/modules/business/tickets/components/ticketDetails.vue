@@ -31,7 +31,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EGP price`"
-                    :rules="'required|decimal:1'"
+                    :rules="'required|numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Price'"
@@ -59,7 +59,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="`${selectedEGP ? 'required': ''}|decimal:1|between:0,${ticket.price_egp}`"
+                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${ticket.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -89,7 +89,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'decimal:1'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -116,7 +116,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="`${selectedEUR ? 'required': ''}|decimal:1|between:0,${ticket.price_euro}`"
+                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${ticket.price_euro}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -140,7 +140,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Dollar price`"
-                    :rules="'decimal:1'"
+                    :rules="'numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -167,7 +167,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted Dollar price`"
-                    :rules="`${selectedDollar ? 'required': ''}|decimal:1|between:0,${ticket.price_dollar}`"
+                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${ticket.price_dollar}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"

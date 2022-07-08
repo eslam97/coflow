@@ -35,7 +35,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Price`"
-                    :rules="'required|decimal:1'"
+                    :rules="'required|numeric'"
                     class="flex-grow-1"
                 >
                   <b-form-input
@@ -65,7 +65,7 @@
               <validation-provider
                   #default="{ errors }"
                   :name="`price_egp`"
-                  :rules="`${selectedEGP ? 'required': ''}|decimal:1|between:0,${product.price_egp}`"
+                  :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${product.price_egp}`"
                   class="flex-grow-1"
               >
                 <b-input-group append="EGP">

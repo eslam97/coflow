@@ -59,7 +59,7 @@
         <p>Conditions</p>
       </b-col>
       <b-col md="12" class="infoValue">
-        <pre class="font-size-14">{{ticketDetails.conditions.replaceAll('•', '\n' + ' •').substring(1)}}</pre>
+        <pre class="font-size-14">{{ticketDetails.conditions}}</pre>
       </b-col>
     </b-row>
   </div>

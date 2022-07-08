@@ -12,6 +12,7 @@
                     :validate="'required|max:20'"
                     name="Ticket name"
                     :label="'Ticket Name'"
+                    :limit="20"
                 />
               </b-col>
               <b-col md="8" class="mb-3">
@@ -21,6 +22,7 @@
                     :validate="'required|max:40'"
                     name="Ticket details"
                     :label="'Details'"
+                    :limit="40"
                 />
               </b-col>
             </b-row>
@@ -38,8 +40,9 @@
                         v-model="ticket.price_egp"
                         placeholder="000.00"
                         :class="[{ 'is-invalid': errors.length > 0 }]"/>
-                  </b-input-group
-                  ></b-form-group>
+                  </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5 pt-4 mt-3">
@@ -58,7 +61,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${ticket.price_egp}`"
+                    :rules="`${selectedEGP ? 'required': ''}|decimal:3|between:0,${ticket.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -68,13 +71,17 @@
                         placeholder="000.00"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0}]"
-                    /> </b-input-group
-                  ></b-form-group>
+                    /></b-input-group>
+                    <small class="text-danger" v-if="!ticket.discount_price_egp">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(ticket.discount_price_egp) > Number(ticket.price_egp)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
             <b-row>
-              <b-col md="4" class="mb-3">
+              <b-col md="12" class="mb-3">
                 <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
                              v-model="foreignerPrice"></main-select>
               </b-col>
@@ -190,6 +197,11 @@
                         rows="3"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                     />
+                    <div class="d-flex justify-content-between">
+                      <small class="text-danger">{{ errors[0] }}</small>
+                      <small :class="[{ 'text-danger': ticket.conditions.length > 88 }]">
+                        {{ (88 > ticket.conditions.length) ? 88 - ticket.conditions.length : 0 }} characters</small>
+                    </div>
                   </b-form-group>
                 </validation-provider>
               </b-col>

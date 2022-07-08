@@ -63,7 +63,7 @@
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                      :key="slotKey"
                      class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                     :class="(slot.status === 'inactive' || !slot.status)? 'slot-box-grey' : 'slot-box-red'"
+                     :class="(slot.status === 'active' || slot.status)? 'slot-box-red' : 'slot-box-grey'"
                       @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
@@ -166,10 +166,10 @@ export default {
     showScheduleToEdit (obj) {
       this.typeOfModal = 'edit'
       this.scheduleDetailsFront = obj
+      console.log(this.scheduleDetailsFront)
       scheduleServices.getScheduleDetails(obj.id).then(res => {
         this.scheduleDetails = res.data.data
         this.scheduleDetails.slotId = obj.id
-        this.scheduleDetailsFront.status = this.scheduleDetailsFront.status === 'active'
         this.$bvModal.show('scheduleDetailsModal')
       })
     },

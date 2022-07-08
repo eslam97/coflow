@@ -5,7 +5,7 @@
         <b-row>
           <b-col md="4" class="mb-3">
             <main-select labelTitle='Promotion Type' :validate="'required'"
-                         :name="`promotion_type`" placeholder="Choose" :options="allPromotionTypes"
+                         :name="`Promotion type`" placeholder="Choose" :options="allPromotionTypes"
                          v-model="promotion_type">
             </main-select>
           </b-col>
@@ -14,8 +14,9 @@
                 v-model="info.offer_title"
                 placeholder="Ex: offer_title"
                 :validate="'required'"
-                name="offer_title"
+                name="Offer Title"
                 :label="'Offer Title'"
+                :limit="30"
             />
           </b-col>
           <b-col md="6" class="mb-3" v-if="promotion_type === 'package'">
@@ -23,37 +24,39 @@
                 v-model="packages.package"
                 placeholder="Ex: offer"
                 :validate="'required'"
-                name="offer"
+                name="Offer"
                 :label="'Offer'"
+                :limit="30"
             />
           </b-col>
           <b-col md="6" class="mb-3" v-if="promotion_type === 'discount'">
             <b-form-group
-                  :label="`offer`"
-                  :label-for="`offer`"
+                  :label="`Offer`"
+                  :label-for="`Offer`"
                   class="position-relative"
               >
+              <validation-provider
+                  #default="{ errors }"
+                  :name="`Offer`"
+                  :rules="'required|numeric'"
+                  class="flex-grow-1"
+              >
                 <b-input-group append="%">
-                  <validation-provider
-                      #default="{ errors }"
-                      :name="`offer`"
-                      :rules="'required|numeric'"
-                      class="flex-grow-1"
-                  >
                     <b-form-input
                         id="mm"
                         v-model="discount.discount_price_egp"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
-                        :placeholder="'0.0'"
+                        :placeholder="'000.00'"
                     />
-                  </validation-provider>
                 </b-input-group>
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
               </b-form-group>
           </b-col>
           <b-col md="6" class="mb-3" v-if="promotion_type === 'buy_x get_y'">
             <b-form-group
-                  :label="`offer 1`"
-                  :label-for="`offer 1`"
+                  :label="`Offer 1`"
+                  :label-for="`Offer 1`"
                   class="position-relative"
               >
                 <b-input-group prepend="buy_x">
@@ -90,12 +93,12 @@
           </b-col>
           <b-col md="3" class="mb-3">
             <b-form-group
-                label="start date"
-                label-for="start date"
+                label="Start date"
+                label-for="Start date"
             >
               <validation-provider
                   #default="{ errors }"
-                  name="start_date"
+                  name="Start date"
                   :rules="'required'"
               >
                 <flatPickr
@@ -112,12 +115,12 @@
           </b-col>
           <b-col md="3" class="mb-3">
             <b-form-group
-                label="end date"
-                label-for="end date"
+                label="End date"
+                label-for="End date"
             >
               <validation-provider
                   #default="{ errors }"
-                  name="end_date"
+                  name="End Date"
                   :rules="'required'"
               >
                 <flatPickr
@@ -142,8 +145,8 @@
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
                         required:true
                       }"
-                name="price_egp"
-                :label="'price_egp'"
+                name="Price"
+                :label="'Price'"
             />
           </b-col>
           <b-col md="6" class="mb-3">
@@ -154,8 +157,8 @@
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
                         required:true
                       }"
-                name="discount_price_egp"
-                :label="'discount_price_egp'"
+                name="Discount Price"
+                :label="'Discount Price'"
             />
           </b-col>
           <b-col md="6" class="mb-3" >
@@ -166,8 +169,8 @@
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
                         required:false
                       }"
-                name="price_dollar"
-                :label="'price_dollar'"
+                name="Price"
+                :label="'Price'"
             />
           </b-col>
           <b-col md="6" class="mb-3">
@@ -178,8 +181,8 @@
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
                         required:false
                       }"
-                name="discount_price_dollar"
-                :label="'discount_price_dollar'"
+                name="Discount price"
+                :label="'Discount Price'"
             />
           </b-col>
           <b-col md="6" class="mb-3" >
@@ -190,8 +193,8 @@
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
                         required:false
                       }"
-                name="price_euro"
-                :label="'price_euro'"
+                name="Price"
+                :label="'Price'"
             />
           </b-col>
           <b-col md="6" class="mb-3">
@@ -202,8 +205,8 @@
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
                         required:false
                       }"
-                name="discount_price_euro"
-                :label="'discount_price_euro'"
+                name="Discount price"
+                :label="'Discount Price'"
             />
           </b-col>
         </b-row>
@@ -213,7 +216,7 @@
                 label="Description"
                 label-for="Description"
             >
-              <ValidationProvider name="description" ref="Description" rules="required" v-slot="{ errors }">
+              <ValidationProvider name="Description" ref="Description" rules="required" v-slot="{ errors }">
                 <b-form-textarea
                     placeholder="Description..."
                     rows="2"

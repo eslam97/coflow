@@ -37,8 +37,9 @@
                         v-model="accommodations.price_egp"
                         placeholder="000.00"
                         :class="[{ 'is-invalid': errors.length > 0 }]"/>
-                  </b-input-group
-                  ></b-form-group>
+                  </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
@@ -94,8 +95,9 @@
                         v-model="accommodations.price_euro"
                         placeholder="000.00"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group
-                  ></b-form-group>
+                    /> </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5  pt-4 mt-3 text-center">
@@ -146,8 +148,9 @@
                         v-model="accommodations.price_dollar"
                         placeholder="000.00"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group
-                  ></b-form-group>
+                    /> </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
               <b-col md="4" class="mb-5 pt-4 mt-3 text-center">

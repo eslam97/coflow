@@ -9,7 +9,7 @@
                 placeholder="Ex: Admin"
                 :validate="'required'"
                 name="name"
-                :label="'admin Name'"
+                :label="'Admin Name'"
             />
           </b-col>
           <b-col md="12" class="mb-3">
@@ -26,14 +26,13 @@
                 v-model="admin.password"
                 placeholder="*********"
                 type="password"
-                :validate="'required'"
                 name="password"
                 :label="'Password'"
             />
           </b-col>
           <b-col md="12" class="mb-3">
-            <main-select labelTitle='Country' :validate="'required'"
-                         :name="`country_id`" placeholder="Choose" :options="allRoles"
+            <main-select labelTitle='Admin' :validate="'required'"
+                         :name="`Admin`" placeholder="Choose" :options="allRoles"
                          label="name"
                          :reduce="data => data.id"
                          v-model="admin.role_id"></main-select>

@@ -26,7 +26,7 @@ export default {
         { label: 'Image', key: 'image', class: 'text-left', type: 'image' },
         { label: 'User Name', key: 'name', class: 'text-left' },
         { label: 'Verified', key: 'verified', class: 'text-left' },
-        { label: 'Birthdate', key: 'birthdate', class: 'text-left' },
+        { label: 'Birthdate', key: 'birthdate', class: 'text-left', type: 'birthDate' },
         { label: 'Gender', key: 'gender', class: 'text-left' },
         { label: 'Nationality', key: 'nationality', class: 'text-left' },
         { label: 'Views', key: 'views', class: 'text-left' },

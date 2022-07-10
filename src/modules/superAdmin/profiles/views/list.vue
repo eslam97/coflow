@@ -47,7 +47,6 @@ export default {
         { label: 'Facility Name', key: 'name', class: 'text-left' },
         { label: 'Account Type', key: 'service_types', class: 'text-left' },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
-        { label: 'Country', key: 'country.name', class: 'text-left' },
         { label: 'City', key: 'city.name', class: 'text-left' },
         { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Year', key: 'year', class: 'text-left' },

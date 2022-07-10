@@ -84,19 +84,24 @@
             </span>
           </div>
 
-          <!-- Multi-value handler -->
-          <div v-else-if="field.type == 'multi-value'">
+          <!-- Multi-currency handler -->
+          <div v-else-if="field.type == 'multi-currency'">
             <ul class="p-0">
               <li v-for="(arrKey, key) in field.key.split(',')" :key="key">
                 <span v-if="$_.get(data.item, arrKey) > 0">
                   <span v-if="arrKey.includes('egp')">EGP </span>
-                  <span v-else-if="arrKey.includes('euro')">EUR </span>
+                  <span v-else-if="arrKey.includes('euro')">€ </span>
                   <span v-else-if="arrKey.includes('dollar')">$ </span>
                   {{ $_.get(data.item, arrKey) }}
                 </span>
                 <span v-else>N/A</span>
               </li>
             </ul>
+          </div>
+
+          <!--    Calculate age      -->
+          <div v-else-if="field.type == 'birthDate'">
+            {{ calculateAge($_.get(data.item, field.key)) }}
           </div>
 
           <!-- handle Text -->
@@ -258,6 +263,17 @@ export default {
           this.listOfData[IndexRow]._rowVariant = ''
         }
       })
+    },
+    calculateAge (date) {
+      const today = new Date()
+      const birthDate = new Date(date)
+      let age = today.getFullYear() - birthDate.getFullYear()
+      const m = today.getMonth() - birthDate.getMonth()
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+      }
+      console.log(age)
+      return age
     }
   },
   mounted () {

@@ -1,509 +1,515 @@
 <template>
     <div>
-        <ValidationObserver v-slot="{ handleSubmit }">
-          <b-form @submit.prevent="handleSubmit(saveChanges)">
-            <div class="mb-5">
-              <div class="border-bottom mb-2">
-                <h5 class="pb-2">General Admin Information: Contacts</h5>
-              </div>
-              <b-row v-for="(info, key) in adminInformation" :key="key">
-                <b-col md="4" class="mb-3" >
-                  <input-form
-                      v-model="info.name"
-                      placeholder="Ex: Eslam Ashraf"
-                      :validate="'required'"
-                      :name="`Full Name ${key + 1}`"
-                      :label="'Full Name'"
-                  />
-                </b-col>
-                <b-col md="4" class="mb-3" >
-                  <input-form
-                      v-model="info.job"
-                      placeholder="Ex: Owner"
-                      :validate="'required'"
-                      :name="`Role or Job ${key + 1}`"
-                      :label="'Role or Job'"
-                  />
-                </b-col>
-                <b-col md="4" class="mb-3 position-relative" >
-                  <input-form
-                      v-model="info.phone"
-                      placeholder="Ex: 01095097908"
-                      :validate="'required|numeric'"
-                      :name="`Phone Number ${key + 1}`"
-                      :label="'Phone Number'"
-                  />
-                  <span class="text-danger deleteLabelButtonAdmin cursor-pointer" v-if="key != 0"
-                        @click="deleteGeneralAdminInformation(key)">Delete Contact
-                </span>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col md="12">
-                <span class="text-warning cursor-pointer" @click="addNewGeneralAdminInformation">+ Add another
-                  Contact</span>
-                </b-col>
-              </b-row>
+      <div v-if="activationDetails">
+        <b-alert show variant="warning" class="d-flex justify-content-around">
+          <span><span class="text-bold">Email : </span> {{activationDetails.email}}</span>
+          <span><span class="text-bold">Password : </span> {{activationDetails.password_text}}</span>
+        </b-alert>
+      </div>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <b-form @submit.prevent="handleSubmit(saveChanges)">
+          <div class="mb-5">
+            <div class="border-bottom mb-2">
+              <h5 class="pb-2">General Admin Information: Contacts</h5>
             </div>
-            <div class="mb-5">
-              <div class="border-bottom my-2">
-                <h5 class="pb-2">Facility Information & Photos</h5>
-              </div>
+            <b-row v-for="(info, key) in adminInformation" :key="key">
+              <b-col md="4" class="mb-3" >
+                <input-form
+                    v-model="info.name"
+                    placeholder="Ex: Eslam Ashraf"
+                    :validate="'required'"
+                    :name="`Full Name ${key + 1}`"
+                    :label="'Full Name'"
+                />
+              </b-col>
+              <b-col md="4" class="mb-3" >
+                <input-form
+                    v-model="info.job"
+                    placeholder="Ex: Owner"
+                    :validate="'required'"
+                    :name="`Role or Job ${key + 1}`"
+                    :label="'Role or Job'"
+                />
+              </b-col>
+              <b-col md="4" class="mb-3 position-relative" >
+                <input-form
+                    v-model="info.phone"
+                    placeholder="Ex: 01095097908"
+                    :validate="'required|numeric'"
+                    :name="`Phone Number ${key + 1}`"
+                    :label="'Phone Number'"
+                />
+                <span class="text-danger deleteLabelButtonAdmin cursor-pointer" v-if="key != 0"
+                      @click="deleteGeneralAdminInformation(key)">Delete Contact
+              </span>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12">
+              <span class="text-warning cursor-pointer" @click="addNewGeneralAdminInformation">+ Add another
+                Contact</span>
+              </b-col>
+            </b-row>
+          </div>
+          <div class="mb-5">
+            <div class="border-bottom my-2">
+              <h5 class="pb-2">Facility Information & Photos</h5>
+            </div>
+            <b-row>
+              <b-col md="2" class="mb-3">
+                <main-select labelTitle='Activity Line' :validate="'required'"
+                             :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
+                             label="name"
+                             :reduce="data=> data.id"
+                             v-model="info.activity_line_id"></main-select>
+              </b-col>
+              <b-col class="mb-3" md="2">
+                <main-select labelTitle='Activity Type' :validate="'required'"
+                             :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
+                             label="name"
+                             :reduce="data=> data.id"
+                             v-model="info.activity_type_id"></main-select>
+              </b-col>
+              <b-col class="mb-3" md="2">
+                <input-form
+                    placeholder="Ex: 2022"
+                    :validate="'required|numeric'"
+                    :name="`year`"
+                    :label="'Launch Year'"
+                    v-model="info.year"
+                />
+              </b-col>
+              <b-col class="mb-3" md="6">
+                <input-form
+                    placeholder="Ex: Diving"
+                    :validate="'required'"
+                    :name="`name`"
+                    :label="'Facility Name'"
+                    v-model="info.name"
+                />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col class="mb-3" md="6">
+                <input-form
+                    placeholder="Ex: The Yoga Studio"
+                    :validate="'required'"
+                    :name="`title`"
+                    :label="'Facility Title'"
+                    v-model="info.title"
+                />
+              </b-col>
+              <b-col class="mb-3" md="6">
+                <main-select labelTitle='Team Languages' :validate="'required'"
+                             :multiple="true"
+                             :name="`languages`" placeholder="Choose" :options="allLanguages"
+                             label="name"
+                             :reduce="data=> data.name"
+                             v-model="info.languages"></main-select>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col class="mb-3" md="12">
+                <main-select labelTitle='Facility Tags' :validate="'required'"
+                             :taggable="true"
+                             multiple v-model="info.tags"
+                             :name="`tags`" placeholder="Write Tags"
+                             :numberOfSelect=3
+                >
+                </main-select>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col class="mb-3" md="12">
+                <b-form-group
+                    label="Facility Bio"
+                    label-for="Facility Bio"
+                >
+                  <ValidationProvider name="Facility Bio" ref="Facility Bio" rules="required" v-slot="{ errors }">
+                    <b-form-textarea
+                        placeholder="Facility Bio..."
+                        rows="2"
+                        v-model="info.bio"
+                        :class="(errors.length >
+                           0 ? ' is-invalid' : '')"
+                    ></b-form-textarea>
+                    <div class="invalid-feedback">
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </b-form-group>
+
+              </b-col>
+            </b-row>
+            <b-row>
+              <label class="w-100 pl-3 mb-2">Amenities</label>
+              <b-col md="4" lg="2" class="mb-3" v-for="(amenity, key) in allAmenities" :key="key">
+                <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="info.amenities"
+                                 :value="amenity.id">
+                  <span class="text-primary font-size-12">{{ amenity.name }}</span>
+                </b-form-checkbox>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col  md="6" class="mb-1" v-for="(item, key) in info.links" :key="key">
+                <b-form-group
+                    :label="'URL Links'"
+                    :label-for="'URL Links'"
+                    class="position-relative"
+                >
+            <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0" @click="deleteLink(key)">Delete
+            </span>
+                  <b-input-group>
+                    <validation-provider
+                        #default="{ errors }"
+                        :name="`URL Link ${key + 1}`"
+                        :rules="'required'"
+                        class="flex-grow-1"
+                    >
+                      <b-form-input
+                          id="mm"
+                          v-model="item.link"
+                          :class="[{ 'is-invalid': errors.length > 0 }]"
+                          :placeholder="'Ex: https://www.google.com'"
+                          :disabled="!item.selectSocial"
+                      />
+                    </validation-provider>
+                    <template #prepend>
+                      <b-dropdown
+                          :text="item.selectSocial ? item.selectSocial : 'Choose'"
+                          class="selectWithInput"
+                      >
+                        <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
+                                         @click="item.selectSocial = i.name">
+                          {{i.name}}
+                        </b-dropdown-item>
+                      </b-dropdown>
+                    </template>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+              <b-col md="12" class="mb-3" v-if="allLinks.length !== info.links.length">
+                <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12" class="mb-5">
+                <cropper-images
+                    label="Upload Logo"
+                    nameOfImage="logo.jpg"
+                    @cropper-save="savelogoImage"
+                    :progressLoading="loadingLogo"
+                    :multi="false"
+                    :imageUrl="logoImage"
+                />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12" class="mb-5">
+                <cropper-images
+                    label="Upload Cover"
+                    nameOfImage="cover.jpg"
+                    @cropper-save="saveCoverImage"
+                    :progressLoading="loadingCover"
+                    :multi="false"
+                    :imageUrl="coverImage"
+                ></cropper-images>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12" class="mb-5">
+                <cropper-images
+                    label="Upload Facility Photos"
+                    @cropper-save="saveGalleryImage"
+                    @remove-image="removeGalleryImage"
+                    :progressLoading="loadingGallery"
+                    :removeLoadingUi="removeLoadingUi"
+                    :images="images"
+                ></cropper-images>
+              </b-col>
+            </b-row>
+          </div>
+          <div class="mb-5">
+            <div class="border-bottom mb-2">
+              <h5 class="pb-2">Facility Location</h5>
+            </div>
+            <b-row class="mb-5">
+              <b-col md="12">
+                <label class="mb-3">Location</label>
+                <div>
+                  <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
+                                name="color" value="address based" >
+                    <span class="text-primary font-size-12">Address Based</span>
+                  </b-form-radio>
+                  <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
+                                name="color" value="remote location" >
+                    <span class="text-primary font-size-12">Remote</span>
+                  </b-form-radio>
+                </div>
+              </b-col>
+            </b-row>
+            <div v-if="typeOfLocation === 'address based'">
               <b-row>
-                <b-col md="2" class="mb-3">
-                  <main-select labelTitle='Activity Line' :validate="'required'"
-                               :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
+                <b-col class="mb-3" md="2">
+                  <main-select labelTitle='Country' :validate="'required'"
+                               :name="`country_id`" placeholder="Choose" :options="allCountries"
                                label="name"
-                               :reduce="data=> data.id"
-                               v-model="info.activity_line_id"></main-select>
+                               :reduce="data => data.id"
+                               @change="getCityDependOnCountry(based.country_id)"
+                               v-model="based.country_id"></main-select>
                 </b-col>
                 <b-col class="mb-3" md="2">
-                  <main-select labelTitle='Activity Type' :validate="'required'"
-                               :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
+                  <main-select labelTitle='Governorate'
+                               :validate="'required'"
+                               :name="`Governorate`"
+                               placeholder="Choose"
+                               :options="allGovernorates"
                                label="name"
-                               :reduce="data=> data.id"
-                               v-model="info.activity_type_id"></main-select>
+                               :reduce="data => data.id"
+                               @change="getAreasDependOnCity(based.city_id)"
+                               v-model="based.city_id"></main-select>
                 </b-col>
-                <b-col class="mb-3" md="2">
-                  <input-form
-                      placeholder="Ex: 2022"
-                      :validate="'required|numeric'"
-                      :name="`year`"
-                      :label="'Launch Year'"
-                      v-model="info.year"
-                  />
+                <b-col class="mb-3" md="4">
+                  <main-select labelTitle='Area' :validate="'required'"
+                               :name="`Area`"  placeholder="Choose" :options="allArea"
+                               label="name"
+                               :reduce="data => data.id"
+                               v-model="based.area_id"></main-select>
                 </b-col>
-                <b-col class="mb-3" md="6">
+                <b-col class="mb-3" md="4">
                   <input-form
-                      placeholder="Ex: Diving"
+                      placeholder="Ex: 105 name st."
                       :validate="'required'"
-                      :name="`name`"
-                      :label="'Facility Name'"
-                      v-model="info.name"
+                      :name="`Address`"
+                      :label="'Address'"
+                      v-model="based.address"
                   />
                 </b-col>
               </b-row>
               <b-row>
-                <b-col class="mb-3" md="6">
+                <b-col md="6" class="mb-4">
                   <input-form
-                      placeholder="Ex: The Yoga Studio"
+                      v-model="based.latitude"
+                      placeholder="Ex: 11.12345"
                       :validate="'required'"
-                      :name="`title`"
-                      :label="'Facility Title'"
-                      v-model="info.title"
+                      name="latitude"
+                      :label="'Latitude'"
                   />
                 </b-col>
-                <b-col class="mb-3" md="6">
-                  <main-select labelTitle='Team Languages' :validate="'required'"
-                               :multiple="true"
-                               :name="`languages`" placeholder="Choose" :options="allLanguages"
-                               label="name"
-                               :reduce="data=> data.name"
-                               v-model="info.languages"></main-select>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col class="mb-3" md="12">
-                  <main-select labelTitle='Facility Tags' :validate="'required'"
-                               :taggable="true"
-                               multiple v-model="info.tags"
-                               :name="`tags`" placeholder="Write Tags"
-                               :numberOfSelect=3
-                  >
-                  </main-select>
+                <b-col md="6" class="mb-4">
+                  <input-form
+                      v-model="based.longitude"
+                      placeholder="Ex: 11.12345"
+                      :validate="'required'"
+                      name="longitude"
+                      :label="'Longitude'"
+                  />
                 </b-col>
               </b-row>
               <b-row>
                 <b-col class="mb-3" md="12">
                   <b-form-group
-                      label="Facility Bio"
-                      label-for="Facility Bio"
+                      label="Location"
+                      label-for="Location"
                   >
-                    <ValidationProvider name="Facility Bio" ref="Facility Bio" rules="required" v-slot="{ errors }">
+                    <ValidationProvider name="Location" ref="Location" rules="required" v-slot="{ errors }">
                       <b-form-textarea
-                          placeholder="Facility Bio..."
+                          placeholder="Location..."
                           rows="2"
-                          v-model="info.bio"
+                          v-model="based.location"
                           :class="(errors.length >
-                             0 ? ' is-invalid' : '')"
+                           0 ? ' is-invalid' : '')"
                       ></b-form-textarea>
                       <div class="invalid-feedback">
                         <span>{{ errors[0] }}</span>
                       </div>
                     </ValidationProvider>
+                    <p class="mt-2">* Note: If location is not set up on Google Maps, you can drop a proximate pin near
+                      the location
+                      and click on the coordinates (ex: 29.978411, 30.996448). This will provide you with a shareable link to copy and paste here.</p>
                   </b-form-group>
-
-                </b-col>
-              </b-row>
-              <b-row>
-                <label class="w-100 pl-3 mb-2">Amenities</label>
-                <b-col md="4" lg="2" class="mb-3" v-for="(amenity, key) in allAmenities" :key="key">
-                  <b-form-checkbox class="custom-checkbox-color-check" color="warning" v-model="info.amenities"
-                                   :value="amenity.id">
-                    <span class="text-primary font-size-12">{{ amenity.name }}</span>
-                  </b-form-checkbox>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col  md="6" class="mb-1" v-for="(item, key) in info.links" :key="key">
-                  <b-form-group
-                      :label="'URL Links'"
-                      :label-for="'URL Links'"
-                      class="position-relative"
-                  >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0" @click="deleteLink(key)">Delete
-              </span>
-                    <b-input-group>
-                      <validation-provider
-                          #default="{ errors }"
-                          :name="`URL Link ${key + 1}`"
-                          :rules="'required'"
-                          class="flex-grow-1"
-                      >
-                        <b-form-input
-                            id="mm"
-                            v-model="item.link"
-                            :class="[{ 'is-invalid': errors.length > 0 }]"
-                            :placeholder="'Ex: https://www.google.com'"
-                            :disabled="!item.selectSocial"
-                        />
-                      </validation-provider>
-                      <template #prepend>
-                        <b-dropdown
-                            :text="item.selectSocial ? item.selectSocial : 'Choose'"
-                            class="selectWithInput"
-                        >
-                          <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
-                                           @click="item.selectSocial = i.name">
-                            {{i.name}}
-                          </b-dropdown-item>
-                        </b-dropdown>
-                      </template>
-                    </b-input-group>
-                  </b-form-group>
-                </b-col>
-                <b-col md="12" class="mb-3" v-if="allLinks.length !== info.links.length">
-                  <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col md="12" class="mb-5">
-                  <cropper-images
-                      label="Upload Logo"
-                      nameOfImage="logo.jpg"
-                      @cropper-save="savelogoImage"
-                      :progressLoading="loadingLogo"
-                      :multi="false"
-                      :imageUrl="logoImage"
-                  />
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col md="12" class="mb-5">
-                  <cropper-images
-                      label="Upload Cover"
-                      nameOfImage="cover.jpg"
-                      @cropper-save="saveCoverImage"
-                      :progressLoading="loadingCover"
-                      :multi="false"
-                      :imageUrl="coverImage"
-                  ></cropper-images>
-                </b-col>
-              </b-row>
-              <b-row>
-                <b-col md="12" class="mb-5">
-                  <cropper-images
-                      label="Upload Facility Photos"
-                      @cropper-save="saveGalleryImage"
-                      @remove-image="removeGalleryImage"
-                      :progressLoading="loadingGallery"
-                      :removeLoadingUi="removeLoadingUi"
-                      :images="images"
-                  ></cropper-images>
                 </b-col>
               </b-row>
             </div>
-            <div class="mb-5">
-              <div class="border-bottom mb-2">
-                <h5 class="pb-2">Facility Location</h5>
-              </div>
+            <div v-else-if="typeOfLocation === 'remote location'">
               <b-row class="mb-5">
-                <b-col md="12">
-                  <label class="mb-3">Location</label>
-                  <div>
-                    <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
-                                  name="color" value="based" >
-                      <span class="text-primary font-size-12">Address Based</span>
-                    </b-form-radio>
-                    <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
-                                  name="color" value="remote" >
-                      <span class="text-primary font-size-12">Remote</span>
-                    </b-form-radio>
-                  </div>
-                </b-col>
-              </b-row>
-              <div v-if="typeOfLocation === 'based'">
-                <b-row>
-                  <b-col class="mb-3" md="2">
-                    <main-select labelTitle='Country' :validate="'required'"
-                                 :name="`country_id`" placeholder="Choose" :options="allCountries"
-                                 label="name"
-                                 :reduce="data => data.id"
-                                 @change="getCityDependOnCountry(based.country_id)"
-                                 v-model="based.country_id"></main-select>
-                  </b-col>
-                  <b-col class="mb-3" md="2">
-                    <main-select labelTitle='Governorate'
-                                 :validate="'required'"
-                                 :name="`Governorate`"
-                                 placeholder="Choose"
-                                 :options="allGovernorates"
-                                 label="name"
-                                 :reduce="data => data.id"
-                                 @change="getAreasDependOnCity(based.city_id)"
-                                 v-model="based.city_id"></main-select>
-                  </b-col>
-                  <b-col class="mb-3" md="4">
-                    <main-select labelTitle='Area' :validate="'required'"
-                                 :name="`Area`"  placeholder="Choose" :options="allArea"
-                                 label="name"
-                                 :reduce="data => data.id"
-                                 v-model="based.area_id"></main-select>
-                  </b-col>
-                  <b-col class="mb-3" md="4">
-                    <input-form
-                        placeholder="Ex: 105 name st."
-                        :validate="'required'"
-                        :name="`Address`"
-                        :label="'Address'"
-                        v-model="based.address"
-                    />
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-col md="6" class="mb-4">
-                    <input-form
-                        v-model="based.latitude"
-                        placeholder="Ex: 11.12345"
-                        :validate="'required'"
-                        name="latitude"
-                        :label="'Latitude'"
-                    />
-                  </b-col>
-                  <b-col md="6" class="mb-4">
-                    <input-form
-                        v-model="based.longitude"
-                        placeholder="Ex: 11.12345"
-                        :validate="'required'"
-                        name="longitude"
-                        :label="'Longitude'"
-                    />
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-col class="mb-3" md="12">
-                    <b-form-group
-                        label="Location"
-                        label-for="Location"
-                    >
-                      <ValidationProvider name="Location" ref="Location" rules="required" v-slot="{ errors }">
-                        <b-form-textarea
-                            placeholder="Location..."
-                            rows="2"
-                            v-model="based.location"
-                            :class="(errors.length >
-                             0 ? ' is-invalid' : '')"
-                        ></b-form-textarea>
-                        <div class="invalid-feedback">
-                          <span>{{ errors[0] }}</span>
-                        </div>
-                      </ValidationProvider>
-                      <p class="mt-2">* Note: If location is not set up on Google Maps, you can drop a proximate pin near
-                        the location
-                        and click on the coordinates (ex: 29.978411, 30.996448). This will provide you with a shareable link to copy and paste here.</p>
-                    </b-form-group>
-                  </b-col>
-                </b-row>
-              </div>
-              <div v-else>
-                <b-row class="mb-5">
-                  <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote.location"
-                         :key="locationKey">
-                    <b-row class="d-flex align-items-center">
-                      <b-col class="mb-2" md="3">
-                        <main-select labelTitle='Country' :validate="'required'"
-                                     :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
-                                     label="name"
-                                     :reduce="data=> data.id"
-                                     @change="getCityDependOnCountry(location.country_id)"
-                                     v-model="location.country_id"></main-select>
-                      </b-col>
-                      <b-col md="1">
-                        <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
-                                         color="warning">
-                          <span class="font-size-12 text-primary"> All </span>
-                        </b-form-checkbox>
-                      </b-col>
-                      <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
-                        <main-select labelTitle='Governorate' :validate="'required'"
-                                     :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
-                                     label="name"
-                                     :reduce="data=> data.id"
-                                     v-model="location.city_id"></main-select>
-                      </b-col>
-                      <b-col md="1"  v-if="location.availability_type !== 'all city'">
-                        <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
-                          <span class="font-size-12 text-primary"> All </span>
-                        </b-form-checkbox>
-                      </b-col>
-                      <b-col class="mb-2" md="4" v-if="location.availability_type !== 'all city'">
-                        <div v-if="location.availability_type !== 'all country'">
-                          <main-select labelTitle='Area' :validate="'required'"
-                                       :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
-                                       :multiple="true"
-                                       v-model="location.areas"></main-select>
-                        </div>
-                      </b-col>
-                    </b-row>
-                    <span class="text-danger deleteLabelButton cursor-pointer" v-if="!locationKey == 0"
-                          @click="deletezone(locationKey)">Delete
-                  Zone
-              </span>
-                  </b-col>
-                  <b-col md="12">
-                    <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
-                  </b-col>
-                </b-row>
-              </div>
-              <b-row>
-                <b-col  md="6" class="mb-1" v-for="(item, key) in phones" :key="key">
-                  <b-form-group
-                      :label="`Contact Number ${key+1}`"
-                      :label-for="`Contact Number ${key+1}`"
-                      class="position-relative"
-                  >
-              <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteContact(key)">Delete
-              </span>
-                    <b-input-group>
-                      <validation-provider
-                          #default="{ errors }"
-                          :name="`Contact Number ${key + 1}`"
-                          :rules="'required'"
-                          class="flex-grow-1"
-                      >
-                        <b-form-input
-                            id="mm"
-                            v-model="item.number"
-                            :class="[{ 'is-invalid': errors.length > 0 }]"
-                            :placeholder="'Ex: 020454684'"
-                            :disabled="!item.type"
-                        />
-                      </validation-provider>
-                      <template #prepend>
-                        <b-dropdown
-                            :text="item.type ? item.type : 'Choose'"
-                            class="selectWithInput"
-                        >
-                          <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
-                            {{i}}
-                          </b-dropdown-item>
-                        </b-dropdown>
-                      </template>
-                    </b-input-group>
-                  </b-form-group>
-                </b-col>
-                <b-col md="12" class="mb-3">
-                  <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
-                </b-col>
-              </b-row>
-            </div>
-            <div class="mb-5">
-              <div class="border-bottom mb-2">
-                <h5 class="pb-2">Facility Operation Days and Hours</h5>
-              </div>
-              <b-row class="mb-5">
-                <b-col md="12">
-                  <label class="mb-3">Operation</label>
-                  <div>
-                    <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfOperation" color="warning"
-                                  name="typeOfOperation" value="24 hours" >
-                      <span class="text-primary font-size-12">Open 24 Hours</span>
-                    </b-form-radio>
-                    <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
-                                  name="typeOfOperation" value="specify days" >
-                      <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
-                    </b-form-radio>
-                  </div>
-                </b-col>
-              </b-row>
-              <b-row v-if="typeOfOperation !== '24 hours'">
-                <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in allOperation"
-                       :key="operationKey">
+                <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
+                       :key="locationKey">
                   <b-row class="d-flex align-items-center">
-                    <b-col class="mb-3" md="4" >
-                      <main-select labelTitle='Operation Day (s)' :validate="'required'"
-                                   :name="`Operation Day ${operationKey + 1}`"  placeholder="Choose" :options="allDays"
-                                   :multiple="true"
-                                   label="value"
-                                   :reduce="data => data.key"
-                                   v-model="operation.days"></main-select>
+                    <b-col class="mb-2" md="3">
+                      <main-select labelTitle='Country' :validate="'required'"
+                                   :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
+                                   label="name"
+                                   :reduce="data=> data.id"
+                                   @change="getCityDependOnCountry(location.country_id)"
+                                   v-model="location.country_id"></main-select>
                     </b-col>
-                    <b-col class="mb-3" md="4">
-                      <input-form
-                          placeholder="00:00 AM"
-                          :validate="'required'"
-                          :name="`From ${operationKey + 1}`"
-                          :label="'From'"
-                          v-model="operation.from"
-                          type="time"
-                      />
+                    <b-col md="1">
+                      <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                                       color="warning">
+                        <span class="font-size-12 text-primary"> All </span>
+                      </b-form-checkbox>
                     </b-col>
-                    <b-col class="mb-3" md="4">
-                      <input-form
-                          placeholder="00:00 AM"
-                          :validate="'required'"
-                          :name="`To ${operationKey + 1}`"
-                          :label="'To'"
-                          v-model="operation.to"
-                          type="time"
-                      />
+                    <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
+                      <main-select labelTitle='Governorate' :validate="'required'"
+                                   :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
+                                   label="name"
+                                   :reduce="data=> data.id"
+                                   v-model="location.city_id"></main-select>
+                    </b-col>
+                    <b-col md="1"  v-if="location.availability_type !== 'all city'">
+                      <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
+                        <span class="font-size-12 text-primary"> All </span>
+                      </b-form-checkbox>
+                    </b-col>
+                    <b-col class="mb-2" md="4" v-if="location.availability_type !== 'all city'">
+                      <div v-if="location.availability_type !== 'all country'">
+                        <main-select labelTitle='Area' :validate="'required'"
+                                     :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
+                                     :multiple="true"
+                                     v-model="location.areas"></main-select>
+                      </div>
                     </b-col>
                   </b-row>
-                  <span class="text-danger deleteLabelButton cursor-pointer" @click="deleteOperationDay(operationKey)">Delete
-              </span>
-                </b-col>
-                <b-col md="12" class="mb-3">
-                  <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add another Operation Day
-                    (s)</span>
+                  <span class="text-danger deleteLabelButton cursor-pointer" v-if="!locationKey == 0"
+                        @click="deletezone(locationKey)">Delete
+                Zone
+            </span>
                 </b-col>
                 <b-col md="12">
-                  <p class="text-gray">Note: Specify working days & hours only, any day unspecified will automatically be set as
-                    “closed”.</p>
+                  <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
                 </b-col>
               </b-row>
             </div>
-            <div>
-              <main-select labelTitle='Account Type'
-                           :validate="'required'"
-                           :name="`account_type`"
-                           placeholder="Choose"
-                           :options="['Go', 'Flow', 'Pro', 'Shop', 'Camp']"
-                           v-model="service_types"></main-select>
-            </div>
             <b-row>
-              <b-col md="12" class="mt-3 d-flex justify-content-center">
-                <b-button class="container_button_blue slideNextArrow" type="submit" v-if="loadingActivation = true">
-                  Activate
-                </b-button>
-                <b-button class="container_button_blue slideNextArrow"  v-else>
-                  <spinner-loading text="Saving" />
-                </b-button>
+              <b-col  md="6" class="mb-1" v-for="(item, key) in phones" :key="key">
+                <b-form-group
+                    :label="`Contact Number ${key+1}`"
+                    :label-for="`Contact Number ${key+1}`"
+                    class="position-relative"
+                >
+            <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
+                  @click="deleteContact(key)">Delete
+            </span>
+                  <b-input-group>
+                    <validation-provider
+                        #default="{ errors }"
+                        :name="`Contact Number ${key + 1}`"
+                        :rules="'required'"
+                        class="flex-grow-1"
+                    >
+                      <b-form-input
+                          id="mm"
+                          v-model="item.number"
+                          :class="[{ 'is-invalid': errors.length > 0 }]"
+                          :placeholder="'Ex: 020454684'"
+                          :disabled="!item.type"
+                      />
+                    </validation-provider>
+                    <template #prepend>
+                      <b-dropdown
+                          :text="item.type ? item.type : 'Choose'"
+                          class="selectWithInput"
+                      >
+                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
+                          {{i}}
+                        </b-dropdown-item>
+                      </b-dropdown>
+                    </template>
+                  </b-input-group>
+                </b-form-group>
+              </b-col>
+              <b-col md="12" class="mb-3">
+                <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
               </b-col>
             </b-row>
-          </b-form>
-        </ValidationObserver>
-      </div>
+          </div>
+          <div class="mb-5">
+            <div class="border-bottom mb-2">
+              <h5 class="pb-2">Facility Operation Days and Hours</h5>
+            </div>
+            <b-row class="mb-5">
+              <b-col md="12">
+                <label class="mb-3">Operation</label>
+                <div>
+                  <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfOperation" color="warning"
+                                name="typeOfOperation" value="24 hours" >
+                    <span class="text-primary font-size-12">Open 24 Hours</span>
+                  </b-form-radio>
+                  <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
+                                name="typeOfOperation" value="specify days" >
+                    <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
+                  </b-form-radio>
+                </div>
+              </b-col>
+            </b-row>
+            <b-row v-if="typeOfOperation !== '24 hours'">
+              <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in allOperation"
+                     :key="operationKey">
+                <b-row class="d-flex align-items-center">
+                  <b-col class="mb-3" md="4" >
+                    <main-select labelTitle='Operation Day (s)' :validate="'required'"
+                                 :name="`Operation Day ${operationKey + 1}`"  placeholder="Choose" :options="allDays"
+                                 :multiple="true"
+                                 label="value"
+                                 :reduce="data => data.key"
+                                 v-model="operation.days"></main-select>
+                  </b-col>
+                  <b-col class="mb-3" md="4">
+                    <input-form
+                        placeholder="00:00 AM"
+                        :validate="'required'"
+                        :name="`From ${operationKey + 1}`"
+                        :label="'From'"
+                        v-model="operation.from"
+                        type="time"
+                    />
+                  </b-col>
+                  <b-col class="mb-3" md="4">
+                    <input-form
+                        placeholder="00:00 AM"
+                        :validate="'required'"
+                        :name="`To ${operationKey + 1}`"
+                        :label="'To'"
+                        v-model="operation.to"
+                        type="time"
+                    />
+                  </b-col>
+                </b-row>
+                <span class="text-danger deleteLabelButton cursor-pointer" @click="deleteOperationDay(operationKey)">Delete
+            </span>
+              </b-col>
+              <b-col md="12" class="mb-3">
+                <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add another Operation Day
+                  (s)</span>
+              </b-col>
+              <b-col md="12">
+                <p class="text-gray">Note: Specify working days & hours only, any day unspecified will automatically be set as
+                  “closed”.</p>
+              </b-col>
+            </b-row>
+          </div>
+          <div>
+            <main-select labelTitle='Account Type'
+                         :validate="'required'"
+                         :name="`account_type`"
+                         placeholder="Choose"
+                         :options="['Go', 'Flow', 'Pro', 'Shop', 'Camp']"
+                         v-model="service_types"></main-select>
+          </div>
+          <b-row>
+            <b-col md="12" class="mt-3 d-flex justify-content-center">
+              <b-button class="container_button_blue slideNextArrow" type="submit" v-if="loadingActivation = true">
+                Activate
+              </b-button>
+              <b-button class="container_button_blue slideNextArrow"  v-else>
+                <spinner-loading text="Saving" />
+              </b-button>
+            </b-col>
+          </b-row>
+        </b-form>
+      </ValidationObserver>
+    </div>
 </template>
 <script>
 // import { core } from '@/config/pluginInit'
@@ -560,16 +566,14 @@ export default {
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
-      remote: {
-        location: [
-          {
-            availability_type: null,
-            country_id: null,
-            city_id: null,
-            areas: []
-          }
-        ]
-      },
+      remote_locations: [
+        {
+          availability_type: null,
+          country_id: null,
+          city_id: null,
+          areas: []
+        }
+      ],
       phones: [
         {
           type: '',
@@ -730,23 +734,14 @@ export default {
     deleteContact (key) {
       this.phones.splice(key, 1)
     },
-    deleteRemoteContact (key) {
-      this.remote.phones.splice(key, 1)
-    },
     addNewContactNumber () {
       this.phones.push({
         type: '',
         number: ''
       })
     },
-    addNewRemoteContactNumber () {
-      this.remote.phones.push({
-        type: '',
-        number: ''
-      })
-    },
     addNewzone () {
-      this.remote.location.push({
+      this.remote_locations.push({
         availability_type: null,
         country_id: null,
         city_id: null,
@@ -754,7 +749,7 @@ export default {
       })
     },
     deletezone (key) {
-      this.remote.location.splice(key, 1)
+      this.remote_locations.splice(key, 1)
     },
     addNewOperation () {
       this.allOperation.push({
@@ -835,13 +830,13 @@ export default {
           this.allOperation = this.activationDetails.operations
         }
         if (this.activationDetails.location_type === 'address based') {
-          this.typeOfLocation = 'based'
+          this.typeOfLocation = 'address based'
           this.based = this.activationDetails.address_based
           this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
           this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
         } else {
-          this.typeOfLocation = 'specify days'
-          this.allOperation = this.activationDetails.operations
+          this.typeOfLocation = 'remote location'
+          this.remote_locations = this.activationDetails.remote_locations
         }
       }
     },
@@ -849,7 +844,7 @@ export default {
     saveChanges () {
       let location = {}
       let operation = {}
-      if (this.typeOfLocation === 'based') {
+      if (this.typeOfLocation === 'address based') {
         location = { phones: this.phones, address: this.based, location_type: 'address based' }
       } else {
         location = { phones: this.phones, ...this.remote, location_type: 'remote location' }

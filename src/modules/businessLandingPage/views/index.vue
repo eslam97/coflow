@@ -10,7 +10,7 @@
         </template>
         <template v-slot:body>
           <h2 class="gradient-blue-text text-center">Received</h2>
-          <p class="text-center text-primary">{{successBusinessRequest}}</p>
+          <p class="text-center text-primary p-4">{{successBusinessRequest}}</p>
           <div class="d-flex justify-content-center">
             <b-button class="container_button_blue m-auto" @click="$bvModal.hide('successModalMessage')">
               <span>Done</span>
@@ -80,7 +80,7 @@ export default {
     makeBusinessRequest (payload) {
       this.requestLoading = true
       registrationService.makeBusinessRequest(payload).then(res => {
-        this.successBusinessRequest = res.data.message
+        this.successBusinessRequest = 'Thank you for your interest in coflow, our team will contact you as soon as possible. '
         this.$bvModal.hide('businessRequestModal')
         this.$bvModal.show('successModalMessage')
       }).finally(() => {

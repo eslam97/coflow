@@ -14,11 +14,11 @@
               <label class="mb-3">Location</label>
               <div>
                 <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
-                              name="color" value="based" >
+                              name="color" value="based address" >
                   <span class="text-primary font-size-12">Address Based</span>
                 </b-form-radio>
                 <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
-                              name="color" value="remote" >
+                              name="color" value="remote location" >
                   <span class="text-primary font-size-12">Remote</span>
                 </b-form-radio>
               </div>
@@ -141,7 +141,7 @@
                   </p>
                 </div>
               </b-col>-->
-              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote.location"
+              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
                      :key="locationKey">
                 <b-row class="d-flex align-items-center">
                   <b-col class="mb-2" md="3">
@@ -222,7 +222,7 @@ export default {
   },
   data () {
     return {
-      typeOfLocation: 'based',
+      typeOfLocation: 'address based',
       based: {
         country_id: '',
         city_id: '',
@@ -237,22 +237,14 @@ export default {
           number: ''
         }
       ],
-      remote: {
-        location: [
-          {
-            availability_type: '',
-            country_id: null,
-            city_id: null,
-            areas: []
-          }
-        ],
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
-        ]
-      },
+      remote_locations: [
+        {
+          availability_type: '',
+          country_id: null,
+          city_id: null,
+          areas: []
+        }
+      ],
       allCountries: [],
       allGovernorates: [],
       allArea: [],
@@ -263,7 +255,7 @@ export default {
   methods: {
     saveFacilityLocation () {
       this.loadingFacilityLocation = true
-      if (this.typeOfLocation === 'based') {
+      if (this.typeOfLocation === 'address based') {
         registrationServices.saveStepLocationBased({ ...this.based, phones: this.phones }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
@@ -306,7 +298,7 @@ export default {
       })
     },
     addNewzone () {
-      this.remote.location.push({
+      this.remote_locations.push({
         availability_type: '',
         country_id: '',
         city_id: '',
@@ -314,7 +306,7 @@ export default {
       })
     },
     deletezone (key) {
-      this.remote.location.splice(key, 1)
+      this.remote_locations.splice(key, 1)
     },
     getAllCountries () {
       settingsService.getAllCountries().then(res => {

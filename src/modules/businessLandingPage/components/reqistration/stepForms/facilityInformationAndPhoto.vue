@@ -27,7 +27,7 @@
             <b-col class="mb-3" md="2">
               <input-form
                   placeholder="Ex: 2022"
-                  :validate="'required|numeric'"
+                  :validate="`required|numeric|digits:4|between:1970,${new Date().getFullYear()}`"
                   :name="`year`"
                   :label="'Launch Year'"
                   v-model="info.year"
@@ -40,6 +40,7 @@
                   :name="`name`"
                   :label="'Facility Name'"
                   v-model="info.name"
+                  :limit="20"
               />
             </b-col>
           </b-row>
@@ -51,6 +52,7 @@
                   :name="`title`"
                   :label="'Facility Title'"
                   v-model="info.title"
+                  :limit="35"
               />
             </b-col>
             <b-col class="mb-3" md="6">
@@ -117,7 +119,7 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`URL Link ${key + 1}`"
-                      :rules="'required'"
+                      :rules="'required|regex:www.*.com'"
                       class="flex-grow-1"
                   >
                     <b-form-input

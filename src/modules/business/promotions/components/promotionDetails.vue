@@ -96,21 +96,14 @@
                 label="Start date"
                 label-for="Start date"
             >
-              <validation-provider
-                  #default="{ errors }"
-                  name="Start date"
-                  :rules="'required'"
-              >
-                <flatPickr
-                    :config="{
-                          minDate: 'today'
-                        }"
-                    :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
-                    v-model="info.start_date"
-                    placeholder="start date"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <flatPickr
+                  :config="{
+                        minDate: 'today'
+                      }"
+                  :class="['form-control bg-white']"
+                  v-model="info.start_date"
+                  placeholder="Start date"
+              />
             </b-form-group>
           </b-col>
           <b-col md="3" class="mb-3">
@@ -118,21 +111,13 @@
                 label="End date"
                 label-for="End date"
             >
-              <validation-provider
-                  #default="{ errors }"
-                  name="End Date"
-                  :rules="'required'"
-              >
-                <flatPickr
-                    :config="{
-                          minDate: 'today'
-                        }"
-                    :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
-                    v-model="info.end_date"
-                    placeholder="end date"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
+              <flatPickr
+                  :config="{
+                    minDate: info ? info.start_date : ''}"
+                  :class="['form-control bg-white']"
+                  v-model="info.end_date"
+                  placeholder="End date"
+              />
             </b-form-group>
           </b-col>
         </b-row>

@@ -180,21 +180,31 @@
                     Use this section to update your contact and location information</p>
                 </b-card-header>
                 <b-card-body>
-                  <b-row v-if="typeOfLocation === 'based'" class="mb-4">
+                  <b-row v-if="typeOfLocation === 'address based'" class="mb-4">
                     <b-col md="3">
-                      {{ formattedBasedLocation }}
+                      {{based.address}},
+                       {{allAreas.find(area => area.id === based.area_id).name}},
+                       {{allGovernorates.find(city => city.id === based.city_id).name}},
+                       {{allCountries.find(country => country.id === based.country_id).name}}
                     </b-col>
                     <b-col md="9">
                       {{ based.location }}
                     </b-col>
-                    <b-col md="12">
-                      <span class="text-warning cursor-pointer" @click="requestAddressChange">
-                        Request to Edit or change Address</span>
-                    </b-col>
                   </b-row>
                   <b-row v-else class="mb-4">
                     <b-col>
-                      {{ formattedRemoteLocation }}
+                      <ul>
+                        <li v-for="(location,key) in remote_locations" :key="key">
+                          {{ allAreas.filter(area => area.id === location.area_id).name }},
+                           {{ allGovernorates.filter(city => city.id === location.city_id).name }},
+                           {{ allCountries.filter(country => country.id === location.country_id).name }}
+                        </li>
+                      </ul>
+                    </b-col>
+                  </b-row>
+                  <b-row class="mb-4">
+                    <b-col md="12">
+                      <span>Note: To edit Address/Location please contact coflow personnel</span>
                     </b-col>
                   </b-row>
                   <b-row class="mb-4">
@@ -412,16 +422,14 @@ export default {
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
-      remote_locations: {
-        location: [
-          {
-            availability_type: null,
-            country_id: null,
-            city_id: null,
-            areas: []
-          }
-        ]
-      },
+      remote_locations: [
+        {
+          availability_type: 'open',
+          country_id: null,
+          city_id: null,
+          areas: []
+        }
+      ],
       phones: [
         {
           type: '',
@@ -471,6 +479,9 @@ export default {
       allLanguages: [],
       allLinks: [],
       allAmenities: [],
+      allCountries: [],
+      allGovernorates: [],
+      allAreas: [],
       formattedLocation: '',
       photoToEdit: {}
     }
@@ -586,7 +597,7 @@ export default {
     },
     addNewzone () {
       this.remote.location.push({
-        availability_type: null,
+        availability_type: 'open',
         country_id: null,
         city_id: null,
         areas: []
@@ -630,13 +641,27 @@ export default {
         this.allAmenities = res.data.data
       })
     },
+    getAllCountries () {
+      settingsService.getAllCountries().then(res => {
+        this.allCountries = res.data.data
+        settingsService.getAllCities().then(res => {
+          this.allGovernorates = res.data.data.data
+          settingsService.getAllAreas().then(res => {
+            this.allAreas = res.data.data.data
+          })
+        })
+      })
+    },
     formatLocation () {
-      if (this.profile.location_type === 'remote location') {
-        this.formattedLocation = `${this.based.address},
-                                      ${this.area},
-                                      ${this.city},
-                                      ${this.country}`
-      }
+      // if (this.typeOfLocation === 'address based') {
+      //   return ``
+      // } else {
+      //   return `${this.remote_locations.forEach(location => {
+      //     this.allAreas.filter(area => area.id === this.area)
+      //     this.allGovernorates.filter(city => city.id === this.city)
+      //     this.allCountries.filter(country => country.id === this.country)
+      //   })}`
+      // }
     },
     fillData () {
       if (this.oldProfile) {
@@ -664,16 +689,14 @@ export default {
           this.allOperation = this.oldProfile.operations
         }
         if (this.oldProfile.location_type === 'address based') {
-          this.typeOfLocation = 'based'
+          this.typeOfLocation = 'address based'
           this.based = this.oldProfile.address_based
-          this.city = this.oldProfile.city.name
-          this.country = this.oldProfile.country.name
-          this.area = this.oldProfile.area.name
-          this.formatBasedLocation()
+          this.city = this.oldProfile.city
+          this.country = this.oldProfile.country
+          this.area = this.oldProfile.area
         } else {
-          this.typeOfLocation = 'remote'
+          this.typeOfLocation = 'remote location'
           this.remote = this.oldProfile.remote
-          this.formatRemoteLocation()
         }
         this.loading = false
       }
@@ -688,7 +711,7 @@ export default {
     },
     saveChangesPhone () {
       let location = {}
-      if (this.typeOfLocation === 'based') {
+      if (this.typeOfLocation === 'address based') {
         location = { phones: this.phones, ...this.based, location_type: 'address based' }
         console.log(location)
       } else {
@@ -722,7 +745,6 @@ export default {
       this.allOperation[0].from = ''
       this.allOperation[0].to = ''
     },
-    requestAddressChange () {},
     // photos handlers
     openPhotoView (type) {
       this.photoToEdit.type = type
@@ -737,14 +759,15 @@ export default {
     }
   },
   mounted () {
-    this.fillData()
   },
   created () {
+    this.getAllCountries()
     this.getAllActivityLine()
     this.getAllActivityType()
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
+    this.fillData()
   }
 }
 </script>

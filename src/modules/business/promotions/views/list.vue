@@ -161,7 +161,7 @@ export default {
       },
       columns: [
         { label: 'Promotion Type', key: 'promotion_type', class: 'text-left' },
-        { label: 'Offer', key: 'offer_title', class: 'text-left' },
+        { label: 'Offer Title', key: 'offer_title', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
         { label: 'Description', key: 'description', class: 'text-left' },

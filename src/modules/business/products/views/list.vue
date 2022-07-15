@@ -109,7 +109,12 @@
               <div class="w-50 pt-3 py-3 pl-2 pr-1 border-actions">
                 <p class="text-primary font-weight-bold font-size-12 mb-2">Product Status:</p>
                 <div class="d-flex justify-content-between align-items-top">
-                  <span class="text-info font-weight-bold font-size-12 font-weight-bold">Available</span>
+                  <span v-if="item.available" class="text-info font-weight-bold font-size-12 font-weight-bold">
+                    Available
+                  </span>
+                  <span v-else class="text-danger font-weight-bold font-size-12 font-weight-bold">
+                    Sold out
+                  </span>
                   <div
                       class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                     <div class="custom-switch-inner">

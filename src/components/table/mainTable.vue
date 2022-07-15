@@ -88,13 +88,28 @@
           <div v-else-if="field.type == 'multi-currency'">
             <ul class="p-0">
               <li v-for="(arrKey, key) in field.key.split(',')" :key="key">
-                <span v-if="$_.get(data.item, arrKey) > 0">
-                  <span v-if="arrKey.includes('egp')">EGP </span>
-                  <span v-else-if="arrKey.includes('euro')">€ </span>
-                  <span v-else-if="arrKey.includes('dollar')">$ </span>
-                  {{ $_.get(data.item, arrKey) }}
-                </span>
-                <span v-else>N/A</span>
+<!--                <span v-if="$_.get(data.item, arrKey) > 0">-->
+                  <span v-if="arrKey.includes('egp')">
+                    <span v-if="$_.get(data.item, arrKey)">EGP {{ $_.get(data.item, arrKey) }}</span>
+                    <span v-else>N/A</span>
+                  </span>
+                  <span v-else-if="arrKey.includes('euro')">
+                    <span v-if="$_.get(data.item, 'price_euro')">
+                      <span v-if="arrKey.includes('discount')&& !$_.get(data.item, arrKey)">
+                        N/A
+                      </span>
+                      <span v-else>€ {{ $_.get(data.item, arrKey) }}</span>
+                    </span>
+                  </span>
+                <span v-else-if="arrKey.includes('dollar')">
+                    <span v-if="$_.get(data.item, 'price_dollar')">
+                      <span v-if="arrKey.includes('discount')&& !$_.get(data.item, arrKey)">
+                        N/A
+                      </span>
+                      <span v-else>$ {{ $_.get(data.item, arrKey) }}</span>
+                    </span>
+                  </span>
+<!--                </span>-->
               </li>
             </ul>
           </div>

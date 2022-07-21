@@ -47,7 +47,6 @@ export default {
       requestLoading: false,
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
-        { label: 'Country', key: 'country.name', class: 'text-left' },
         { label: 'Governorate', key: 'city.name', class: 'text-left' },
         { label: 'Area', key: 'area.id', class: 'text-left' },
         { label: 'Landmark Name', key: 'name', class: 'text-left' },

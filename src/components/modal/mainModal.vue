@@ -12,7 +12,7 @@
       no-close-on-esc
   >
     <template #modal-header="{ close }">
-      <div class="py-2 d-flex justify-content-between align-items-center w-100">
+      <div class="py-2 d-flex justify-content-between align-items-center w-100 p-3">
         <slot name="header"></slot>
         <div class="d-flex justify-content-end">
           <slot name="actions" class=""></slot>
@@ -23,7 +23,7 @@
     </template>
     <slot name="borderHeader"></slot>
     <div :class="{'p-4': !border}">
-      <slot name="body"></slot>
+      <slot name="body" ></slot>
     </div>
   </b-modal>
 </template>

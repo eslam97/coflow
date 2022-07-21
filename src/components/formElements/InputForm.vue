@@ -17,7 +17,11 @@
         :placeholder="placeholder"
         @input="$emit('input', $event.target.value)"
       >
-      <small class="text-danger">{{ errors[0] }}</small>
+      <div class="d-flex justify-content-between">
+        <small class="text-danger">{{ errors[0] }}</small>
+        <small v-if="limit" :class="[{ 'text-danger': value.length > limit }]">
+          {{ (limit > value.length) ? limit - value.length : 0 }} characters</small>
+      </div>
     </validation-provider>
   </b-form-group>
 </template>
@@ -52,6 +56,9 @@ export default {
       type: String
     },
     disabled: {
+      default: false
+    },
+    limit: {
       default: false
     }
   },

@@ -2,8 +2,8 @@
   <div>
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(saveProfile)">
-        <div v-if="profileDetails">
-          <b-alert show variant="warning">
+        <div>
+          <b-alert show variant="warning" v-if="profileDetails">
             <span class="text-bold">Password : </span> {{profileDetails.password_text}}
           </b-alert>
           <b-row>

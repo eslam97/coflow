@@ -1,9 +1,26 @@
 <template>
   <b-container fluid>
-    <main-modal id="productDetailsModal" size="lg">
+    <main-modal id="productDetailsModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Product</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Product</h4>
+      </template>
+      <template v-slot:actions v-if="typeOfModal == 'edit'">
+        <div class="modal-embed-actions">
+          <div class="d-flex justify-content-between">
+            <span class="text-info font-weight-bold font-size-12 mr-3">Active</span>
+            <div
+                class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+              <div class="custom-switch-inner">
+                <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
+                       @change="changeStatus(productDetailsInfo.id, productDetailsInfo.status)"
+                       v-model="productDetailsInfo.status">
+                <label class="custom-control-label" :for="'status'">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
       </template>
       <template v-slot:body>
         <product-details
@@ -15,13 +32,13 @@
         />
       </template>
     </main-modal>
-    <main-modal id="productDetailsViewModal" size="lg">
+    <main-modal id="productDetailsViewModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Product</h4>
       </template>
       <template v-slot:borderHeader>
-        <p class="p-4 borderHeaderModal">
-          {{productDetailsInfo.name}}
+        <p class="p-4 pl-5 borderHeaderModal">
+          <span class="font-size-22">{{productDetailsInfo.name}}</span><br/>{{productDetailsInfo.title}}
         </p>
       </template>
       <template v-slot:body>
@@ -55,10 +72,10 @@
                 <Swiper :id="`post-slider-${key}`"  :options="swiperOptions" :pagination="true">
                   <swiperSlide v-for="(image, key1) in item.images" :key="key1">
                     <section :style="{
-              'background-size': 'cover',
-              'background-image':
-           'url(' + image.image + ')' }"
-                             class="w-100 h-170px pt-5 px-4 pb-2 position-relative iq-border-radius-10">
+                      'background-size': 'cover',
+                      'background-image':
+                      'url(' + image.image + ')' }"
+                       class="w-100 h-170px pt-5 px-4 pb-2 position-relative iq-border-radius-10">
                     </section>
                   </swiperSlide>
                 </Swiper>
@@ -72,13 +89,17 @@
                       item.description.substring(0,35)
                       + '...' : item.description }}</p>
                 </div>
-                <div class="d-flex justify-content-between align-items-start">
+                <div v-if="item.discount_price_egp" class="d-flex justify-content-between align-items-start">
+                  <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.discount_price_egp }}</p>
+                  <p class="font-size-16 text-danger text-decoration-line-through">
+                    EGP {{ item.price_egp }}</p>
+                </div>
+                <div v-else>
                   <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.price_egp }}</p>
-                  <p class="font-size-16 text-danger text-decoration-line-through" v-if="item.discount_price_egp">
-                    EGP {{ item.discount_price_egp }}</p>
                 </div>
               </div>
             </div>
+            <div v-if="item.status === 'inactive' || !item.status" class="inactive-overlay"></div>
             <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
               <div class="d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
                 <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
@@ -88,7 +109,12 @@
               <div class="w-50 pt-3 py-3 pl-2 pr-1 border-actions">
                 <p class="text-primary font-weight-bold font-size-12 mb-2">Product Status:</p>
                 <div class="d-flex justify-content-between align-items-top">
-                  <span class="text-info font-weight-bold font-size-12 font-weight-bold">Available</span>
+                  <span v-if="item.available" class="text-info font-weight-bold font-size-12 font-weight-bold">
+                    Available
+                  </span>
+                  <span v-else class="text-danger font-weight-bold font-size-12 font-weight-bold">
+                    Sold out
+                  </span>
                   <div
                       class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                     <div class="custom-switch-inner">
@@ -118,6 +144,7 @@ import ProductDetails from '@/modules/business/products/components/productDetail
 import ProductDetailsView from '@/modules/business/products/components/productView'
 import productsServices from '@/modules/business/products/services/products.services'
 import EventBus from '@/eventBus'
+import mainService from '@/services/main'
 
 export default {
   components: { ProductDetails, ProductDetailsView },
@@ -189,6 +216,7 @@ export default {
     viewProductToEdit (item) {
       this.typeOfModal = 'edit'
       this.productDetailsInfo = item
+      this.productDetailsInfo.status = this.productDetailsInfo.status === 'active'
       this.$bvModal.show('productDetailsModal')
     },
     editProduct (data) {
@@ -212,6 +240,19 @@ export default {
         this.getAllProducts()
       }).finally(() => {
         this.requestLoading = false
+      })
+    },
+    changeStatus (id, status) {
+      const obj = {
+        product_id: id,
+        status: status ? 'active' : 'inactive',
+        type: 'product'
+      }
+      mainService.changeStatus(obj).then(res => {
+        this.getAllProducts()
+        core.showSnackbar('success', res.data.message)
+      }).catch(() => {
+        this.productDetailsInfo = !status
       })
     }
   },

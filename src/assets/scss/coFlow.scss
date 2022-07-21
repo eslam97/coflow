@@ -514,9 +514,11 @@ form legend {
 }
 
 .modal-body {
-  padding: 0 !important;
+  padding: 0px !important;
 }
-
+.modal-content {
+  border-radius: 16px !important;
+}
 .borderHeaderModal {
   border-bottom: 1px solid #dee2e6;
   font-weight: bold;
@@ -638,4 +640,14 @@ form legend {
 }
 .las.la-infinity{
   transform: rotate(90deg) !important;
+}
+.inactive-overlay {
+  background-color: rgba(#fff, 0.7);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  //opacity: 0.92;
+  width: 100%;
+  height: 300px;
+  z-index: 120;
 }

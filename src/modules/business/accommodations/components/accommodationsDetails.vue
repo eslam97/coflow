@@ -12,6 +12,7 @@
                   :validate="'required'"
                   name="Accommodation name"
                   :label="'Accommodation Name'"
+                  :limit="50"
                 />
               </b-col>
               <b-col md="6" class="mb-3">
@@ -31,47 +32,56 @@
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Price'"
-                    ><b-input-group append="EGP">
-                      <b-form-input
+                  ><b-input-group append="EGP">
+                    <b-form-input
                         v-model="accommodations.price_egp"
                         placeholder="000.00"
-                        :validate="'required'"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                      /> </b-input-group
-                  ></b-form-group>
+                        :class="[{ 'is-invalid': errors.length > 0 }]"/>
+                  </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
                 <b-form-checkbox
-                  type="checkbox"
-                  v-model="selectedEGP"
-                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                  color="warning"
-                  >
-                    Discounted Price
+                    type="checkbox"
+                    v-model="selectedEGP"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
                 </b-form-checkbox>
               </b-col>
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'numeric'"
+                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${accommodations.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
-                    ><b-input-group append="EGP">
-                      <b-form-input
+                  ><b-input-group append="EGP">
+                    <b-form-input
                         v-model="accommodations.discount_price_egp"
                         placeholder="000.00"
-                        :validate="selectedEGP ? 'required': ''"
                         :disabled="!selectedEGP"
-                        :class="[{ 'is-invalid': errors.length > 0 && selectedEGP   }]"
-                      /> </b-input-group
-                  ></b-form-group>
+                        :class="[{ 'is-invalid': errors.length > 0}]"
+                    /></b-input-group>
+                    <small class="text-danger" v-if="!accommodations.discount_price_egp">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(accommodations.discount_price_egp) > Number(accommodations.price_egp)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
             <b-row>
+              <b-col md="4" class="mb-3">
+                <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
+                             v-model="foreignerPrice"></main-select>
+              </b-col>
+            </b-row>
+            <b-row v-if="foreignerPrice === 'Euro'">
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
@@ -80,42 +90,100 @@
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
-                    ><b-input-group append="EUR">
-                      <b-form-input
+                  ><b-input-group append="EUR">
+                    <b-form-input
                         v-model="accommodations.price_euro"
                         placeholder="000.00"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
-                      /> </b-input-group
-                  ></b-form-group>
+                    /> </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5  pt-4 mt-3 text-center">
                 <b-form-checkbox
-                  type="checkbox"
-                  v-model="selectedEUR"
-                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                  color="warning"
-                  >
-                    Discounted Price
+                    type="checkbox"
+                    v-model="selectedEUR"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
                 </b-form-checkbox>
               </b-col>
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="'numeric'"
+                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${accommodations.price_euro}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
                   ><b-input-group append="EUR">
                     <b-form-input
-                      v-model="accommodations.discount_price_euro"
-                      placeholder="000.00"
-                      :validate="selectedEUR ? 'required': ''"
-                      :disabled="!selectedEUR"
-                      :class="[{ 'is-invalid': errors.length > 0 && selectedEUR }]"
-                    /> </b-input-group
-                ></b-form-group>
+                        v-model="accommodations.discount_price_euro"
+                        placeholder="000.00"
+                        :disabled="!selectedEUR"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group>
+                    <small class="text-danger" v-if="!accommodations.discount_price_euro">{{ errors[0] }}</small>
+                    <small class="text-danger"
+                           v-if="Number(accommodations.discount_price_euro) > Number(accommodations.price_uro)">
+                      More than price
+                    </small>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
+            <b-row v-else-if="foreignerPrice === 'Dollar'">
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Dollar price`"
+                    :rules="'numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Foreigner Price'"
+                  ><b-input-group append="$">
+                    <b-form-input
+                        v-model="accommodations.price_dollar"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
+                <b-form-checkbox
+                    type="checkbox"
+                    v-model="selectedDollar"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted Dollar price`"
+                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${accommodations.price_dollar}`"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="$">
+                    <b-form-input
+                        v-model="accommodations.discount_price_dollar"
+                        placeholder="000.00"
+                        :disabled="!selectedDollar"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
+                    /></b-input-group>
+                    <small class="text-danger" v-if="!accommodations.discount_price_dollar">{{ errors[0] }}</small>
+                    <small class="text-danger"
+                           v-if="Number(accommodations.discount_price_dollar) > Number(accommodations.price_dollar)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
@@ -238,17 +306,20 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: '',
-        price_dollar: 0,
-        discount_price_egp: '',
-        discount_price_euro: '',
+        price_euro: '0',
+        price_dollar: '0',
+        discount_price_egp: null,
+        discount_price_euro: null,
+        discount_price_dollar: null,
         status: 'active',
         images: [],
         amenities: '',
         accommodation_type_id: ''
       },
+      foreignerPrice: 'None',
       selectedEGP: '',
       selectedEUR: '',
+      selectedDollar: '',
       allAccommodationsTypes: [],
       loadingGallery: 0,
       progressBar: 0,
@@ -264,6 +335,20 @@ export default {
       // if discount isn't checked, discounted field should be emptied
       this.accommodations.discount_price_egp = this.selectedEGP ? this.accommodations.discount_price_egp : ''
       this.accommodations.discount_price_euro = this.selectedEUR ? this.accommodations.discount_price_euro : ''
+      this.accommodations.discount_price_dollar = this.selectedDollar ? this.accommodations.discount_price_dollar : ''
+      // empty non selected currency
+      if (this.foreignerPrice === 'None') {
+        this.accommodations.price_euro = 0
+        this.accommodations.discount_price_euro = 0
+        this.accommodations.price_dollar = 0
+        this.accommodations.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Euro') {
+        this.accommodations.price_dollar = 0
+        this.accommodations.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Dollar') {
+        this.accommodations.price_euro = 0
+        this.accommodations.discount_price_euro = 0
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addAccommodation', { ...this.accommodations, images: this.accommodations.images.map(data => data.id) })
       } else {
@@ -314,12 +399,6 @@ export default {
   created () {
     this.getAllAccommodationsTypes()
     if (this.accommodationsDetails) {
-      if (this.accommodationsDetails.discount_price_egp) {
-        this.selectedEGP = true
-      }
-      if (this.accommodationsDetails.discount_price_euro) {
-        this.selectedEUR = true
-      }
       this.accommodations = {
         name: this.accommodationsDetails.name,
         requirements: this.accommodationsDetails.requirements,
@@ -330,10 +409,26 @@ export default {
         price_dollar: this.accommodationsDetails.price_dollar ? this.accommodationsDetails.price_dollar : '',
         discount_price_egp: this.accommodationsDetails.discount_price_egp,
         discount_price_euro: this.accommodationsDetails.discount_price_euro,
+        discount_price_dollar: this.accommodationsDetails.discount_price_dollar,
         status: this.accommodationsDetails.status,
         images: this.accommodationsDetails.images,
         amenities: this.accommodationsDetails.amenities,
         accommodation_type_id: this.accommodationsDetails.accommodation_type_id
+      }
+      if (this.accommodations.price_euro) {
+        this.foreignerPrice = 'Euro'
+      }
+      if (this.accommodations.price_dollar) {
+        this.foreignerPrice = 'Dollar'
+      }
+      if (this.accommodationsDetails.discount_price_egp) {
+        this.selectedEGP = true
+      }
+      if (this.accommodationsDetails.discount_price_euro) {
+        this.selectedEUR = true
+      }
+      if (this.accommodationsDetails.discount_price_dollar) {
+        this.selectedDollar = true
       }
     }
   }

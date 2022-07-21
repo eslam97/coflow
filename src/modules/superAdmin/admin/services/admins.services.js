@@ -17,7 +17,7 @@ export default {
     return Api().post('roles', payload)
   },
   saveAdmin (payload) {
-    return Api().post('admins', payload)
+    return Api().post('change-password', payload)
   },
   getAdminInfo (id) {
     return Api().get(`admins/${id}`)

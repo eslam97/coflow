@@ -11,6 +11,7 @@
                 :validate="'required'"
                 name="Flow name"
                 :label="'Flow Name'"
+                :limit="50"
               />
             </b-col></b-row>
             <b-row><b-col md="12" class="mb-3">
@@ -20,6 +21,7 @@
                 :validate="'required'"
                 name="Flow requirements"
                 :label="'Requirements'"
+                limit="25"
               />
             </b-col></b-row>
             <b-row>
@@ -36,16 +38,15 @@
                             v-model="flows.price_egp"
                             placeholder="000.00"
                             :class="[{ 'is-invalid': errors.length > 0 }]"/>
-                  </b-input-group
-                  ></b-form-group>
+                  </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4">
+              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
                 <b-form-checkbox
                   type="checkbox"
-                  id="checkbox"
-                  v-model="selected"
-                  label="Discounted Price"
+                  v-model="selectedEGP"
                   class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
                   color="warning"
                   >
@@ -56,7 +57,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="'numeric'"
+                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${flows.price_egp}`"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -64,11 +65,124 @@
                       <b-form-input
                         v-model="flows.discount_price_egp"
                         placeholder="000.00"
-                        :disabled="!selected"
-                        :validate="selected ? 'required': ''"
+                        :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0}]"
-                      /> </b-input-group
-                  ></b-form-group>
+                      /> </b-input-group>
+                    <small class="text-danger" v-if="!flows.discount_price_egp">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(flows.discount_price_egp) > Number(flows.price_egp)">
+                      More than price
+                    </small>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="4" class="mb-3">
+                <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
+                             v-model="foreignerPrice"></main-select>
+              </b-col>
+            </b-row>
+            <b-row v-if="foreignerPrice === 'Euro'">
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`EURO price`"
+                    :rules="'numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Foreigner Price'"
+                  ><b-input-group append="EUR">
+                    <b-form-input
+                        v-model="flows.price_euro"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /></b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+              <b-col md="4" class="mb-5  pt-4 mt-3 text-center">
+                <b-form-checkbox
+                    type="checkbox"
+                    v-model="selectedEUR"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted EURO price`"
+                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${flows.price_euro}`"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="EUR">
+                    <b-form-input
+                        v-model="flows.discount_price_euro"
+                        placeholder="000.00"
+                        :disabled="!selectedEUR"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group>
+                    <small class="text-danger" v-if="!flows.discount_price_euro">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(flows.discount_price_euro) > Number(flows.price_euro)">
+                      More than price
+                    </small>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+            </b-row>
+            <b-row v-else-if="foreignerPrice === 'Dollar'">
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Dollar price`"
+                    :rules="'numeric'"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Foreigner Price'"
+                  ><b-input-group append="$">
+                    <b-form-input
+                        v-model="flows.price_dollar"
+                        placeholder="000.00"
+                        :class="[{ 'is-invalid': errors.length > 0 }]"
+                    /> </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-form-group>
+                </validation-provider>
+              </b-col>
+              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
+                <b-form-checkbox
+                    type="checkbox"
+                    v-model="selectedDollar"
+                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                    color="warning"
+                >
+                  Discounted Price
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3">
+                <validation-provider
+                    #default="{ errors }"
+                    :name="`Discounted Dollar price`"
+                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${flows.price_dollar}`"
+                    class="flex-grow-1"
+                >
+                  <b-form-group :label="'Discounted Price'"
+                  ><b-input-group append="$">
+                    <b-form-input
+                        v-model="flows.discount_price_dollar"
+                        placeholder="000.00"
+                        :disabled="!selectedDollar"
+                        :class="[{ 'is-invalid': errors.length > 0}]"
+                    /> </b-input-group>
+                    <small class="text-danger" v-if="!flows.discount_price_dollar">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(flows.discount_price_dollar) > Number(flows.price_dollar)">
+                      More than price
+                    </small>
+                  </b-form-group>
                 </validation-provider>
               </b-col>
             </b-row>
@@ -214,9 +328,11 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: 0,
-        price_dollar: 0,
-        discount_price_egp: '',
+        price_euro: '0',
+        price_dollar: '0',
+        discount_price_egp: null,
+        discount_price_euro: null,
+        discount_price_dollar: null,
         status: 'active',
         images: [],
         instructors: [{
@@ -225,7 +341,10 @@ export default {
         }],
         level: 'all'
       },
-      selected: '',
+      foreignerPrice: 'None',
+      selectedEGP: '',
+      selectedEUR: '',
+      selectedDollar: '',
       options: [
         { text: 'ALL LEVELS', value: 'all', color: 'blue' },
         { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
@@ -246,7 +365,22 @@ export default {
       this.flows.price_euro = this.flows.price_euro ? this.flows.price_euro : 0
       this.flows.price_dollar = this.flows.price_dollar ? this.flows.price_dollar : 0
       // if discount isn't checked, discounted field should be emptied
-      this.flows.discount_price_egp = this.selected ? this.flows.discount_price_egp : ''
+      this.flows.discount_price_egp = this.selectedEGP ? this.flows.discount_price_egp : ''
+      this.flows.discount_price_euro = this.selectedEUR ? this.flows.discount_price_euro : ''
+      this.flows.discount_price_dollar = this.selectedDollar ? this.flows.discount_price_dollar : ''
+      // empty non selected currency
+      if (this.foreignerPrice === 'None') {
+        this.flows.price_euro = 0
+        this.flows.discount_price_euro = 0
+        this.flows.price_dollar = 0
+        this.flows.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Euro') {
+        this.flows.price_dollar = 0
+        this.flows.discount_price_dollar = 0
+      } else if (this.foreignerPrice === 'Dollar') {
+        this.flows.price_euro = 0
+        this.flows.discount_price_euro = 0
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addFlows', { ...this.flows, images: this.flows.images.map(data => data.id) })
       } else {
@@ -306,9 +440,6 @@ export default {
   computed: {},
   created () {
     if (this.flowsDetails) {
-      if (this.flowsDetails.discount_price_egp) {
-        this.selected = true
-      }
       this.flows = {
         name: this.flowsDetails.name,
         requirements: this.flowsDetails.requirements,
@@ -318,10 +449,27 @@ export default {
         price_euro: this.flowsDetails.price_euro ? this.flowsDetails.price_euro : '',
         price_dollar: this.flowsDetails.price_dollar ? this.flowsDetails.price_dollar : '',
         discount_price_egp: this.flowsDetails.discount_price_egp,
+        discount_price_euro: this.flowsDetails.discount_price_euro,
+        discount_price_dollar: this.flowsDetails.discount_price_dollar,
         status: this.flowsDetails.status,
         images: this.flowsDetails.images,
         instructors: this.flowsDetails.instructors,
         level: this.flowsDetails.level
+      }
+      if (this.flows.price_euro) {
+        this.foreignerPrice = 'Euro'
+      }
+      if (this.flows.price_dollar) {
+        this.foreignerPrice = 'Dollar'
+      }
+      if (this.flowsDetails.discount_price_egp) {
+        this.selectedEGP = true
+      }
+      if (this.flowsDetails.discount_price_euro) {
+        this.selectedEUR = true
+      }
+      if (this.flowsDetails.discount_price_dollar) {
+        this.selectedDollar = true
       }
     }
   }

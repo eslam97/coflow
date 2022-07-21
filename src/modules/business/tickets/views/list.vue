@@ -63,8 +63,8 @@ export default {
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Ticket Name', key: 'name', class: 'text-left' },
         { label: 'Details', key: 'details', class: 'text-left' },
-        { label: 'Price EGP', key: 'price_egp', class: 'text-left', type: 'multi-value' },
-        { label: 'Discounted Price', key: 'discount_price_egp', class: 'text-left', type: 'multi-value' },
+        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
+        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Conditions', key: 'conditions', class: 'text-left' },
         {
           label: 'Change Status',

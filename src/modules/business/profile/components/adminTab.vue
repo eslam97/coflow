@@ -105,6 +105,8 @@
 </template>
 
 <script>
+import { core } from '@/config/pluginInit'
+
 export default {
   props: {
     oldProfile: {
@@ -116,10 +118,8 @@ export default {
       newPassword: '',
       confirmPassword: '',
       profile: {
-        name: '',
         email: '',
-        password: '',
-        role_id: ''
+        password: ''
       },
       contacts: [{
         name: '',
@@ -130,9 +130,17 @@ export default {
   },
   methods: {
     updateLoginCredential () {
-      if (this.newPassword === this.confirmPassword) {
-        this.profile.password = this.newPassword
-        this.$emit('updateLoginCredential', { ...this.profile, _method: 'post' })
+      if (this.newPassword && this.confirmPassword) {
+        if (this.newPassword === this.confirmPassword) {
+          this.newPassword = ''
+          this.confirmPassword = ''
+          this.$emit('updateLoginCredential', {
+            password: this.newPassword,
+            _method: 'post'
+          })
+        }
+      } else {
+        core.showSnackbar('error', 'New password and Confirm password can\'t be empty')
       }
     },
     updateContactInfo () {
@@ -160,9 +168,7 @@ export default {
   },
   created () {
     if (this.oldProfile) {
-      this.profile.name = this.oldProfile.name
       this.profile.email = this.oldProfile.email
-      this.profile.role_id = this.oldProfile.role_id
       this.contacts = this.oldProfile.contacts
     }
   }

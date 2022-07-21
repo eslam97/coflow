@@ -3,116 +3,126 @@
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(saveProduct)">
         <b-row>
-          <b-col md="6" class="mb-3">
-            <input-form
-                v-model="product.name"
-                placeholder="Ex: name"
-                :validate="'required'"
-                name="name"
-                :label="'Name'"
-            />
-          </b-col>
-          <b-col md="6" class="mb-3">
-            <input-form
-                v-model="product.title"
-                placeholder="Ex: title"
-                :validate="'required'"
-                name="title"
-                :label="'Title'"
-            />
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="4" class="mb-3" >
-            <b-form-group
-                :label="`price_egp`"
-                :label-for="`price_egp`"
-                class="position-relative"
-            >
-              <b-input-group append="EGP">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Price`"
-                    :rules="'required|numeric'"
-                    class="flex-grow-1"
+          <b-col md="6">
+            <b-row>
+              <b-col md="6" class="mb-3">
+                <input-form
+                    v-model="product.name"
+                    placeholder="Ex: name"
+                    :validate="'required'"
+                    name="name"
+                    :label="'Name'"
+                    :limit="25"
+                />
+              </b-col>
+              <b-col md="6" class="mb-3">
+                <input-form
+                    v-model="product.title"
+                    placeholder="Ex: title"
+                    :validate="'required'"
+                    name="title"
+                    :label="'Title'"
+                    :limit="20"
+                />
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="4" class="mb-3" >
+                <b-form-group
+                    :label="`Price`"
+                    :label-for="`Price`"
+                    class="position-relative"
                 >
-                  <b-form-input
-                      id="mm"
-                      v-model="product.price_egp"
-                      :class="[{ 'is-invalid': errors.length > 0 }]"
-                      :placeholder="'0.0'"
-                  />
-                </validation-provider>
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-          <b-col md="4" class="mb-3 d-flex justify-content-center align-items-center" >
-            <b-form-checkbox
-                type="checkbox"
-                v-model="selectedEGP"
-                id="checkbox"
-                label="Discounted Price"
-                class="custom-checkbox-color-check" color="warning">
-              <span class="text-secondary font-size-12">Discounted Price</span>
-            </b-form-checkbox>
-          </b-col>
-          <b-col md="4" class="mb-3" >
-            <b-form-group
-                :label="`Discounted price`"
-                :label-for="`Discounted price`"
-                class="position-relative"
-            >
-              <b-input-group append="EGP">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`price_egp`"
-                    :rules="'numeric'"
-                    class="flex-grow-1"
+                  <validation-provider
+                      #default="{ errors }"
+                      :name="`Price`"
+                      :rules="'required|numeric'"
+                      class="flex-grow-1"
+                  >
+                    <b-input-group append="EGP">
+                      <b-form-input
+                          v-model="product.price_egp"
+                          :class="[{ 'is-invalid': errors.length > 0 }]"
+                          :placeholder="'000.00'"
+                      />
+                    </b-input-group>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                </b-form-group>
+              </b-col>
+              <b-col md="4" class="mb-3 d-flex justify-content-center align-items-center pt-2" >
+                <b-form-checkbox
+                    type="checkbox"
+                    v-model="selectedEGP"
+                    class="custom-checkbox-color-check" color="warning">
+                  <span class="text-secondary font-size-12">Discounted Price</span>
+                </b-form-checkbox>
+              </b-col>
+              <b-col md="4" class="mb-3" >
+                <b-form-group
+                    :label="`Discounted price`"
+                    :label-for="`Discounted price`"
+                    class="position-relative"
                 >
-                  <b-form-input
-                      id="mm"
-                      v-model="product.discount_price_egp"
-                      :disabled="!selectedEGP"
-                      :class="[{ 'is-invalid': errors.length > 0 }]"
-                      :placeholder="'0.0'"
-                  />
-                </validation-provider>
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="12" class="mb-3">
-            <b-form-group
-                label="Description"
-                label-for="Description"
-            >
-              <ValidationProvider name="description" ref="Description" rules="required" v-slot="{ errors }">
-                <b-form-textarea
-                    placeholder="Description..."
-                    rows="2"
-                    v-model="product.description"
-                    :class="(errors.length >
+                  <validation-provider
+                      #default="{ errors }"
+                      :name="`price_egp`"
+                      :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${product.price_egp}`"
+                      class="flex-grow-1"
+                  >
+                    <b-input-group append="EGP">
+                      <b-form-input
+                          id="mm"
+                          v-model="product.discount_price_egp"
+                          :disabled="!selectedEGP"
+                          :class="[{ 'is-invalid': errors.length > 0 }]"
+                          :placeholder="'0.0'"
+                      />
+                    </b-input-group>
+                    <small class="text-danger" v-if="!product.discount_price_egp">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(product.discount_price_egp) > Number(product.price_egp)">
+                      More than price
+                    </small>
+                  </validation-provider>
+                </b-form-group>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col md="12" class="mb-3">
+                <b-form-group
+                    label="Description"
+                    label-for="Description"
+                >
+                  <ValidationProvider name="description" ref="Description" rules="required" v-slot="{ errors }">
+                    <b-form-textarea
+                        placeholder="Description..."
+                        rows="2"
+                        v-model="product.description"
+                        :class="(errors.length >
                              0 ? ' is-invalid' : '')"
-                ></b-form-textarea>
-                <div class="invalid-feedback">
-                  <span>{{ errors[0] }}</span>
-                </div>
-              </ValidationProvider>
-            </b-form-group>
+                    ></b-form-textarea>
+                    <div class="invalid-feedback">
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </b-form-group>
 
+              </b-col>
+            </b-row>
           </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <cropper-images
-                label="Upload Product Photos"
-                @cropper-save="saveGalleryImage"
-                @remove-image="removeGalleryImage"
-                :progressLoading="loadingGallery"
-                :removeLoadingUi="removeLoadingUi"
-                :images="allImages"
-            ></cropper-images>
+          <b-col md="6">
+            <b-row>
+              <b-col>
+                <cropper-images
+                    label="Upload Product Photos"
+                    @cropper-save="saveGalleryImage"
+                    @remove-image="removeGalleryImage"
+                    :progressLoading="loadingGallery"
+                    :removeLoadingUi="removeLoadingUi"
+                    :images="allImages"
+                ></cropper-images>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
         <b-row>

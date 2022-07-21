@@ -14,11 +14,11 @@
               <label class="mb-3">Location</label>
               <div>
                 <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
-                              name="color" value="based" >
+                              name="color" value="address based" >
                   <span class="text-primary font-size-12">Address Based</span>
                 </b-form-radio>
                 <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
-                              name="color" value="remote" >
+                              name="color" value="remote location" >
                   <span class="text-primary font-size-12">Remote</span>
                 </b-form-radio>
               </div>
@@ -66,7 +66,7 @@
               <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
             </b-col>
           </b-row>
-          <div v-if="typeOfLocation === 'based'">
+          <div v-if="typeOfLocation === 'address based'">
             <b-row>
               <b-col class="mb-3" md="2">
                 <main-select labelTitle='Country' :validate="'required'"
@@ -141,7 +141,7 @@
                   </p>
                 </div>
               </b-col>-->
-              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote.location"
+              <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
                      :key="locationKey">
                 <b-row class="d-flex align-items-center">
                   <b-col class="mb-2" md="3">
@@ -153,20 +153,21 @@
                                  v-model="location.country_id"></main-select>
                   </b-col>
                   <b-col md="1">
-                    <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                    <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check"
                                      color="warning">
                       <span class="font-size-12 text-primary"> All </span>
                     </b-form-checkbox>
                   </b-col>
-                  <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
+                  <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all country'">
                     <main-select labelTitle='Governorate' :validate="'required'"
                                  :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
                                  label="name"
                                  :reduce="data=> data.id"
                                  v-model="location.city_id"></main-select>
                   </b-col>
-                  <b-col md="1"  v-if="location.availability_type !== 'all city'">
-                    <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
+                  <b-col md="1"  v-if="location.availability_type !== 'all country'">
+                    <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                                     color="warning">
                       <span class="font-size-12 text-primary"> All </span>
                     </b-form-checkbox>
                   </b-col>
@@ -174,7 +175,7 @@
                     <div v-if="location.availability_type !== 'all country'">
                     <main-select labelTitle='Area' :validate="'required'"
                                  :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
-                                 :multiple="true"
+                                 :multiple="true" label="name" :reduce="data => data.id"
                                  v-model="location.areas"></main-select>
                     </div>
                   </b-col>
@@ -222,7 +223,7 @@ export default {
   },
   data () {
     return {
-      typeOfLocation: 'based',
+      typeOfLocation: 'address based',
       based: {
         country_id: '',
         city_id: '',
@@ -237,22 +238,14 @@ export default {
           number: ''
         }
       ],
-      remote: {
-        location: [
-          {
-            availability_type: '',
-            country_id: null,
-            city_id: null,
-            areas: []
-          }
-        ],
-        phones: [
-          {
-            type: '',
-            number: ''
-          }
-        ]
-      },
+      remote_locations: [
+        {
+          availability_type: 'open',
+          country_id: null,
+          city_id: null,
+          areas: []
+        }
+      ],
       allCountries: [],
       allGovernorates: [],
       allArea: [],
@@ -263,7 +256,7 @@ export default {
   methods: {
     saveFacilityLocation () {
       this.loadingFacilityLocation = true
-      if (this.typeOfLocation === 'based') {
+      if (this.typeOfLocation === 'address based') {
         registrationServices.saveStepLocationBased({ ...this.based, phones: this.phones }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
@@ -278,7 +271,10 @@ export default {
           this.loadingFacilityLocation = false
         })
       } else {
-        registrationServices.saveStepLocationRemote({ ...this.remote, phones: this.phones }).then(res => {
+        this.remote_locations.forEach(location => {
+          location.availability_type = !location.availability_type ? 'open' : location.availability_type
+        })
+        registrationServices.saveStepLocationRemote({ location: this.remote_locations, phones: this.phones }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
           localStorage.setItem('formStep', 4)
@@ -306,15 +302,17 @@ export default {
       })
     },
     addNewzone () {
-      this.remote.location.push({
-        availability_type: '',
+      console.log('add')
+      console.log(this.remote_locations)
+      this.remote_locations.push({
+        availability_type: 'open',
         country_id: '',
         city_id: '',
         areas: []
       })
     },
     deletezone (key) {
-      this.remote.location.splice(key, 1)
+      this.remote_locations.splice(key, 1)
     },
     getAllCountries () {
       settingsService.getAllCountries().then(res => {
@@ -353,7 +351,8 @@ export default {
             this.allArea = res.data.data
           })
         } else {
-          // Remote Errors
+          this.typeOfLocation = 'remote location'
+          this.remote_locations = this.providerInfo.remote_locations
         }
       }
     }

@@ -63,11 +63,11 @@
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                      :key="slotKey"
                      class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                     :class="(slot.status === 'inactive' || !slot.status)? 'slot-box-grey' : 'slot-box-red'"
+                     :class="(slot.status === 'active' || slot.status)? 'slot-box-red' : 'slot-box-grey'"
                       @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
-                    <li>{{ slot.from }} - {{ slot.to }}</li>
+                    <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
                     <li>{{ slot.flow.name }}</li>
                     <li>{{ slot.instructor }}</li>
                   </ul>
@@ -166,10 +166,10 @@ export default {
     showScheduleToEdit (obj) {
       this.typeOfModal = 'edit'
       this.scheduleDetailsFront = obj
+      console.log(this.scheduleDetailsFront)
       scheduleServices.getScheduleDetails(obj.id).then(res => {
         this.scheduleDetails = res.data.data
         this.scheduleDetails.slotId = obj.id
-        this.scheduleDetailsFront.status = this.scheduleDetailsFront.status === 'active'
         this.$bvModal.show('scheduleDetailsModal')
       })
     },
@@ -216,6 +216,16 @@ export default {
         this.getSchedule()
         core.showSnackbar('success', res.data.message)
       })
+    },
+    formatTime (time) {
+      time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time]
+      time.splice(4)
+      if (time.length > 1) {
+        time = time.slice(1)
+        time[5] = +time[0] < 12 ? ' AM' : ' PM'
+        time[0] = +time[0] % 12 || 12
+      }
+      return time.join('')
     }
   },
   created () {

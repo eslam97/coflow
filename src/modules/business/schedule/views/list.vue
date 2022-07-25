@@ -18,8 +18,8 @@
                   class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                 <div class="custom-switch-inner">
                   <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
-                         @change="changeStatus(scheduleDetailsFront.id, scheduleDetailsFront.status)"
-                         v-model="scheduleDetailsFront.status">
+                         @change="changeStatus(scheduleDetailsFront.id, scheduleDetailsFront.status_traker)"
+                         v-model="scheduleDetailsFront.status_traker">
                   <label class="custom-control-label" :for="'status'">
                   </label>
                 </div>
@@ -63,7 +63,8 @@
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                      :key="slotKey"
                      class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                     :class="(slot.status === 'active' || slot.status)? 'slot-box-red' : 'slot-box-grey'"
+                     :class="(slot.status === 'active' || slot.status === true)?
+                     `slot-box-${levels.find(l => l.value === slot.flow.level).color}` : 'slot-box-grey'"
                       @click="showScheduleToEdit(slot)">
                   <ul class="pl-0">
                     <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
@@ -166,7 +167,7 @@ export default {
     showScheduleToEdit (obj) {
       this.typeOfModal = 'edit'
       this.scheduleDetailsFront = obj
-      console.log(this.scheduleDetailsFront)
+      this.scheduleDetailsFront.status_traker = this.scheduleDetailsFront.status === 'active'
       scheduleServices.getScheduleDetails(obj.id).then(res => {
         this.scheduleDetails = res.data.data
         this.scheduleDetails.slotId = obj.id
@@ -204,15 +205,13 @@ export default {
       })
     },
     changeStatus (id, status) {
-      console.log(status)
       const obj = {
         schedule_id: id,
         status: status ? 'active' : 'inactive',
         type: 'schedule'
       }
-      console.log(obj)
       mainService.changeStatus(obj).then(res => {
-        this.slot.status = obj.status
+        this.scheduleDetailsFront.status = obj.status
         this.getSchedule()
         core.showSnackbar('success', res.data.message)
       })

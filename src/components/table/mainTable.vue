@@ -262,6 +262,12 @@ export default {
       }
       this.loadingTable = false
       this.reloadData = false
+      this.dimInactive()
+    },
+    dimInactive () {
+      this.listOfData.forEach(row => {
+        row._rowVariant = row.status === 'active' ? '' : 'secondary'
+      })
     },
     sortChanged (data) {
       this.$emit('sortChanged', data)
@@ -291,6 +297,13 @@ export default {
       return age
     }
   },
+  /* computed: {
+    listOfData () {
+      return this.items.map((item) => {
+        this.item._rowVariant = item.status === 'active' ? 'secondary' : ''
+      })
+    }
+  }, */
   mounted () {
     Bus.$on('reloadTableAfterDelete', ifReload => { this.reloadData = true })
   }

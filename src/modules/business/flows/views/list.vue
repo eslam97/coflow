@@ -71,7 +71,7 @@ export default {
         { label: 'Requirements', key: 'requirements', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Level', key: 'level', class: 'text-left' },
+        { label: 'Level', key: 'level_ex', class: 'text-left' },
         { label: 'Instructors', key: 'instructors', array_keys: ['first_name', 'last_name'], type: 'array', class: 'text-left' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {

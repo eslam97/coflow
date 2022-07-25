@@ -603,16 +603,25 @@ form legend {
 .slot-box {
   border:1px solid #efefef;
   height: 150px;
-  font-weight: bold;
+  font-weight: 800;
   font-size: 12px;
 }
 .slot-box-red {
-  color: red;
-  background-color: rgba(#ff0000, 0.07);
+  color: #da302b;
 }
-.slot-box-gre {
+slot-box-blue {
+  color: var(--iq-info);
+}
+slot-box-cyan {
+  color: var(--iq-cyan);
+}
+slot-box-orange {
+  color: var(--iq-amber);
+}
+.slot-box-grey {
   color: #555;
-  background-color: rgba(#ccc, 0.07);
+  opacity: 0.4;
+  background-color: rgba(#000, 0.2);
 }
 .schedule-card .card-body {
   padding: 0 !important;

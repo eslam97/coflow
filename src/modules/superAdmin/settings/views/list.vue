@@ -10,27 +10,27 @@
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'settings'}" exact>Profile</router-link>
         </li>
-        <li class="nav-item">
+<!--        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'activityLines'}" exact>Activity Lines</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'activityTypes'}" exact>Activity Types</router-link>
-        </li>
+        </li>-->
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'durationLists'}" exact>Duration List</router-link>
         </li>
-        <li class="nav-item">
+<!--        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'nationalities'}" exact>Nationalities</router-link>
-        </li>
+        </li>-->
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'amenities'}" exact>Amenities</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'accommodationTypes'}" exact>Accommodation Types</router-link>
         </li>
-        <li class="nav-item">
+<!--        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'links'}" exact>Links</router-link>
-        </li>
+        </li>-->
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'languages'}" exact>Languages</router-link>
         </li>
@@ -38,7 +38,7 @@
           <router-link class="nav-link" :to="{name:'countries'}" exact>Countries</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{name:'cities'}" exact>Cities</router-link>
+          <router-link class="nav-link" :to="{name:'cities'}" exact>Governorates</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'areas'}" exact>Areas</router-link>

@@ -3,8 +3,8 @@
     <main-modal id="scheduleDetailsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" >
-          <span class="text-warning">Set: </span> Flow Slots</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Manage: </span> FlowSlots</h4>
+          <span class="text-warning">Add: </span> Flow Slots</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> FlowSlots</h4>
       </template>
       <template v-slot:actions v-if="typeOfModal == 'edit'">
         <div class="d-flex">
@@ -43,7 +43,7 @@
         <h3>Schedule</h3>
         <div>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Manage Schedule<i class="las la-calendar ml-3"></i></b-button>
+            Add Schedule<i class="las la-calendar ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col md="12" class="mb-4 d-flex justify-content-center align-items-center">

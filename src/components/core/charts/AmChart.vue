@@ -27,6 +27,7 @@ export default {
     })
   },
   mounted () {
+    console.log(this.option)
     let chart
     switch (this.type) {
       case 'line':

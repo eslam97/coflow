@@ -176,6 +176,7 @@ export default {
   },
   created () {
     if (this.scheduleDetails) {
+      console.log(this.scheduleDetails.status)
       this.schedule = {
         slots: [{
           id: this.scheduleDetails.slotId,

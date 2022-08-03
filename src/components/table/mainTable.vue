@@ -195,6 +195,10 @@ export default {
     reloadData: {
       type: Boolean,
       default: false
+    },
+    paginationFlag: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -237,10 +241,11 @@ export default {
       }
       this.loadingTable = true
       let List = []
+      const page = this.paginationFlag ? `?page=${this.pagination.current_page}` : ''
       if (!Array.isArray(this.items) && !this.items?.length > 0) {
         List = await
         mainService.listDataTabl(
-          `${this.list_url}?page=${this.pagination.current_page}${
+          `${this.list_url}${page}${
             this.additionalUrl ? this.additionalUrl : ''}`,
           filters
         )
@@ -261,6 +266,12 @@ export default {
       }
       this.loadingTable = false
       this.reloadData = false
+      this.dimInactive()
+    },
+    dimInactive () {
+      this.listOfData.forEach(row => {
+        row._rowVariant = row.status === 'inactive' ? 'secondary' : ''
+      })
     },
     sortChanged (data) {
       this.$emit('sortChanged', data)
@@ -272,7 +283,7 @@ export default {
         if (this.listOfData[IndexRow].status === 'active') {
           this.listOfData[IndexRow].status = 'inactive'
           this.listOfData[IndexRow]._rowVariant = 'secondary'
-        } else {
+        } else if (this.listOfData[IndexRow].status === 'inactive') {
           this.listOfData[IndexRow].status = 'active'
           this.listOfData[IndexRow]._rowVariant = ''
         }
@@ -290,6 +301,13 @@ export default {
       return age
     }
   },
+  /* computed: {
+    listOfData () {
+      return this.items.map((item) => {
+        this.item._rowVariant = item.status === 'active' ? 'secondary' : ''
+      })
+    }
+  }, */
   mounted () {
     Bus.$on('reloadTableAfterDelete', ifReload => { this.reloadData = true })
   }

@@ -277,7 +277,7 @@ export const core = {
     if (elementExistMain) {
       Scrollbar.init(document.querySelector('#sidebar-scrollbar'))
     }
-    const elementExistRight = this.checkElement('id', 'right-sidebar-scrollbar')
+    const elementExistRight = this.checkElement('id', 'right-sidebar-scrollbar') || this.checkElement('id', 'view-chart')
     if (elementExistRight) {
       Scrollbar.init(document.querySelector('#right-sidebar-scrollbar'))
     }

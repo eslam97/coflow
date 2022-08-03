@@ -146,7 +146,6 @@
       </template>
     </b-table>
     <b-pagination
-      v-if="pagination.total > pagination.per_page"
       v-model="pagination.current_page"
       :total-rows="pagination.total"
       :per-page="pagination.per_page"
@@ -210,8 +209,8 @@ export default {
       listOfData: [],
       pagination: {
         current_page: 1,
-        per_page: 0,
-        total: 0
+        per_page: 10,
+        total: 10
       },
       loadingTable: false,
       moreImages: 2

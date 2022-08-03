@@ -178,7 +178,8 @@
     "class_name": "",
     "is_icon_class": true,
     "icon": "las la-home",
-    "userType": "both"
+    "userType": "provider",
+    "serviceTypes": "all"
   },
   {
     "title": "Tickets",

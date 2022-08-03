@@ -8,6 +8,6 @@ export default {
     return Api().get(`market-business/:${cityId}`)
   },
   getAnalytics (from, to) {
-    return Api().get(`analytics/:${from}/:${to}`)
+    return Api().get(`analytics/${from}/${to}`)
   }
 }

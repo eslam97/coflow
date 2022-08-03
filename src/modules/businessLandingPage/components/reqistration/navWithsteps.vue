@@ -69,7 +69,7 @@ export default {
       localStorage.removeItem('userToken')
       localStorage.removeItem('userInfo')
       localStorage.removeItem('formStep')
-      this.$router.push('/')
+      this.$router.push('/business')
     },
     clickStep (step) {
       if (step !== 5) {

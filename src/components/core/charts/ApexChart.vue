@@ -5,7 +5,35 @@
 import ApexCharts from 'apexcharts'
 export default {
   name: 'ApexChart',
-  props: ['element', 'chartOption', 'isLive'],
+  props: ['element', 'chartOption', 'isLive', 'updateData'],
+  /* watch: {
+    updateData (flag) {
+      debugger
+      if (flag) {
+        debugger
+        const selector = '#' + this.element
+        const chart = new ApexCharts(document.querySelector(selector), this.chartOption)
+        /!* setTimeout(() => {
+          chart.updateSeries([{
+            data: this.data
+          }])
+        }, 0) *!/
+        chart.destroy()
+        setTimeout(function () {
+          chart.render()
+          setInterval(function () {
+            this.getNewSeries(this.lastDate, {
+              min: 10,
+              max: 90
+            })
+            chart.updateSeries([{
+              data: this.data
+            }])
+          }, 1000)
+        }, 500)
+      }
+    }
+  }, */
   mounted () {
     const _this = this
     const selector = '#' + _this.element
@@ -18,6 +46,7 @@ export default {
             min: 10,
             max: 90
           })
+          console.log(_this.data)
           chart.updateSeries([{
             data: _this.data
           }])

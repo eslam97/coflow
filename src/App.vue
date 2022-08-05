@@ -288,10 +288,4 @@ ul.nav.nav-tabs::-webkit-scrollbar {
 .ranges.col-12.col-md-auto{
   display: none !important;
 }
-.calendars {
-  background: var(--iq-primary) !important;
-}
-.daterangepicker .calendars-container {
-  flex-grow: 1 !important;
-}
 </style>

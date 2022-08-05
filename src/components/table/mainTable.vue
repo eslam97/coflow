@@ -3,6 +3,7 @@
     <b-table
       id="table-transition-example"
       class="vgt-table bordered"
+      :head-variant="headVariant"
       :items="listOfData"
       name="id"
       :fields="fields"
@@ -146,6 +147,7 @@
       </template>
     </b-table>
     <b-pagination
+      v-if="paginationFlag"
       v-model="pagination.current_page"
       :total-rows="pagination.total"
       :per-page="pagination.per_page"
@@ -199,6 +201,10 @@ export default {
     paginationFlag: {
       type: Boolean,
       default: true
+    },
+    headVariant: {
+      type: String,
+      default: ''
     }
   },
   data () {

@@ -282,6 +282,9 @@ table {
   border-collapse: unset !important;
   border-spacing: 3px 16px !important;
 }
+table.mx-table{
+  border-spacing: 0px !important;
+}
 table tr{
  background: var(--iq-white);
 }

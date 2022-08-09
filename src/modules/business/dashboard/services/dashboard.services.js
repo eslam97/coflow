@@ -9,5 +9,8 @@ export default {
   },
   getServiceAnalysis (type, id, date) {
     return Api().get(`${type}-analysis/${id}/${date}`)
+  },
+  getAllItems (route) {
+    return Api().get(route)
   }
 }

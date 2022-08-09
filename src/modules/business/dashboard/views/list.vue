@@ -200,6 +200,7 @@
         </b-row>
       </b-card-body>
     </b-card>
+    <service-analysis v-for="(type, key) in servicTypes" :key="key" :type="type"/>
   </div>
 </template>
 <script>
@@ -273,7 +274,7 @@ export default {
               }
             },
             horizontal: false,
-            columnWidth: '33%',
+            columnWidth: '50%',
             borderRadius: 5,
             endingShape: 'rounded'
           }
@@ -295,25 +296,27 @@ export default {
           opacity: 1
         }
       },
-      monthDaysSeries: [{
-        name: 'Views',
-        data: []
-      }, {
-        name: 'Saves',
-        data: []
-      },
-      {
-        name: 'Tracks',
-        data: []
-      }],
+      monthDaysSeries: [
+        {
+          name: 'Views',
+          data: []
+        }, {
+          name: 'Saves',
+          data: []
+        },
+        {
+          name: 'Tracks',
+          data: []
+        }
+      ],
 
       section1: {},
       section2: {},
 
       colors: ['info', 'success', 'warning', 'danger'],
       totalViews: 0,
-
       userType: 'viewers',
+
       agePie: {
         total: {
           show: true,
@@ -391,7 +394,15 @@ export default {
       },
 
       filterByDate: moment(new Date()).format('MMM YYYY'),
-      analysisByDate: {}
+      analysisByDate: {},
+
+      serviceAccess: {
+        FLOW: ['flow'],
+        PRO: ['activity', 'course'],
+        SHOP: ['product'],
+        CAMP: ['accommodation']
+      },
+      servicTypes: []
     }
   },
   methods: {
@@ -421,7 +432,7 @@ export default {
       this.getAnalysisByDate()
     },
     getAnalysisByDate () {
-      dashboardServices.getAnalysisByDate(moment(this.filterByDate).format('YYYY, MM')).then(res => {
+      dashboardServices.getAnalysisByDate(moment(this.filterByDate).format('YYYY-MM')).then(res => {
         this.analysisByDate = res.data.data
         this.analysisByDate.last.month = moment(this.filterByDate).add(-1, 'M').format('MMMM')
         this.analysisByDate.current.month = moment(this.filterByDate).format('MMMM')
@@ -434,14 +445,10 @@ export default {
         this.monthDaysSeries[1].data = [...Array(30).keys()]
         this.monthDaysSeries[2].data = [...Array(30).keys()]
       })
-    },
-    getServiceAnalysis () {
-      dashboardServices.getServiceAnalysis('', '', '').then(res => {
-        console.log(res.data.data)
-      })
     }
   },
   created () {
+    this.servicTypes = this.serviceAccess[JSON.parse(localStorage.getItem('userInfo')).service_types]
     this.getHomeData()
     this.getAnalysisByDate()
   },

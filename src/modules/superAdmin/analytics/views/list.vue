@@ -10,7 +10,9 @@
           <b-table-simple responsive borderless class="text-center">
             <b-thead head-variant="light">
               <b-tr>
-                <b-th v-for="(key, ind) in Object.keys(dashboardHome.mission)" :key="ind">{{key}}</b-th>
+                <b-th>Saved business</b-th>
+                <b-th>Tracked business</b-th>
+                <b-th>Tracked energy</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
@@ -28,14 +30,14 @@
                 <b-th :colspan="3">CUSTOMER</b-th>
               </b-tr>
               <b-tr>
-                <b-th v-for="(field, ind) in businessProductFields" :key="ind">{{field.value}}</b-th>
-                <b-th v-for="(field, ind) in customersProductFields" :key="ind">{{field.value}}</b-th>
+                <b-th v-for="(field, ind) in businessProductFields" :key="'business'+ind">{{field.value}}</b-th>
+                <b-th v-for="(field, ind2) in customersProductFields" :key="'customer'+ind2">{{field.value}}</b-th>
               </b-tr>
             </b-thead>
             <b-tbody>
               <b-tr>
-                <b-td v-for="(field, ind) in businessProductFields" :key="ind">{{dashboardHome.product.business[field.key]}}</b-td>
-                <b-td v-for="(field, ind) in customersProductFields" :key="ind">{{dashboardHome.product.customers[field.key]}}</b-td>
+                <b-td v-for="(field, ind) in businessProductFields" :key="'business'+ind">{{dashboardHome.product.business[field.key]}}</b-td>
+                <b-td v-for="(field, ind2) in customersProductFields" :key="'customer'+ind2">{{dashboardHome.product.customers[field.key]}}</b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -66,7 +68,7 @@
           <h3>Analytics</h3>
           <div>
             <date-picker v-model="analyticsDate" type="date" @change="getAnalyticsData"
-                         range placeholder="Select date range" :format="'YYYY-MM-DD'"></date-picker>
+                         range placeholder="Select date range" value-type="format" format="YYYY-MM-DD"></date-picker>
           </div>
         </b-col>
       </b-row>
@@ -91,7 +93,7 @@
             <b-tbody>
               <b-tr v-for="(key, ind) in Object.keys(analytics)" :key="ind">
                 <b-th class="text-center">{{key}}</b-th>
-                <b-td v-for="(value, ind) in Object.keys(analytics[key])" :key="ind">{{analytics[key][value]}}</b-td>
+                <b-td v-for="(value, ind2) in Object.keys(analytics[key])" :key="ind2">{{analytics[key][value]}}</b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -101,7 +103,7 @@
 
     <b-card class="statistics-views mb-5">
       <template v-slot:header>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-content-center">
           <h4 class="">Market Customers - Demographics: Age, Gender, & Nationalities</h4>
           <main-select style="min-width: 120px" :options="['users', 'savers', 'trackers']"
                        v-model="userType" @change="updateUserTypeData"></main-select>
@@ -111,12 +113,13 @@
         <b-row class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
-              <apex-chart width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
+              <apex-chart class="chart-flex" width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
             </div>
           </b-col>
 
-          <b-col md="2" sm="6" class="border-right"></b-col>
-          <b-col md="2" sm="6" class="border-right"></b-col>
+          <b-col md="4" sm="12" class="border-right">
+            <apex-chart class="chart-flex" width="400" type="pie" :options="genderPie" :series="genderSeries"></apex-chart>
+          </b-col>
 
           <b-col md="4" sm="12" class="">
             <div class="p-5" style="overflow-y: scroll; height: 300px">
@@ -143,6 +146,7 @@
 import { core } from '@/config/pluginInit'
 import AnalyticsServices from '@/modules/superAdmin/analytics/services/analytics.services'
 import ApexChart from 'vue-apexcharts'
+import moment from 'moment'
 export default {
   components: { ApexChart },
   data () {
@@ -151,7 +155,7 @@ export default {
       dashboardHome: '',
       marketBusiness: '',
       analytics: {},
-      analyticsDate: [0, 0],
+      analyticsDate: [moment(new Date()).format('YYYY-MM-DD'), moment(new Date()).format('YYYY-MM-DD')],
       locale: {
         direction: 'ltr',
         format: 'DD-MM-YYYY',
@@ -267,49 +271,33 @@ export default {
         }
       },
       ageSeries: [],
-      malePie: {
-        series: [],
-        labels: ['Males'],
+
+      genderSeries: [],
+      genderPie: {
         chart: {
-          foreColor: '#8c91b6',
-          type: 'radialBar',
-          height: 250
+          width: 380,
+          type: 'pie'
         },
-        plotOptions: {
-          pie: {
-            size: 200
-          }
-        },
-        colors: ['#2f9be8'],
+        labels: ['Male', 'Female'],
+        colors: ['#2f9be8', '#FD6C9E'],
         legend: {
-          position: 'down',
-          offsetY: 0,
-          offsetX: 0,
-          height: 20,
+          position: 'right',
+          offsetY: 50,
+          offsetX: -20,
+          height: 170,
           fontSize: '18px'
-        }
-      },
-      femalePie: {
-        series: [],
-        labels: ['Females'],
-        chart: {
-          foreColor: '#8c91b6',
-          type: 'radialBar',
-          height: 250
         },
-        plotOptions: {
-          pie: {
-            size: 200
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
           }
-        },
-        colors: ['#FD6C9E'],
-        legend: {
-          position: 'down',
-          offsetY: 0,
-          offsetX: 0,
-          height: 20,
-          fontSize: '18px'
-        }
+        }]
       }
     }
   },
@@ -320,17 +308,19 @@ export default {
         const userData = this.dashboardHome.market_customers[this.userType]
         this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
 
-        const allUsers = userData.gender.male + userData.gender.female
         this.ageSeries = Object.values(userData.age)
 
-        this.malePie.series.push((userData.gender.male / allUsers) * 100)
-        this.femalePie.series.push((userData.gender.female / allUsers) * 100)
+        this.genderSeries.push(userData.gender.male)
+        this.genderSeries.push(userData.gender.female)
       })
     },
     updateUserTypeData () {
       const userData = this.dashboardHome.market_customers[this.userType]
       this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
       this.ageSeries = Object.values(userData.age)
+      this.genderSeries = []
+      this.genderSeries.push(userData.gender.male)
+      this.genderSeries.push(userData.gender.female)
     },
     getMareketData () {
       AnalyticsServices.getMarketBusiness().then(res => {
@@ -357,20 +347,13 @@ export default {
 .statistics-views .card-body{
   padding: 0 !important;
 }
-.bg-light-green {
-  background-color: rgba(0, 226, 194, 0.12);
-}
-.text-light-green{
-  color: #1bdbc2 !important;
-}
-.rounded-full-circle {
-  border-radius: 50%;
-}
-.icon-circle {
-  width: 35px;
-}
-.icon-circle-saver{
-  width: 20px;
+
+.chart-flex > dev,
+.chart-flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 </style>

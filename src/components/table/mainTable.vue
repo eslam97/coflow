@@ -205,6 +205,10 @@ export default {
     headVariant: {
       type: String,
       default: ''
+    },
+    arrangeMode: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -322,5 +326,7 @@ export default {
 <style>
 table#table-transition-example .flip-list-move {
   transition: transform 0.5s;
+}
+.table-container {
 }
 </style>

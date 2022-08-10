@@ -34,11 +34,15 @@
       </template>
     </main-modal>
     <b-row>
+      <div v-if="arrangeMode" class="position-absolute arrange-overlay">
+        <p class="position-absolute arrange-text text-white">You are in arrange mode now, specify the order of the selected item</p></div>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Flows</h3>
-        <div>
-          <b-button @click="openPopup" variant="warning" class="add_button text-white">
-          Add Flow<i class="las la-plus ml-3"></i></b-button>
+        <div class="d-flex justify-content-between gap-20">
+          <b-button @click="arrangeMode = true" variant="dark" class="add_button text-white">
+            Arrange<i class="fas fa-arrow-down-arrow-up"></i></b-button>
+          <b-button @click="openPopup" variant="warning" :disabled="arrangeMode" class="add_button text-white">
+            Add Flow<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12">
@@ -48,6 +52,7 @@
             @sortChanged="sortChanged"
             :list_url="'flows'"
             :reloadData="reloadTable"
+            :arrangeMode="arrangeMode"
         >
         </main-table>
       </b-col>
@@ -65,7 +70,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'id', class: 'text-left' },
+        { label: '#', key: 'sort', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Description', key: 'description', class: 'text-left' },
         { label: 'Requirements', key: 'requirements', class: 'text-left' },
@@ -116,7 +121,8 @@ export default {
       optionInd: '',
       typeOfModal: 'add',
       flowsDetails: {},
-      flowsId: ''
+      flowsId: '',
+      arrangeMode: false
     }
   },
   components: {

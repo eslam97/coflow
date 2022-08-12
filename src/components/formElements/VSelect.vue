@@ -54,7 +54,7 @@
         </vue-select>
       <div class="d-flex justify-content-between">
         <small class="text-danger">{{ errors[0] }}</small>
-        <small v-if="taggable">Add location then press enter</small>
+        <small v-if="taggable">Add tag then press enter</small>
       </div>
     </validation-provider>
   </b-form-group>

@@ -455,7 +455,7 @@
               </div>
             </b-col>
           </b-row>
-          <b-row v-if="profile.operation_type !== '24 hours'">
+          <b-row v-if="profile.operation_type === 'specify days'">
             <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in profile.operation"
                    :key="operationKey">
               <b-row class="d-flex align-items-center">
@@ -782,11 +782,12 @@ export default {
         this.profile.bio = this.profileDetails.bio
         this.profile.service_types = this.profileDetails.service_types
         this.profile.amenities = this.profileDetails.amenities.map(data => data.id)
+        this.profile.phones = this.profileDetails.phones
         if (this.profileDetails.operation_type === '24 hours') {
-          this.typeOfOperation = '24 hours'
+          this.profile.operation_type = '24 hours'
         } else {
-          this.typeOfOperation = 'specify days'
-          this.allOperation = this.profileDetails.operations
+          this.profile.operation_type = 'specify days'
+          this.profile.operation = this.profileDetails.operations
         }
         if (this.profileDetails.location_type === 'address based') {
           this.profile.address = this.profileDetails.address_based

@@ -23,6 +23,42 @@
             Profile<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
+      <b-col lg="12" class="mb-2">
+        <b-card>
+          <b-card-body>
+            <b-row>
+              <b-col md="2" sm="6">
+                <span>Filter by name:</span>
+                <b-form-input v-model="filter.name" @keyup="reloadTable=true"
+                              placeholder="Search">
+                </b-form-input>
+              </b-col>
+              <b-col md="2" sm="6">
+                <span>Filter by type:</span>
+                <main-select v-model="filter.service_types" @change="reloadTable=true"
+                             :options="['pro', 'flow', 'camp', 'shop']"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="2" sm="6">
+                <span>Filter by type:</span>
+                <main-select v-model="filter.profile_type" @change="reloadTable=true"
+                             :options="['pro', 'flow', 'camp', 'shop']"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="2" sm="6">
+                <span>Filter by city:</span>
+                <main-select v-model="filter.city_id" @change="reloadTable=true"
+                             :options="allGovernorates" label="name" :reduce="data => data.id"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="4"></b-col>
+            </b-row>
+          </b-card-body>
+        </b-card>
+      </b-col>
       <b-col lg="12">
         <main-table
             :fields="columns"
@@ -30,6 +66,7 @@
             :list_url="'providers'"
             :reloadData="reloadTable"
             @sortChanged="sortChanged"
+            :custom-filter="filter"
         >
         </main-table>
       </b-col>
@@ -40,6 +77,7 @@
 import { core } from '@/config/pluginInit'
 import profileDetails from '../components/profileDetails'
 import profilesServices from '@/modules/superAdmin/profiles/services/profiles.services'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 export default {
   data () {
     return {
@@ -115,7 +153,17 @@ export default {
       profileDetails: false,
       typeOfModal: 'add',
       requestLoading: false,
-      reloadTable: false
+      reloadTable: false,
+      filter:
+      {
+        service_types: '',
+        profile_type: '',
+        city_id: '',
+        area_id: '',
+        name: '',
+        status: ''
+      },
+      allGovernorates: []
     }
   },
   methods: {
@@ -169,6 +217,11 @@ export default {
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('deleteModal')
       })
+    },
+    getAllCities () {
+      settingsService.getAllCities().then(res => {
+        this.allGovernorates = res.data.data.data
+      })
     }
   },
   mounted () {
@@ -183,6 +236,7 @@ export default {
     this.$root.$on('changeToActive', this.changeToActiveStatus)
   },
   created () {
+    this.getAllCities()
     this.$root.$on('viewProfile', this.viewProfile)
     this.$root.$on('changeToDisactive', this.changeToDisactive)
     this.$root.$on('changeToActive', this.changeToActiveStatus)

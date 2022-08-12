@@ -72,7 +72,7 @@
                     <b-col class="mb-3" md="6">
                       <main-select labelTitle='Team Languages' :validate="'required'"
                                    :multiple="true"
-                                   :name="`languages`" placeholder="Choose" :options="allLanguages"
+                                   :name="`languages`" placeholder="Search" :options="allLanguages"
                                    label="name"
                                    :reduce="data=> data.name"
                                    v-model="info.languages"></main-select>
@@ -175,20 +175,36 @@
           <validationObserver v-slot="{ handleSubmit }">
             <b-form @submit.prevent="handleSubmit(saveChangesPhone)">
               <b-card class="mb-5">
-                <b-card-header class="mb-4">
+                <b-card-header>
                   <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Contacts and Location Details</span>
                     Use this section to update your contact and location information</p>
                 </b-card-header>
                 <b-card-body>
-                  <b-row v-if="typeOfLocation === 'address based'" class="mb-4">
-                    <b-col md="3">
-                      {{based.address}},
-                       {{allAreas.find(area => area.id === based.area_id).name}},
-                       {{allGovernorates.find(city => city.id === based.city_id).name}},
-                       {{allCountries.find(country => country.id === based.country_id).name}}
-                    </b-col>
-                    <b-col md="9">
-                      {{ based.location }}
+                  <b-row v-if="typeOfLocation === 'address based'">
+                    <b-col>
+                      <b-row>
+                        <b-col md="3"><p>Facility Address</p></b-col>
+                        <b-col md="9"><p>Location</p></b-col>
+                      </b-row>
+                      <b-row class="border mb-3">
+                        <b-col md="3" class="p-0">
+                          <div class="border-right p-4">
+                            <h5 class="font-weight-bold">
+                              {{based.address}},<br>
+                              {{allAreas.find(area => area.id === based.area_id).name}},
+                              {{allGovernorates.find(city => city.id === based.city_id).name}},<br>
+                              {{allCountries.find(country => country.id === based.country_id).name}}
+                            </h5>
+                          </div>
+                        </b-col>
+                        <b-col md="9" class="p-0">
+                          <div class="p-4">
+                            <h6>
+                              {{ based.location }}
+                            </h6>
+                          </div>
+                        </b-col>
+                      </b-row>
                     </b-col>
                   </b-row>
                   <b-row v-else class="mb-4">

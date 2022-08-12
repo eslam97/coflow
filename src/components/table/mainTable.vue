@@ -25,6 +25,11 @@
         </div>
       </template>
 
+      <!-- A virtual column -->
+      <template #cell(#)="data">
+        {{ data.index + 1 }}
+      </template>
+
       <template
         v-for="(field,key) in fields"
         v-slot:[`cell(${field.key})`]="data"
@@ -35,6 +40,20 @@
             v-if="field.type=='image'"
             :src="$_.get(data.item, field.key) ? $_.get(data.item, field.key) : require('@/assets/images/user/default-user-image.png')"
           />
+
+          <!-- Arrange-->
+          <div v-else-if="field.type == 'sort'">
+            <b-form-input v-if="arrangeMode" class="sort-field"
+                          @keyup.enter.native="changeSort($_.get(data.item, 'id'), service_type, this.value)"
+                          :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
+                          :value="$_.get(data.item, field.key)">
+            </b-form-input>
+<!--            <input v-if="arrangeMode" class="sort-field"
+                          onkeyup="console.log(this.value)"
+                          :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
+                          :value="$_.get(data.item, field.key)">-->
+            <p v-else>{{ $_.get(data.item, field.key) }}</p>
+          </div>
 
           <!-- handle status -->
           <strong v-else-if="field.type == 'status'">
@@ -209,6 +228,13 @@ export default {
     arrangeMode: {
       type: Boolean,
       default: false
+    },
+    service_type: {
+      type: String,
+      default: ''
+    },
+    customFilter: {
+      type: Object
     }
   },
   data () {
@@ -223,7 +249,8 @@ export default {
         total: 10
       },
       loadingTable: false,
-      moreImages: 2
+      moreImages: 2,
+      autoCount: 1
     }
   },
   watch: {
@@ -243,7 +270,7 @@ export default {
   methods: {
     async getListData () {
       this.listOfData = []
-      const filters = {}
+      let filters = {}
       if (this.params) {
         this.params.map(data => {
           filters[data.name] = data.checked
@@ -252,6 +279,11 @@ export default {
       this.loadingTable = true
       let List = []
       const page = this.paginationFlag ? `?page=${this.pagination.current_page}` : ''
+      if (this.customFilter) {
+        // filters = `&${this.filterObj.key}=${this.filterObj.value}`
+        filters = this.customFilter
+        console.log(filters)
+      }
       if (!Array.isArray(this.items) && !this.items?.length > 0) {
         List = await
         mainService.listDataTabl(
@@ -285,6 +317,9 @@ export default {
     },
     sortChanged (data) {
       this.$emit('sortChanged', data)
+    },
+    changeSort (id, type, sort) {
+      console.log(id, type, sort)
     },
     changeStatus (data) {
       mainService.changeStatus(data.payload).then(res => {
@@ -328,5 +363,11 @@ table#table-transition-example .flip-list-move {
   transition: transform 0.5s;
 }
 .table-container {
+}
+.sort-field {
+  /*width: fit-content !important;*/
+  width: 50px !important;
+  border: none !important;
+  border-bottom: 1px dashed grey !important;
 }
 </style>

@@ -13,6 +13,28 @@
       <b-col lg="12" class="mb-2">
         <h3>Leads</h3>
       </b-col>
+      <b-col lg="12" class="mb-2">
+        <b-card>
+          <b-card-body>
+            <b-row>
+              <b-col md="3">
+                <span>Filter by name:</span>
+                <b-form-input v-model="filter.name" @keyup="reloadTable=true"
+                    placeholder="Type to search">
+                </b-form-input>
+              </b-col>
+              <b-col md="3">
+                <span>Filter by status:</span>
+                <main-select v-model="filter.status" @change="reloadTable=true"
+                             :options="['pending acceptance', 'accepted', 'rejected']"
+                              placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="4"></b-col>
+            </b-row>
+          </b-card-body>
+        </b-card>
+      </b-col>
       <b-col lg="12">
             <main-table
                 :fields="columns"
@@ -20,6 +42,7 @@
                 @sortChanged="sortChanged"
                 :list_url="'leads'"
                 :reloadData="reloadTable"
+                :customFilter="filter"
             >
             </main-table>
       </b-col>
@@ -35,6 +58,7 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Date', key: 'date', class: 'text-left', sortable: true },
         { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
@@ -70,7 +94,8 @@ export default {
       leadDetails: {},
       requestLoading: false,
       selectedLead: '',
-      reloadTable: false
+      reloadTable: false,
+      filter: { name: '', status: '' }
     }
   },
   methods: {

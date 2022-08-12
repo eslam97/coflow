@@ -509,7 +509,7 @@
                        :options="['Go', 'Flow', 'Pro', 'Shop', 'Camp']"
                        v-model="profile.service_types"></main-select>
         </div>
-        <b-row v-if="typeOfModal != 'view'">
+        <b-row>
           <b-col md="12" class="mt-4">
             <div class="d-flex justify-content-center" v-if="typeOfModal == 'add'">
               <b-button class="button-orange-modal" type="submit" v-if="!requestLoading">
@@ -780,6 +780,7 @@ export default {
         this.profile.tags = this.profileDetails.tags
         this.profile.links = this.profileDetails.links
         this.profile.bio = this.profileDetails.bio
+        this.profile.service_types = this.profileDetails.service_types
         this.profile.amenities = this.profileDetails.amenities.map(data => data.id)
         if (this.profileDetails.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'

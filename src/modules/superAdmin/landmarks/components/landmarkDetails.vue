@@ -25,7 +25,7 @@
             <input-form
                 v-model="landmark.year"
                 placeholder="Ex: 2020"
-                :validate="'required|numeric'"
+                :validate="'numeric'"
                 name="year"
                 :label="'Year'"
             />
@@ -228,6 +228,7 @@ export default {
       const formData = new FormData()
       formData.append('image', file.croppedFile)
       formData.append('type', 'landmark')
+      formData.append('name', file.filename)
       formData.append('status', this.landmarkDetails ? 'exist' : 'new')
       if (this.landmarkDetails) {
         formData.append('landmark_id', this.landmarkDetails.id)

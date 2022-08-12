@@ -18,5 +18,8 @@ export default {
   },
   changeStatus (payload) {
     return Api().post('change-status', payload)
+  },
+  changeSort (payload) {
+    return Api().post('update-sort', payload)
   }
 }

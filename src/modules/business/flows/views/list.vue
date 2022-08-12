@@ -51,6 +51,7 @@
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
             :list_url="'flows'"
+            :service_type="'flow'"
             :reloadData="reloadTable"
             :arrangeMode="arrangeMode"
         >
@@ -70,7 +71,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-left' },
+        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Description', key: 'description', class: 'text-left' },
         { label: 'Requirements', key: 'requirements', class: 'text-left' },

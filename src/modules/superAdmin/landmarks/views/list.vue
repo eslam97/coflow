@@ -109,7 +109,7 @@ export default {
     openPopup () {
       this.landMarkId = ''
       this.typeOfModal = 'add'
-      this.landmarkDetails = {}
+      this.landmarkDetails = false
       this.$bvModal.show('landMarksDetails')
     },
     addLandmark (landmark) {

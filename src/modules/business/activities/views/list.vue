@@ -22,8 +22,8 @@
       <template v-slot:borderHeader class="flex-nowrap">
         <p class="p-4 borderHeaderModal m-0">
           {{activitiesViewData.name}}
-          <button class="ml-4 p-2 btn radio-btn" :class="`radio-btn-cyan`" active>
-            {{ activitiesViewData.durationn }} {{ activitiesViewData.durationType }}
+          <button class="ml-4 p-2 pr-4 pl-4 btn radio-btn" :class="`radio-btn-cyan`" active>
+            {{ activitiesViewData.duration }} {{ activitiesViewData.durationType }}
           </button>
         </p>
       </template>

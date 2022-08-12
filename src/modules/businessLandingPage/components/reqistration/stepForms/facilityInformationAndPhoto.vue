@@ -58,7 +58,7 @@
             <b-col class="mb-3" md="6">
               <main-select labelTitle='Team Languages' :validate="'required'"
                            :multiple="true"
-                           :name="`languages`" placeholder="Choose" :options="allLanguages"
+                           :name="`languages`" placeholder="Search" :options="allLanguages"
                            label="name"
                            :reduce="data=> data.name"
                            v-model="info.languages"></main-select>

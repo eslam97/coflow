@@ -147,7 +147,7 @@ export default {
       console.log('edit')
     },
     viewProfile (obj) {
-      this.typeOfModal = 'view'
+      this.typeOfModal = 'edit'
       profilesServices.getActivationDetails(obj.id).then(res => {
         this.providerId = obj.id
         this.profileDetails = res.data.data

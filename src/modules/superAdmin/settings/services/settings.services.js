@@ -24,6 +24,9 @@ export default {
   addNewActivityType (payload) {
     return Api().post('activityTypes', payload)
   },
+  getActivityTypesDependOnActivityLine (activityLineID) {
+    return Api().get(`activity-types/${activityLineID}`)
+  },
 
   // Durations
   getDurationList () {

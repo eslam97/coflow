@@ -356,11 +356,11 @@ export default {
         this.allActivityLines = res.data.data
       })
     },
-    getAllActivityType () {
+    /*    getAllActivityType () {
       settingsService.getAllActivityType().then(res => {
         this.allActivityTypes = res.data.data
       })
-    },
+    }, */
     getAllLanguages () {
       settingsService.getAllLanguages().then(res => {
         this.allLanguages = res.data.data
@@ -375,6 +375,17 @@ export default {
       settingsService.getAllAmenities().then(res => {
         this.allAmenities = res.data.data
       })
+    },
+    getActivityTypesDependOnActivityLine (id) {
+      this.allActivityTypes = []
+      settingsService.getActivityTypesDependOnActivityLine(id).then(res => {
+        this.allActivityTypes = res.data.data
+      })
+    }
+  },
+  watch: {
+    'info.activity_line_id' (value) {
+      this.getActivityTypesDependOnActivityLine(value)
     }
   },
   computed: {
@@ -398,7 +409,7 @@ export default {
   },
   created () {
     this.getAllActivityLine()
-    this.getAllActivityType()
+    /*    this.getAllActivityType() */
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()

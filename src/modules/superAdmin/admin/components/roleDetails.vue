@@ -15,7 +15,7 @@
           <b-col md="12" class="mb-3" >
             <h5> Choose Permission</h5>
           </b-col>
-          <b-col md="2" class="mb-3" v-for="(permission, key) in allPermissions" :key="key">
+          <b-col md="4" class="mb-3" v-for="(permission, key) in allPermissions" :key="key">
             <b-form-checkbox :value="permission.id" v-model="role.permissions" class="custom-checkbox-color-check"
                              color="warning">
               <span class="font-size-12 text-primary"> {{ permission.name }} </span>

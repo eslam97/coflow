@@ -73,7 +73,7 @@
               <b-col class="mb-3" md="2">
                 <input-form
                     placeholder="Ex: 2022"
-                    :validate="'required|numeric'"
+                    :validate="`required|numeric|digits:4|between:1970,${new Date().getFullYear()}`"
                     :name="`year`"
                     :label="'Launch Year'"
                     v-model="info.year"

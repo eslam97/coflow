@@ -15,7 +15,7 @@
       </b-col>
       <b-col lg="12" class="mb-2">
         <b-card>
-          <b-card-body>
+          <b-card-body class="p-0">
             <b-row>
               <b-col md="3">
                 <span>Filter by name:</span>
@@ -30,7 +30,6 @@
                               placeholder="--Select--">
                 </main-select>
               </b-col>
-              <b-col md="4"></b-col>
             </b-row>
           </b-card-body>
         </b-card>
@@ -95,12 +94,14 @@ export default {
       requestLoading: false,
       selectedLead: '',
       reloadTable: false,
-      filter: { name: '', status: '' }
+      filter: { name: '', status: '', sort_type: '' }
     }
   },
   methods: {
     sortChanged (key) {
-      console.log(key)
+      this.reloadTable = false
+      this.filter.sort_type = key.sortDesc ? 'desc' : 'asc'
+      this.reloadTable = true
     },
     viewLead (obj) {
       this.selectedLead = obj.id

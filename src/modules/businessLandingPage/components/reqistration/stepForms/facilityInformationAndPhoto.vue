@@ -8,7 +8,7 @@
     <b-container>
       <div class="w-75">
         <ValidationObserver v-slot="{ handleSubmit }">
-        <b-form @submit.prevent="handleSubmit(saveFacilityInformation)">
+        <b-form @submit.prevent="handleSubmit(saveFacilityInformation($event))">
           <b-row>
             <b-col md="2" class="mb-3">
               <main-select labelTitle='Activity Line' :validate="'required'"
@@ -255,7 +255,7 @@ export default {
     }
   },
   methods: {
-    saveFacilityInformation () {
+    saveFacilityInformation (e) {
       this.loadingFacilityInformation = true
       registrationServices.saveStepFacility(this.info).then(res => {
         core.showSnackbar('success', res.data.message)

@@ -25,7 +25,7 @@
             <input-form
                 v-model="landmark.year"
                 placeholder="Ex: 2020"
-                :validate="'numeric'"
+                :validate="`numeric|digits:4|between:1900,${new Date().getFullYear()}`"
                 name="year"
                 :label="'Year'"
             />

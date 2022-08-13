@@ -69,7 +69,7 @@ export default {
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Courses Name', key: 'name', class: 'text-left' },
-        { label: 'Level', key: 'level', class: 'text-left' },
+        { label: 'Level', key: 'level_ex', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Description', key: 'description', class: 'text-left' },

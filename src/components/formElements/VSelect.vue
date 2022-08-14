@@ -204,6 +204,7 @@ export default {
 .v-select {
   .vs__dropdown-menu {
     overflow-x: hidden;
+    z-index: 5!important;
   }
 
   .vs__dropdown-option--selected {

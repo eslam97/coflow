@@ -26,7 +26,9 @@
               <b-col md="3">
                 <span>Filter by status:</span>
                 <main-select v-model="filter.status" @change="reloadTable=true"
-                             :options="['pending acceptance', 'accepted', 'rejected']"
+                             :options="statusFilterOptions"
+                             label="key"
+                             :reduce="data => data.value"
                               placeholder="--Select--">
                 </main-select>
               </b-col>
@@ -94,7 +96,13 @@ export default {
       requestLoading: false,
       selectedLead: '',
       reloadTable: false,
-      filter: { name: '', status: '', sort_type: '' }
+      filter: { name: '', status: '', sort_type: '' },
+      statusFilterOptions: [
+        { key: 'Pending acceptance', value: 'pending acceptance' },
+        { key: 'Accepted', value: 'accepted' },
+        { key: 'Rejected', value: 'rejected' },
+        { key: 'None', value: '' }
+      ]
     }
   },
   methods: {

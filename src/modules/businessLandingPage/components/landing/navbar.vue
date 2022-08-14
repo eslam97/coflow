@@ -1,8 +1,10 @@
 <template>
     <b-navbar toggleable="lg" type="dark" variant="primary" class="p-3" id="nav-bar-business">
       <b-container fluid>
-        <b-navbar-brand href="#">
-          <img :src="require('@/assets/images/whiteLogo.png')" alt="coFlow" class='brandImage'>
+        <b-navbar-brand>
+          <router-link to="/">
+            <img :src="require('@/assets/images/whiteLogo.png')" alt="coFlow" class='brandImage'>
+          </router-link>
         </b-navbar-brand>
         <b-navbar-toggle target="nav-business"></b-navbar-toggle>
         <b-collapse id="nav-business" is-nav>

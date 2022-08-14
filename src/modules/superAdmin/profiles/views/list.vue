@@ -25,36 +25,51 @@
       </b-col>
       <b-col lg="12" class="mb-2">
         <b-card>
-          <b-card-body>
+          <b-card-body class="p-0">
             <b-row>
-              <b-col md="2" sm="6">
+              <b-col md="3" sm="6">
                 <span>Filter by name:</span>
                 <b-form-input v-model="filter.name" @keyup="reloadTable=true"
                               placeholder="Search">
                 </b-form-input>
               </b-col>
-              <b-col md="2" sm="6">
-                <span>Filter by type:</span>
+              <b-col md="3" sm="6">
+                <span>Filter by account type:</span>
                 <main-select v-model="filter.service_types" @change="reloadTable=true"
-                             :options="['pro', 'flow', 'camp', 'shop']"
+                             :options="accTypeFilterOptions" label="key" :reduce="data => data.value"
                              placeholder="--Select--">
                 </main-select>
               </b-col>
-              <b-col md="2" sm="6">
-                <span>Filter by type:</span>
+              <b-col md="3" sm="6">
+                <span>Filter by profile type:</span>
                 <main-select v-model="filter.profile_type" @change="reloadTable=true"
-                             :options="['pro', 'flow', 'camp', 'shop']"
+                             :options="profileTypeFilterOptions" label="key" :reduce="data => data.value"
                              placeholder="--Select--">
                 </main-select>
               </b-col>
-              <b-col md="2" sm="6">
+              <b-col md="3" sm="6">
                 <span>Filter by city:</span>
                 <main-select v-model="filter.city_id" @change="reloadTable=true"
                              :options="allGovernorates" label="name" :reduce="data => data.id"
                              placeholder="--Select--">
                 </main-select>
               </b-col>
-              <b-col md="4"></b-col>
+              <b-col md="3" sm="6">
+                <span>Filter by area:</span>
+                <main-select v-model="filter.area_id" @change="reloadTable=true"
+                             :options="allAreas" label="name" :reduce="data => data.id"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="3">
+                <span>Filter by status:</span>
+                <main-select v-model="filter.status" @change="reloadTable=true"
+                             :options="statusFilterOptions"
+                             label="key"
+                             :reduce="data => data.value"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
             </b-row>
           </b-card-body>
         </b-card>
@@ -87,12 +102,12 @@ export default {
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
         { label: 'City', key: 'city.name', class: 'text-left' },
         { label: 'Area', key: 'area.name', class: 'text-left' },
-        { label: 'Year', key: 'year', class: 'text-left' },
+        { label: 'Year', key: 'year', class: 'text-left', sortable: true },
         { label: 'Status', key: 'status', class: 'text-left' },
-        { label: 'Views', key: 'views', class: 'text-left' },
-        { label: 'Unique Views', key: 'unique_views', class: 'text-left' },
-        { label: 'Savers', key: 'saves', class: 'text-left' },
-        { label: 'Trackers', key: 'tracks', class: 'text-left' },
+        { label: 'Views', key: 'views', class: 'text-left', sortable: true },
+        { label: 'Unique Views', key: 'unique_views', class: 'text-left', sortable: true },
+        { label: 'Savers', key: 'saves', class: 'text-left', sortable: true },
+        { label: 'Trackers', key: 'tracks', class: 'text-left', sortable: true },
         { label: 'User Status', key: 'status', class: 'text-left' },
         {
           label: 'Actions',
@@ -161,14 +176,40 @@ export default {
         city_id: '',
         area_id: '',
         name: '',
-        status: ''
+        status: '',
+        sort: '',
+        sort_type: ''
       },
-      allGovernorates: []
+      profileTypeFilterOptions: [
+        { key: 'Sky', value: 'sky_' },
+        { key: 'Sea', value: 'sea_' },
+        { key: 'Earth', value: 'earth_' },
+        { key: 'Energy', value: 'energy_' },
+        { key: 'None', value: '' }
+      ],
+      accTypeFilterOptions: [
+        { key: 'FLOW', value: 'flow' },
+        { key: 'PRO', value: 'pro' },
+        { key: 'CAMP', value: 'camp' },
+        { key: 'SHOP', value: 'shop' },
+        { key: 'None', value: '' }
+      ],
+      statusFilterOptions: [
+        { key: 'Invisible', value: 'invisible' },
+        { key: 'Visible', value: 'visible' },
+        { key: 'Temp closed', value: 'temp_closed' },
+        { key: 'None', value: '' }
+      ],
+      allGovernorates: [],
+      allAreas: []
     }
   },
   methods: {
     sortChanged (key) {
-      console.log(key)
+      this.reloadTable = false
+      this.filter.sort = key.sortBy
+      this.filter.sort_type = key.sortDesc ? 'desc' : 'asc'
+      this.reloadTable = true
     },
     openAddModal () {
       this.profileDetails = false
@@ -221,6 +262,13 @@ export default {
     getAllCities () {
       settingsService.getAllCities().then(res => {
         this.allGovernorates = res.data.data.data
+        this.allGovernorates.push({ name: 'None', id: '' })
+      })
+    },
+    getAllAreas () {
+      settingsService.getAllAreas().then(res => {
+        this.allAreas = res.data.data.data
+        this.allAreas.push({ name: 'None', id: '' })
       })
     }
   },
@@ -237,6 +285,7 @@ export default {
   },
   created () {
     this.getAllCities()
+    this.getAllAreas()
     this.$root.$on('viewProfile', this.viewProfile)
     this.$root.$on('changeToDisactive', this.changeToDisactive)
     this.$root.$on('changeToActive', this.changeToActiveStatus)

@@ -19,12 +19,12 @@
       <nav class="navbar navbar-expand-lg navbar-light p-0" >
         <div class="navbar-left" v-if="!horizontal">
           <ul class="d-flex p-0 m-0 align-items-center" v-if="!ifSearch">
-            <li v-for="(item, index) in bookmark" :key="index" class="upperMenu d-none d-lg-block">
-              <router-link :to="item.link" class="nav-link" style="color: var(--iq-primary)" exact>
+<!--            <li v-for="(item, index) in bookmark" :key="index" class="upperMenu d-none d-lg-block">
+              <router-link :to="item.link" class="nav-link" style="color: var(&#45;&#45;iq-primary)" exact>
                 <i :class="`${item.icon}`" class="font-size-22"></i>
               </router-link>
-            </li>
-            <li class="upperMenu d-block d-lg-none cursor-pointer "  v-if="$route.meta.layout !== 'two-sidebar'" @click="miniSidebar">
+            </li>-->
+            <li class="upperMenu d-block d-xl-none cursor-pointer "  v-if="$route.meta.layout !== 'two-sidebar'" @click="miniSidebar">
               <a class="nav-link" style="color: var(--iq-primary)">
                 <i class="las la-bars font-size-22" ></i>
               </a>

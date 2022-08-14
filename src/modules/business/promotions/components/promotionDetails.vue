@@ -134,7 +134,7 @@
                 :label="'Price'"
             />
           </b-col>
-          <b-col md="6" class="mb-3">
+<!--          <b-col md="6" class="mb-3">
             <input-form
                 v-model="packages.discount_price_egp"
                 placeholder="Ex: 0.0"
@@ -145,8 +145,8 @@
                 name="Discount Price"
                 :label="'Discount Price'"
             />
-          </b-col>
-          <b-col md="6" class="mb-3" >
+          </b-col>-->
+<!--          <b-col md="6" class="mb-3" >
             <input-form
                 v-model="packages.price_dollar"
                 placeholder="Ex: 0.0"
@@ -193,7 +193,7 @@
                 name="Discount price"
                 :label="'Discount Price'"
             />
-          </b-col>
+          </b-col>-->
         </b-row>
         <b-row>
           <b-col md="12" class="mb-3">

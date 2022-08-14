@@ -1,5 +1,8 @@
 <template>
   <b-container fluid>
+    <!--  End modal  -->
+    <end-modal ref="endPopup"/>
+
     <main-modal id="promotionDetails" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'"><span class="text-warning" >Add: </span> Promotion</h4>
@@ -116,7 +119,7 @@
             </div>
           </template>
           <template v-slot:cell(actions)="data">
-            <b-button variant="danger" v-if="type === 'current'" @click="end(data.item.id, data.item.offer_title)" class="w-100 rounded-0">End</b-button>
+            <b-button variant="danger" v-if="type === 'current'" @click="end(data.item)" class="w-100 rounded-0">End</b-button>
             <b-button variant="info" v-else @click="reEnd(data.item.id)" class="w-100 rounded-0">
               Re-Add</b-button>
           </template>
@@ -144,6 +147,7 @@ import { core } from '@/config/pluginInit'
 import promotionsServices from '../services/promotions.services'
 import EventBus from '@/eventBus'
 import promotionDetails from '../components/promotionDetails'
+import endModal from '@/modules/business/promotions/components/endModal'
 export default {
   data () {
     return {
@@ -178,11 +182,23 @@ export default {
         start_date: '',
         end_date: '',
         _method: 'put'
+      },
+      endInfo: {
+        actionHeader: 'End',
+        titleHeader: 'Promotion',
+        question: 'Are You Sure You Want End This Promotion?',
+        textDeleteButton: 'YES, END',
+        textCancelButton: 'NO, CANCEL',
+        icon: '',
+        type: 'end',
+        actionOnAlert: '',
+        data: {}
       }
     }
   },
   components: {
-    promotionDetails
+    promotionDetails,
+    endModal
   },
   watch: {
     type () {
@@ -208,20 +224,12 @@ export default {
         this.loadingTable = false
       })
     },
-    end (id, title) {
-      EventBus.$emit('openDeleteModal', {
-        actionHeader: 'End',
-        titleHeader: 'Promotion',
-        textContent: title,
-        url: 'promotions',
-        rowId: id,
-        question: 'Are You Sure You Want Delete This Promotion?',
-        textDeleteButton: 'YES, END',
-        textCancelButton: 'NO, CANCEL',
-        icon: '',
-        type: 'delete',
-        actionOnAlert: ''
-      })
+    end (data) {
+      this.endInfo.textContent = data.title
+      this.endInfo.rowId = data.id
+      this.endInfo.data = { start_date: data.start_date, end_date: data.end_date }
+      this.$refs.endPopup.show(this.endInfo)
+      this.$bvModal.show('endModal')
     },
     reEnd (id) {
       this.rowId = id

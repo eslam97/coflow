@@ -130,6 +130,28 @@
             </b-form-group>
           </b-col>
           <b-col md="12" class="mb-3">
+            <cropper-images
+                label="Upload Logo"
+                nameOfImage="image.jpg"
+                @cropper-save="saveLogoImageLand"
+                :progressLoading="loadingLogo"
+                :showProgress="false"
+                :multi="false"
+                :imageUrl="logoImage"
+            />
+          </b-col>
+          <b-col md="12" class="mb-3">
+            <cropper-images
+                label="Upload Logo"
+                nameOfImage="image.jpg"
+                @cropper-save="saveCoverImageLand"
+                :progressLoading="loadingCover"
+                :showProgress="false"
+                :multi="false"
+                :imageUrl="coverImage"
+            />
+          </b-col>
+          <b-col md="12" class="mb-3">
             <cropper
                 :allImages="allImages"
                 :label="'Upload Images'"
@@ -203,8 +225,14 @@ export default {
         country_id: '',
         city_id: '',
         area_id: '',
-        images: []
+        images: [],
+        logo: '',
+        cover: ''
       },
+      logoImage: '',
+      coverImage: '',
+      loadingCover: '',
+      loadingLogo: '',
       allCountries: [],
       allGovernorates: [],
       allArea: [],
@@ -249,6 +277,59 @@ export default {
     cropperFile (file) {
       console.log('file', file)
     },
+    saveLogoImageLand ({ images }) {
+      console.log('data => ', images)
+      this.landmark.logo = images
+    },
+    saveCoverImageLand ({ image }) {
+      this.landmark.cover = image
+    },
+    /* saveLogoImageLand (file) {
+      const formData = new FormData()
+      formData.append('image', file.image)
+      formData.append('type', 'landmark')
+      formData.append('name', file.imageInfo.name)
+      formData.append('status', this.landmarkDetails ? 'exist' : 'new')
+      if (this.landmarkDetails) {
+        formData.append('landmark_id', this.landmarkDetails.id)
+      }
+      this.landmark.logo = file.image
+      console.log('file => ', file.image)
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          this.loadingLogo = percent
+        }
+      }
+      mainService.addImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.logoImage = res.data.data
+      })
+    }, */
+    /* saveCoverImageLand (file) {
+      const formData = new FormData()
+      this.landmark.cover = file.image
+      formData.append('image', file.image)
+      formData.append('type', 'landmark')
+      formData.append('name', file.imageInfo.name)
+      formData.append('status', this.landmarkDetails ? 'exist' : 'new')
+      if (this.landmarkDetails) {
+        formData.append('landmark_id', this.landmarkDetails.id)
+      }
+      this.landmark.cover = file.image
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          this.loadingCover = percent
+        }
+      }
+      mainService.addImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.cover = res.data.data
+      })
+    }, */
     // depend
     getAllCountries () {
       settingsService.getAllCountries().then(res => {

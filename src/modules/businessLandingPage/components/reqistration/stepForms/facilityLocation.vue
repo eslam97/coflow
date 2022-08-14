@@ -163,6 +163,7 @@
                                  :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
                                  label="name"
                                  :reduce="data=> data.id"
+                                 @change="getAreasDependOnCity(location.city_id)"
                                  v-model="location.city_id"></main-select>
                   </b-col>
                   <b-col md="1"  v-if="location.availability_type !== 'all country'">
@@ -254,6 +255,13 @@ export default {
     }
   },
   methods: {
+    getAreasDependOnCity (id) {
+      this.allArea = []
+      this.based.area_id = ''
+      settingsService.getCityArea(id).then(res => {
+        this.allArea = res.data.data
+      })
+    },
     saveFacilityLocation () {
       this.loadingFacilityLocation = true
       if (this.typeOfLocation === 'address based') {
@@ -302,8 +310,6 @@ export default {
       })
     },
     addNewzone () {
-      console.log('add')
-      console.log(this.remote_locations)
       this.remote_locations.push({
         availability_type: 'open',
         country_id: '',
@@ -327,13 +333,6 @@ export default {
         this.allGovernorates = res.data.data
       })
     },
-    getAreasDependOnCity (id) {
-      this.allArea = []
-      this.based.area_id = ''
-      settingsService.getCityArea(id).then(res => {
-        this.allArea = res.data.data
-      })
-    },
     fillData () {
       if (this.providerInfo) {
         if (this.providerInfo.location_type === 'address based') {
@@ -352,7 +351,12 @@ export default {
           })
         } else {
           this.typeOfLocation = 'remote location'
-          this.remote_locations = this.providerInfo.remote_locations
+          this.remote_locations = [{
+            availability_type: 'open',
+            country_id: '',
+            city_id: '',
+            areas: []
+          }]
         }
       }
     }

@@ -171,6 +171,7 @@ export default {
       this.$bvModal.show('landMarksDetails')
     },
     addLandmark (landmark) {
+      console.log('landmark => ', landmark)
       this.requestLoading = true
       landmarksServices.addNewLandMark(landmark).then(res => {
         this.reloadTable = true

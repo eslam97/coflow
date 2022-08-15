@@ -52,7 +52,7 @@
             @sortChanged="sortChanged"
             :list_url="'activations'"
             :reloadData="reloadTable"
-            :customFilter="filter"
+            :custom-filter="filter"
         >
         </main-table>
       </b-col>

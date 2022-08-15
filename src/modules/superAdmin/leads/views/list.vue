@@ -43,7 +43,7 @@
                 @sortChanged="sortChanged"
                 :list_url="'leads'"
                 :reloadData="reloadTable"
-                :customFilter="filter"
+                :custom-filter="filter"
             >
             </main-table>
       </b-col>

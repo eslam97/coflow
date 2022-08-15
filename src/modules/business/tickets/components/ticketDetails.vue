@@ -193,7 +193,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Conditions`"
-                    :rules="'required|max:88'"
+                    :rules="'required'"
                     class="flex-grow-1"
                 >
                   <b-form-group label="Conditions">
@@ -207,8 +207,8 @@
                     />
                     <div class="d-flex justify-content-between">
                       <small class="text-danger">{{ errors[0] }}</small>
-                      <small :class="[{ 'text-danger': ticket.conditions.length > 88 }]">
-                        {{ (88 > ticket.conditions.length) ? 88 - ticket.conditions.length : 0 }} characters</small>
+<!--                      <small :class="[{ 'text-danger': ticket.conditions.length > 88 }]">
+                        {{ (88 > ticket.conditions.length) ? 88 - ticket.conditions.length : 0 }} characters</small>-->
                     </div>
                   </b-form-group>
                 </validation-provider>

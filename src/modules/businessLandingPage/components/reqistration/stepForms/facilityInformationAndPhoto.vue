@@ -386,6 +386,7 @@ export default {
   },
   watch: {
     'info.activity_line_id' (value) {
+      this.info.activity_type_id = ''
       this.getActivityTypesDependOnActivityLine(value)
     }
   },

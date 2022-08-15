@@ -54,6 +54,7 @@
       <main-table
           :fields="columns"
           class="mb-0 table-borderless"
+          @sortChanged="sortChanged"
           :list_url="'all-products'"
           :reloadData="reloadTable"
           :custom-filter="filter"

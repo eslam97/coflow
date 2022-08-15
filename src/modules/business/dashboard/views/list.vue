@@ -113,7 +113,7 @@
         </b-col>
         <b-col md="8" class="border-right border-left">
           <div class="py-3">
-            <div style="overflow-x: scroll">
+            <div style="overflow-x: scroll;overflow-y: hidden;">
               <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
                           type="bar" :options="monthDaysOptions" :series="monthDaysSeries"></apex-chart>
             </div>
@@ -161,7 +161,7 @@
     </b-card>
     <b-card class="statistics-views mb-4">
       <template v-slot:header>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center">
           <h5 class="">Market Customers - Demographics: Age, Gender, & Nationalities</h5>
           <div class="d-flex justify-content-between gap-20">
             <main-select style="min-width: 120px" :options="['viewers', 'savers', 'trackers']"

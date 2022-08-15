@@ -90,9 +90,7 @@
               ref="cropper"
               class="upload-example-cropper"
               :src="image.src"
-              :stencil-props="{
-                aspectRatio: 2,
-              }"
+              :stencil-props="ratio"
               :resize-image="{
                 adjustStencil: true,
               }"
@@ -155,6 +153,10 @@ export default {
     progressLoading: {
       type: Number,
       default: 0
+    },
+    ratio: {
+      type: Number,
+      default: 2 / 1
     },
     label: {
       type: String,

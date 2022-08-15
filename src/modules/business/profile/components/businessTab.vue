@@ -1,12 +1,64 @@
 <template>
   <div>
     <!--  Photos edit modal  -->
+    <main-modal id="modal-image" size="lg">
+      <template v-slot:header class="p2">
+        <h4 class="font-weight-bold"><span class="text-info">show: </span>image</h4>
+      </template>
+      <template v-slot:body>
+        <img :src="selectedImage" class="w-100" />
+      </template>
+    </main-modal>
     <main-modal id="photosView" size="lg">
       <template v-slot:header class="p2">
         <h4 class="font-weight-bold"><span class="text-info">Edit: </span>{{ photoToEdit.type }}</h4>
       </template>
       <template v-slot:body>
         <photo-view :photoToEdit="photoToEdit"></photo-view>
+      </template>
+    </main-modal>
+    <main-modal id="addPhoto" size="lg">
+      <template v-slot:header class="p2">
+        <h4 class="font-weight-bold"><span class="text-info">Add: </span>New Images</h4>
+      </template>
+      <template v-slot:body>
+        <b-row>
+          <b-col md="12" class="mb-5">
+            <cropper-images
+                ratio="2 / 2"
+                label="Upload Logo"
+                nameOfImage="logo.jpg"
+                @cropper-save="savelogoImage"
+                :progressLoading="loadingLogo"
+                :multi="false"
+                :imageUrl="logoImage"
+            />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="12" class="mb-5">
+            <cropper-images
+                label="Upload Cover"
+                nameOfImage="cover.jpg"
+                @cropper-save="saveCoverImage"
+                :progressLoading="loadingCover"
+                :multi="false"
+                :imageUrl="coverImage"
+            ></cropper-images>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="12" class="mb-5">
+            <cropper-images
+                label="Upload Facility Photos"
+                @cropper-save="saveGalleryImage"
+                @remove-image="removeGalleryImage"
+                :progressLoading="loadingGallery"
+                :removeLoadingUi="removeLoadingUi"
+                :images="images"
+            ></cropper-images>
+          </b-col>
+        </b-row>
       </template>
     </main-modal>
     <spinner-loading v-if=(loading) text="Loading" />
@@ -361,29 +413,33 @@
           <b-card :img-src="coverImage" img-top class="p-0 mb-5" align="center"
                   @click.self="openPhotoView('cover')">
             <b-link>
-              <b-card-img :style="`background-image: url(${logoImage})`"
-                          class="card-profile-img mb-5"></b-card-img></b-link>
-            <h5 class="border-top border-bottom p-3 mb-3 mt-5">Facility photos</h5>
+              <b-card-img :style="`background-image: url(${logoImage})`" class="card-profile-img mb-5"></b-card-img>
+            </b-link>
+            <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility photos</h5>
             <b-card-body class="m-0">
-              <b-row class="row flex-nowrap mb-4">
-                <div v-if="(images)">
-                  <b-col md="3" v-for="(img, key) in images" :key="key" >
-                    <b-img class="img-fluid" :src="img.image" alt="img.name"></b-img>
-                  </b-col>
-                </div>
-                <div v-else>
-                  <span>No images to show</span>
-                </div>
-              </b-row>
+              <div class="d-flex gap-2 justify-content-start mb-4 cursor-pointer" v-if="images">
+                <div v-for="(img, key) in images" class="position-relative" :key="key">
+                    <span class="position-absolute deleteImage" v-if="showDeletedImage"
+                          @click="removeImage(img.id)"><i class="las la-trash-alt"></i></span>
+                    <div :style="`background-image: url(${img.image})`" class="facilityImageInProfile" @click="showImage(img.image)"></div>
+                  </div>
+              </div>
+              <div v-else>
+              <span>No images to show</span>
+            </div>
             </b-card-body>
             <b-card-text>
               <b-row class="border-top mb-2 pt-4">
                 <b-col>
-                  <span class="text-warning cursor-pointer">Upload photo</span>
+                  <p class="text-warning cursor-pointer text-center" @click="$bvModal.show('addPhoto')">Manage photos</p>
+                </b-col>
+<!--                <b-col>
+                  <span class="text-warning cursor-pointer" @click="$bvModal.show('addPhoto')">Upload photo</span>
                 </b-col>
                 <b-col>
-                  <span class="text-secondry cursor-pointer">Remove</span>
-                </b-col>
+                  <span class="text-secondry cursor-pointer" @click="showDeletedImage = !showDeletedImage">{{!showDeletedImage?
+                      'Remove' : 'Done'}}</span>
+                </b-col>-->
               </b-row>
             </b-card-text>
           </b-card>
@@ -397,6 +453,7 @@
 import registrationServices from '@/modules/businessLandingPage/services/registration.services'
 import { core } from '@/config/pluginInit'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+import mainService from '@/services/main'
 import photoView from '@/modules/business/profile/components/photoView'
 
 export default {
@@ -410,6 +467,7 @@ export default {
   },
   data () {
     return {
+      selectedImage: '',
       loading: '',
       info: {
         activity_line_id: '',
@@ -499,7 +557,12 @@ export default {
       allGovernorates: [],
       allAreas: [],
       formattedLocation: '',
-      photoToEdit: {}
+      photoToEdit: {},
+      showDeletedImage: false,
+      loadingLogo: 0,
+      loadingCover: 0,
+      loadingGallery: 0,
+      removeLoadingUi: false
     }
   },
   computed: {
@@ -515,6 +578,17 @@ export default {
     }
   },
   methods: {
+    showImage (image) {
+      this.selectedImage = image
+      this.$bvModal.show('modal-image')
+    },
+    removeImage (imageId) {
+      mainService.removeImage(imageId, JSON.parse(localStorage.getItem('userInfo')).service_types.toLowerCase()).then(res => {
+        core.showSnackbar('success', res.data.message)
+        const ind = this.images.findIndex(image => image.id === imageId)
+        this.images.splice(ind, 1)
+      })
+    },
     addNewGeneralAdminInformation () {
       this.adminInformation.push({
         name: '',
@@ -527,7 +601,6 @@ export default {
     },
     savelogoImage (data) {
       const formData = new FormData()
-      console.log(data)
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
       formData.append('type', 'logo')
@@ -539,14 +612,14 @@ export default {
           this.loadingLogo = percent
         }
       }
+      this.logoImage = ''
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.logoImage = ''
+        this.logoImage = data.imageInfo.src
       })
     },
     saveCoverImage (data) {
       const formData = new FormData()
-      console.log(data)
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
       formData.append('type', 'cover')
@@ -560,7 +633,7 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.coverImage = ''
+        this.coverImage = data.imageInfo.src
       })
     },
     saveGalleryImage (data) {
@@ -790,5 +863,35 @@ export default {
 <style>
 .card.p-0.text-center .card-body{
   padding: 0 !important;
+}
+.facilityImageInProfile {
+  width: 60px;
+  height: 60px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: black;
+}
+.gap-2{
+  gap: 1rem;
+}
+.deleteImage{
+  position: absolute;
+  /* width: 20px; */
+  /* height: 20px; */
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+  right: -8px;
+  border-radius: 50%;
+  top: -10px;
+  padding: 3px;
+  font-size: 17px;
+}
+.card-img-top {
+  height: 140px !important;
 }
 </style>

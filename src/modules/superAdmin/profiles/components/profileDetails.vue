@@ -790,6 +790,7 @@ export default {
           this.profile.operation = this.profileDetails.operations
         }
         if (this.profileDetails.location_type === 'address based') {
+          console.log('this.profileDetails.country_id => ', this.profileDetails.country_id)
           this.profile.address = this.profileDetails.address_based
           this.getCityDependOnCountry(this.profileDetails.country_id)
           this.getAreasDependOnCity(this.profileDetails.city_id)

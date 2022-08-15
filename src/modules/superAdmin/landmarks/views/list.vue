@@ -23,6 +23,43 @@
             Landmark<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
+      <b-col lg="12" class="mb-2">
+        <b-card>
+          <b-card-body class="p-0">
+            <b-row>
+              <b-col md="3" sm="6">
+                <span>Filter by name:</span>
+                <b-form-input v-model="filter.name" @keyup="reloadTable=true;reloadTable=true"
+                              placeholder="Search">
+                </b-form-input>
+              </b-col>
+              <b-col md="3" sm="6">
+                <span>Filter by city:</span>
+                <main-select v-model="filter.city_id" @change="reloadTable=true"
+                             :options="allGovernorates" label="name" :reduce="data => data.id"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="3" sm="6">
+                <span>Filter by area:</span>
+                <main-select v-model="filter.area_id" @change="reloadTable=true"
+                             :options="allAreas" label="name" :reduce="data => data.id"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="3">
+                <span>Filter by status:</span>
+                <main-select v-model="filter.status" @change="reloadTable=true"
+                             :options="statusFilterOptions"
+                             label="key"
+                             :reduce="data => data.value"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+            </b-row>
+          </b-card-body>
+        </b-card>
+      </b-col>
       <b-col lg="12">
         <main-table
             :fields="columns"
@@ -30,6 +67,7 @@
             @sortChanged="sortChanged"
             :list_url="'landmarks'"
             :reloadData="reloadTable"
+            :custom-filter="filter"
         >
         </main-table>
       </b-col>
@@ -40,6 +78,7 @@
 import { core } from '@/config/pluginInit'
 import landmarkDetails from '@/modules/superAdmin/landmarks/components/landmarkDetails'
 import landmarksServices from '@/modules/superAdmin/landmarks/services/landmarks.services'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 export default {
   data () {
     return {
@@ -48,11 +87,11 @@ export default {
       columns: [
         { label: '#', key: 'id', class: 'text-left' },
         { label: 'Governorate', key: 'city.name', class: 'text-left' },
-        { label: 'Area', key: 'area.id', class: 'text-left' },
+        { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Landmark Name', key: 'name', class: 'text-left' },
         { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
-        { label: 'Views', key: 'views', class: 'text-left' },
-        { label: 'Unique Views', key: 'unique_views', class: 'text-left' },
+        { label: 'Views', key: 'views', class: 'text-left', sortable: true },
+        { label: 'Unique Views', key: 'unique_views', class: 'text-left', sortable: true },
         {
           label: 'Change Status',
           key: 'change_status',
@@ -96,7 +135,23 @@ export default {
       ],
       typeOfModal: 'add',
       landmarkDetails: {},
-      landMarkId: ''
+      landMarkId: '',
+      filter:
+      {
+        city_id: '',
+        area_id: '',
+        name: '',
+        status: '',
+        sort: '',
+        sort_type: ''
+      },
+      statusFilterOptions: [
+        { key: 'Active', value: 'active' },
+        { key: 'Inactive', value: 'inactive' },
+        { key: 'None', value: '' }
+      ],
+      allGovernorates: [],
+      allAreas: []
     }
   },
   components: {
@@ -104,7 +159,10 @@ export default {
   },
   methods: {
     sortChanged (key) {
-      console.log(key)
+      this.reloadTable = false
+      this.filter.sort = key.sortBy
+      this.filter.sort_type = key.sortDesc ? 'desc' : 'asc'
+      this.reloadTable = true
     },
     openPopup () {
       this.landMarkId = ''
@@ -148,9 +206,23 @@ export default {
         this.landmarkDetails = res.data.data
         this.$bvModal.show('landMarksDetails')
       })
+    },
+    getAllCities () {
+      settingsService.getAllCities().then(res => {
+        this.allGovernorates = res.data.data.data
+        this.allGovernorates.push({ name: 'None', id: '' })
+      })
+    },
+    getAllAreas () {
+      settingsService.getAllAreas().then(res => {
+        this.allAreas = res.data.data.data
+        this.allAreas.push({ name: 'None', id: '' })
+      })
     }
   },
   created () {
+    this.getAllAreas()
+    this.getAllCities()
     this.$root.$on('showLandmark', this.showDetails)
     this.$root.$on('showLandmarkToEdit', this.showLandmarkToEdit)
   },

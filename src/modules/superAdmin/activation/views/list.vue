@@ -13,6 +13,38 @@
       <b-col lg="12" class="mb-2">
         <h3>Activation</h3>
       </b-col>
+      <b-col lg="12" class="mb-2">
+        <b-card>
+          <b-card-body class="p-0">
+            <b-row>
+              <b-col md="3">
+                <span>Filter by name:</span>
+                <b-form-input v-model="filter.name" @keyup="reloadTable=true"
+                              placeholder="Search">
+                </b-form-input>
+              </b-col>
+              <b-col md="3">
+                <span>Filter by type:</span>
+                <main-select v-model="filter.profile_type" @change="reloadTable=true"
+                             :options="typeFilterOptions"
+                             label="key"
+                             :reduce="data => data.value"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+              <b-col md="3">
+                <span>Filter by status:</span>
+                <main-select v-model="filter.status" @change="reloadTable=true"
+                             :options="statusFilterOptions"
+                             label="key"
+                             :reduce="data => data.value"
+                             placeholder="--Select--">
+                </main-select>
+              </b-col>
+            </b-row>
+          </b-card-body>
+        </b-card>
+      </b-col>
       <b-col lg="12">
         <main-table
             :fields="columns"
@@ -20,6 +52,7 @@
             @sortChanged="sortChanged"
             :list_url="'activations'"
             :reloadData="reloadTable"
+            :custom-filter="filter"
         >
         </main-table>
       </b-col>
@@ -61,12 +94,28 @@ export default {
       activationDetails: {},
       providerId: '',
       reloadTable: false,
-      loadingActivation: false
+      loadingActivation: false,
+      filter: { name: '', status: '', profile_type: '', sort_type: '' },
+      typeFilterOptions: [
+        { key: 'Sky', value: 'sky_' },
+        { key: 'Sea', value: 'sea_' },
+        { key: 'Earth', value: 'earth_' },
+        { key: 'Energy', value: 'energy_' },
+        { key: 'None', value: '' }
+      ],
+      statusFilterOptions: [
+        { key: 'Pending acceptance', value: 'pending acceptance' },
+        { key: 'Accepted', value: 'accepted' },
+        { key: 'Rejected', value: 'rejected' },
+        { key: 'None', value: '' }
+      ]
     }
   },
   methods: {
     sortChanged (key) {
-      console.log(key)
+      this.reloadTable = false
+      this.filter.sort_type = key.sortDesc ? 'desc' : 'asc'
+      this.reloadTable = true
     },
     viewProfile (obj) {
       activationsServices.getActivationDetails(obj.id).then(res => {

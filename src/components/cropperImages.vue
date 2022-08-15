@@ -37,7 +37,9 @@
         <section>
           <span v-if="progressLoading == 100">
             <span class="cursor-pointer text-bold text-danger font-size-12" v-if="multi">Remove</span>
-            <span class="cursor-pointer text-bold font-size-12" v-else>Uploaded</span>
+            <span class="cursor-pointer text-bold font-size-12" v-else @click="$refs.file.click()">
+              <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
+              Change</span>
           </span>
           <span class="cursor-pointer text-bold" v-else>
             <span v-if="showProgress">
@@ -51,7 +53,8 @@
         </section>
       </div>
     </div>
-    <div class="button-wrapper mb-3 d-flex flex-column justify-content-center align-items-center p-4">
+    <div v-if="!(!multi && image.src)"
+        class="button-wrapper mb-3 d-flex flex-column justify-content-center align-items-center p-4">
       <b-button variant="warning text-white rounded-0 px-4" @click="$refs.file.click()">
         <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
        + Add image

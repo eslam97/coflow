@@ -119,11 +119,12 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`URL Link ${key + 1}`"
-                      :rules="'required|regex:www.*.com'"
+                      :rules="'required'"
                       class="flex-grow-1"
                   >
                     <b-form-input
                         id="mm"
+                        :validate="'required'"
                         v-model="item.link"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="'Ex: https://www.google.com'"
@@ -386,6 +387,7 @@ export default {
   },
   watch: {
     'info.activity_line_id' (value) {
+      this.info.activity_type_id = ''
       this.getActivityTypesDependOnActivityLine(value)
     }
   },

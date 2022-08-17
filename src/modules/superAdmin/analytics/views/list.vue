@@ -66,15 +66,25 @@
       <b-row>
         <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
           <h3>Analytics</h3>
-          <div>
+          <div class="d-flex justify-content-between gap-20">
             <date-picker v-model="analyticsDate" type="date" @change="getAnalyticsData"
                          range placeholder="Select date range" value-type="format" format="YYYY-MM-DD"></date-picker>
+            <export-excel
+                :name="`coflow-analytics-${analyticsDate}.xls`"
+                type="xls"
+                worksheet="Analytics"
+                :fields="analyticsFieldsForExport"
+                :data="analyticsForExport">
+              <b-button variant="warning" class="add_button text-white">
+                Extract analytics
+              </b-button>
+            </export-excel>
           </div>
         </b-col>
       </b-row>
       <b-row class="mb-4">
         <b-col md="12" class="mb-3">
-          <b-table-simple responsive borderless class="text-center">
+          <b-table-simple responsive borderless class="text-center" style="max-height: 600px">
             <b-thead head-variant="light">
               <b-tr>
                 <b-th>Date</b-th>
@@ -103,14 +113,14 @@
 
     <b-card class="statistics-views mb-5">
       <template v-slot:header>
-        <div class="d-flex justify-content-between align-content-center">
+        <div class="d-flex justify-content-between align-items-center">
           <h4 class="">Market Customers - Demographics: Age, Gender, & Nationalities</h4>
           <main-select style="min-width: 120px" :options="['users', 'savers', 'trackers']"
                        v-model="userType" @change="updateUserTypeData"></main-select>
         </div>
       </template>
       <b-card-body>
-        <b-row class="mb-4">
+        <b-row v-if="dashboardHome.market_customers[userType].nationality.length > 0" class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
               <apex-chart class="chart-flex" width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
@@ -138,6 +148,11 @@
               </div>
           </b-col>
         </b-row>
+        <b-row v-else>
+          <b-col md="12" class="text-center py-4">
+            <h4 class="py-5">No {{ this.userType }} analysis</h4>
+          </b-col>
+        </b-row>
       </b-card-body>
     </b-card>
   </div>
@@ -155,6 +170,20 @@ export default {
       dashboardHome: '',
       marketBusiness: '',
       analytics: {},
+      analyticsForExport: [],
+      analyticsFieldsForExport: {
+        Date: 'date',
+        'Saved Business': 'saved_business',
+        'Tracked Business': 'tracked_business',
+        'Tracked Energy': 'tracked_energy',
+        'Onboarded Business': 'on_boarded_business',
+        'Visible Business': 'visible_business',
+        'Invisible Business': 'invisible_business',
+        'Temp Closed Business': 'temp_closed_business',
+        'Onboarded Customers': 'on_boarded_customers',
+        'Savers Customers': 'savers_customers',
+        'Trackers Customers': 'trackers_customers'
+      },
       analyticsDate: [moment(new Date()).format('YYYY-MM-DD'), moment(new Date()).format('YYYY-MM-DD')],
       locale: {
         direction: 'ltr',
@@ -328,8 +357,15 @@ export default {
       })
     },
     getAnalyticsData () {
+      this.analyticsForExport = []
       AnalyticsServices.getAnalytics(this.analyticsDate[0], this.analyticsDate[1]).then(res => {
         this.analytics = res.data.data
+        const tableKeys = Object.keys(this.analytics)
+        tableKeys.forEach(key => {
+          const obj = this.analytics[key].slice()
+          obj.date = key
+          this.analyticsForExport.push(obj)
+        })
       })
     }
   },

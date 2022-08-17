@@ -31,7 +31,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="{ required: true, regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Price'"
@@ -55,6 +55,7 @@
                   Discounted Price
                 </b-form-checkbox>
               </b-col>
+<!--              between: (0, ticket.price_egp)-->
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
@@ -89,7 +90,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'numeric'"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -141,7 +142,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Dollar price`"
-                    :rules="'numeric'"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"

@@ -670,7 +670,7 @@ slot-box-orange {
   z-index: -1;
   left: 0;
   top: 0;
-  background-color: rgba(#181935, 0.3);
+  background-color: rgba(#9595ab, 0.3);
 }
 .arrange-text {
   left: 40%;
@@ -678,4 +678,10 @@ slot-box-orange {
 }
 .modal-backdrop {
   background-color: rgba(#181935, 1) !important;
+}
+
+.filter-card {
+  border-radius: 0px !important;
+  padding: 15px 30px !important;
+  margin-bottom: 10px !important;
 }

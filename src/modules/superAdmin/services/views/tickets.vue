@@ -1,54 +1,52 @@
 <template>
     <b-row>
       <b-col lg="12" class="mb-2">
-        <b-card>
-          <b-card-body class="p-0">
-            <b-row>
-              <b-col md="3" sm="6">
-                <span>Filter by name:</span>
-                <b-form-input v-model="filter.name" @keyup="reloadTable=true"
-                              placeholder="Search">
-                </b-form-input>
-              </b-col>
-              <b-col md="3" sm="6">
-                <span>Filter by provider:</span>
-                <b-form-input v-model="filter.facility_name" @keyup="reloadTable=true"
-                              placeholder="Search">
-                </b-form-input>
-              </b-col>
-              <b-col md="3" sm="6">
-                <span>Filter by profile type:</span>
-                <main-select v-model="filter.profile_type" @change="reloadTable=true"
-                             :options="profileTypeFilterOptions" label="key" :reduce="data => data.value"
-                             placeholder="--Select--">
-                </main-select>
-              </b-col>
-              <b-col md="3" sm="6">
-                <span>Filter by city:</span>
-                <main-select v-model="filter.city_id" @change="reloadTable=true"
-                             :options="allGovernorates" label="name" :reduce="data => data.id"
-                             placeholder="--Select--">
-                </main-select>
-              </b-col>
-              <b-col md="3" sm="6">
-                <span>Filter by area:</span>
-                <main-select v-model="filter.area_id" @change="reloadTable=true"
-                             :options="allAreas" label="name" :reduce="data => data.id"
-                             placeholder="--Select--">
-                </main-select>
-              </b-col>
-              <b-col md="3">
-                <span>Filter by status:</span>
-                <main-select v-model="filter.status" @change="reloadTable=true"
-                             :options="statusFilterOptions"
-                             label="key"
-                             :reduce="data => data.value"
-                             placeholder="--Select--">
-                </main-select>
-              </b-col>
-            </b-row>
-          </b-card-body>
-        </b-card>
+        <iq-card class="filter-card">
+          <b-row>
+            <b-col md="3" sm="6">
+              <span>Filter by name:</span>
+              <b-form-input v-model="filter.name" @keyup="reloadTable=true"
+                            placeholder="Search">
+              </b-form-input>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Filter by provider:</span>
+              <b-form-input v-model="filter.facility_name" @keyup="reloadTable=true"
+                            placeholder="Search">
+              </b-form-input>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Filter by profile type:</span>
+              <main-select v-model="filter.profile_type" @change="reloadTable=true"
+                           :options="profileTypeFilterOptions" label="key" :reduce="data => data.value"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Filter by city:</span>
+              <main-select v-model="filter.city_id" @change="reloadTable=true"
+                           :options="allGovernorates" label="name" :reduce="data => data.id"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Filter by area:</span>
+              <main-select v-model="filter.area_id" @change="reloadTable=true"
+                           :options="allAreas" label="name" :reduce="data => data.id"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3">
+              <span>Filter by status:</span>
+              <main-select v-model="filter.status" @change="reloadTable=true"
+                           :options="statusFilterOptions"
+                           label="key"
+                           :reduce="data => data.value"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+          </b-row>
+        </iq-card>
       </b-col>
       <b-col lg="12">
         <main-table

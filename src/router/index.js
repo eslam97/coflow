@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import securityFunctions from '@/mixins/auth-permission'
+import securityFunctions from '@/mixins/auth-permission'
 // Import Business Landing
 import businessLanding from '@/modules/businessLandingPage/businessLandingPage.routes'
 
@@ -147,23 +147,23 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   }
 })
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.userType === 'both') {
-//     next()
-//   } else if (securityFunctions.methods.isAdmin(to.meta.userType)) {
-//     if (securityFunctions.methods.hasPer(to.meta.permission)) {
-//       next()
-//     } else {
-//       debugger
-//       next({ name: 'errorPage' })
-//     }
-//   } else {
-//     if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes) || to.meta.serviceTypes === 'all') {
-//       next()
-//     } else {
-//       debugger
-//       next({ name: 'errorPage' })
-//     }
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  if (to.meta.userType === 'both') {
+    next()
+  } else if (securityFunctions.methods.isAdmin(to.meta.userType)) {
+    if (securityFunctions.methods.hasPer(to.meta.permission)) {
+      next()
+    } else {
+      debugger
+      next({ name: 'errorPage' })
+    }
+  } else {
+    if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes) || to.meta.serviceTypes === 'all') {
+      next()
+    } else {
+      debugger
+      next({ name: 'errorPage' })
+    }
+  }
+})
 export default router

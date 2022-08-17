@@ -27,15 +27,15 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-            <b-col md="3">
+<!--            <b-col md="3">
               <span>Filter by status:</span>
               <main-select v-model="filter.status" @change="reloadTable=true"
                            :options="statusFilterOptions"
                            label="key"
                            :reduce="data => data.value"
-                           placeholder="--Select--">
+                           placeholder="&#45;&#45;Select&#45;&#45;">
               </main-select>
-            </b-col>
+            </b-col>-->
           </b-row>
         </iq-card>
       </b-col>

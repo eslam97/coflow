@@ -70,7 +70,8 @@
             <date-picker v-model="analyticsDate" type="date" @change="getAnalyticsData"
                          range placeholder="Select date range" value-type="format" format="YYYY-MM-DD"></date-picker>
             <export-excel
-                :name="`coflow-analytics-${analyticsDate}`"
+                :name="`coflow-analytics-${analyticsDate}.xls`"
+                type="xls"
                 worksheet="Analytics"
                 :fields="analyticsFieldsForExport"
                 :data="analyticsForExport">
@@ -361,7 +362,7 @@ export default {
         this.analytics = res.data.data
         const tableKeys = Object.keys(this.analytics)
         tableKeys.forEach(key => {
-          const obj = this.analytics[key]
+          const obj = this.analytics[key].slice()
           obj.date = key
           this.analyticsForExport.push(obj)
         })

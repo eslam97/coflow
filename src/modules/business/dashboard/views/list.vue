@@ -171,7 +171,7 @@
         </div>
       </template>
       <b-card-body>
-        <b-row v-if="section2[userType].nationality.length > 0" class="mb-4">
+        <b-row v-if="section2[userType].nationality.length > 1" class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
               <apex-chart class="chart-flex" width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>

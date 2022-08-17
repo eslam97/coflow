@@ -44,7 +44,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EGP price`"
-                    :rules="'required|numeric'"
+                    :rules="{ required: true, regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Price'"
@@ -102,7 +102,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`EURO price`"
-                    :rules="'numeric'"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"
@@ -154,7 +154,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Dollar price`"
-                    :rules="'numeric'"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Foreigner Price'"

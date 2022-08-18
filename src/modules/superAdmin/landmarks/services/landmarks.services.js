@@ -9,5 +9,8 @@ export default {
   },
   editLandmark (id, payload) {
     return Api().post(`landmarks/${id}`, payload)
+  },
+  addCoverLogo (payload) {
+    return Api().post('landmark-coverLogo')
   }
 }

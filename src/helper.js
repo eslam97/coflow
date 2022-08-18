@@ -7,6 +7,7 @@ import Raphael from 'raphael/raphael'
 import AlgoliaComponents from 'vue-instantsearch'
 import InfiniteLoading from 'vue-infinite-loading'
 import _ from 'lodash'
+import excel from 'vue-excel-export'
 
 // style
 import 'vue-select/dist/vue-select.css'
@@ -30,5 +31,6 @@ Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Vue.use(InfiniteLoading, { /* options */ })
 global.Raphael = Raphael
 Vue.use(AlgoliaComponents)
+Vue.use(excel)
 Vue.mixin(authPermissions)
 Vue.mixin(datePermissions)

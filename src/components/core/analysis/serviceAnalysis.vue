@@ -63,13 +63,16 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col md="8">
+        <b-col md="8" v-if="serviceAnalysis.total_views > 0">
           <div class="py-3">
             <div style="overflow-x: scroll">
               <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
                           type="bar" :options="monthDaysOptions" :series="monthDaysSeries"></apex-chart>
             </div>
           </div>
+        </b-col>
+        <b-col v-else md="8" class="text-center py-5">
+          <h4 class="py-5 mt-2">No user analysis for {{ serviceFilterByDate }}</h4>
         </b-col>
       </b-row>
     </b-card-body>
@@ -174,10 +177,6 @@ export default {
         {
           name: 'Views',
           data: []
-        },
-        {
-          name: 'Viewss',
-          data: []
         }
       ]
     }
@@ -190,21 +189,23 @@ export default {
         this.serviceAnalysis.last_month = moment(this.serviceFilterByDate).add(-1, 'M').format('MMMM')
 
         this.monthDaysOptions.xaxis.categories = this.serviceAnalysis.month_days.map((month) => month.date)
-        // this.monthDaysSeries[0].data = this.serviceAnalysis.month_days.map((month) => month.views)
-        this.monthDaysSeries[0].data = [...Array(31).keys()]
-        this.monthDaysSeries[1].data = [...Array(31).keys()]
+        this.monthDaysSeries[0].data = this.serviceAnalysis.month_days.map((month) => month.views)
       })
     },
     changeMonth (value) {
       this.serviceFilterByDate = moment(this.serviceFilterByDate).add(value, 'M').format('MMM YYYY')
       this.getServiceAnalysis()
-    },
-    selectItem () {
+    }
+  },
+  watch: {
+    'itemId' () {
+      this.getServiceAnalysis()
     }
   },
   created () {
     dashboardServices.getAllItems(this.routeNameMap[this.type]).then(res => {
       this.itemsList = res.data.data.data
+      this.itemId = this.itemsList[0].id
       console.log(this.itemsList)
     })
     this.getServiceAnalysis()

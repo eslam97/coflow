@@ -6,37 +6,36 @@
         <h3>Customers</h3>
       </b-col>
       <b-col lg="12" class="mb-2">
-        <b-card>
-          <b-card-body class="p-0">
-            <b-row>
-              <b-col md="3" sm="6">
-                <span>Filter by name:</span>
-                <b-form-input v-model="filter.name" @keyup="reloadTable=true"
-                              placeholder="Search">
-                </b-form-input>
-              </b-col>
-              <b-col md="3" sm="6">
-                <span>Filter by gender:</span>
-                <main-select v-model="filter.gender" @change="reloadTable=true"
-                             :options="genderFilterOptions" label="key" :reduce="data => data.value"
-                             placeholder="--Select--">
-                </main-select>
-              </b-col>
-              <b-col md="3" sm="6">
-                <span>Filter by nationality:</span>
-                <main-select v-model="filter.nationality" @change="reloadTable=true"
-                             :options="nationalityFilterOptions" label="name" :reduce="data => data.name"
-                             placeholder="--Select--">
-                </main-select>
-              </b-col>
-            </b-row>
-          </b-card-body>
-        </b-card>
+        <iq-card class="filter-card">
+          <b-row>
+            <b-col md="3" sm="6">
+              <span>Filter by name:</span>
+              <b-form-input v-model="filter.name" @keyup="reloadTable=true"
+                            placeholder="Search">
+              </b-form-input>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Filter by gender:</span>
+              <main-select v-model="filter.gender" @change="reloadTable=true"
+                           :options="genderFilterOptions" label="key" :reduce="data => data.value"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Filter by nationality:</span>
+              <main-select v-model="filter.nationality" @change="reloadTable=true"
+                           :options="nationalityFilterOptions" label="name" :reduce="data => data.name"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+          </b-row>
+        </iq-card>
       </b-col>
       <b-col lg="12">
         <main-table
             :fields="columns"
             class="mb-0 table-borderless"
+            @sortChanged="sortChanged"
             :list_url="'users'"
             :reloadData="reloadTable"
             :custom-filter="filter"
@@ -110,7 +109,6 @@ export default {
     getAllNationalities () {
       settingsService.getAllnationalities().then(res => {
         this.nationalityFilterOptions = res.data.data
-        this.nationalityFilterOptions.push({ name: 'None', id: '' })
       })
     }
   },

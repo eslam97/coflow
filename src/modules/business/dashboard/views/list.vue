@@ -111,13 +111,16 @@
             </div>
           </div>
         </b-col>
-        <b-col md="8" class="border-right border-left">
+        <b-col md="8" class="border-right border-left" v-if="this.analysisByDate.month_days.length > 0">
           <div class="py-3">
             <div style="overflow-x: scroll;overflow-y: hidden;">
               <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
                           type="bar" :options="monthDaysOptions" :series="monthDaysSeries"></apex-chart>
             </div>
           </div>
+        </b-col>
+        <b-col v-else md="8" class="text-center py-5">
+          <h4 class="py-5 mt-2">No user analysis for {{ filterByDate }}</h4>
         </b-col>
         <b-col md="2">
           <div class="py-3 px-2 d-flex justify-content-around flex-column h-100">
@@ -163,14 +166,12 @@
       <template v-slot:header>
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="">Market Customers - Demographics: Age, Gender, & Nationalities</h5>
-          <div class="d-flex justify-content-between gap-20">
-            <main-select style="min-width: 120px" :options="['viewers', 'savers', 'trackers']"
-                         v-model="userType" @change="updateUserTypeData"></main-select>
-          </div>
+          <main-select class="m-0" style="min-width: 130px" :options="['viewers', 'savers', 'trackers']"
+                       v-model="userType" @change="updateUserTypeData"></main-select>
         </div>
       </template>
       <b-card-body>
-        <b-row class="mb-4">
+        <b-row v-if="section2[userType].nationality.length > 0" class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
               <apex-chart class="chart-flex" width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
@@ -198,9 +199,14 @@
             </div>
           </b-col>
         </b-row>
+        <b-row v-else>
+          <b-col md="12" class="text-center py-4">
+            <h4 class="py-5">No {{ this.userType }} analysis</h4>
+          </b-col>
+        </b-row>
       </b-card-body>
     </b-card>
-    <service-analysis v-for="(type, key) in servicTypes" :key="key" :type="type"/>
+    <service-analysis v-for="(type, key) in serviceTypes" :key="key" :type="type"/>
   </div>
 </template>
 <script>
@@ -402,7 +408,7 @@ export default {
         SHOP: ['product'],
         CAMP: ['accommodation']
       },
-      servicTypes: []
+      serviceTypes: []
     }
   },
   methods: {
@@ -438,17 +444,14 @@ export default {
         this.analysisByDate.current.month = moment(this.filterByDate).format('MMMM')
 
         this.monthDaysOptions.xaxis.categories = this.analysisByDate.month_days.map((month) => month.date)
-        // this.monthDaysSeries[0].data = this.analysisByDate.month_days.map((month) => month.views)
-        // this.monthDaysSeries[1].data = this.analysisByDate.month_days.map((month) => month.saves)
-        // this.monthDaysSeries[2].data = this.analysisByDate.month_days.map((month) => month.tracks)
-        this.monthDaysSeries[0].data = [...Array(31).keys()]
-        this.monthDaysSeries[1].data = [...Array(30).keys()]
-        this.monthDaysSeries[2].data = [...Array(30).keys()]
+        this.monthDaysSeries[0].data = this.analysisByDate.month_days.map((month) => month.views)
+        this.monthDaysSeries[1].data = this.analysisByDate.month_days.map((month) => month.saves)
+        this.monthDaysSeries[2].data = this.analysisByDate.month_days.map((month) => month.tracks)
       })
     }
   },
   created () {
-    this.servicTypes = this.serviceAccess[JSON.parse(localStorage.getItem('userInfo')).service_types]
+    this.serviceTypes = this.serviceAccess[JSON.parse(localStorage.getItem('userInfo')).service_types]
     this.getHomeData()
     this.getAnalysisByDate()
   },

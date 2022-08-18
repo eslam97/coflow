@@ -142,7 +142,7 @@
           </b-col>
           <b-col md="12" class="mb-3">
             <cropper-images
-                label="Upload Logo"
+                label="Upload Cover"
                 nameOfImage="image.jpg"
                 @cropper-save="saveCoverImageLand"
                 :progressLoading="loadingCover"

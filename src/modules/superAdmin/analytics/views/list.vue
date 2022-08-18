@@ -362,7 +362,7 @@ export default {
         this.analytics = res.data.data
         const tableKeys = Object.keys(this.analytics)
         tableKeys.forEach(key => {
-          const obj = this.analytics[key].slice()
+          const obj = { ...this.analytics[key] }
           obj.date = key
           this.analyticsForExport.push(obj)
         })

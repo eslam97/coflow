@@ -206,7 +206,7 @@
         </b-row>
       </b-card-body>
     </b-card>
-    <service-analysis v-for="(type, key) in servicTypes" :key="key" :type="type"/>
+    <service-analysis v-for="(type, key) in serviceTypes" :key="key" :type="type"/>
   </div>
 </template>
 <script>
@@ -408,7 +408,7 @@ export default {
         SHOP: ['product'],
         CAMP: ['accommodation']
       },
-      servicTypes: []
+      serviceTypes: []
     }
   },
   methods: {
@@ -451,7 +451,7 @@ export default {
     }
   },
   created () {
-    this.servicTypes = this.serviceAccess[JSON.parse(localStorage.getItem('userInfo')).service_types]
+    this.serviceTypes = this.serviceAccess[JSON.parse(localStorage.getItem('userInfo')).service_types]
     this.getHomeData()
     this.getAnalysisByDate()
   },

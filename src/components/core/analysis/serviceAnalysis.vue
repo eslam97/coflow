@@ -63,7 +63,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col md="8" v-if="serviceAnalysis.month_days.length > 0">
+        <b-col md="8" v-if="serviceAnalysis.total_views > 0">
           <div class="py-3">
             <div style="overflow-x: scroll">
               <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
@@ -177,10 +177,6 @@ export default {
         {
           name: 'Views',
           data: []
-        },
-        {
-          name: 'Viewss',
-          data: []
         }
       ]
     }
@@ -199,13 +195,17 @@ export default {
     changeMonth (value) {
       this.serviceFilterByDate = moment(this.serviceFilterByDate).add(value, 'M').format('MMM YYYY')
       this.getServiceAnalysis()
-    },
-    selectItem () {
+    }
+  },
+  watch: {
+    'itemId' () {
+      this.getServiceAnalysis()
     }
   },
   created () {
     dashboardServices.getAllItems(this.routeNameMap[this.type]).then(res => {
       this.itemsList = res.data.data.data
+      this.itemId = this.itemsList[0].id
       console.log(this.itemsList)
     })
     this.getServiceAnalysis()

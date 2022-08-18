@@ -615,7 +615,8 @@ export default {
       this.logoImage = ''
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.logoImage = data.imageInfo.src
+        console.log(res.data)
+        this.logoImage = data.imageInfo.src // response
       })
     },
     saveCoverImage (data) {

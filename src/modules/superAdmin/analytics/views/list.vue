@@ -336,9 +336,9 @@ export default {
         this.dashboardHome = res.data.data
         const userData = this.dashboardHome.market_customers[this.userType]
         this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
-
-        this.ageSeries = Object.values(userData.age)
-
+        Object.keys(userData.age).sort().forEach(i => {
+          this.ageSeries.push(userData.age[i])
+        })
         this.genderSeries.push(userData.gender.male)
         this.genderSeries.push(userData.gender.female)
       })

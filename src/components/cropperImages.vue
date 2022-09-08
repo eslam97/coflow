@@ -65,22 +65,22 @@
     <b-card v-show="showPopup" class="w-100 m-auto card" id="uploadImageCropper">
         <div class="actions d-flex justify-content-between align-items-center mb-3">
           <div class="left d-flex gap-2">
-            <button class="square-button"  @click="zoom(2)">
+            <button class="square-button"  @click.prevent="zoom(2)">
               <img :src="require('@/assets/images/icons/zoom-in.svg')" />
             </button>
-            <button class="square-button"  @click="zoom(0.5)">
+            <button class="square-button"  @click.prevent="zoom(0.5)">
               <img :src="require('@/assets/images/icons/zoom-out.svg')" />
             </button>
-            <button class="square-button"  @click="flip(true, false)">
+            <button class="square-button"  @click.prevent="flip(true, false)">
               <img :src="require('@/assets/images/icons/flip-horizontal.svg')" />
             </button>
-            <button class="square-button"  @click="flip(false, true)">
+            <button class="square-button"  @click.prevent="flip(false, true)">
               <img :src="require('@/assets/images/icons/flip-vertical.svg')" />
             </button>
-            <button class="square-button"  @click="rotate(90)">
+            <button class="square-button"  @click.prevent="rotate(90)">
               <img :src="require('@/assets/images/icons/rotate-clockwise.svg')" />
             </button>
-            <button class="square-button"  @click="rotate(-90)">
+            <button class="square-button"  @click.prevent="rotate(-90)">
               <img :src="require('@/assets/images/icons/rotate-counter-clockwise.svg')" />
             </button>
           </div>

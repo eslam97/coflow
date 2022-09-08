@@ -65,7 +65,7 @@ export default {
         { label: 'Details', key: 'details', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Conditions', key: 'conditions', class: 'text-left' },
+        /*   { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
         {
           label: 'Change Status',
           key: 'change_status',

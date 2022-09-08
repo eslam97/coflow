@@ -72,10 +72,10 @@ export default {
         { label: 'Level', key: 'level_ex', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Description', key: 'description', class: 'text-left' },
+        /* { label: 'Description', key: 'description', class: 'text-left' }, */
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Requirements', key: 'requirements', class: 'text-left' },
-        { label: 'Conditions', key: 'conditions', class: 'text-left' },
+        /* { label: 'Requirements', key: 'requirements', class: 'text-left' }, */
+        /* { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
         { label: 'Location', key: 'location', class: 'text-left', type: 'array' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {

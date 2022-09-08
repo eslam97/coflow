@@ -645,14 +645,6 @@ export default {
       allCountries: [],
       allGovernorates: [],
       allArea: []
-      /*      loadingLogo: 0,
-      loadingCover: 0,
-      loadingGallery: 0,
-      images: [],
-      logoImage: '',
-      coverImage: '',
-      removeLoadingUi: false,
-      providerId: '' */
     }
   },
   computed: {

@@ -209,8 +209,15 @@
                     :class="(errors.length >
                              0 ? ' is-invalid' : '')"
                 ></b-form-textarea>
-                <div class="invalid-feedback">
+<!--                <div class="invalid-feedback">
                   <span>{{ errors[0] }}</span>
+                  <small :class="[{ 'text-danger': info.description.length > 1000 }]">
+                    {{ (1000 > info.description.length) ? 1000 - info.description.length : 0 }} characters</small>
+                </div>-->
+                <div class="d-flex justify-content-between">
+                  <small class="text-danger">{{ errors[0] }}</small>
+                  <small :class="[{ 'text-danger': info.description.length > 100 }]">
+                    {{ (100 > info.description.length) ? 100 - info.description.length : 0 }} characters</small>
                 </div>
               </ValidationProvider>
             </b-form-group>

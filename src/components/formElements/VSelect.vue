@@ -175,6 +175,11 @@ export default {
       } else this.selected = this.multiple ? [] : null
       this.onChange()
     }
+  },
+  mounted () {
+    if (this.options.length === 1) {
+      this.selected = this.options[0]
+    }
   }
 }
 

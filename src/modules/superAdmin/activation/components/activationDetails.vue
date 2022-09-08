@@ -237,18 +237,18 @@
               <b-col md="12">
                 <label class="mb-3">Location</label>
                 <div>
-                  <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
+                  <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="location_type" color="warning"
                                 name="color" value="address based" >
                     <span class="text-primary font-size-12">Address Based</span>
                   </b-form-radio>
-                  <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
+                  <b-form-radio class="custom-radio-color-checked" inline v-model="location_type" color="warning"
                                 name="color" value="remote location" >
                     <span class="text-primary font-size-12">Remote</span>
                   </b-form-radio>
                 </div>
               </b-col>
             </b-row>
-            <div v-if="typeOfLocation === 'address based'">
+            <div v-if="location_type === 'address based'">
               <b-row>
                 <b-col class="mb-3" md="2">
                   <main-select labelTitle='Country' :validate="'required'"
@@ -331,7 +331,7 @@
                 </b-col>
               </b-row>
             </div>
-            <div v-else-if="typeOfLocation === 'remote location'">
+            <div v-else-if="location_type === 'remote location'">
               <b-row class="mb-5">
                 <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
                        :key="locationKey">
@@ -339,34 +339,34 @@
                     <b-col class="mb-2" md="3">
                       <main-select labelTitle='Country' :validate="'required'"
                                    :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
-                                   label="name"
-                                   :reduce="data=> data.id"
-                                   @change="getCityDependOnCountry(location.country_id)"
+                                   label="name" :reduce="data=> data.id"
+                                   @change="location.city_id=''; getCityDependOnCountry(location)"
                                    v-model="location.country_id"></main-select>
                     </b-col>
                     <b-col md="1">
-                      <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                      <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check"
                                        color="warning">
                         <span class="font-size-12 text-primary"> All </span>
                       </b-form-checkbox>
                     </b-col>
-                    <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
+                    <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all country'">
                       <main-select labelTitle='Governorate' :validate="'required'"
-                                   :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
-                                   label="name"
-                                   :reduce="data=> data.id"
+                                   :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
+                                   label="name" :reduce="data=> data.id"
+                                   @change="location.areas=[]; getAreasDependOnCity(location)"
                                    v-model="location.city_id"></main-select>
                     </b-col>
-                    <b-col md="1"  v-if="location.availability_type !== 'all city'">
+                    <b-col md="1"  v-if="location.availability_type !== 'all country'">
                       <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
                         <span class="font-size-12 text-primary"> All </span>
                       </b-form-checkbox>
                     </b-col>
-                    <b-col class="mb-2" md="4" v-if="location.availability_type !== 'all city'">
-                      <div v-if="location.availability_type !== 'all country'">
+                    <b-col class="mb-2" md="4"
+                           v-if="location.availability_type !== 'all country' && location.availability_type !== 'all city'">
+                      <div>
                         <main-select labelTitle='Area' :validate="'required'"
-                                     :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
-                                     :multiple="true"
+                                     :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="location.areaList"
+                                     :multiple="true" label="name" :reduce="data=> data.id"
                                      v-model="location.areas"></main-select>
                       </div>
                     </b-col>
@@ -568,10 +568,12 @@ export default {
       contactTypes: ['Landline', 'Mobile'],
       remote_locations: [
         {
-          availability_type: null,
-          country_id: null,
-          city_id: null,
-          areas: []
+          availability_type: 'open',
+          country_id: '',
+          city_id: '',
+          areas: [],
+          cityList: [],
+          areaList: []
         }
       ],
       phones: [
@@ -580,7 +582,7 @@ export default {
           number: ''
         }
       ],
-      typeOfLocation: '',
+      location_type: '',
       typeOfOperation: '',
       images: [],
       logoImage: '',
@@ -742,10 +744,12 @@ export default {
     },
     addNewzone () {
       this.remote_locations.push({
-        availability_type: null,
-        country_id: null,
-        city_id: null,
-        areas: []
+        availability_type: 'open',
+        country_id: '',
+        city_id: '',
+        areas: [],
+        cityList: [],
+        areaList: []
       })
     },
     deletezone (key) {
@@ -766,16 +770,14 @@ export default {
         this.allCountries = res.data.data
       })
     },
-    getCityDependOnCountry (id) {
-      this.allGovernorates = []
-      settingsService.getCountryCity(id).then(res => {
-        this.allGovernorates = res.data.data
+    getCityDependOnCountry (location) {
+      settingsService.getCountryCity(location.country_id).then(res => {
+        location.cityList = res.data.data
       })
     },
-    getAreasDependOnCity (id) {
-      this.allArea = []
-      settingsService.getCityArea(id).then(res => {
-        this.allArea = res.data.data
+    getAreasDependOnCity (location) {
+      settingsService.getCityArea(location.city_id).then(res => {
+        location.areaList = res.data.data
       })
     },
     getAllActivityLine () {
@@ -830,13 +832,26 @@ export default {
           this.allOperation = this.activationDetails.operations
         }
         if (this.activationDetails.location_type === 'address based') {
-          this.typeOfLocation = 'address based'
+          this.location_type = 'address based'
           this.based = this.activationDetails.address_based
           this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
           this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
         } else {
-          this.typeOfLocation = 'remote location'
-          this.remote_locations = this.activationDetails.remote_locations
+          this.location_type = 'remote location'
+          this.remote_locations = []
+          this.activationDetails.remote_locations.forEach(location => {
+            const obj = {
+              availability_type: location.availability_type,
+              country_id: location.country_id,
+              city_id: location.city_id,
+              areas: location.areas,
+              cityList: [],
+              areaList: []
+            }
+            this.getCityDependOnCountry(obj)
+            this.getAreasDependOnCity(obj)
+            this.remote_locations.push(obj)
+          })
         }
       }
     },
@@ -844,7 +859,7 @@ export default {
     saveChanges () {
       let location = {}
       let operation = {}
-      if (this.typeOfLocation === 'address based') {
+      if (this.location_type === 'address based') {
         location = { phones: this.phones, address: this.based, location_type: 'address based' }
       } else {
         location = { phones: this.phones, ...this.remote, location_type: 'remote location' }

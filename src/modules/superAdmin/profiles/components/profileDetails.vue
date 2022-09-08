@@ -352,34 +352,34 @@
                   <b-col class="mb-2" md="3">
                     <main-select labelTitle='Country' :validate="'required'"
                                  :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
-                                 label="name"
-                                 :reduce="data=> data.id"
-                                 @change="getCityDependOnCountry(location.country_id)"
+                                 label="name" :reduce="data=> data.id"
+                                 @change="getCityDependOnCountry(location)"
                                  v-model="location.country_id"></main-select>
                   </b-col>
                   <b-col md="1">
-                    <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                    <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check"
                                      color="warning">
                       <span class="font-size-12 text-primary"> All </span>
                     </b-form-checkbox>
                   </b-col>
-                  <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all city'">
+                  <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all country'">
                     <main-select labelTitle='Governorate' :validate="'required'"
-                                 :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
-                                 label="name"
-                                 :reduce="data=> data.id"
+                                 :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
+                                 label="name" :reduce="data=> data.id"
+                                 @change="getAreasDependOnCity(location)"
                                  v-model="location.city_id"></main-select>
                   </b-col>
-                  <b-col md="1"  v-if="location.availability_type !== 'all city'">
-                    <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
+                  <b-col md="1"  v-if="location.availability_type !== 'all country'">
+                    <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
                       <span class="font-size-12 text-primary"> All </span>
                     </b-form-checkbox>
                   </b-col>
-                  <b-col class="mb-2" md="4" v-if="location.availability_type !== 'all city'">
-                    <div v-if="location.availability_type !== 'all country'">
+                  <b-col class="mb-2" md="4"
+                         v-if="location.availability_type !== 'all country' && location.availability_type !== 'all city'">
+                    <div>
                       <main-select labelTitle='Area' :validate="'required'"
-                                   :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
-                                   :multiple="true"
+                                   :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="location.areaList"
+                                   :multiple="true" label="name" :reduce="data=> data.id"
                                    v-model="location.areas"></main-select>
                     </div>
                   </b-col>
@@ -598,10 +598,12 @@ export default {
         ],
         location: [
           {
-            availability_type: '',
+            availability_type: 'open',
             country_id: '',
             city_id: '',
-            areas: []
+            areas: [],
+            cityList: [],
+            areaList: []
           }
         ],
         address: {
@@ -700,10 +702,12 @@ export default {
     },
     addNewzone () {
       this.profile.location.push({
-        availability_type: '',
+        availability_type: 'open',
         country_id: '',
         city_id: '',
-        areas: []
+        areas: [],
+        cityList: [],
+        areaList: []
       })
     },
     deletezone (key) {
@@ -724,21 +728,14 @@ export default {
         this.allCountries = res.data.data
       })
     },
-    getCityDependOnCountry (id) {
-      this.allGovernorates = []
-      this.allArea = []
-      this.profile.address.area_id = ''
-      this.profile.address.city_id = ''
-      settingsService.getCountryCity(id).then(res => {
-        this.allGovernorates = res.data.data
+    getCityDependOnCountry (location) {
+      settingsService.getCountryCity(location.country_id).then(res => {
+        location.cityList = res.data.data
       })
     },
-    getAreasDependOnCity (id) {
-      this.allArea = []
-      this.profile.address.area_id = ''
-      settingsService.getCityArea(id).then(res => {
-        console.log(res.data)
-        this.allArea = res.data.data
+    getAreasDependOnCity (location) {
+      settingsService.getCityArea(location.city_id).then(res => {
+        location.areaList = res.data.data
       })
     },
     getAllActivityLine () {
@@ -864,6 +861,9 @@ export default {
     }, */
     // save change
     saveProfile () {
+      if (!this.profile.location.availability_type) {
+        this.profile.location.availability_type = 'open'
+      }
       if (this.profile.location_type === 'address based' && this.profile.operation_type === '24 hours') {
         this.$emit('addProfile', this.$_.omit(this.profile, ['location', 'operation']))
       } else if (this.profile.location_type === 'address based' && this.profile.operation_type !== '24 hours') {

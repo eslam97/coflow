@@ -87,6 +87,7 @@ export default {
     },
     getCityDependOnCountry () {
       this.allCities = []
+      this.area.city_id = ''
       settingsService.getCountryCity(this.area.country_id).then(res => {
         this.allCities = res.data.data
       })

@@ -12,6 +12,8 @@
             <b-row class="mb-4">
               <b-col md="4" class="mb-3">
                 <input-form
+                    disabled="true"
+                    class="email-disabled"
                     v-model="profile.email"
                     name="Email address"
                     :validate="'required|email'"
@@ -132,12 +134,12 @@ export default {
     updateLoginCredential () {
       if (this.newPassword && this.confirmPassword) {
         if (this.newPassword === this.confirmPassword) {
-          this.newPassword = ''
-          this.confirmPassword = ''
           this.$emit('updateLoginCredential', {
             password: this.newPassword,
             _method: 'post'
           })
+          this.newPassword = ''
+          this.confirmPassword = ''
         }
       } else {
         core.showSnackbar('error', 'New password and Confirm password can\'t be empty')
@@ -174,3 +176,8 @@ export default {
   }
 }
 </script>
+<style>
+.email-disabled input:disabled {
+  background-color: #fff !important;
+}
+</style>

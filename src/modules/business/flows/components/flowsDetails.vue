@@ -57,7 +57,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${flows.price_egp}`"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEGP, max: flows.price_egp}"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -115,7 +115,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EURO price`"
-                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${flows.price_euro}`"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEUR, max: flows.price_euro}"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -167,7 +167,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted Dollar price`"
-                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${flows.price_dollar}`"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedDollar, max: flows.price_dollar}"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"

@@ -132,6 +132,7 @@ export default {
     },
     // Admin tab
     updateLoginCredential (credential) {
+      console.log('credential', credential)
       adminInfoService.saveAdmin(credential).then(res => {
         core.showSnackbar('success', res.data.message)
       })

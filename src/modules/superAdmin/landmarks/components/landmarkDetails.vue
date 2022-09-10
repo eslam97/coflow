@@ -338,12 +338,14 @@ export default {
     },
     getCityDependOnCountry (id) {
       this.allGovernorates = []
+      this.landmark.city_id = ''
       settingsService.getCountryCity(id).then(res => {
         this.allGovernorates = res.data.data
       })
     },
     getAreasDependOnCity (id) {
       this.allArea = []
+      this.landmark.area_id = ''
       settingsService.getCityArea(id).then(res => {
         this.allArea = res.data.data
       })

@@ -7,7 +7,7 @@
             <validation-provider
                 #default="{ errors }"
                 :name="`Message`"
-                :rules="'required'"
+                :rules="''"
                 class="flex-grow-1"
             >
               <b-form-group label="Leave a message to your users">

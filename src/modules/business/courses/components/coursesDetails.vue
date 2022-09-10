@@ -251,7 +251,6 @@
                          :taggable="true"
                          multiple v-model="courses.location"
                          :name="`Locations`" placeholder="Add multiple location tags"
-                         :numberOfSelect=3
             ></main-select>
             <validation-provider
                 #default="{ errors }"

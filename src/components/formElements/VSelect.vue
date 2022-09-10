@@ -24,10 +24,12 @@
         :loading="showLoadingIcon"
         :taggable="taggable"
         @input="onChange"
+        @keydown.native="isTextVerify"
         @search:focus="onFocus"
         @search:blur="onBlur"
         :no-drop="taggable"
-        :class="[{ 'is-invalid': errors.length > 0 }]"
+        :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
+        :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
         >
           <template #open-indicator="{ attributes }" v-if="!taggable">
             <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
@@ -54,6 +56,7 @@
         </vue-select>
       <div class="d-flex justify-content-between">
         <small class="text-danger">{{ errors[0] }}</small>
+        <small v-if="showAlert" class="text-danger">number of text not valid</small>
         <small v-if="taggable">Add tag then press enter</small>
       </div>
     </validation-provider>
@@ -69,6 +72,12 @@ export default {
     multiple: {
       type: Boolean,
       default: false
+    },
+    numberOfSelect: {
+      type: Number
+    },
+    inputLength: {
+      type: Number
     },
     taggable: {
       type: Boolean,
@@ -127,7 +136,9 @@ export default {
   data () {
     return {
       checkAll: false,
-      selected: null
+      selected: null,
+      showAlert: false,
+      text: ''
 
     }
   },
@@ -157,9 +168,21 @@ export default {
     this.selected = this.$attrs.value
   },
   methods: {
+    isTextVerify (e) {
+      this.text = e.target.value
+      if (this.inputLength && (e.target.value.length > this.inputLength)) {
+        this.showAlert = true
+      } else {
+        this.showAlert = false
+      }
+    },
     onChange (e) {
-      this.$emit('input', this.selected)
-      this.$emit('change', this.selected)
+      if (this.text.length > this.inputLength) {
+        this.selected.splice(this.selected.length - 1, 1)
+      } else {
+        this.$emit('input', this.selected)
+        this.$emit('change', this.selected)
+      }
     },
 
     onFocus () {
@@ -174,6 +197,11 @@ export default {
         else this.selected = this.options
       } else this.selected = this.multiple ? [] : null
       this.onChange()
+    }
+  },
+  mounted () {
+    if (this.options.length === 1) {
+      this.selected = this.options[0]
     }
   }
 }

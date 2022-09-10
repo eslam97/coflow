@@ -1,7 +1,9 @@
 export default {
   methods: {
     hasPer: () => true,
-    isType: nameOfType => JSON.parse(localStorage.getItem('userInfo')).type.toLowerCase() === nameOfType.toLowerCase(),
+    isType: () => true,
+    isAdmin: () => true
+    /* isType: nameOfType => JSON.parse(localStorage.getItem('userInfo')).type.toLowerCase() === nameOfType.toLowerCase(),
     isAdmin: nameOfType => JSON.parse(localStorage.getItem('userInfo')).type === 'admin',
     hasServiceType: nameOfType => {
       if (JSON.parse(localStorage.getItem('userInfo')).service_types) {
@@ -9,6 +11,6 @@ export default {
       } else {
         return true
       }
-    }
+    } */
   }
 }

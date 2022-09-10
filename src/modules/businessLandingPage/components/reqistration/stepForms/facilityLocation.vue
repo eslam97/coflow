@@ -13,11 +13,11 @@
             <b-col md="12">
               <label class="mb-3">Location</label>
               <div>
-                <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfLocation" color="warning"
+                <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="location_type" color="warning"
                               name="color" value="address based" >
                   <span class="text-primary font-size-12">Address Based</span>
                 </b-form-radio>
-                <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfLocation" color="warning"
+                <b-form-radio class="custom-radio-color-checked" inline v-model="location_type" color="warning"
                               name="color" value="remote location" >
                   <span class="text-primary font-size-12">Remote</span>
                 </b-form-radio>
@@ -66,7 +66,7 @@
               <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
             </b-col>
           </b-row>
-          <div v-if="typeOfLocation === 'address based'">
+          <div v-if="location_type === 'address based'">
             <b-row>
               <b-col class="mb-3" md="2">
                 <main-select labelTitle='Country' :validate="'required'"
@@ -224,7 +224,7 @@ export default {
   },
   data () {
     return {
-      typeOfLocation: 'address based',
+      location_type: 'address based',
       based: {
         country_id: '',
         city_id: '',
@@ -264,7 +264,7 @@ export default {
     },
     saveFacilityLocation () {
       this.loadingFacilityLocation = true
-      if (this.typeOfLocation === 'address based') {
+      if (this.location_type === 'address based') {
         registrationServices.saveStepLocationBased({ ...this.based, phones: this.phones }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
@@ -336,7 +336,7 @@ export default {
     fillData () {
       if (this.providerInfo) {
         if (this.providerInfo.location_type === 'address based') {
-          this.typeOfLocation = 'based'
+          this.location_type = 'based'
           this.based.city_id = this.providerInfo.city_id
           this.based.country_id = this.providerInfo.country_id
           this.based.area_id = this.providerInfo.area_id
@@ -350,7 +350,7 @@ export default {
             this.allArea = res.data.data
           })
         } else {
-          this.typeOfLocation = 'remote location'
+          this.location_type = 'remote location'
           this.remote_locations = [{
             availability_type: 'open',
             country_id: '',

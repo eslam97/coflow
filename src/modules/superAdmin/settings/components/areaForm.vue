@@ -26,9 +26,9 @@
           </b-col>
           <b-col md="12" class="mb-3">
             <main-select
-                labelTitle='City'
+                labelTitle='Governorate'
                 :validate="'required'"
-                :name="`City`"
+                :name="`Governorate`"
                 label="name"
                 placeholder="Choose" :options="allCities"
                 v-model="area.city_id"

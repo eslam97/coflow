@@ -46,7 +46,7 @@
           <b-col md="12" class="infoKey">
             <p>Locations</p>
           </b-col>
-          <b-col md="4" class="infoValue" v-for="(location, key) in coursesDetails.locations" :key="key">
+          <b-col md="4" class="infoValue" v-for="(location, key) in coursesDetails.location" :key="key">
             <p>{{ location }}</p>
           </b-col>
         </b-row>

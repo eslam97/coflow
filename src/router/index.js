@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-/* import securityFunctions from '@/mixins/auth-permission' */
+// import securityFunctions from '@/mixins/auth-permission'
 // Import Business Landing
 import businessLanding from '@/modules/businessLandingPage/businessLandingPage.routes'
 

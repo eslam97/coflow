@@ -43,11 +43,14 @@
 
           <!-- Arrange-->
           <div v-else-if="field.type == 'sort'">
-            <b-form-input v-if="arrangeMode" class="sort-field"
+<!--            <b-form-input v-if="arrangeMode" class="sort-field"
                           @keyup.enter.native="changeSort($_.get(data.item, 'id'), service_type, this.value)"
                           :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
                           :value="$_.get(data.item, field.key)">
-            </b-form-input>
+            </b-form-input>-->
+            <main-select v-if="arrangeMode" :options="listOfData.map(data => data.sort)" :value="$_.get(data.item, 'sort')"
+                         @input="changeSort($_.get(data.item, 'id'), service_type, $event)">
+            </main-select>
 <!--            <input v-if="arrangeMode" class="sort-field"
                           onkeyup="console.log(this.value)"
                           :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
@@ -319,7 +322,10 @@ export default {
       this.$emit('sortChanged', data)
     },
     changeSort (id, type, sort) {
-      console.log(id, type, sort)
+      mainService.changeSort({ id, type, sort }).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.reloadData = true
+      })
     },
     changeStatus (data) {
       mainService.changeStatus(data.payload).then(res => {

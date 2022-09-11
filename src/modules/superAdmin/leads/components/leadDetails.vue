@@ -129,7 +129,6 @@ export default {
       allLinks: [
         'Website',
         'Facebook',
-        'Twitter',
         'Instagram'
       ],
       businessRequest: {

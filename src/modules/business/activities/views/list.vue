@@ -32,9 +32,16 @@
       </template>
     </main-modal>
     <b-row>
+      <div v-if="arrangeMode" class="position-absolute arrange-overlay">
+        <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
+          item</p></div>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Activities</h3>
-        <div>
+        <div class="d-flex justify-content-between gap-20">
+          <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
+            <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
+            <span v-else>Save</span>
+          </b-button>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
             Add Activity<i class="las la-plus ml-3"></i></b-button>
         </div>
@@ -46,6 +53,8 @@
             @sortChanged="sortChanged"
             :list_url="'activities'"
             :reloadData="reloadTable"
+            :service_type="'activity'"
+            :arrangeMode="arrangeMode"
         >
         </main-table>
       </b-col>
@@ -63,7 +72,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'id', class: 'text-left' },
+        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
         { label: 'Activity Name', key: 'name', class: 'text-left' },
         /* { label: 'Description', key: 'description', class: 'text-left' }, */
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
@@ -115,7 +124,8 @@ export default {
       typeOfModal: 'add',
       activitiesDetails: {},
       activitiesViewData: {},
-      activitiesId: ''
+      activitiesId: '',
+      arrangeMode: false
     }
   },
   components: {

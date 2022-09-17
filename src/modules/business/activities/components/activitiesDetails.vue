@@ -72,7 +72,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="`${selectedEGP ? 'required': ''}|numeric|between:0,${activities.price_egp}`"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEGP }"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -326,9 +326,9 @@ export default {
       },
       type: '',
       foreignerPrice: 'None',
-      selectedEGP: '',
-      selectedEUR: '',
-      selectedDollar: '',
+      selectedEGP: false,
+      selectedEUR: false,
+      selectedDollar: false,
       allDurationList: [],
       loadingGallery: 0,
       progressBar: 0,

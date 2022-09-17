@@ -73,7 +73,7 @@
               <b-col class="mb-3" md="2">
                 <input-form
                     placeholder="Ex: 2022"
-                    :validate="`required|numeric|digits:4|between:1970,${new Date().getFullYear()}`"
+                    :validate="`required|numeric|between:0,${new Date().getFullYear()}`"
                     :name="`year`"
                     :label="'Launch Year'"
                     v-model="info.year"
@@ -876,6 +876,9 @@ export default {
       if (this.location_type === 'address based') {
         address = { ...this.based, location_type: 'address based' }
       } else {
+        this.remote_locations.forEach((location) => {
+          location.availability_type = location.availability_type ? location.availability_type : 'open'
+        })
         location = { location: this.remote_locations, location_type: 'remote location' }
         console.log(location)
       }

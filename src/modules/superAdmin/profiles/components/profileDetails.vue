@@ -707,7 +707,7 @@ export default {
       this.profile.location.splice(key, 1)
     },
     addNewOperation () {
-      this.allOperation.push({
+      this.profile.operation.push({
         days: [],
         from: '',
         to: ''

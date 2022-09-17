@@ -69,6 +69,33 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
+            <b-col md="3">
+              <span>Have a promotion:</span>
+              <main-select v-model="filter.promotions" @change="reloadTable=true"
+                           :options="promotion"
+                           label="key"
+                           :reduce="data => data.value"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3">
+              <span>Activity Line:</span>
+              <main-select v-model="filter.activity_line_id" @change="reloadTable=true"
+                           :options="allActivityLines"
+                           label="name"
+                           :reduce="data => data.id"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3">
+              <span>Activity Type:</span>
+              <main-select v-model="filter.activity_type_id" @change="reloadTable=true"
+                           :options="allActivityTypes"
+                           label="name"
+                           :reduce="data => data.id"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
           </b-row>
         </iq-card>
       </b-col>
@@ -95,6 +122,7 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Facility Name', key: 'name', class: 'text-left' },
         { label: 'Account Type', key: 'service_types', class: 'text-left' },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
@@ -176,7 +204,10 @@ export default {
         name: '',
         status: '',
         sort: '',
-        sort_type: ''
+        sort_type: '',
+        promotions: '',
+        activity_type_id: '',
+        activity_line_id: ''
       },
       profileTypeFilterOptions: [
         { key: 'Sky', value: 'sky_' },
@@ -186,6 +217,7 @@ export default {
         { key: 'None', value: '' }
       ],
       accTypeFilterOptions: [
+        { key: 'GO', value: 'go' },
         { key: 'FLOW', value: 'flow' },
         { key: 'PRO', value: 'pro' },
         { key: 'CAMP', value: 'camp' },
@@ -198,6 +230,13 @@ export default {
         { key: 'Temp closed', value: 'temp_closed' },
         { key: 'None', value: '' }
       ],
+      promotion: [
+        { key: 'Yes', value: 'yes' },
+        { key: 'No', value: 'no' },
+        { key: 'None', value: '' }
+      ],
+      allActivityLines: [],
+      allActivityTypes: [],
       allGovernorates: [],
       allAreas: []
     }
@@ -234,7 +273,7 @@ export default {
       console.log('edit')
     },
     viewProfile (obj) {
-      this.typeOfModal = 'edit'
+      this.typeOfModal = 'view'
       profilesServices.getActivationDetails(obj.id).then(res => {
         this.providerId = obj.id
         this.profileDetails = res.data.data
@@ -268,6 +307,23 @@ export default {
         this.allAreas = res.data.data.data
         this.allAreas.push({ name: 'None', id: '' })
       })
+    },
+    getAllActivityLine () {
+      settingsService.getAllActivityLine().then(res => {
+        this.allActivityLines = res.data.data
+      })
+    },
+    getActivityTypesDependOnActivityLine (id) {
+      this.allActivityTypes = []
+      settingsService.getActivityTypesDependOnActivityLine(id).then(res => {
+        this.allActivityTypes = res.data.data
+      })
+    }
+  },
+  watch: {
+    'filter.activity_line_id' (value) {
+      this.filter.activity_type_id = ''
+      this.getActivityTypesDependOnActivityLine(value)
     }
   },
   mounted () {
@@ -284,6 +340,7 @@ export default {
   created () {
     this.getAllCities()
     this.getAllAreas()
+    this.getAllActivityLine()
     this.$root.$on('viewProfile', this.viewProfile)
     this.$root.$on('changeToDisactive', this.changeToDisactive)
     this.$root.$on('changeToActive', this.changeToActiveStatus)

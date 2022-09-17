@@ -79,7 +79,7 @@
                 </validation-provider>
               </b-col>
             </b-row>
-            <b-row>
+<!--            <b-row>
               <b-col md="12" class="mb-3">
                 <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
                              v-model="foreignerPrice"></main-select>
@@ -188,7 +188,7 @@
                   </b-form-group>
                 </validation-provider>
               </b-col>
-            </b-row>
+            </b-row>-->
             <b-row>
               <b-col md="12" class="mb-3">
                 <validation-provider

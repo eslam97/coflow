@@ -68,6 +68,7 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Provider Name', key: 'provider.name', class: 'text-left' },
         { label: 'Profile Type', key: 'provider.profile_type', class: 'text-left' },

@@ -69,7 +69,7 @@ export default {
   data () {
     return {
       columns: [
-        { label: '#', key: 'id', class: 'text-left' },
+        '#',
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
         { label: 'Status', key: 'status', class: 'text-left' },

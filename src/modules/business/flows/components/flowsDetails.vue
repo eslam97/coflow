@@ -76,7 +76,7 @@
                 </validation-provider>
               </b-col>
             </b-row>
-            <b-row>
+<!--            <b-row>
               <b-col md="4" class="mb-3">
                 <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
                              v-model="foreignerPrice"></main-select>
@@ -185,7 +185,7 @@
                   </b-form-group>
                 </validation-provider>
               </b-col>
-            </b-row>
+            </b-row>-->
             <span class="d-flex"><span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span></span>
             <div v-for="(instructor, counter) in flows.instructors"
                 :key="counter">

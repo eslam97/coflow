@@ -27,15 +27,15 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-<!--            <b-col md="3">
+            <b-col md="3">
               <span>Filter by status:</span>
               <main-select v-model="filter.status" @change="reloadTable=true"
                            :options="statusFilterOptions"
                            label="key"
                            :reduce="data => data.value"
-                           placeholder="&#45;&#45;Select&#45;&#45;">
+                           placeholder="--Select--">
               </main-select>
-            </b-col>-->
+            </b-col>
           </b-row>
         </iq-card>
       </b-col>
@@ -59,9 +59,10 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Provider Name', key: 'provider.name', class: 'text-left' },
         { label: 'Profile Type', key: 'provider.profile_type', class: 'text-left' },
-        { label: 'Offer Title', key: 'offer_title', class: 'text-left' },
+        { label: 'Offer', key: 'offer_title', class: 'text-left' },
         { label: 'Promotion Type', key: 'promotion_type', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left', sortable: true },
         { label: 'End Date', key: 'end_date', class: 'text-left', sortable: true },
@@ -95,7 +96,7 @@ export default {
       ],
       statusFilterOptions: [
         { key: 'Active', value: 'active' },
-        { key: 'Inactive', value: 'inactive' },
+        { key: 'Ended', value: 'ended' },
         { key: 'None', value: '' }
       ]
     }

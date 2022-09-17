@@ -93,7 +93,7 @@ export default {
         console.log(res)
         core.showSnackbar('success', 'Welcome ' + res.data.data.name)
         localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-        if (res.data.data.status === 'accepted') {
+        if (res.data.data.status === 'accepted' || res.data.data.status === 'active lead') {
           this.$router.push({ name: 'profileInfo' })
           switch (res.data.data.profile_step) {
             case 'admin':

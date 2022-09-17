@@ -92,7 +92,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
+        '#',
         { label: 'Governorate', key: 'city.name', class: 'text-left' },
         { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Landmark Name', key: 'name', class: 'text-left' },

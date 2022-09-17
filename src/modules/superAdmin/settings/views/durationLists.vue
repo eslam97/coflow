@@ -49,7 +49,8 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'duration List',
-              textContent: 'name'
+              textContent: 'name',
+              url: 'durationLists'
             }
           ]
         }

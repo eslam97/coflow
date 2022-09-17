@@ -99,6 +99,7 @@ export default {
         { key: 'Pending acceptance', value: 'pending acceptance' },
         { key: 'Accepted', value: 'accepted' },
         { key: 'Rejected', value: 'rejected' },
+        { key: 'Active Lead', value: 'active lead' },
         { key: 'None', value: '' }
       ]
     }

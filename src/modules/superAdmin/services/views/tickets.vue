@@ -68,10 +68,11 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Provider Name', key: 'provider.name', class: 'text-left' },
         { label: 'Profile Type', key: 'provider.profile_type', class: 'text-left' },
-        { label: 'City', key: 'provider.city.name', class: 'text-left' },
+        { label: 'Governate', key: 'provider.city.name', class: 'text-left' },
         { label: 'Area', key: 'provider.area.name', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },

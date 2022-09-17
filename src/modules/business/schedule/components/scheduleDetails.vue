@@ -112,7 +112,7 @@ export default {
           from: '',
           to: '',
           instructor: '',
-          ladies_only: 0,
+          ladies_only: false,
           status: ''
         }],
         status: 'active',
@@ -167,7 +167,7 @@ export default {
         from: '',
         to: '',
         instructor: '',
-        ladies_only: ''
+        ladies_only: false
       })
     },
     deleteSlot (ind) {

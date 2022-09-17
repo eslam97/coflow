@@ -45,6 +45,15 @@
                          placeholder="--Select--">
             </main-select>
           </b-col>
+          <b-col md="3">
+            <span>Schedules:</span>
+            <main-select v-model="filter.schedules" @change="reloadTable=true"
+                         :options="statusFilterSchedules"
+                         label="key"
+                         :reduce="data => data.value"
+                         placeholder="--Select--">
+            </main-select>
+          </b-col>
         </b-row>
       </iq-card>
     </b-col>
@@ -68,14 +77,16 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Provider Name', key: 'provider.name', class: 'text-left' },
         { label: 'Profile Type', key: 'provider.profile_type', class: 'text-left' },
-        { label: 'City', key: 'provider.city.name', class: 'text-left' },
+        { label: 'Governate', key: 'provider.city.name', class: 'text-left' },
         { label: 'Area', key: 'provider.area.name', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
+        { label: 'Schedules Count', key: 'schedules_count', class: 'text-left' },
         { label: 'Views', key: 'views', class: 'text-left', sortable: true },
         { label: 'Unique Views', key: 'unique_views', class: 'text-left', sortable: true }
       ],
@@ -101,6 +112,11 @@ export default {
       statusFilterOptions: [
         { key: 'Active', value: 'active' },
         { key: 'Inactive', value: 'inactive' },
+        { key: 'None', value: '' }
+      ],
+      statusFilterSchedules: [
+        { key: 'YES', value: 'yes' },
+        { key: 'NO', value: 'no' },
         { key: 'None', value: '' }
       ],
       allGovernorates: [],

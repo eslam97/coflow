@@ -520,14 +520,14 @@
                 <spinner-loading ></spinner-loading>
               </b-button>
             </div>
-            <div class="d-flex justify-content-center" v-if="typeOfModal == 'edit'">
+<!--            <div class="d-flex justify-content-center" v-if="typeOfModal == 'edit'">
               <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
                 <i class="las la-pen"></i>
               </b-button>
               <b-button class="button-blue-modal" v-else>
                 <spinner-loading ></spinner-loading>
               </b-button>
-            </div>
+            </div>-->
           </b-col>
         </b-row>
       </b-form>

@@ -27,7 +27,7 @@
 
       <!-- A virtual column -->
       <template #cell(#)="data">
-        {{ data.index + 1 }}
+        {{ pagination.from  + ( data.index ) }}
       </template>
 
       <template
@@ -249,7 +249,9 @@ export default {
       pagination: {
         current_page: 1,
         per_page: 10,
-        total: 10
+        total: 10,
+        from: 1,
+        to: 10
       },
       loadingTable: false,
       moreImages: 2,
@@ -301,7 +303,9 @@ export default {
           this.pagination = {
             current_page: List.data?.data?.current_page,
             per_page: List.data?.data?.per_page,
-            total: List.data?.data?.total
+            total: List.data?.data?.total,
+            from: List.data?.data?.from,
+            to: List.data?.data?.to
           }
         } else {
           this.listOfData = List.data?.data

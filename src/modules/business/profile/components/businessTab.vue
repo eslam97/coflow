@@ -31,7 +31,7 @@
                 @cropper-save="savelogoImage"
                 :progressLoading="loadingLogo"
                 :multi="false"
-                :imageUrl="logoImage"
+                :imageUrl="logoImage || require('@/assets/images/user/default-user-image.png')"
             />
           </b-col>
         </b-row>
@@ -452,13 +452,20 @@
             </b-link>
             <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility photos</h5>
             <b-card-body class="m-0">
-              <div class="d-flex gap-2 justify-content-start mb-4 cursor-pointer" v-if="images">
+              <b-row class="mb-4cursor-pointer" v-if="images">
+                <b-col cols="3"  v-for="(img, key) in images" class="position-relative" :key="key">
+                                      <span class="position-absolute deleteImage" v-if="showDeletedImage"
+                                            @click="removeImage(img.id)"><i class="las la-trash-alt"></i></span>
+                  <div :style="`background-image: url(${img.image})`" class="facilityImageInProfile" @click="showImage(img.image)"></div>
+                </b-col>
+              </b-row>
+<!--              <div class="d-flex gap-2 justify-content-start mb-4 cursor-pointer" v-if="images">
                 <div v-for="(img, key) in images" class="position-relative" :key="key">
                     <span class="position-absolute deleteImage" v-if="showDeletedImage"
                           @click="removeImage(img.id)"><i class="las la-trash-alt"></i></span>
                     <div :style="`background-image: url(${img.image})`" class="facilityImageInProfile" @click="showImage(img.image)"></div>
                   </div>
-              </div>
+              </div>-->
               <div v-else>
               <span>No images to show</span>
             </div>

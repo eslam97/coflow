@@ -262,16 +262,17 @@
           </b-row>
           <div v-if="profile.location_type === 'address based'">
             <b-row>
-              <b-col class="mb-3" md="2">
+              <b-col class="mb-3" md="4">
                 <main-select labelTitle='Country' :validate="'required'"
                              :name="`country_id`" placeholder="Choose"
                              :options="allCountries"
                              label="name"
                              :reduce="data => data.id"
-                             @change="getCityDependOnCountry(profile.address.country_id)"
+                             @change="profile.address.city_id = ''; profile.address.area_id = '';
+                             getCityDependOnCountry(profile.address.country_id)"
                              v-model="profile.address.country_id"></main-select>
               </b-col>
-              <b-col class="mb-3" md="2">
+              <b-col class="mb-3" md="4">
                 <main-select labelTitle='Governorate'
                              :validate="'required'"
                              :name="`Governorate`"
@@ -279,7 +280,7 @@
                              :options="allGovernorates"
                              label="name"
                              :reduce="data => data.id"
-                             @change="getAreasDependOnCity(profile.address.city_id)"
+                             @change="profile.address.area_id = ''; getAreasDependOnCity(profile.address.city_id)"
                              v-model="profile.address.city_id"></main-select>
               </b-col>
               <b-col class="mb-3" md="4">
@@ -289,7 +290,7 @@
                              :reduce="data => data.id"
                              v-model="profile.address.area_id"></main-select>
               </b-col>
-              <b-col class="mb-3" md="4">
+              <b-col class="mb-3" md="12">
                 <input-form
                     placeholder="Ex: 105 name st."
                     :validate="'required'"
@@ -353,7 +354,7 @@
                     <main-select labelTitle='Country' :validate="'required'"
                                  :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
                                  label="name" :reduce="data=> data.id"
-                                 @change="getCityDependOnCountry(location)"
+                                 @change="location.city_id = ''; location.areas = []; getCityDependOnCountryRemote(location)"
                                  v-model="location.country_id"></main-select>
                   </b-col>
                   <b-col md="1">
@@ -366,7 +367,7 @@
                     <main-select labelTitle='Governorate' :validate="'required'"
                                  :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
                                  label="name" :reduce="data=> data.id"
-                                 @change="getAreasDependOnCity(location)"
+                                 @change="location.areas = []; getAreasDependOnCityRemote(location)"
                                  v-model="location.city_id"></main-select>
                   </b-col>
                   <b-col md="1"  v-if="location.availability_type !== 'all country'">
@@ -720,12 +721,24 @@ export default {
         this.allCountries = res.data.data
       })
     },
-    getCityDependOnCountry (location) {
+    getCityDependOnCountry (id) {
+      this.allGovernorates = []
+      settingsService.getCountryCity(id).then(res => {
+        this.allGovernorates = res.data.data
+      })
+    },
+    getAreasDependOnCity (id) {
+      this.allArea = []
+      settingsService.getCityArea(id).then(res => {
+        this.allArea = res.data.data
+      })
+    },
+    getCityDependOnCountryRemote (location) {
       settingsService.getCountryCity(location.country_id).then(res => {
         location.cityList = res.data.data
       })
     },
-    getAreasDependOnCity (location) {
+    getAreasDependOnCityRemote (location) {
       settingsService.getCityArea(location.city_id).then(res => {
         location.areaList = res.data.data
       })
@@ -778,13 +791,27 @@ export default {
           this.profile.operation_type = 'specify days'
           this.profile.operation = this.profileDetails.operations
         }
-        if (this.profileDetails.location_type === 'address based') {
-          console.log('this.profileDetails.country_id => ', this.profileDetails.country_id)
+        this.profile.location_type = this.profileDetails.location_type
+        if (this.profile.location_type === 'address based') {
           this.profile.address = this.profileDetails.address_based
           this.getCityDependOnCountry(this.profileDetails.country_id)
           this.getAreasDependOnCity(this.profileDetails.city_id)
         } else {
-          this.allOperation = this.profileDetails.operations
+          this.profile.location = []
+          this.profileDetails.remote_locations.forEach(location => {
+            const obj = {
+              availability_type: location.availability_type,
+              country_id: location.country_id,
+              city_id: location.city_id,
+              areas: location.areas,
+              cityList: [],
+              areaList: []
+            }
+            this.getCityDependOnCountryRemote(obj)
+            this.getAreasDependOnCityRemote(obj)
+            console.log(obj)
+            this.profile.location.push(obj)
+          })
         }
       }
     },

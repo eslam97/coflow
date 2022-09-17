@@ -15,10 +15,17 @@
       </template>
     </main-modal>
     <b-row>
+      <div v-if="arrangeMode" class="position-absolute arrange-overlay">
+        <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
+          item</p></div>
       <b-col lg="12"
              class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Landmarks</h3>
-        <div>
+        <div class="d-flex justify-content-between gap-20">
+          <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
+            <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
+            <span v-else>Save</span>
+          </b-button>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">Create
             Landmark<i class="las la-plus ml-3"></i></b-button>
         </div>
@@ -66,6 +73,8 @@
             :list_url="'landmarks'"
             :reloadData="reloadTable"
             :custom-filter="filter"
+            :service_type="'landmark'"
+            :arrangeMode="arrangeMode"
         >
         </main-table>
       </b-col>
@@ -149,7 +158,8 @@ export default {
         { key: 'None', value: '' }
       ],
       allGovernorates: [],
-      allAreas: []
+      allAreas: [],
+      arrangeMode: false
     }
   },
   components: {

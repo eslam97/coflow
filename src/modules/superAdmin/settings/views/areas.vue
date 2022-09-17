@@ -68,7 +68,7 @@ export default {
       },
       columns: [
         { label: 'Name', key: 'name', class: 'text-center' },
-        { label: 'City', key: 'city.name', class: 'text-center' },
+        { label: 'Governorate', key: 'city.name', class: 'text-center' },
         { label: 'Country', key: 'country.name', class: 'text-center' },
         {
           label: 'Actions',

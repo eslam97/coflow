@@ -117,7 +117,6 @@ export default {
       test: '',
       allLinks: [
         'Website',
-        'Twitter',
         'Facebook',
         'Instagram'
       ],

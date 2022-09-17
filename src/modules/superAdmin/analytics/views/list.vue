@@ -49,15 +49,35 @@
       <b-row>
         <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
           <h3>Business Market</h3>
+          <div class="d-flex justify-content-between gap-20">
+            <main-select style="min-width: 180px" :validate="'required'" :name="'Country'" placeholder="Country"
+                         :options="allCountries" label="name" :reduce="data=> data.id"
+                         @change="getCityDependOnCountry(country)" v-model="country">
+            </main-select>
+            <main-select style="min-width: 180px" :validate="'required'" :name="`Governorate`" placeholder="Governorate"
+                         :options="allGovernorates" label="name" :reduce="data => data.id"
+                         @change="getMarketData()" v-model="marketCity">
+            </main-select>
+            <export-excel
+                :name="`coflow-market-business.xls`"
+                type="xls"
+                worksheet="Market Business"
+                :fields="marketFieldsForExport"
+                :data="marketForExport">
+              <b-button variant="warning" class="add_button text-white mt-1">
+                Extract market business
+              </b-button>
+            </export-excel>
+          </div>
         </b-col>
       </b-row>
       <b-row class="mb-4">
         <b-col md="12" class="mb-3">
-          <main-table :list_url="'market-business/1'"
-                      :fields="marketFields"
+          <b-table :items="marketBusiness" style="max-height: 600px"
+                      :fields="marketFields" responsive
                       class="mb-0 table-borderless" headVariant="light"
                       :paginationFlag="false"
-          ></main-table>
+          ></b-table>
         </b-col>
       </b-row>
     </div>
@@ -162,13 +182,39 @@ import { core } from '@/config/pluginInit'
 import AnalyticsServices from '@/modules/superAdmin/analytics/services/analytics.services'
 import ApexChart from 'vue-apexcharts'
 import moment from 'moment'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 export default {
   components: { ApexChart },
   data () {
     return {
       isLive: false,
       dashboardHome: '',
-      marketBusiness: '',
+
+      marketBusiness: [],
+      marketForExport: [],
+      marketFieldsForExport: {
+        Area: 'name',
+        'Explore Landmarks': 'analysis.landmark',
+        'Explore Camps': 'analysis.Explore_Camp',
+        'Sky Dive': 'analysis.Sky_Dive',
+        'Sky Shop': 'analysis.Sky_Shop',
+        'Sky Para': 'analysis.Sky_Para',
+        'Sea Dive': 'analysis.Sea_Dive',
+        'Sea Surf': 'analysis.Sea_Surf',
+        'Sea Shop': 'analysis.Sea_Shop',
+        'Earth Ride': 'analysis.Earth_Ride',
+        'Earth Grib': 'analysis.Earth_Grib',
+        'Earth Shop': 'analysis.Earth_Shop',
+        'Energy Fit': 'analysis.Energy_Fit',
+        'Energy Flex': 'analysis.Energy_Flex',
+        'Energy Shop': 'analysis.Energy_Shop',
+        Total: 'analysis.total'
+      },
+      marketCity: '',
+      country: '',
+      allCountries: [],
+      allGovernorates: [],
+
       analytics: {},
       analyticsForExport: [],
       analyticsFieldsForExport: {
@@ -344,16 +390,24 @@ export default {
       })
     },
     updateUserTypeData () {
+      this.ageSeries = []
       const userData = this.dashboardHome.market_customers[this.userType]
       this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
-      this.ageSeries = Object.values(userData.age)
+      Object.keys(userData.age).sort().forEach(i => {
+        this.ageSeries.push(userData.age[i])
+      })
       this.genderSeries = []
       this.genderSeries.push(userData.gender.male)
       this.genderSeries.push(userData.gender.female)
     },
-    getMareketData () {
-      AnalyticsServices.getMarketBusiness().then(res => {
+    getMarketData () {
+      AnalyticsServices.getMarketBusiness(this.marketCity || 1).then(res => {
         this.marketBusiness = res.data.data
+      })
+    },
+    getAllMarketData () {
+      AnalyticsServices.getMarketBusiness(0).then(res => {
+        this.marketForExport = res.data.data
       })
     },
     getAnalyticsData () {
@@ -367,12 +421,26 @@ export default {
           this.analyticsForExport.push(obj)
         })
       })
+    },
+    getAllCountries () {
+      settingsService.getAllCountries().then(res => {
+        this.allCountries = res.data.data
+      })
+    },
+    getCityDependOnCountry (id) {
+      this.allGovernorates = []
+      this.marketCity = ''
+      settingsService.getCountryCity(id).then(res => {
+        this.allGovernorates = res.data.data
+      })
     }
   },
   created () {
     this.getDashboardData()
-    this.getMareketData()
     this.getAnalyticsData()
+    this.getMarketData()
+    this.getAllMarketData()
+    this.getAllCountries()
   },
   mounted () {
     core.index()

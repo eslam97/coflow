@@ -232,7 +232,7 @@
                     Use this section to update your contact and location information</p>
                 </b-card-header>
                 <b-card-body>
-                  <b-row v-if="typeOfLocation === 'address based'">
+                  <b-row v-if="location_type === 'address based'">
                     <b-col>
                       <b-row>
                         <b-col md="3"><p>Facility Address</p></b-col>
@@ -260,17 +260,52 @@
                     </b-col>
                   </b-row>
                   <b-row v-else class="mb-4">
-                    <b-col>
-                      <ul>
-                        <li v-for="(location,key) in remote_locations" :key="key">
-                          {{ allAreas.filter(area => area.id === location.area_id).name }},
-                           {{ allGovernorates.filter(city => city.id === location.city_id).name }},
-                           {{ allCountries.filter(country => country.id === location.country_id).name }}
-                        </li>
-                      </ul>
+                    <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
+                           :key="locationKey">
+                      <b-row class="d-flex align-items-center">
+                        <b-col class="mb-2" md="3">
+                          <main-select labelTitle='Country' :validate="'required'"
+                                       :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
+                                       label="name" :reduce="data=> data.id"
+                                       @change="location.city_id = ''; location.areas = []; getCityDependOnCountryRemote(location)"
+                                       v-model="location.country_id"></main-select>
+                        </b-col>
+                        <b-col md="1">
+                          <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check"
+                                           color="warning">
+                            <span class="font-size-12 text-primary"> All </span>
+                          </b-form-checkbox>
+                        </b-col>
+                        <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all country'">
+                          <main-select labelTitle='Governorate' :validate="'required'"
+                                       :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
+                                       label="name" :reduce="data=> data.id"
+                                       @change="location.areas = []; getAreasDependOnCityRemote(location)"
+                                       v-model="location.city_id"></main-select>
+                        </b-col>
+                        <b-col md="1"  v-if="location.availability_type !== 'all country'">
+                          <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                                           color="warning">
+                            <span class="font-size-12 text-primary"> All </span>
+                          </b-form-checkbox>
+                        </b-col>
+                        <b-col class="mb-2" md="4"
+                               v-if="location.availability_type !== 'all country' && location.availability_type !== 'all city'">
+                          <div>
+                            <main-select labelTitle='Area' :validate="'required'"
+                                         :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="location.areaList"
+                                         :multiple="true" label="name" :reduce="data=> data.id"
+                                         v-model="location.areas"></main-select>
+                          </div>
+                        </b-col>
+                      </b-row>
+                      <span class="text-danger deleteLabelButton cursor-pointer" v-if="!locationKey == 0"
+                            @click="deletezone(locationKey)">Delete
+                        Zone
+                    </span>
                     </b-col>
                   </b-row>
-                  <b-row class="mb-4">
+                  <b-row class="mb-4" v-if="location_type === 'address based'">
                     <b-col md="12">
                       <span>Note: To edit Address/Location please contact coflow personnel</span>
                     </b-col>
@@ -506,9 +541,11 @@ export default {
       remote_locations: [
         {
           availability_type: 'open',
-          country_id: null,
-          city_id: null,
-          areas: []
+          country_id: '',
+          city_id: '',
+          areas: [],
+          cityList: [],
+          areaList: []
         }
       ],
       phones: [
@@ -517,7 +554,7 @@ export default {
           number: ''
         }
       ],
-      typeOfLocation: '',
+      location_type: '',
       typeOfOperation: '',
       city: '',
       country: '',
@@ -693,15 +730,17 @@ export default {
       })
     },
     addNewzone () {
-      this.remote.location.push({
+      this.remote_locations.push({
         availability_type: 'open',
-        country_id: null,
-        city_id: null,
-        areas: []
+        country_id: '',
+        city_id: '',
+        areas: [],
+        cityList: [],
+        areaList: []
       })
     },
     deletezone (key) {
-      this.remote.location.splice(key, 1)
+      this.remote_locations.splice(key, 1)
     },
     addNewOperation () {
       this.allOperation.push({
@@ -749,8 +788,18 @@ export default {
         })
       })
     },
+    getCityDependOnCountryRemote (location) {
+      settingsService.getCountryCity(location.country_id).then(res => {
+        location.cityList = res.data.data
+      })
+    },
+    getAreasDependOnCityRemote (location) {
+      settingsService.getCityArea(location.city_id).then(res => {
+        location.areaList = res.data.data
+      })
+    },
     formatLocation () {
-      // if (this.typeOfLocation === 'address based') {
+      // if (this.location_type === 'address based') {
       //   return ``
       // } else {
       //   return `${this.remote_locations.forEach(location => {
@@ -786,14 +835,27 @@ export default {
           this.allOperation = this.oldProfile.operations
         }
         if (this.oldProfile.location_type === 'address based') {
-          this.typeOfLocation = 'address based'
+          this.location_type = 'address based'
           this.based = this.oldProfile.address_based
           this.city = this.oldProfile.city
           this.country = this.oldProfile.country
           this.area = this.oldProfile.area
         } else {
-          this.typeOfLocation = 'remote location'
-          this.remote = this.oldProfile.remote
+          this.location_type = 'remote location'
+          this.remote_locations = []
+          this.oldProfile.remote_locations.forEach(location => {
+            const obj = {
+              availability_type: location.availability_type,
+              country_id: location.country_id,
+              city_id: location.city_id,
+              areas: location.areas,
+              cityList: [],
+              areaList: []
+            }
+            this.getCityDependOnCountryRemote(obj)
+            this.getAreasDependOnCityRemote(obj)
+            this.remote_locations.push(obj)
+          })
         }
         this.loading = false
       }
@@ -808,17 +870,17 @@ export default {
     },
     saveChangesPhone () {
       let location = {}
-      if (this.typeOfLocation === 'address based') {
-        location = { phones: this.phones, ...this.based, location_type: 'address based' }
+      if (this.location_type === 'address based') {
+        location = { phones: this.phones, ...this.based, location_type: this.location_type }
         console.log(location)
       } else {
-        location = { phones: this.phones, ...this.remote, location_type: 'remote location' }
+        location = { phones: this.phones, location: this.remote_locations, location_type: this.location_type }
       }
       const newObj = {
         _method: 'post',
         ...location
       }
-      this.$emit('updateFacilityPhones', this.typeOfLocation, newObj)
+      this.$emit('updateFacilityPhones', this.location_type, newObj)
     },
     saveChangesOperatingDays () {
       let operation = {}

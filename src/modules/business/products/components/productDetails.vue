@@ -226,6 +226,7 @@ export default {
       })
     },
     saveProduct () {
+      // this.product.status = this.product.status ? 'active' : 'inactive'
       if (this.product.images.length > 0) {
         this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : ''
         if (this.productDetails) {

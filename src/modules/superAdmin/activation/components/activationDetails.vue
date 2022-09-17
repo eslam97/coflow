@@ -250,15 +250,15 @@
             </b-row>
             <div v-if="location_type === 'address based'">
               <b-row>
-                <b-col class="mb-3" md="2">
+                <b-col class="mb-3" md="4">
                   <main-select labelTitle='Country' :validate="'required'"
                                :name="`country_id`" placeholder="Choose" :options="allCountries"
                                label="name"
                                :reduce="data => data.id"
-                               @change="getCityDependOnCountry(based.country_id)"
+                               @change="based.city_id = ''; based.area_id = ''; getCityDependOnCountry(based.country_id)"
                                v-model="based.country_id"></main-select>
                 </b-col>
-                <b-col class="mb-3" md="2">
+                <b-col class="mb-3" md="4">
                   <main-select labelTitle='Governorate'
                                :validate="'required'"
                                :name="`Governorate`"
@@ -266,7 +266,7 @@
                                :options="allGovernorates"
                                label="name"
                                :reduce="data => data.id"
-                               @change="getAreasDependOnCity(based.city_id)"
+                               @change="based.area_id = ''; getAreasDependOnCity(based.city_id)"
                                v-model="based.city_id"></main-select>
                 </b-col>
                 <b-col class="mb-3" md="4">
@@ -276,7 +276,7 @@
                                :reduce="data => data.id"
                                v-model="based.area_id"></main-select>
                 </b-col>
-                <b-col class="mb-3" md="4">
+                <b-col class="mb-3" md="12">
                   <input-form
                       placeholder="Ex: 105 name st."
                       :validate="'required'"
@@ -340,7 +340,7 @@
                       <main-select labelTitle='Country' :validate="'required'"
                                    :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
                                    label="name" :reduce="data=> data.id"
-                                   @change="location.city_id=''; getCityDependOnCountry(location)"
+                                   @change="location.city_id = ''; location.areas = []; getCityDependOnCountryRemote(location)"
                                    v-model="location.country_id"></main-select>
                     </b-col>
                     <b-col md="1">
@@ -353,11 +353,12 @@
                       <main-select labelTitle='Governorate' :validate="'required'"
                                    :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
                                    label="name" :reduce="data=> data.id"
-                                   @change="location.areas=[]; getAreasDependOnCity(location)"
+                                   @change="location.areas = []; getAreasDependOnCityRemote(location)"
                                    v-model="location.city_id"></main-select>
                     </b-col>
                     <b-col md="1"  v-if="location.availability_type !== 'all country'">
-                      <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check" color="warning">
+                      <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                                       color="warning">
                         <span class="font-size-12 text-primary"> All </span>
                       </b-form-checkbox>
                     </b-col>
@@ -769,12 +770,24 @@ export default {
         this.allCountries = res.data.data
       })
     },
-    getCityDependOnCountry (location) {
+    getCityDependOnCountry (id) {
+      this.allGovernorates = []
+      settingsService.getCountryCity(id).then(res => {
+        this.allGovernorates = res.data.data
+      })
+    },
+    getAreasDependOnCity (id) {
+      this.allArea = []
+      settingsService.getCityArea(id).then(res => {
+        this.allArea = res.data.data
+      })
+    },
+    getCityDependOnCountryRemote (location) {
       settingsService.getCountryCity(location.country_id).then(res => {
         location.cityList = res.data.data
       })
     },
-    getAreasDependOnCity (location) {
+    getAreasDependOnCityRemote (location) {
       settingsService.getCityArea(location.city_id).then(res => {
         location.areaList = res.data.data
       })
@@ -847,8 +860,8 @@ export default {
               cityList: [],
               areaList: []
             }
-            this.getCityDependOnCountry(obj)
-            this.getAreasDependOnCity(obj)
+            this.getCityDependOnCountryRemote(obj)
+            this.getAreasDependOnCityRemote(obj)
             this.remote_locations.push(obj)
           })
         }
@@ -856,6 +869,35 @@ export default {
     },
     // save change
     saveChanges () {
+      let location = {}
+      let address = {}
+      let operation = {}
+      console.log(this.location_type)
+      if (this.location_type === 'address based') {
+        address = { ...this.based, location_type: 'address based' }
+      } else {
+        location = { location: this.remote_locations, location_type: 'remote location' }
+        console.log(location)
+      }
+      if (this.typeOfOperation === '24 hours') {
+        operation = { operation_type: '24 hours' }
+      } else {
+        operation = {
+          operation_type: 'specify days',
+          operation: this.allOperation
+        }
+      }
+      const newObj = {
+        _method: 'put',
+        contact: this.adminInformation,
+        ...this.info,
+        ...location,
+        ...address,
+        ...operation,
+        phones: this.phones,
+        service_types: this.service_types
+      }
+      this.$emit('activation-provider', newObj)
       if (this.logoImage && this.coverImage) {
         let location = {}
         let operation = {}

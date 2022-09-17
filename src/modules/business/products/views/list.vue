@@ -46,9 +46,16 @@
       </template>
     </main-modal>
     <b-row>
+      <div v-if="arrangeMode" class="position-absolute arrange-overlay">
+        <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
+          item</p></div>
       <b-col lg="12" class="mb-3 d-flex justify-content-between align-items-center">
         <h3>Products</h3>
-        <div>
+        <div class="d-flex justify-content-between gap-20">
+          <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
+            <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
+            <span v-else>Save</span>
+          </b-button>
           <b-button variant="warning" class="add_button text-white" @click="openProductPopup">
             Add Product<i class="las la-plus ml-3"></i></b-button>
         </div>
@@ -81,32 +88,42 @@
                 </Swiper>
               </div>
               <div class="mt-2">
-                <div class="text-justify mb-2">
-                  <a  href="javascript:void(0)" class="font-weight-bold" :title="item.name">
-                    {{ item.name.length > 30 ? item.name.substring(0,30) + '...' : item.name }}
-                  </a>
-                  <p class="font-size-12 font-weight-bold text-primary">{{ item.description.length > 35 ?
-                      item.description.substring(0,35)
-                      + '...' : item.description }}</p>
+                <div>
+                  <div class="text-justify mb-2">
+                    <a  href="javascript:void(0)" class="font-weight-bold" :title="item.name">
+                      {{ item.name.length > 30 ? item.name.substring(0,30) + '...' : item.name }}
+                    </a>
+                    <p class="font-size-12 font-weight-bold text-primary">{{ item.description.length > 35 ?
+                        item.description.substring(0,35)
+                        + '...' : item.description }}</p>
+                  </div>
                 </div>
-                <div v-if="item.discount_price_egp" class="d-flex justify-content-between align-items-start">
+                <b-col md="12" v-if="item.discount_price_egp" class="d-flex justify-content-between align-items-start">
                   <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.discount_price_egp }}</p>
                   <p class="font-size-16 text-danger text-decoration-line-through">
                     EGP {{ item.price_egp }}</p>
-                </div>
-                <div v-else>
+                </b-col>
+                <b-col md="12" v-else>
                   <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.price_egp }}</p>
-                </div>
+                </b-col>
               </div>
             </div>
             <div v-if="item.status === 'inactive' || !item.status" class="inactive-overlay"></div>
             <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
-              <div class="d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
-                <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
-                <i class="cursor-pointer las la-pen text-info" @click="viewProductToEdit(item)"></i>
-                <i class="cursor-pointer las la-trash-alt text-danger" @click="deleteProduct(item)"></i>
-              </div>
-              <div class="w-50 pt-3 py-3 pl-2 pr-1 border-actions">
+              <b-row>
+                <b-col md="12" class="border-actions d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
+                  <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
+                  <i class="cursor-pointer las la-pen text-info" @click="viewProductToEdit(item)"></i>
+                  <i class="cursor-pointer las la-trash-alt text-danger" @click="deleteProduct(item)"></i>
+                </b-col>
+                <b-col md="12" class="border-actions">
+                  <span v-if="!arrangeMode">Arrange: <span class="text-black">{{item.sort}}</span></span>
+                  <main-select v-else :options="allProducts.map(data => data.sort)" :value="item.sort"
+                               @input="changeSort(item.id, 'product', $event)">
+                  </main-select>
+                </b-col>
+              </b-row>
+              <div class="w-50 pt-3 py-3 pl-4 pr-1">
                 <p class="text-primary font-weight-bold font-size-12 mb-2">Product Status:</p>
                 <div class="d-flex justify-content-between align-items-top">
                   <span v-if="item.available" class="text-info font-weight-bold font-size-12 font-weight-bold">
@@ -165,7 +182,8 @@ export default {
       productDetailsInfo: {},
       allProducts: [],
       loadingPage: true,
-      available: ''
+      available: '',
+      arrangeMode: false
     }
   },
   methods: {
@@ -253,6 +271,12 @@ export default {
         core.showSnackbar('success', res.data.message)
       }).catch(() => {
         this.productDetailsInfo = !status
+      })
+    },
+    changeSort (id, type, sort) {
+      mainService.changeSort({ id, type, sort }).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getAllProducts()
       })
     }
   },

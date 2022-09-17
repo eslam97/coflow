@@ -93,7 +93,7 @@
                 <b-th>Tracked Energy</b-th>
                 <b-th>Onboarded Business</b-th>
                 <b-th>Visible Business</b-th>
-                <b-th>Invisible Business</b-th>
+                <b-th>Promoting</b-th>
                 <b-th>Temp Closed Business</b-th>
                 <b-th>Onboarded Customers</b-th>
                 <b-th>Savers Customers</b-th>
@@ -178,7 +178,7 @@ export default {
         'Tracked Energy': 'tracked_energy',
         'Onboarded Business': 'on_boarded_business',
         'Visible Business': 'visible_business',
-        'Invisible Business': 'invisible_business',
+        Promoting: 'invisible_business',
         'Temp Closed Business': 'temp_closed_business',
         'Onboarded Customers': 'on_boarded_customers',
         'Savers Customers': 'savers_customers',
@@ -227,7 +227,7 @@ export default {
         },
         {
           key: 'invisible',
-          value: 'INVISIBLE'
+          value: 'PROMOTING'
         },
         {
           key: 'temp_closed',

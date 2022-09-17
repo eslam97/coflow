@@ -8,17 +8,35 @@
         <city-form :requestLoading="requestLoading" @addCity="addCity"/>
       </template>
     </main-modal>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mb-3">
       <b-button  variant="warning" v-b-modal:city class="add_button text-white"> Add City
         <i class="las la-plus ml-3"></i></b-button>
     </div>
-    <main-table
-        :fields="columns"
-        class="mb-0 table-borderless"
-        :list_url="'cities'"
-        :reloadData="reloadTable"
-    >
-    </main-table>
+      <b-row>
+        <b-col md="12">
+          <iq-card class="filter-card p-1">
+            <b-row>
+              <b-col md="3" sm="6">
+          <span>Filter by governate:</span>
+          <main-select v-model="filter.country_id" @change="reloadTable=true"
+                       :options="allCountries" label="name" :reduce="data => data.id"
+                       placeholder="--Select--">
+          </main-select>
+              </b-col>
+            </b-row>
+          </iq-card>
+        </b-col>
+        <b-col cols="12">
+          <main-table
+              :custom-filter="filter"
+              :fields="columns"
+              class="mb-0 table-borderless"
+              :list_url="'cities'"
+              :reloadData="reloadTable"
+          >
+          </main-table>
+        </b-col>
+      </b-row>
   </div>
 </template>
 <script>
@@ -32,8 +50,12 @@ export default {
   },
   data () {
     return {
+      filter: {
+        country_id: ''
+      },
       reloadTable: false,
       requestLoading: false,
+      allCountries: [],
       columns: [
         { label: 'Name', key: 'name', class: 'text-center' },
         { label: 'Country', key: 'country.name', class: 'text-center' },
@@ -50,7 +72,8 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'City',
-              textContent: 'name'
+              textContent: 'name',
+              url: 'cities'
             }
           ]
         }
@@ -58,6 +81,11 @@ export default {
     }
   },
   methods: {
+    getAllCountries () {
+      settingsService.getAllCountries().then(res => {
+        this.allCountries = res.data.data
+      })
+    },
     addCity (data) {
       this.requestLoading = true
       this.reloadTable = false
@@ -74,6 +102,7 @@ export default {
     core.index()
   },
   created () {
+    this.getAllCountries()
   }
 }
 </script>

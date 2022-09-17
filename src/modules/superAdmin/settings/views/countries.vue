@@ -49,7 +49,8 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Country',
-              textContent: 'name'
+              textContent: 'name',
+              url: 'countries'
             }
           ]
         }

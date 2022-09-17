@@ -57,7 +57,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`Discounted EGP price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEGP, max: flows.price_egp}"
+                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, max: flows.price_egp}"
                     class="flex-grow-1"
                 >
                   <b-form-group :label="'Discounted Price'"
@@ -76,7 +76,7 @@
                 </validation-provider>
               </b-col>
             </b-row>
-            <b-row>
+<!--            <b-row>
               <b-col md="4" class="mb-3">
                 <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
                              v-model="foreignerPrice"></main-select>
@@ -185,7 +185,7 @@
                   </b-form-group>
                 </validation-provider>
               </b-col>
-            </b-row>
+            </b-row>-->
             <span class="d-flex"><span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span></span>
             <div v-for="(instructor, counter) in flows.instructors"
                 :key="counter">
@@ -328,8 +328,8 @@ export default {
         conditions: '',
         description: '',
         price_egp: '',
-        price_euro: '0',
-        price_dollar: '0',
+        price_euro: '',
+        price_dollar: '',
         discount_price_egp: null,
         discount_price_euro: null,
         discount_price_dollar: null,

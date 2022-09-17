@@ -512,7 +512,6 @@
     </div>
 </template>
 <script>
-// import { core } from '@/config/pluginInit'
 import registrationServices from '@/modules/businessLandingPage/services/registration.services'
 import { core } from '@/config/pluginInit'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
@@ -857,31 +856,35 @@ export default {
     },
     // save change
     saveChanges () {
-      let location = {}
-      let operation = {}
-      if (this.location_type === 'address based') {
-        location = { phones: this.phones, address: this.based, location_type: 'address based' }
-      } else {
-        location = { phones: this.phones, ...this.remote, location_type: 'remote location' }
-      }
-      if (this.typeOfOperation === '24 hours') {
-        operation = { operation_type: '24 hours' }
-      } else {
-        operation = {
-          operation_type: 'specify days',
-          operation: this.allOperation
+      if (this.logoImage && this.coverImage) {
+        let location = {}
+        let operation = {}
+        if (this.location_type === 'address based') {
+          location = { phones: this.phones, address: this.based, location_type: 'address based' }
+        } else {
+          location = { phones: this.phones, ...this.remote, location_type: 'remote location' }
         }
+        if (this.typeOfOperation === '24 hours') {
+          operation = { operation_type: '24 hours' }
+        } else {
+          operation = {
+            operation_type: 'specify days',
+            operation: this.allOperation
+          }
+        }
+        const newObj = {
+          _method: 'put',
+          contact: this.adminInformation,
+          ...this.info,
+          ...location,
+          ...operation,
+          phones: this.phones,
+          service_types: this.service_types
+        }
+        this.$emit('activation-provider', newObj)
+      } else {
+        core.showSnackbar('you should upload images')
       }
-      const newObj = {
-        _method: 'put',
-        contact: this.adminInformation,
-        ...this.info,
-        ...location,
-        ...operation,
-        phones: this.phones,
-        service_types: this.service_types
-      }
-      this.$emit('activation-provider', newObj)
     }
   },
   mounted () {

@@ -48,6 +48,7 @@ export default {
   data () {
     return {
       columns: [
+        '#',
         { label: 'Image', key: 'logo', class: 'text-left', type: 'image' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Email', key: 'email', class: 'text-left' },

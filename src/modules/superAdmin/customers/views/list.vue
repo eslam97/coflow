@@ -52,13 +52,13 @@ export default {
   data () {
     return {
       columns: [
-        { label: '#', key: 'id', class: 'text-left', sortable: true },
+        '#',
         { label: 'User Name', key: 'name', class: 'text-left' },
-        { label: 'Verified', key: 'verified', class: 'text-left' },
         { label: 'Age', key: 'birthdate', class: 'text-left', type: 'birthDate', sortable: true },
         { label: 'Gender', key: 'gender', class: 'text-left' },
         { label: 'Nationality', key: 'nationality', class: 'text-left' },
         { label: 'Views', key: 'views', class: 'text-left', sortable: true },
+        { label: 'Unique view', key: 'unique_views', class: 'text-left' },
         { label: 'Saves', key: 'saves', class: 'text-left', sortable: true },
         { label: 'Tracks', key: 'tracks', class: 'text-left', sortable: true },
         {

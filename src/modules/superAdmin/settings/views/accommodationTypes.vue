@@ -50,7 +50,8 @@ export default {
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Accommodation Type',
-              textContent: 'name'
+              textContent: 'name',
+              url: 'accommodationTypes'
             }
           ]
         }

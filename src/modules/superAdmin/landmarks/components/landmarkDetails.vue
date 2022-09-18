@@ -192,6 +192,7 @@ import settingsService from '@/modules/superAdmin/settings/services/settings.ser
 import mainService from '@/services/main'
 import { core } from '@/config/pluginInit'
 import cropper from '@/components/cropper'
+const fd = new FormData()
 export default {
   props: {
     requestLoading: {
@@ -225,9 +226,7 @@ export default {
         country_id: '',
         city_id: '',
         area_id: '',
-        images: [],
-        logo: '',
-        cover: ''
+        images: []
       },
       logoImage: '',
       coverImage: '',
@@ -246,7 +245,16 @@ export default {
         if (this.landmarkDetails) {
           this.$emit('editLandmark', { ...this.landmark, _method: 'put' })
         } else {
-          this.$emit('addLandmark', this.landmark)
+          for (var key in this.landmark) {
+            fd.append(key, this.landmark[key])
+          }
+          for (var key1 in this.landmark.images) {
+            fd.append(`images[${key1}]`, this.landmark.images[key1])
+          }
+          for (var key2 in this.landmark.tags) {
+            fd.append(`tags[${key2}]`, this.landmark.tags[key2])
+          }
+          this.$emit('addLandmark', fd)
         }
       } else {
         core.showSnackbar('error', 'You Should Upload At Least One Image')
@@ -285,16 +293,15 @@ export default {
       this.landmark.cover = image
     }, */
     saveLogoImageLand (file) {
-      const formData = new FormData()
-      formData.append('image', file.image)
-      formData.append('type', 'landmark')
+      fd.append('logo', file.image)
+      /*  formData.append('type', 'landmark')
       formData.append('name', file.imageInfo.name)
       formData.append('status', this.landmarkDetails ? 'exist' : 'new')
       if (this.landmarkDetails) {
         formData.append('landmark_id', this.landmarkDetails.id)
       }
       this.landmark.logo = formData
-      console.log('file => ', file.image)
+      console.log('file => ', file.image) */
       /* const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
@@ -309,16 +316,14 @@ export default {
       }) */
     },
     saveCoverImageLand (file) {
-      const formData = new FormData()
-      this.landmark.cover = file.image
-      formData.append('image', file.image)
-      formData.append('type', 'landmark')
+      fd.append('cover', file.image)
+      /* formData.append('type', 'landmark')
       formData.append('name', file.imageInfo.name)
       formData.append('status', this.landmarkDetails ? 'exist' : 'new')
       if (this.landmarkDetails) {
         formData.append('landmark_id', this.landmarkDetails.id)
       }
-      this.landmark.cover = formData
+      this.landmark.cover = formData */
       /* const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent

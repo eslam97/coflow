@@ -87,7 +87,7 @@
             <b-col class="mb-3" md="2">
               <input-form
                   placeholder="Ex: 2022"
-                  :validate="`required|numeric|digits:4|between:1970,${new Date().getFullYear()}`"
+                  :validate="`required|numeric|between:0,${new Date().getFullYear()}`"
                   :name="`year`"
                   :label="'Launch Year'"
                   v-model="profile.year"
@@ -707,7 +707,7 @@ export default {
       this.profile.location.splice(key, 1)
     },
     addNewOperation () {
-      this.allOperation.push({
+      this.profile.operation.push({
         days: [],
         from: '',
         to: ''
@@ -809,7 +809,6 @@ export default {
             }
             this.getCityDependOnCountryRemote(obj)
             this.getAreasDependOnCityRemote(obj)
-            console.log(obj)
             this.profile.location.push(obj)
           })
         }

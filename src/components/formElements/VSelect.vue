@@ -200,9 +200,9 @@ export default {
     }
   },
   mounted () {
-    if (this.options.length === 1) {
+    /* if (this.options.length === 1) {
       this.selected = this.options[0]
-    }
+    } */
   }
 }
 

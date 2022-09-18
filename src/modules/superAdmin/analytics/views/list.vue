@@ -36,8 +36,10 @@
             </b-thead>
             <b-tbody>
               <b-tr>
-                <b-td v-for="(field, ind) in businessProductFields" :key="'business'+ind">{{dashboardHome.product.business[field.key]}}</b-td>
-                <b-td v-for="(field, ind2) in customersProductFields" :key="'customer'+ind2">{{dashboardHome.product.customers[field.key]}}</b-td>
+                <b-td class="p-2" v-for="(field, ind) in businessProductFields" :key="'business'+ind">
+                  {{dashboardHome.product.business[field.key]}}</b-td>
+                <b-td class="p-2" v-for="(field, ind2) in customersProductFields" :key="'customer'+ind2">
+                  {{dashboardHome.product.customers[field.key]}}</b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
@@ -74,7 +76,7 @@
       <b-row class="mb-4">
         <b-col md="12" class="mb-3">
           <b-table :items="marketBusiness" style="max-height: 600px"
-                      :fields="marketFields" responsive
+                      :fields="marketFields" responsive sticky-header
                       class="mb-0 table-borderless" headVariant="light"
                       :paginationFlag="false"
           ></b-table>
@@ -104,7 +106,7 @@
       </b-row>
       <b-row class="mb-4">
         <b-col md="12" class="mb-3">
-          <b-table-simple responsive borderless class="text-center" style="max-height: 600px">
+          <b-table-simple responsive borderless sticky-header class="text-center" style="max-height: 600px">
             <b-thead head-variant="light">
               <b-tr>
                 <b-th>Date</b-th>
@@ -448,6 +450,7 @@ export default {
 }
 </script>
 <style>
+
 .statistics-views .card-body{
   padding: 0 !important;
 }
@@ -459,5 +462,8 @@ export default {
   align-items: center;
   height: 100%;
 }
-
+.table td {
+  padding: 5px !important;
+  height: 42px !important;
+}
 </style>

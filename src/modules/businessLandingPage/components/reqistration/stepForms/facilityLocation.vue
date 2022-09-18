@@ -147,9 +147,8 @@
                   <b-col class="mb-2" md="3">
                     <main-select labelTitle='Country' :validate="'required'"
                                  :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
-                                 label="name"
-                                 :reduce="data=> data.id"
-                                 @change="getCityDependOnCountry(location.country_id)"
+                                 label="name" :reduce="data=> data.id"
+                                 @change="location.city_id = ''; location.areas = []; getCityDependOnCountryRemote(location)"
                                  v-model="location.country_id"></main-select>
                   </b-col>
                   <b-col md="1">
@@ -160,10 +159,9 @@
                   </b-col>
                   <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all country'">
                     <main-select labelTitle='Governorate' :validate="'required'"
-                                 :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="allGovernorates"
-                                 label="name"
-                                 :reduce="data=> data.id"
-                                 @change="getAreasDependOnCity(location.city_id)"
+                                 :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
+                                 label="name" :reduce="data=> data.id"
+                                 @change="location.areas = []; getAreasDependOnCityRemote(location)"
                                  v-model="location.city_id"></main-select>
                   </b-col>
                   <b-col md="1"  v-if="location.availability_type !== 'all country'">
@@ -172,10 +170,11 @@
                       <span class="font-size-12 text-primary"> All </span>
                     </b-form-checkbox>
                   </b-col>
-                  <b-col class="mb-2" md="4" v-if="location.availability_type !== 'all city'">
-                    <div v-if="location.availability_type !== 'all country'">
+                  <b-col class="mb-2" md="4"
+                         v-if="location.availability_type !== 'all country' && location.availability_type !== 'all city'">
+                    <div>
                     <main-select labelTitle='Area' :validate="'required'"
-                                 :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="allArea"
+                                 :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="location.areaList"
                                  :multiple="true" label="name" :reduce="data => data.id"
                                  v-model="location.areas"></main-select>
                     </div>
@@ -242,9 +241,11 @@ export default {
       remote_locations: [
         {
           availability_type: 'open',
-          country_id: null,
-          city_id: null,
-          areas: []
+          country_id: '',
+          city_id: '',
+          areas: [],
+          cityList: [],
+          areaList: []
         }
       ],
       allCountries: [],
@@ -314,7 +315,9 @@ export default {
         availability_type: 'open',
         country_id: '',
         city_id: '',
-        areas: []
+        areas: [],
+        cityList: [],
+        areaList: []
       })
     },
     deletezone (key) {
@@ -331,6 +334,16 @@ export default {
       this.based.area_id = ''
       settingsService.getCountryCity(id).then(res => {
         this.allGovernorates = res.data.data
+      })
+    },
+    getCityDependOnCountryRemote (location) {
+      settingsService.getCountryCity(location.country_id).then(res => {
+        location.cityList = res.data.data
+      })
+    },
+    getAreasDependOnCityRemote (location) {
+      settingsService.getCityArea(location.city_id).then(res => {
+        location.areaList = res.data.data
       })
     },
     fillData () {
@@ -350,13 +363,20 @@ export default {
             this.allArea = res.data.data
           })
         } else {
-          this.location_type = 'remote location'
-          this.remote_locations = [{
-            availability_type: 'open',
-            country_id: '',
-            city_id: '',
-            areas: []
-          }]
+          this.remote_locations = []
+          this.providerInfo.remote_locations.forEach(location => {
+            const obj = {
+              availability_type: location.availability_type,
+              country_id: location.country_id,
+              city_id: location.city_id,
+              areas: location.areas,
+              cityList: [],
+              areaList: []
+            }
+            this.getCityDependOnCountryRemote(obj)
+            this.getAreasDependOnCityRemote(obj)
+            this.remote_locations.push(obj)
+          })
         }
       }
     }

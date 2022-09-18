@@ -748,8 +748,8 @@ export default {
         this.allActivityLines = res.data.data
       })
     },
-    getAllActivityType () {
-      settingsService.getAllActivityType().then(res => {
+    getAllActivityType (lineId) {
+      settingsService.getActivityTypesDependOnActivityLine(lineId).then(res => {
         this.allActivityTypes = res.data.data
       })
     },
@@ -895,9 +895,13 @@ export default {
   },
   mounted () {
   },
+  watch: {
+    'profile.activity_line_id' (value) {
+      this.getAllActivityType(value)
+    }
+  },
   created () {
     this.getAllActivityLine()
-    this.getAllActivityType()
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()

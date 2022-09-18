@@ -111,7 +111,7 @@ export default {
       })
     },
     openCreateModal () {
-      this.roleDetails = {}
+      this.roleDetails = false
       this.typeOfModal = 'add'
       this.$bvModal.show('roleDetails')
     },

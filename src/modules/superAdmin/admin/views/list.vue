@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     openAdminCreate () {
-      this.adminDetails = {}
+      this.adminDetails = false
       this.typeOfModal = 'add'
       this.$bvModal.show('adminDetails')
     },

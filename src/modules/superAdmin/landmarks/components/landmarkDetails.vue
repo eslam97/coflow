@@ -74,7 +74,7 @@
                          :options="allCountries"
                          label="name"
                          :reduce="data=> data.id"
-                         @change="getCityDependOnCountry(landmark.country_id)"
+                         @change="landmark.area_id = ''; landmark.city_id = ''; getCityDependOnCountry(landmark.country_id)"
                          v-model="landmark.country_id">
             </main-select>
           </b-col>
@@ -86,7 +86,7 @@
                          :options="allGovernorates"
                          label="name"
                          :reduce="data => data.id"
-                         @change="getAreasDependOnCity(landmark.city_id)"
+                         @change="landmark.area_id = ''; getAreasDependOnCity(landmark.city_id)"
                          v-model="landmark.city_id">
             </main-select>
           </b-col>
@@ -277,14 +277,14 @@ export default {
     cropperFile (file) {
       console.log('file', file)
     },
-    saveLogoImageLand ({ images }) {
+    /* saveLogoImageLand ({ images }) {
       console.log('data => ', images)
       this.landmark.logo = images
     },
     saveCoverImageLand ({ image }) {
       this.landmark.cover = image
-    },
-    /* saveLogoImageLand (file) {
+    }, */
+    saveLogoImageLand (file) {
       const formData = new FormData()
       formData.append('image', file.image)
       formData.append('type', 'landmark')
@@ -293,9 +293,9 @@ export default {
       if (this.landmarkDetails) {
         formData.append('landmark_id', this.landmarkDetails.id)
       }
-      this.landmark.logo = file.image
+      this.landmark.logo = formData
       console.log('file => ', file.image)
-      const options = {
+      /* const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const percent = Math.floor((loaded * 100) / total)
@@ -305,9 +305,10 @@ export default {
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.logoImage = res.data.data
-      })
-    }, */
-    /* saveCoverImageLand (file) {
+        this.landmark.logo = res.data.data.id
+      }) */
+    },
+    saveCoverImageLand (file) {
       const formData = new FormData()
       this.landmark.cover = file.image
       formData.append('image', file.image)
@@ -317,8 +318,8 @@ export default {
       if (this.landmarkDetails) {
         formData.append('landmark_id', this.landmarkDetails.id)
       }
-      this.landmark.cover = file.image
-      const options = {
+      this.landmark.cover = formData
+      /* const options = {
         onUploadProgress: (progressEvent) => {
           const { loaded, total } = progressEvent
           const percent = Math.floor((loaded * 100) / total)
@@ -328,8 +329,9 @@ export default {
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.cover = res.data.data
-      })
-    }, */
+        this.landmark.cover = res.data.data.id
+      }) */
+    },
     // depend
     getAllCountries () {
       settingsService.getAllCountries().then(res => {
@@ -338,14 +340,12 @@ export default {
     },
     getCityDependOnCountry (id) {
       this.allGovernorates = []
-      this.landmark.city_id = ''
       settingsService.getCountryCity(id).then(res => {
         this.allGovernorates = res.data.data
       })
     },
     getAreasDependOnCity (id) {
       this.allArea = []
-      this.landmark.area_id = ''
       settingsService.getCityArea(id).then(res => {
         this.allArea = res.data.data
       })
@@ -358,7 +358,7 @@ export default {
   created () {
     this.getAllCountries()
     if (Object.getOwnPropertyNames(this.landmarkDetails).length >= 1) {
-      var allImagesIds = this.landmarkDetails.images.map(item => item.id)
+      const allImagesIds = this.landmarkDetails.images.map(item => item.id)
       this.landmark = {
         name: this.landmarkDetails.name,
         title: this.landmarkDetails.title,
@@ -373,7 +373,9 @@ export default {
         country_id: this.landmarkDetails.country_id,
         city_id: this.landmarkDetails.city_id,
         area_id: this.landmarkDetails.area_id,
-        images: allImagesIds
+        images: allImagesIds,
+        logo: this.landmarkDetails.logo,
+        cover: this.landmarkDetails.cover
       }
       this.allImages = this.landmarkDetails.images
       this.getCityDependOnCountry(this.landmarkDetails.country_id)

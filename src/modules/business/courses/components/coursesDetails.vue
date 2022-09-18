@@ -17,27 +17,33 @@
               </b-col>
               <b-col md="6" class="mb-3">
                 <label for="duration-group">Duration</label>
-                <b-input-group id="duration-group">
-                  <b-form-input
-                      labelTitle='Duration'
-                      :label="'Duration'"
-                      v-model="courses.duration"
-                      :placeholder="'000'"
-                  />
-                  <template #append>
-                    <b-dropdown
-                        :text="type ? type : 'Pick duration type'"
-                        class="selectWithInputAppend"
-                    >
-                      <b-dropdown-item v-for="(i, keyType) in allDurationList"
-                                       :key="keyType"
-                                       @click="courses.duration_list_id = i.id;
-                                         type = i.name">
-                        {{i.name}}
-                      </b-dropdown-item>
-                    </b-dropdown>
-                  </template>
-                </b-input-group>
+                <validation-provider
+                    #default="{ errors }"
+                    :validate="'required'"
+                >
+                  <b-input-group id="duration-group">
+                    <b-form-input
+                        labelTitle='Duration'
+                        :label="'Duration'"
+                        v-model="courses.duration"
+                        :placeholder="'000'"
+                    />
+                    <template #append>
+                      <b-dropdown
+                          :text="type ? type : 'Pick duration type'"
+                          class="selectWithInputAppend"
+                      >
+                        <b-dropdown-item v-for="(i, keyType) in allDurationList"
+                                         :key="keyType"
+                                         @click="courses.duration_list_id = i.id;
+                                           type = i.name">
+                          {{i.name}}
+                        </b-dropdown-item>
+                      </b-dropdown>
+                    </template>
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </b-input-group>
+                </validation-provider>
               </b-col>
             </b-row>
             <b-row>

@@ -7,7 +7,10 @@ export default {
   addNewProfile (payload) {
     return Api().post('providers', payload)
   },
-  changeProfileCanLogin (id, payload) {
+  editProfile (id, payload) {
     return Api().post(`providers/${id}`, payload)
+  },
+  changeProfileCanLogin (id, payload) {
+    return Api().post(`can-login/${id}`, payload)
   }
 }

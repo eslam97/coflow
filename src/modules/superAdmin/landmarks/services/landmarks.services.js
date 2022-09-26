@@ -11,6 +11,6 @@ export default {
     return Api().post(`landmarks/${id}`, payload)
   },
   addCoverLogo (payload) {
-    return Api().post('landmark-coverLogo')
+    return Api().post('landmark-coverLogo', payload)
   }
 }

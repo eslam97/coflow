@@ -178,13 +178,21 @@ export default {
       this.landmarkDetails = false
       this.$bvModal.show('landMarksDetails')
     },
-    addLandmark (landmark) {
+    addLandmark (logo, cover, landmark) {
       console.log('landmark => ', landmark)
+      let id = ''
       this.requestLoading = true
       landmarksServices.addNewLandMark(landmark).then(res => {
-        this.reloadTable = true
-        core.showSnackbar('success', res.data.message)
-        this.$bvModal.hide('landMarksDetails')
+        id = res.data.data.id
+        logo.append('landmark_id', id)
+        landmarksServices.addCoverLogo(logo).then(res => {
+          cover.append('landmark_id', id)
+          landmarksServices.addCoverLogo(cover).then(res => {
+            this.reloadTable = true
+            core.showSnackbar('success', res.data.message)
+            this.$bvModal.hide('landMarksDetails')
+          })
+        })
       }).finally(() => {
         this.requestLoading = false
       })

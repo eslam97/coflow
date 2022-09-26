@@ -192,7 +192,6 @@ import settingsService from '@/modules/superAdmin/settings/services/settings.ser
 import mainService from '@/services/main'
 import { core } from '@/config/pluginInit'
 import cropper from '@/components/cropper'
-const fd = new FormData()
 export default {
   props: {
     requestLoading: {
@@ -230,6 +229,8 @@ export default {
       },
       logoImage: '',
       coverImage: '',
+      formDataLogo: new FormData(),
+      formDataCover: new FormData(),
       loadingCover: '',
       loadingLogo: '',
       allCountries: [],
@@ -245,7 +246,7 @@ export default {
         if (this.landmarkDetails) {
           this.$emit('editLandmark', { ...this.landmark, _method: 'put' })
         } else {
-          for (var key in this.landmark) {
+          /* for (var key in this.landmark) {
             fd.append(key, this.landmark[key])
           }
           for (var key1 in this.landmark.images) {
@@ -253,8 +254,8 @@ export default {
           }
           for (var key2 in this.landmark.tags) {
             fd.append(`tags[${key2}]`, this.landmark.tags[key2])
-          }
-          this.$emit('addLandmark', fd)
+          } */
+          this.$emit('addLandmark', this.formDataLogo, this.formDataCover, this.landmark)
         }
       } else {
         core.showSnackbar('error', 'You Should Upload At Least One Image')
@@ -293,7 +294,8 @@ export default {
       this.landmark.cover = image
     }, */
     saveLogoImageLand (file) {
-      fd.append('logo', file.image)
+      this.formDataLogo.append('type', 'logo')
+      this.formDataLogo.append('image', file.image)
       /*  formData.append('type', 'landmark')
       formData.append('name', file.imageInfo.name)
       formData.append('status', this.landmarkDetails ? 'exist' : 'new')
@@ -316,7 +318,8 @@ export default {
       }) */
     },
     saveCoverImageLand (file) {
-      fd.append('cover', file.image)
+      this.formDataCover.append('type', 'cover')
+      this.formDataCover.append('image', file.image)
       /* formData.append('type', 'landmark')
       formData.append('name', file.imageInfo.name)
       formData.append('status', this.landmarkDetails ? 'exist' : 'new')
@@ -378,10 +381,10 @@ export default {
         country_id: this.landmarkDetails.country_id,
         city_id: this.landmarkDetails.city_id,
         area_id: this.landmarkDetails.area_id,
-        images: allImagesIds,
-        logo: this.landmarkDetails.logo,
-        cover: this.landmarkDetails.cover
+        images: allImagesIds
       }
+      this.logoImage = this.landmarkDetails.logo
+      this.coverImage = this.landmarkDetails.cover
       this.allImages = this.landmarkDetails.images
       this.getCityDependOnCountry(this.landmarkDetails.country_id)
       this.getAreasDependOnCity(this.landmarkDetails.city_id)

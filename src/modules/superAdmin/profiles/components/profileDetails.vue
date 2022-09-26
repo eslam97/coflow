@@ -520,14 +520,14 @@
                 <spinner-loading ></spinner-loading>
               </b-button>
             </div>
-<!--            <div class="d-flex justify-content-center" v-if="typeOfModal == 'edit'">
+            <div class="d-flex justify-content-center" v-if="typeOfModal == 'edit'">
               <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
                 <i class="las la-pen"></i>
               </b-button>
               <b-button class="button-blue-modal" v-else>
                 <spinner-loading ></spinner-loading>
               </b-button>
-            </div>-->
+            </div>
           </b-col>
         </b-row>
       </b-form>
@@ -882,14 +882,15 @@ export default {
       if (!this.profile.location.availability_type) {
         this.profile.location.availability_type = 'open'
       }
+      const action = this.typeOfModal === 'add' ? 'addProfile' : 'editProfile'
       if (this.profile.location_type === 'address based' && this.profile.operation_type === '24 hours') {
-        this.$emit('addProfile', this.$_.omit(this.profile, ['location', 'operation']))
+        this.$emit(action, this.profileDetails.id, this.$_.omit(this.profile, ['location', 'operation']))
       } else if (this.profile.location_type === 'address based' && this.profile.operation_type !== '24 hours') {
-        this.$emit('addProfile', this.$_.omit(this.profile, ['location']))
+        this.$emit(action, this.profileDetails.id, this.$_.omit(this.profile, ['location']))
       } else if (this.profile.location_type !== 'address based' && this.profile.operation_type === '24 hours') {
-        this.$emit('addProfile', this.$_.omit(this.profile, ['address', 'operation']))
+        this.$emit(action, this.profileDetails.id, this.$_.omit(this.profile, ['address', 'operation']))
       } else if (this.profile.location_type !== 'address based' && this.profile.operation_type !== '24 hours') {
-        this.$emit('addProfile', this.$_.omit(this.profile, ['address']))
+        this.$emit(action, this.profileDetails.id, this.$_.omit(this.profile, ['address']))
       }
     }
   },

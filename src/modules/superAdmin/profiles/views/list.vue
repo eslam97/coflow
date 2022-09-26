@@ -3,8 +3,8 @@
     <main-modal id="profileDetalilsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'"><span class="text-warning" >Add: </span> Profile</h4>
-        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'view'"><span class="text-success-light" >view: </span>Profile</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Profile</h4>
+        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'edit'"><span class="text-success-light" >Edit: </span>Profile</h4>
+<!--        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Profile</h4>-->
       </template>
       <template v-slot:body>
         <profile-details
@@ -142,9 +142,9 @@ export default {
           type: 'actions',
           actions: [
             {
-              icon: 'las la-eye',
+              icon: 'las la-pen',
               color: 'success-light',
-              text: 'View',
+              text: 'Edit',
               actionName: 'viewProfile',
               actionParams: ['id']
             },
@@ -253,7 +253,7 @@ export default {
       this.typeOfModal = 'add'
       this.$bvModal.show('profileDetalilsModal')
     },
-    addProfile (data) {
+    addProfile (id, data) {
       this.requestLoading = true
       profilesServices.addNewProfile(data).then(res => {
         this.reloadTable = true
@@ -269,11 +269,26 @@ export default {
         this.requestLoading = false
       })
     },
-    editProfile () {
-      console.log('edit')
+    editProfile (id, data) {
+      console.log(id)
+      console.log(data)
+      this.requestLoading = true
+      profilesServices.editProfile(id, { ...data, _method: 'put' }).then(res => {
+        this.reloadTable = true
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('profileDetalilsModal')
+      }).catch((err) => {
+        if (err.response.data.errors) {
+          for (const [key, value] of Object.entries(err.response.data.errors)) {
+            this.$refs[key].setErrors(value)
+          }
+        }
+      }).finally(() => {
+        this.requestLoading = false
+      })
     },
     viewProfile (obj) {
-      this.typeOfModal = 'view'
+      this.typeOfModal = 'edit'
       profilesServices.getActivationDetails(obj.id).then(res => {
         this.providerId = obj.id
         this.profileDetails = res.data.data
@@ -282,7 +297,7 @@ export default {
     },
     changeToActiveStatus (id) {
       this.reloadTable = false
-      profilesServices.changeProfileCanLogin(id, { can_login: 1, _method: 'put' }).then(res => {
+      profilesServices.changeProfileCanLogin(id, { can_login: 1, _method: 'post' }).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('deleteModal')
@@ -290,7 +305,7 @@ export default {
     },
     changeToDisactive (id) {
       this.reloadTable = false
-      profilesServices.changeProfileCanLogin(id, { can_login: 0, _method: 'put' }).then(res => {
+      profilesServices.changeProfileCanLogin(id, { can_login: 0, _method: 'post' }).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('deleteModal')

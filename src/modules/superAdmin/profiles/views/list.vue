@@ -39,20 +39,20 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-            <b-col md="3" sm="6">
+<!--            <b-col md="3" sm="6">
               <span>Filter by profile type:</span>
               <main-select v-model="filter.profile_type" @change="reloadTable=true"
                            :options="profileTypeFilterOptions" label="key" :reduce="data => data.value"
-                           placeholder="--Select--">
+                           placeholder="&#45;&#45;Select&#45;&#45;">
               </main-select>
-            </b-col>
-            <b-col md="3" sm="6">
+            </b-col>-->
+<!--            <b-col md="3" sm="6">
               <span>Filter by city:</span>
               <main-select v-model="filter.city_id" @change="reloadTable=true"
                            :options="allGovernorates" label="name" :reduce="data => data.id"
-                           placeholder="--Select--">
+                           placeholder="&#45;&#45;Select&#45;&#45;">
               </main-select>
-            </b-col>
+            </b-col>-->
             <b-col md="3" sm="6">
               <span>Filter by area:</span>
               <main-select v-model="filter.area_id" @change="reloadTable=true"
@@ -130,6 +130,7 @@ export default {
         { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Year', key: 'year', class: 'text-left', sortable: true },
         { label: 'Status', key: 'status', class: 'text-left' },
+        { label: 'Promo', key: 'promotions_count', class: 'text-left', type: 'promo' },
         { label: 'Views', key: 'views', class: 'text-left', sortable: true },
         { label: 'Unique Views', key: 'unique_views', class: 'text-left', sortable: true },
         { label: 'Savers', key: 'saves', class: 'text-left', sortable: true },

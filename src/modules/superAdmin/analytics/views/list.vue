@@ -405,6 +405,7 @@ export default {
     getMarketData () {
       AnalyticsServices.getMarketBusiness(this.marketCity || 1).then(res => {
         this.marketBusiness = res.data.data
+        this.marketForExport = res.data.data
       })
     },
     getAllMarketData () {

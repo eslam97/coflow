@@ -18,14 +18,14 @@
         <iq-card class="filter-card p-1">
           <b-row>
             <b-col md="3" sm="6">
-              <span>Filter by governate:</span>
+              <span>Filter by country:</span>
               <main-select v-model="filter.country_id" @change="reloadTable=true"
                            :options="allCountries" label="name" :reduce="data => data.id"
                            placeholder="--Select--">
               </main-select>
             </b-col>
             <b-col md="3" sm="6">
-              <span>Filter by city:</span>
+              <span>Filter by governorates:</span>
               <main-select v-model="filter.city_id" @change="reloadTable=true"
                            :options="cities" label="name" :reduce="data => data.id"
                            placeholder="--Select--">

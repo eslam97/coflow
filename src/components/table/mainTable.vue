@@ -71,6 +71,12 @@
             />
           </div>
 
+          <!--   Promoting   -->
+          <div v-else-if="field.type == 'promo'">
+            <p v-if="$_.get(data.item, field.key) > 0">P ({{ $_.get(data.item, field.key) }})</p>
+            <p v-else>NP</p>
+          </div>
+
           <!-- Array handler -->
           <div v-else-if="field.type == 'array'">
             <span v-if="field.array_keys" >

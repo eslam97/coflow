@@ -294,6 +294,7 @@ export default {
       this.landmark.cover = image
     }, */
     saveLogoImageLand (file) {
+      // this.logoImage = file.image
       this.formDataLogo.append('type', 'logo')
       this.formDataLogo.append('image', file.image)
       /*  formData.append('type', 'landmark')
@@ -318,6 +319,7 @@ export default {
       }) */
     },
     saveCoverImageLand (file) {
+      // this.coverImage = file.image
       this.formDataCover.append('type', 'cover')
       this.formDataCover.append('image', file.image)
       /* formData.append('type', 'landmark')

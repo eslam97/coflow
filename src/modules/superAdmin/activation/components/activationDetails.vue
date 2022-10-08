@@ -846,6 +846,7 @@ export default {
         if (this.activationDetails.location_type === 'address based') {
           this.location_type = 'address based'
           this.based = this.activationDetails.address_based
+          console.log(this.based)
           this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
           this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
         } else {
@@ -875,6 +876,7 @@ export default {
       console.log(this.location_type)
       if (this.location_type === 'address based') {
         address = { ...this.based, location_type: 'address based' }
+        console.log(address)
       } else {
         this.remote_locations.forEach((location) => {
           location.availability_type = location.availability_type ? location.availability_type : 'open'

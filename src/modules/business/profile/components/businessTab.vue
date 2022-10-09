@@ -68,7 +68,7 @@
           <validationObserver v-slot="{ handleSubmit }">
             <b-form @submit.prevent="handleSubmit(saveChangesInfo)">
               <b-card class="mb-5">
-                <b-card-header class="mb-4">
+                <b-card-header class="mb-4 py-2">
                   <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Information & Details</span>
                     Use this section to update your business and facility inforamtion</p>
                 </b-card-header>
@@ -227,7 +227,7 @@
           <validationObserver v-slot="{ handleSubmit }">
             <b-form @submit.prevent="handleSubmit(saveChangesPhone)">
               <b-card class="mb-5">
-                <b-card-header>
+                <b-card-header class="py-2">
                   <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Contacts and Location Details</span>
                     Use this section to update your contact and location information</p>
                 </b-card-header>
@@ -365,28 +365,27 @@
           <validationObserver v-slot="{ handleSubmit }">
             <b-form @submit.prevent="handleSubmit(saveChangesOperatingDays)">
               <b-card class="mb-5">
-                <b-card-header class="mb-4">
+                <b-card-header class="mb-1 py-2">
                   <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Operating Days & Hours</span>
                     Use this section to update your operating days and hours</p>
                 </b-card-header>
                 <b-card-body>
-                  <b-row class="mb-4">
-                    <b-row class="mb-5">
-                      <b-col md="12">
-                        <label class="mb-3">Operation</label>
-                        <div>
-                          <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfOperation" color="warning"
-                                        name="typeOfOperation" value="24 hours" >
-                            <span class="text-primary font-size-12">Open 24 Hours</span>
-                          </b-form-radio>
-                          <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
-                                        name="typeOfOperation" value="specify days" >
-                            <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
-                          </b-form-radio>
-                        </div>
-                      </b-col>
-                    </b-row>
-                    <b-row v-if="typeOfOperation !== '24 hours'">
+                  <b-row class="mb-5">
+                    <b-col md="12">
+                      <label class="mb-3">Operation</label>
+                      <div>
+                        <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="typeOfOperation" color="warning"
+                                      name="typeOfOperation" value="24 hours" >
+                          <span class="text-primary font-size-12">Open 24 Hours</span>
+                        </b-form-radio>
+                        <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
+                                      name="typeOfOperation" value="specify days" >
+                          <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
+                        </b-form-radio>
+                      </div>
+                    </b-col>
+                  </b-row>
+                  <b-row v-if="typeOfOperation !== '24 hours'">
                       <b-col md="12" class="position-relative mb-3" v-for="(operation, operationKey) in allOperation"
                              :key="operationKey">
                         <b-row class="d-flex align-items-center">
@@ -428,12 +427,11 @@
                   <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add another Operation Day
                     (s)</span>
                       </b-col>
-                      <b-col md="12">
+<!--                      <b-col md="12">
                         <p class="text-gray">Note: Specify working days & hours only, any day unspecified will automatically be set as
                           “closed”.</p>
-                      </b-col>
+                      </b-col>-->
                     </b-row>
-                  </b-row>
                   <button
                       class="btn radio-btn radio-btn-orange save-changes-btn"
                   >
@@ -452,8 +450,8 @@
             </b-link>
             <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility photos</h5>
             <b-card-body class="m-0">
-              <b-row class="mb-4cursor-pointer" v-if="images">
-                <b-col cols="3"  v-for="(img, key) in images" class="position-relative" :key="key">
+              <b-row class="mb-3 cursor-pointer px-2" v-if="images">
+                <b-col cols="3"  v-for="(img, key) in images" class="position-relative mb-1" :key="key">
                                       <span class="position-absolute deleteImage" v-if="showDeletedImage"
                                             @click="removeImage(img.id)"><i class="las la-trash-alt"></i></span>
                   <div :style="`background-image: url(${img.image})`" class="facilityImageInProfile" @click="showImage(img.image)"></div>
@@ -472,7 +470,7 @@
             </b-card-body>
             <b-card-text>
               <b-row class="border-top mb-2 pt-4">
-                <b-col>
+                <b-col class>
                   <p class="text-warning cursor-pointer text-center" @click="$bvModal.show('addPhoto')">Manage photos</p>
                 </b-col>
 <!--                <b-col>

@@ -97,21 +97,27 @@
               <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center flex-column">
                   <span>V</span>
-                  <span class="text-info font-weight-bold">+ 2.2%</span>
+                  <span class="text-info font-weight-bold">
+                    {{ monthStatsCalculation('last_last', 'last', 'views') }}
+                  </span>
                 </div>
                 <div class="d-flex align-items-center flex-column">
                   <span>S</span>
-                  <span class="text-light-green font-weight-bold">+ 2.2%</span>
+                  <span class="text-light-green font-weight-bold">
+                    {{ monthStatsCalculation('last_last', 'last', 'saves') }}
+                  </span>
                 </div>
                 <div class="d-flex align-items-center flex-column">
                   <span>T</span>
-                  <span class="text-warning font-weight-bold">+ 2.2%</span>
+                  <span class="text-warning font-weight-bold">
+                    {{ monthStatsCalculation('last_last', 'last', 'tracks') }}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </b-col>
-        <b-col md="8" class="border-right border-left" v-if="this.analysisByDate.month_days.length > 0">
+        <b-col md="8" class="border-right border-left" v-if="analysisByDate.month_days.length > 0">
           <div class="py-3">
             <div style="overflow-x: scroll;overflow-y: hidden;">
               <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
@@ -146,15 +152,21 @@
               <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center flex-column">
                   <span>V</span>
-                  <span class="text-info font-weight-bold">+ 2.2%</span>
+                  <span class="text-info font-weight-bold">
+                    {{ monthStatsCalculation('last', 'current', 'views') }}
+                  </span>
                 </div>
                 <div class="d-flex align-items-center flex-column">
                   <span>S</span>
-                  <span class="text-light-green font-weight-bold">+ 2.2%</span>
+                  <span class="text-light-green font-weight-bold">
+                    {{ monthStatsCalculation('last', 'current', 'saves') }}
+                  </span>
                 </div>
                 <div class="d-flex align-items-center flex-column">
                   <span>T</span>
-                  <span class="text-warning font-weight-bold">+ 2.2%</span>
+                  <span class="text-warning font-weight-bold">
+                    {{ monthStatsCalculation('last', 'current', 'tracks') }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -448,6 +460,19 @@ export default {
         this.monthDaysSeries[1].data = this.analysisByDate.month_days.map((month) => month.saves)
         this.monthDaysSeries[2].data = this.analysisByDate.month_days.map((month) => month.tracks)
       })
+    },
+    monthStatsCalculation (y, x, term) {
+      if (this.analysisByDate[y][term] !== 0) {
+        const result = Math.trunc(((this.analysisByDate[x][term] - this.analysisByDate[y][term]) / this.analysisByDate[y][term]) * 100)
+        if (result > 0) {
+          return `+${result}%`
+        } else {
+          return `${result}%`
+        }
+      } else {
+        const result = this.analysisByDate[x][term]
+        return `+${result}%`
+      }
     }
   },
   created () {

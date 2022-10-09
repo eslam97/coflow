@@ -4,7 +4,7 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(updateLoginCredential)">
         <b-card class="mb-5">
-          <b-card-header class="mb-4">
+          <b-card-header class="mb-4 py-2">
             <p><span class="text-dark font-weight-bold font-size-20 mr-3">Login</span>
               Use this section to update your login credentials.</p>
           </b-card-header>
@@ -47,7 +47,7 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(updateContactInfo)">
         <b-card class="mb-5">
-          <b-card-header class="mb-5">
+          <b-card-header class="mb-3 py-2">
             <p><span class="text-dark font-weight-bold font-size-20 mr-3">Contacts</span>
               Use this section to update your contact information for internal communication with coflow.</p>
           </b-card-header>

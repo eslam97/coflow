@@ -76,7 +76,7 @@ export default {
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
         /* { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
-        { label: 'Amenities', key: 'amenities', class: 'text-left', type: 'array' },
+        // { label: 'Amenities', key: 'amenities', class: 'text-left', type: 'array' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
           label: 'Change Status',

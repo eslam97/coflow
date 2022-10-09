@@ -85,7 +85,7 @@ export default {
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
         /* { label: 'Requirements', key: 'requirements', class: 'text-left' }, */
         /* { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
-        { label: 'Location', key: 'location', class: 'text-left', type: 'array' },
+        // { label: 'Location', key: 'location', class: 'text-left', type: 'array' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
           label: 'Change Status',

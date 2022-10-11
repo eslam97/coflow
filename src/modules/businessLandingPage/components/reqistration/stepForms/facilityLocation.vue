@@ -348,8 +348,9 @@ export default {
     },
     fillData () {
       if (this.providerInfo) {
+        console.log('this.providerInfo.location_type => ', this.providerInfo.location_type)
         if (this.providerInfo.location_type === 'address based') {
-          this.location_type = 'based'
+          this.location_type = 'address based'
           this.based.city_id = this.providerInfo.city_id
           this.based.country_id = this.providerInfo.country_id
           this.based.area_id = this.providerInfo.area_id

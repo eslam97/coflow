@@ -152,7 +152,7 @@
             />
           </b-col>
           <b-col md="12" class="mb-3">
-            <cropper
+<!--            <cropper-images
                 :allImages="allImages"
                 :label="'Upload Images'"
                 :progressLoading= "progressLogo"
@@ -160,7 +160,16 @@
                 @cropper-file-selected="cropperFile"
                 @cropper-saved="saveLogoImage"
                 type='landmark'
-            ></cropper>
+            >-->
+            <cropper-images
+                label="Upload Photos"
+                @cropper-save="saveGalleryImage"
+                @remove-image="removeGalleryImage"
+                :removeLoadingUi="removeLoadingUi"
+                :progressLoading="progressLogo"
+                :images="landmark.images"
+                :multi="true"
+            ></cropper-images>
           </b-col>
         </b-row>
         <b-row v-if="typeOfModal != 'view'">
@@ -191,7 +200,6 @@
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 import mainService from '@/services/main'
 import { core } from '@/config/pluginInit'
-import cropper from '@/components/cropper'
 export default {
   props: {
     requestLoading: {
@@ -207,7 +215,6 @@ export default {
     }
   },
   components: {
-    cropper
   },
   data () {
     return {
@@ -237,14 +244,14 @@ export default {
       allGovernorates: [],
       allArea: [],
       progressLogo: 0,
-      allImages: []
+      removeLoadingUi: false
     }
   },
   methods: {
     addLandmark () {
       if (this.landmark.images.length > 0) {
         if (this.landmarkDetails) {
-          this.$emit('editLandmark', { ...this.landmark, _method: 'put' })
+          this.$emit('editLandmark', { ...this.landmark, images: this.landmark.images.map(data => data.id), _method: 'put' })
         } else {
           /* for (var key in this.landmark) {
             fd.append(key, this.landmark[key])
@@ -261,12 +268,14 @@ export default {
         core.showSnackbar('error', 'You Should Upload At Least One Image')
       }
     },
-    saveLogoImage (file) {
+    saveGalleryImage (file) {
+      this.removeLoadingUi = false
+      this.requestLoading = true
       const formData = new FormData()
-      formData.append('image', file.croppedFile)
+      formData.append('image', file.image)
       formData.append('type', 'landmark')
-      formData.append('name', file.filename)
       formData.append('status', this.landmarkDetails ? 'exist' : 'new')
+      formData.append('name', file.imageInfo.name)
       if (this.landmarkDetails) {
         formData.append('landmark_id', this.landmarkDetails.id)
       }
@@ -280,67 +289,29 @@ export default {
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.landmark.images.push(res.data.data.id)
-        this.allImages.push(res.data.data)
+        this.removeLoadingUi = true
+        this.requestLoading = false
       })
     },
     cropperFile (file) {
       console.log('file', file)
     },
-    /* saveLogoImageLand ({ images }) {
-      console.log('data => ', images)
-      this.landmark.logo = images
-    },
-    saveCoverImageLand ({ image }) {
-      this.landmark.cover = image
-    }, */
     saveLogoImageLand (file) {
       // this.logoImage = file.image
       this.formDataLogo.append('type', 'logo')
       this.formDataLogo.append('image', file.image)
-      /*  formData.append('type', 'landmark')
-      formData.append('name', file.imageInfo.name)
-      formData.append('status', this.landmarkDetails ? 'exist' : 'new')
-      if (this.landmarkDetails) {
-        formData.append('landmark_id', this.landmarkDetails.id)
-      }
-      this.landmark.logo = formData
-      console.log('file => ', file.image) */
-      /* const options = {
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent
-          const percent = Math.floor((loaded * 100) / total)
-          this.loadingLogo = percent
-        }
-      }
-      mainService.addImage(formData, options).then(res => {
-        core.showSnackbar('success', res.data.message)
-        this.logoImage = res.data.data
-        this.landmark.logo = res.data.data.id
-      }) */
     },
     saveCoverImageLand (file) {
       // this.coverImage = file.image
       this.formDataCover.append('type', 'cover')
       this.formDataCover.append('image', file.image)
-      /* formData.append('type', 'landmark')
-      formData.append('name', file.imageInfo.name)
-      formData.append('status', this.landmarkDetails ? 'exist' : 'new')
-      if (this.landmarkDetails) {
-        formData.append('landmark_id', this.landmarkDetails.id)
-      }
-      this.landmark.cover = formData */
-      /* const options = {
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent
-          const percent = Math.floor((loaded * 100) / total)
-          this.loadingCover = percent
-        }
-      }
-      mainService.addImage(formData, options).then(res => {
+    },
+    removeGalleryImage (id) {
+      mainService.removeImage(id, 'landmark').then(res => {
         core.showSnackbar('success', res.data.message)
-        this.cover = res.data.data
-        this.landmark.cover = res.data.data.id
-      }) */
+        const ind = this.landmark.images.findIndex(image => image.id === id)
+        this.landmark.images.splice(ind, 1)
+      })
     },
     // depend
     getAllCountries () {
@@ -361,14 +332,10 @@ export default {
       })
     }
   },
-  watch: {
-  },
-  computed: {
-  },
   created () {
     this.getAllCountries()
     if (Object.getOwnPropertyNames(this.landmarkDetails).length >= 1) {
-      const allImagesIds = this.landmarkDetails.images.map(item => item.id)
+      // const allImagesIds = this.landmarkDetails.images.map(item => item.id)
       this.landmark = {
         name: this.landmarkDetails.name,
         title: this.landmarkDetails.title,
@@ -383,11 +350,10 @@ export default {
         country_id: this.landmarkDetails.country_id,
         city_id: this.landmarkDetails.city_id,
         area_id: this.landmarkDetails.area_id,
-        images: allImagesIds
+        images: this.landmarkDetails.images
       }
       this.logoImage = this.landmarkDetails.logo
       this.coverImage = this.landmarkDetails.cover
-      this.allImages = this.landmarkDetails.images
       this.getCityDependOnCountry(this.landmarkDetails.country_id)
       this.getAreasDependOnCity(this.landmarkDetails.city_id)
     }

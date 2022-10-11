@@ -2,7 +2,7 @@
   <b-card class="statistics-views mb-4">
     <template v-slot:header>
       <div class="d-flex justify-content-between">
-        <h5 class="">Flows: Total Number, Change & Frequency of Views</h5>
+        <h5 class="">{{ type.charAt(0).toUpperCase() + type.slice(1) }} : Total Number, Change & Frequency of Views</h5>
         <div class="d-flex justify-content-between gap-20">
           <div class="cursor-pointer" @click="changeMonth(-1)">
             <i class="las la-arrow-left mr-2"></i>

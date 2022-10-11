@@ -244,7 +244,6 @@ export default {
       allGovernorates: [],
       allArea: [],
       progressLogo: 0,
-      allImages: [],
       removeLoadingUi: false
     }
   },
@@ -290,7 +289,6 @@ export default {
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.landmark.images.push(res.data.data.id)
-        this.allImages.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })
@@ -337,7 +335,7 @@ export default {
   created () {
     this.getAllCountries()
     if (Object.getOwnPropertyNames(this.landmarkDetails).length >= 1) {
-      const allImagesIds = this.landmarkDetails.images.map(item => item.id)
+      // const allImagesIds = this.landmarkDetails.images.map(item => item.id)
       this.landmark = {
         name: this.landmarkDetails.name,
         title: this.landmarkDetails.title,
@@ -352,11 +350,10 @@ export default {
         country_id: this.landmarkDetails.country_id,
         city_id: this.landmarkDetails.city_id,
         area_id: this.landmarkDetails.area_id,
-        images: allImagesIds
+        images: this.landmarkDetails.images
       }
       this.logoImage = this.landmarkDetails.logo
       this.coverImage = this.landmarkDetails.cover
-      this.allImages = this.landmarkDetails.images
       this.getCityDependOnCountry(this.landmarkDetails.country_id)
       this.getAreasDependOnCity(this.landmarkDetails.city_id)
     }

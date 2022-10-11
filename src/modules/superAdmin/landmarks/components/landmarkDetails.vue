@@ -251,7 +251,7 @@ export default {
     addLandmark () {
       if (this.landmark.images.length > 0) {
         if (this.landmarkDetails) {
-          this.$emit('editLandmark', { ...this.landmark, _method: 'put' })
+          this.$emit('editLandmark', { ...this.landmark, images: this.landmark.images.map(data => data.id), _method: 'put' })
         } else {
           /* for (var key in this.landmark) {
             fd.append(key, this.landmark[key])
@@ -307,10 +307,10 @@ export default {
       this.formDataCover.append('image', file.image)
     },
     removeGalleryImage (id) {
-      mainService.removeImage(id, 'accommodation').then(res => {
+      mainService.removeImage(id, 'landmark').then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.accommodations.images.findIndex(image => image.id === id)
-        this.accommodations.images.splice(ind, 1)
+        const ind = this.landmark.images.findIndex(image => image.id === id)
+        this.landmark.images.splice(ind, 1)
       })
     },
     // depend

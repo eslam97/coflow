@@ -870,67 +870,43 @@ export default {
     },
     // save change
     saveChanges () {
-      let location = {}
-      let address = {}
-      let operation = {}
-      console.log(this.location_type)
-      if (this.location_type === 'address based') {
-        address = { ...this.based, location_type: 'address based' }
-        console.log(address)
-      } else {
-        this.remote_locations.forEach((location) => {
-          location.availability_type = location.availability_type ? location.availability_type : 'open'
-        })
-        location = { location: this.remote_locations, location_type: 'remote location' }
-        console.log(location)
-      }
-      if (this.typeOfOperation === '24 hours') {
-        operation = { operation_type: '24 hours' }
-      } else {
-        operation = {
-          operation_type: 'specify days',
-          operation: this.allOperation
-        }
-      }
-      const newObj = {
-        _method: 'put',
-        contact: this.adminInformation,
-        ...this.info,
-        ...location,
-        ...address,
-        ...operation,
-        phones: this.phones,
-        service_types: this.service_types
-      }
-      this.$emit('activation-provider', newObj)
       if (this.logoImage && this.coverImage) {
-        let location = {}
-        let operation = {}
-        if (this.location_type === 'address based') {
-          location = { phones: this.phones, address: this.based, location_type: 'address based' }
-        } else {
-          location = { phones: this.phones, ...this.remote, location_type: 'remote location' }
-        }
-        if (this.typeOfOperation === '24 hours') {
-          operation = { operation_type: '24 hours' }
-        } else {
-          operation = {
-            operation_type: 'specify days',
-            operation: this.allOperation
+        if (this.images.length > 0) {
+          let location = {}
+          let operation = {}
+          let address = {}
+          if (this.location_type === 'address based') {
+            address = { ...this.based, location_type: 'address based' }
+          } else {
+            this.remote_locations.forEach((location) => {
+              location.availability_type = location.availability_type ? location.availability_type : 'open'
+            })
+            location = { location: this.remote_locations, location_type: 'remote location' }
           }
+          if (this.typeOfOperation === '24 hours') {
+            operation = { operation_type: '24 hours' }
+          } else {
+            operation = {
+              operation_type: 'specify days',
+              operation: this.allOperation
+            }
+          }
+          const newObj = {
+            _method: 'put',
+            contact: this.adminInformation,
+            ...this.info,
+            ...location,
+            ...address,
+            ...operation,
+            phones: this.phones,
+            service_types: this.service_types
+          }
+          this.$emit('activation-provider', newObj)
+        } else {
+          core.showSnackbar('error', 'You Should Upload At Least One Image')
         }
-        const newObj = {
-          _method: 'put',
-          contact: this.adminInformation,
-          ...this.info,
-          ...location,
-          ...operation,
-          phones: this.phones,
-          service_types: this.service_types
-        }
-        this.$emit('activation-provider', newObj)
       } else {
-        core.showSnackbar('you should upload images')
+        core.showSnackbar('You should upload logo and cover images')
       }
     }
   },

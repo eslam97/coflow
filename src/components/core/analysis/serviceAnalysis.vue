@@ -42,7 +42,8 @@
                   <h6 class="text-black-50">TOTAL VIEWS</h6>
                   <div class="d-flex justify-content-between mb-3">
                     <h4 class=" font-weight-bold">{{ serviceAnalysis.last_views }}</h4>
-                    <span class="text-success-light font-weight-bold"><i class="far fa-arrow-up-right"></i> 2.2%</span>
+                    <span class="text-success-light font-weight-bold"><i class="far fa-arrow-up-right"></i>
+                      {{ monthStatsCalculation('lastLast_views', 'last_views') }}</span>
                   </div>
                 </div>
               </div>
@@ -56,7 +57,8 @@
                   <h6 class="text-black-50">TOTAL VIEWS</h6>
                   <div class="d-flex justify-content-between mb-3">
                     <h4 class=" font-weight-bold">{{ serviceAnalysis.current_views }}</h4>
-                    <span class="text-success-light font-weight-bold"><i class="far fa-arrow-up-right"></i> 2.2%</span>
+                    <span class="text-success-light font-weight-bold"><i class="far fa-arrow-up-right"></i>
+                     {{ monthStatsCalculation('last_views', 'current_views') }}</span>
                   </div>
                 </div>
               </div>
@@ -195,6 +197,19 @@ export default {
     changeMonth (value) {
       this.serviceFilterByDate = moment(this.serviceFilterByDate).add(value, 'M').format('MMM YYYY')
       this.getServiceAnalysis()
+    },
+    monthStatsCalculation (y, x) {
+      if (this.serviceAnalysis[y] !== 0) {
+        const result = Math.trunc(((this.serviceAnalysis[x] - this.serviceAnalysis[y]) / this.serviceAnalysis[y]) * 100)
+        if (result > 0) {
+          return `+${result}%`
+        } else {
+          return `${result}%`
+        }
+      } else {
+        const result = this.serviceAnalysis[x]
+        return `+${result}%`
+      }
     }
   },
   watch: {

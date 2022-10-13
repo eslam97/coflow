@@ -119,6 +119,7 @@ export default {
       formData.append('password', this.admin.password)
       formData.append('role_id', this.admin.role_id)
       formData.append('image', this.admin.logo)
+      console.log(this.logoImage)
       if (this.adminDetails) {
         formData.append('_method', 'PATCH')
         this.$emit('editAdmin', formData)

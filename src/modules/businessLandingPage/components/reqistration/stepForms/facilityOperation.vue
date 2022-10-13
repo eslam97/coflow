@@ -82,10 +82,10 @@
                   <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add another Operation Day
                     (s)</span>
           </b-col>
-            <b-col md="12">
+<!--            <b-col md="12">
               <p class="text-gray">Note: Specify working days & hours only, any day unspecified will automatically be set as
                 “closed”.</p>
-            </b-col>
+            </b-col>-->
           </b-row>
           <b-row>
             <b-col md="12" class="mt-3 d-flex justify-content-between align-items-center">

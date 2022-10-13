@@ -17,6 +17,7 @@
                 <main-select labelTitle='Day of the week' :validate="'required'"
                              :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
                              label="key"
+                             multiple
                              :reduce="data => data.value"
                              v-model="slot.day"></main-select>
               </b-col>
@@ -108,11 +109,11 @@ export default {
       schedule: {
         slots: [{
           id: '',
-          day: '',
+          day: [],
           from: '',
           to: '',
           instructor: '',
-          ladies_only: 0,
+          ladies_only: +false,
           status: ''
         }],
         status: 'active',

@@ -221,7 +221,6 @@
                 </div>
               </ValidationProvider>
             </b-form-group>
-
           </b-col>
         </b-row>
         <b-row>

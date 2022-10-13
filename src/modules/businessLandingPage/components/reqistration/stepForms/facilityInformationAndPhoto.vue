@@ -12,6 +12,7 @@
           <b-row>
             <b-col md="2" class="mb-3">
               <main-select labelTitle='Activity Line' :validate="'required'"
+                           @change="getChangeActivityTypesDependOnActivityLine()"
                            :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
                            label="name"
                            :reduce="data=> data.id"
@@ -257,6 +258,13 @@ export default {
     }
   },
   methods: {
+    getChangeActivityTypesDependOnActivityLine () {
+      this.allActivityTypes = []
+      this.info.activity_type_id = ''
+      settingsService.getActivityTypesDependOnActivityLine(this.info.activity_line_id).then(res => {
+        this.allActivityTypes = res.data.data
+      })
+    },
     saveFacilityInformation (e) {
       this.loadingFacilityInformation = true
       registrationServices.saveStepFacility(this.info).then(res => {
@@ -386,10 +394,7 @@ export default {
     }
   },
   watch: {
-    'info.activity_line_id' (value) {
-      this.info.activity_type_id = ''
-      this.getActivityTypesDependOnActivityLine(value)
-    }
+
   },
   computed: {
     filterLinks () {
@@ -417,6 +422,10 @@ export default {
     this.getAllLinks()
     this.getAllAmenities()
     if (this.providerInfo) {
+      settingsService.getActivityTypesDependOnActivityLine(this.providerInfo.activity_line_id).then(res => {
+        this.allActivityTypes = res.data.data
+      })
+      // console.log(this.providerInfo.activity_type_id)
       this.logoImage = this.providerInfo.logo
       this.coverImage = this.providerInfo.cover
       this.images = this.providerInfo.images

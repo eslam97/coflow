@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="analytics-tables">
     <div class="mb-3">
       <b-row>
         <b-col md="5" sm="12" class="text-center"><h3>Mission</h3></b-col>
@@ -452,18 +452,18 @@ export default {
 </script>
 <style>
 
-.statistics-views .card-body{
+#analytics-tables.statistics-views .card-body{
   padding: 0 !important;
 }
 
-.chart-flex > dev,
-.chart-flex{
+chart-flex > dev,
+chart-flex{
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
-.table td {
+#analytics-tables table td {
   padding: 5px !important;
   height: 42px !important;
 }

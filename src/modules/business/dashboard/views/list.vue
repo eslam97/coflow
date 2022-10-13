@@ -186,7 +186,7 @@
         <b-row v-if="section2[userType].nationality.length > 0" class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
-              <apex-chart class="chart-flex" width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
+              <apex-chart class="chart-flex" width="420" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
             </div>
           </b-col>
 
@@ -431,7 +431,9 @@ export default {
         const userData = this.section2[this.userType]
         this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
 
-        this.ageSeries = Object.values(userData.age)
+        Object.keys(userData.age).sort().forEach(i => {
+          this.ageSeries.push(userData.age[i])
+        })
 
         this.genderSeries.push(userData.gender.male)
         this.genderSeries.push(userData.gender.female)

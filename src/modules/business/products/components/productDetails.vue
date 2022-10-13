@@ -226,8 +226,11 @@ export default {
       })
     },
     saveProduct () {
-      // this.product.status = this.product.status ? 'active' : 'inactive'
+      this.product.status = this.product.status ? 'active' : 'inactive'
+      this.product.available = +this.product.available
+      this.product.discount_price_egp = this.product.discount_price_egp ? this.product.discount_price_egp : 0
       if (this.product.images.length > 0) {
+        delete this.product.images
         this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : ''
         if (this.productDetails) {
           this.$emit('editProduct', { ...this.product, _method: 'put' })

@@ -112,7 +112,7 @@ export default {
           from: '',
           to: '',
           instructor: '',
-          ladies_only: false,
+          ladies_only: 0,
           status: ''
         }],
         status: 'active',

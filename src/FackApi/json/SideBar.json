@@ -155,7 +155,7 @@
   },
   {
     "title": "Dashboard",
-    "name": "dashboard",
+    "name": "Dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -281,7 +281,7 @@
   },
   {
     "title": "Promotions",
-    "name": "promotions",
+    "name": "Promotions",
     "is_heading": false,
     "is_active": false,
     "link": {

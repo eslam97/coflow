@@ -65,16 +65,19 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col md="8" v-if="serviceAnalysis.total_views > 0">
+        <b-col md="8" v-if="monthDaysOptions.xaxis.categories.length > 0">
           <div class="py-3">
             <div style="overflow-x: scroll">
-              <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
+              <spinner-loading v-if=(loading) />
+              <apex-chart v-else class="chart-flex" height="300px"
+                          :style="`width: ${monthDaysOptions.xaxis.categories.length*80 < 1000? 1000 :
+                          monthDaysOptions.xaxis.categories.length*80}px;`"
                           type="bar" :options="monthDaysOptions" :series="monthDaysSeries"></apex-chart>
             </div>
           </div>
         </b-col>
         <b-col v-else md="8" class="text-center py-5">
-          <h4 class="py-5 mt-2">No user analysis for {{ serviceFilterByDate }}</h4>
+          <h4 class="py-5 mt-2">No sevice analysis for {{ serviceFilterByDate }}</h4>
         </b-col>
       </b-row>
     </b-card-body>
@@ -141,7 +144,8 @@ export default {
         },
         chart: {
           type: 'bar',
-          height: 50
+          height: 50,
+          width: 10
         },
         colors: ['#fe9e12'],
         plotOptions: {
@@ -153,7 +157,7 @@ export default {
               }
             },
             horizontal: false,
-            columnWidth: '50%',
+            columnWidth: '20px',
             borderRadius: 5,
             endingShape: 'rounded'
           }
@@ -180,18 +184,28 @@ export default {
           name: 'Views',
           data: []
         }
-      ]
+      ],
+
+      loading: false
     }
   },
   methods: {
     getServiceAnalysis () {
+      this.loading = true
       dashboardServices.getServiceAnalysis(this.type, this.itemId, moment(this.serviceFilterByDate).format('YYYY-MM')).then(res => {
         this.serviceAnalysis = res.data.data
         this.serviceAnalysis.current_month = moment(this.serviceFilterByDate).format('MMMM')
         this.serviceAnalysis.last_month = moment(this.serviceFilterByDate).add(-1, 'M').format('MMMM')
 
-        this.monthDaysOptions.xaxis.categories = this.serviceAnalysis.month_days.map((month) => month.date)
-        this.monthDaysSeries[0].data = this.serviceAnalysis.month_days.map((month) => month.views)
+        const temp = this.serviceAnalysis.month_days.filter((month) => {
+          if (month.views > 0) {
+            return month
+          }
+        })
+        setTimeout(() => { this.loading = false }, 0)
+        this.monthDaysOptions.xaxis.categories = temp.map((month) => month.date)
+        // this.monthDaysOptions.plotOptions.bar.columnWidth = '4px'
+        this.monthDaysSeries[0].data = temp.map((month) => month.views)
       })
     },
     changeMonth (value) {

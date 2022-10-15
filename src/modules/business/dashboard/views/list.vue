@@ -117,10 +117,13 @@
             </div>
           </div>
         </b-col>
-        <b-col md="8" class="border-right border-left" v-if="analysisByDate.month_days.length > 0">
+        <b-col md="8" class="border-right border-left" v-if="monthDaysOptions.xaxis.categories.length > 0">
           <div class="py-3">
             <div style="overflow-x: scroll;overflow-y: hidden;">
-              <apex-chart class="chart-flex" height="300px" style="width: 2500px;"
+              <spinner-loading v-if=(loading) />
+              <apex-chart v-else class="chart-flex" height="300px"
+                          :style="`width: ${monthDaysOptions.xaxis.categories.length*80 < 1000? 1000 :
+                          monthDaysOptions.xaxis.categories.length*80}px;`"
                           type="bar" :options="monthDaysOptions" :series="monthDaysSeries"></apex-chart>
             </div>
           </div>
@@ -420,7 +423,9 @@ export default {
         SHOP: ['product'],
         CAMP: ['accommodation']
       },
-      serviceTypes: []
+      serviceTypes: [],
+
+      loading: false
     }
   },
   methods: {
@@ -452,15 +457,23 @@ export default {
       this.getAnalysisByDate()
     },
     getAnalysisByDate () {
+      this.loading = true
       dashboardServices.getAnalysisByDate(moment(this.filterByDate).format('YYYY-MM')).then(res => {
         this.analysisByDate = res.data.data
         this.analysisByDate.last.month = moment(this.filterByDate).add(-1, 'M').format('MMMM')
         this.analysisByDate.current.month = moment(this.filterByDate).format('MMMM')
 
-        this.monthDaysOptions.xaxis.categories = this.analysisByDate.month_days.map((month) => month.date)
-        this.monthDaysSeries[0].data = this.analysisByDate.month_days.map((month) => month.views)
-        this.monthDaysSeries[1].data = this.analysisByDate.month_days.map((month) => month.saves)
-        this.monthDaysSeries[2].data = this.analysisByDate.month_days.map((month) => month.tracks)
+        const temp = this.analysisByDate.month_days.filter((month) => {
+          if ((month.saves + month.tracks + month.views) > 0) {
+            return month
+          }
+        })
+        this.monthDaysOptions.xaxis.categories = temp.map((month) => month.date)
+        console.log(this.monthDaysOptions.xaxis.categories)
+        setTimeout(() => { this.loading = false }, 0)
+        this.monthDaysSeries[0].data = temp.map((month) => month.views)
+        this.monthDaysSeries[1].data = temp.map((month) => month.saves)
+        this.monthDaysSeries[2].data = temp.map((month) => month.tracks)
       })
     },
     monthStatsCalculation (y, x, term) {

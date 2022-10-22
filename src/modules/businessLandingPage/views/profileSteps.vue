@@ -17,7 +17,7 @@ export default {
   name: 'profileSteps',
   data () {
     return {
-      providerInfo: {}
+      providerInfo: JSON.parse(localStorage.getItem('userInfo')) || {}
     }
   },
   components: {

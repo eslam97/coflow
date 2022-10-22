@@ -36,7 +36,7 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`Price`"
-                      :rules="'required|numeric'"
+                      :rules="'required|decimal'"
                       class="flex-grow-1"
                   >
                     <b-input-group append="EGP">

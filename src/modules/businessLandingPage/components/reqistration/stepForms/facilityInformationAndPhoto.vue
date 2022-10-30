@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="border-bottom my-5">
+      {{providerInfo.images}}
       <b-container>
         <h4 class="py-4">Facility Information & Photos</h4>
       </b-container>
@@ -266,20 +267,25 @@ export default {
       })
     },
     saveFacilityInformation (e) {
-      this.loadingFacilityInformation = true
-      registrationServices.saveStepFacility(this.info).then(res => {
-        core.showSnackbar('success', res.data.message)
-        this.$store.commit('formSteps/setActiveStepForm', 3)
-        localStorage.setItem('formStep', 3)
-      }).catch((err) => {
-        if (err.response.data.errors) {
-          for (const [key, value] of Object.entries(err.response.data.errors)) {
-            this.$refs[key].setErrors(value)
+      // eslint-disable-next-line eqeqeq
+      if (this.loadingLogo && this.loadingCover) {
+        this.loadingFacilityInformation = true
+        registrationServices.saveStepFacility(this.info).then(res => {
+          core.showSnackbar('success', res.data.message)
+          this.$store.commit('formSteps/setActiveStepForm', 3)
+          localStorage.setItem('formStep', 3)
+        }).catch((err) => {
+          if (err.response.data.errors) {
+            for (const [key, value] of Object.entries(err.response.data.errors)) {
+              this.$refs[key].setErrors(value)
+            }
           }
-        }
-      }).finally(() => {
-        this.loadingFacilityInformation = false
-      })
+        }).finally(() => {
+          this.loadingFacilityInformation = false
+        })
+      } else {
+        core.showSnackbar('error', 'you should upload logo , cover and images')
+      }
     },
     goBack () {
       this.$store.commit('formSteps/setActiveStepForm', 1)
@@ -289,7 +295,6 @@ export default {
     },
     savelogoImage (data) {
       const formData = new FormData()
-      console.log(data)
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
       formData.append('type', 'logo')
@@ -428,6 +433,8 @@ export default {
       // console.log(this.providerInfo.activity_type_id)
       this.logoImage = this.providerInfo.logo
       this.coverImage = this.providerInfo.cover
+      this.loadingCover = 100
+      this.loadingLogo = 100
       this.images = this.providerInfo.images
       this.info = {
         activity_line_id: this.providerInfo.activity_line_id,

@@ -93,9 +93,9 @@
                     <a  href="javascript:void(0)" class="font-weight-bold" :title="item.name">
                       {{ item.name.length > 30 ? item.name.substring(0,30) + '...' : item.name }}
                     </a>
-                    <p class="font-size-12 font-weight-bold text-primary">{{ item.description.length > 35 ?
-                        item.description.substring(0,35)
-                        + '...' : item.description }}</p>
+                    <p class="font-size-12 font-weight-bold text-primary">{{ item.title.length > 35 ?
+                        item.title.substring(0,35)
+                        + '...' : item.title }}</p>
                   </div>
                 </div>
                 <b-col md="12" v-if="item.discount_price_egp" class="d-flex justify-content-between align-items-start">

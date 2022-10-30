@@ -450,8 +450,8 @@
             </b-link>
             <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility photos</h5>
             <b-card-body class="m-0">
-              <b-row class="mb-3 cursor-pointer px-2" v-if="images">
-                <b-col cols="3"  v-for="(img, key) in images" class="position-relative mb-1" :key="key">
+              <b-row class="mb-3 cursor-pointer px-2 m-0" v-if="images">
+                <b-col cols="3"  v-for="(img, key) in images" class="position-relative mb-1 p-0 m-0" :key="key">
                                       <span class="position-absolute deleteImage" v-if="showDeletedImage"
                                             @click="removeImage(img.id)"><i class="las la-trash-alt"></i></span>
                   <div :style="`background-image: url(${img.image})`" class="facilityImageInProfile" @click="showImage(img.image)"></div>
@@ -609,12 +609,14 @@ export default {
   },
   computed: {
     filterLinks () {
-      const newLinksArr = [...this.allLinks]
+      var newLinksArr = [...this.allLinks]
       this.info.links.forEach(e => {
-        if (newLinksArr.includes(e.selectSocial)) {
-          const socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
-          newLinksArr.splice(socialIndex, 1)
-        }
+        newLinksArr.forEach(arr => {
+          if (arr.name === e.selectSocial) {
+            var socialIndex = newLinksArr.findIndex(item => item === arr)
+            newLinksArr.splice(socialIndex, 1)
+          }
+        })
       })
       return newLinksArr
     }

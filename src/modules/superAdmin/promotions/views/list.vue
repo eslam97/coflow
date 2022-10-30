@@ -62,7 +62,7 @@ export default {
         '#',
         { label: 'Provider Name', key: 'provider.name', class: 'text-left' },
         { label: 'Profile Type', key: 'provider.profile_type', class: 'text-left' },
-        { label: 'Offer title', key: 'offer_title', class: 'text-left' },
+        { label: 'Offer', key: 'package', class: 'text-left', type: 'offer' },
         { label: 'Promotion Type', key: 'promotion_type', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left', sortable: true },
         { label: 'End Date', key: 'end_date', class: 'text-left', sortable: true },

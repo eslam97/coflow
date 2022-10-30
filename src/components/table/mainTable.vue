@@ -77,6 +77,14 @@
             <p v-else>NP</p>
           </div>
 
+          <!--    Offer      -->
+          <div v-else-if="field.type == 'offer'">
+<!--            {{data.item}}-->
+            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }}</p>
+            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy: {{ data.item.buy_x }}, Get: {{ data.item.get_y }}</p>
+            <p v-else>{{ data.item.discount_price_egp }}%</p>
+          </div>
+
           <!-- Array handler -->
           <div v-else-if="field.type == 'array'">
             <span v-if="field.array_keys" >

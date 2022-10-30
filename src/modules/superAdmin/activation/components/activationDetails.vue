@@ -874,11 +874,7 @@ export default {
         if (this.images.length > 0) {
           let location = {}
           let operation = {}
-          let address = {}
-          if (this.location_type === 'address based') {
-            address = { ...this.based }
-            console.log(address)
-          } else {
+          if (this.location_type === 'remote location') {
             this.remote_locations.forEach((location) => {
               location.availability_type = location.availability_type ? location.availability_type : 'open'
             })
@@ -897,12 +893,13 @@ export default {
             contact: this.adminInformation,
             ...this.info,
             ...location,
-            address: address,
+            address: { ...this.based },
             ...operation,
             phones: this.phones,
             location_type: this.location_type,
             service_types: this.service_types
           }
+          console.log(newObj)
           this.$emit('activation-provider', newObj)
         } else {
           core.showSnackbar('error', 'You Should Upload At Least One Image')

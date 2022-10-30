@@ -118,10 +118,19 @@
               />
             </div>
           </template>
+          <template v-slot:cell(offer)="data">
+            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }}</p>
+            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy: {{ data.item.buy_x }}, Get: {{ data.item.get_y }}</p>
+            <p v-else>{{ data.item.discount_price_egp }}%</p>
+          </template>
           <template v-slot:cell(actions)="data">
             <b-button variant="danger" v-if="type === 'current'" @click="end(data.item)" class="w-100 rounded-0">End</b-button>
-            <b-button variant="info" v-else @click="reEnd(data.item.id)" class="w-100 rounded-0">
+            <span v-else class="d-flex justify-content-around">
+              <b-button variant="info"  @click="reEnd(data.item.id)" class="w-40 rounded-0">
               Re-Add</b-button>
+              <b-button variant="danger"  @click="del(data.item)" class="w-30 rounded-0">
+              <i class="las la-trash"></i></b-button>
+            </span>
           </template>
         </b-table>
         <b-pagination
@@ -165,7 +174,7 @@ export default {
       },
       columns: [
         { label: 'Promotion Type', key: 'promotion_type', class: 'text-left' },
-        { label: 'Offer', key: 'package', class: 'text-left' },
+        { label: 'Offer', key: 'offer', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
         { label: 'Offer Title', key: 'offer_title', class: 'text-left' },
@@ -230,6 +239,22 @@ export default {
       this.endInfo.data = { start_date: data.start_date, end_date: data.end_date }
       this.$refs.endPopup.show(this.endInfo)
       this.$bvModal.show('endModal')
+    },
+    del (data) {
+      EventBus.$emit('openDeleteModal', {
+        actionHeader: 'Delete',
+        titleHeader: 'Promotion',
+        textContent: data.offer_title,
+        question: 'Are You Sure You Want Delete This Promotion?',
+        textDeleteButton: 'YES, Delete',
+        textCancelButton: 'NO, CANCEL',
+        icon: 'las la-trash-alt',
+        type: 'delete',
+        actionOnAlert: '',
+        text: 'Delete',
+        url: 'promotions',
+        rowId: data.id
+      })
     },
     reEnd (id) {
       this.rowId = id

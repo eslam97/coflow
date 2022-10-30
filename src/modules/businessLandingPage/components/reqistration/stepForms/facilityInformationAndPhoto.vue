@@ -255,6 +255,8 @@ export default {
       removeLoadingUi: false,
       logoImage: '',
       coverImage: '',
+      logoFlag: false,
+      coverFlag: false,
       images: []
     }
   },
@@ -267,8 +269,7 @@ export default {
       })
     },
     saveFacilityInformation (e) {
-      // eslint-disable-next-line eqeqeq
-      if (this.loadingLogo && this.loadingCover) {
+      if (this.coverFlag && this.logoFlag && this.images.length > 0) {
         this.loadingFacilityInformation = true
         registrationServices.saveStepFacility(this.info).then(res => {
           core.showSnackbar('success', res.data.message)
@@ -284,7 +285,7 @@ export default {
           this.loadingFacilityInformation = false
         })
       } else {
-        core.showSnackbar('error', 'you should upload logo , cover and images')
+        core.showSnackbar('error', 'You should upload logo, cover and at least 1 image')
       }
     },
     goBack () {
@@ -308,6 +309,7 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.logoFlag = true
         this.logoImage = ''
       })
     },
@@ -327,6 +329,7 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.coverFlag = true
         this.coverImage = ''
       })
     },
@@ -433,8 +436,7 @@ export default {
       // console.log(this.providerInfo.activity_type_id)
       this.logoImage = this.providerInfo.logo
       this.coverImage = this.providerInfo.cover
-      this.loadingCover = 100
-      this.loadingLogo = 100
+
       this.images = this.providerInfo.images
       this.info = {
         activity_line_id: this.providerInfo.activity_line_id,
@@ -447,6 +449,14 @@ export default {
         tags: this.providerInfo.tags,
         amenities: this.providerInfo.amenities.map(ameny => ameny.id),
         links: this.providerInfo.links
+      }
+      if (this.logoImage) {
+        this.loadingLogo = 100
+        this.logoFlag = true
+      }
+      if (this.coverImage) {
+        this.loadingCover = 100
+        this.coverFlag = true
       }
     }
   }

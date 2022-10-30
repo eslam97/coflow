@@ -582,7 +582,7 @@ export default {
           number: ''
         }
       ],
-      location_type: '',
+      location_type: 'address based',
       typeOfOperation: '',
       images: [],
       logoImage: '',
@@ -876,12 +876,13 @@ export default {
           let operation = {}
           let address = {}
           if (this.location_type === 'address based') {
-            address = { ...this.based, location_type: 'address based' }
+            address = { ...this.based }
+            console.log(address)
           } else {
             this.remote_locations.forEach((location) => {
               location.availability_type = location.availability_type ? location.availability_type : 'open'
             })
-            location = { location: this.remote_locations, location_type: 'remote location' }
+            location = { location: this.remote_locations }
           }
           if (this.typeOfOperation === '24 hours') {
             operation = { operation_type: '24 hours' }
@@ -899,6 +900,7 @@ export default {
             ...address,
             ...operation,
             phones: this.phones,
+            location_type: this.location_type,
             service_types: this.service_types
           }
           this.$emit('activation-provider', newObj)

@@ -25,11 +25,11 @@ export default {
   components: {
     navProgress
   },
-  beforeCreate () {
-    document.body.style.backgroundColor = '#181935FF'
-  },
   beforeDestroy () {
     document.body.style.backgroundColor = ''
+  },
+  mounted () {
+    document.body.style.backgroundColor = '#181935FF'
   }
 }
 </script>

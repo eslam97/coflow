@@ -11,7 +11,7 @@
       <b-col sm="2">
         <div class="d-flex justify-content-start gap-20">
           <a href="https://www.google.com" class="text-white"><i class="lab la-facebook-f"></i></a>
-          <a href="https://www.google.com" class="text-white"> <i class="lab la-twitter"></i></a>
+<!--          <a href="https://www.google.com" class="text-white"> <i class="lab la-twitter"></i></a>-->
           <a href="https://www.google.com" class="text-white"> <i class="lab la-instagram"></i></a>
           <a href="https://www.google.com" class="text-white"><i class="lab la-google-plus"></i></a>
         </div>

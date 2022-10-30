@@ -213,6 +213,7 @@ export default {
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.product.images.push(res.data.data.id)
+        console.log(this.product.images)
         this.allImages.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
@@ -228,9 +229,11 @@ export default {
     saveProduct () {
       this.product.status = this.product.status ? 'active' : 'inactive'
       this.product.available = +this.product.available
+      console.log(this.product.discount_price_egp)
       this.product.discount_price_egp = this.product.discount_price_egp ? this.product.discount_price_egp : 0
+      console.log(this.product.discount_price_egp)
       if (this.product.images.length > 0) {
-        delete this.product.images
+        // delete this.product.images
         this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : ''
         if (this.productDetails) {
           this.$emit('editProduct', { ...this.product, _method: 'put' })

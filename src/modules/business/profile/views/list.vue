@@ -126,7 +126,7 @@ export default {
       profileServices.getProfileData(this.id).then(res => {
         this.oldProfile = res.data.data
         this.statusDetails = { status: this.oldProfile.status, status_msg: this.oldProfile.status_msg }
-        this.switchStatus = !(this.statusDetails.status === ('visible' || 'invisible'))
+        this.switchStatus = !(this.statusDetails.status === 'visible' || this.statusDetails.status === 'invisible')
         this.loading = false
       })
     },

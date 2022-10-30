@@ -445,9 +445,12 @@ export default {
       })
     },
     updateUserTypeData () {
+      this.ageSeries = []
       const userData = this.section2[this.userType]
       this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
-      this.ageSeries = Object.values(userData.age)
+      Object.keys(userData.age).sort().forEach(i => {
+        this.ageSeries.push(userData.age[i])
+      })
       this.genderSeries = []
       this.genderSeries.push(userData.gender.male)
       this.genderSeries.push(userData.gender.female)
@@ -469,7 +472,6 @@ export default {
           }
         })
         this.monthDaysOptions.xaxis.categories = temp.map((month) => month.date)
-        console.log(this.monthDaysOptions.xaxis.categories)
         setTimeout(() => { this.loading = false }, 0)
         this.monthDaysSeries[0].data = temp.map((month) => month.views)
         this.monthDaysSeries[1].data = temp.map((month) => month.saves)

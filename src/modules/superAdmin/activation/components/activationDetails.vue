@@ -897,7 +897,7 @@ export default {
             contact: this.adminInformation,
             ...this.info,
             ...location,
-            ...address,
+            address: address,
             ...operation,
             phones: this.phones,
             location_type: this.location_type,

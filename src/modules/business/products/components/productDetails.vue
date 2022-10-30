@@ -36,7 +36,7 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`Price`"
-                      :rules="'required|decimal'"
+                      :rules="'required'"
                       class="flex-grow-1"
                   >
                     <b-input-group append="EGP">
@@ -230,11 +230,11 @@ export default {
       this.product.status = this.product.status ? 'active' : 'inactive'
       this.product.available = +this.product.available
       console.log(this.product.discount_price_egp)
-      this.product.discount_price_egp = this.product.discount_price_egp ? this.product.discount_price_egp : 0
+      // this.product.discount_price_egp = this.product.discount_price_egp ? this.product.discount_price_egp : 0
       console.log(this.product.discount_price_egp)
       if (this.product.images.length > 0) {
         // delete this.product.images
-        this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : ''
+        this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : 0
         if (this.productDetails) {
           this.$emit('editProduct', { ...this.product, _method: 'put' })
         } else {

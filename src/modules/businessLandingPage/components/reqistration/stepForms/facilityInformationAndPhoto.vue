@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="border-bottom my-5">
-      {{providerInfo.images}}
       <b-container>
         <h4 class="py-4">Facility Information & Photos</h4>
       </b-container>
@@ -184,7 +183,7 @@
                   @remove-image="removeGalleryImage"
                   :progressLoading="loadingGallery"
                   :removeLoadingUi="removeLoadingUi"
-                  :images="images"
+                  :images="allImages"
               ></cropper-images>
             </b-col>
           </b-row>
@@ -257,7 +256,7 @@ export default {
       coverImage: '',
       logoFlag: false,
       coverFlag: false,
-      images: []
+      allImages: []
     }
   },
   methods: {
@@ -269,7 +268,8 @@ export default {
       })
     },
     saveFacilityInformation (e) {
-      if (this.coverFlag && this.logoFlag && this.images.length > 0) {
+      console.log(this.allImages)
+      if (this.coverFlag && this.logoFlag && this.allImages.length > 0) {
         this.loadingFacilityInformation = true
         registrationServices.saveStepFacility(this.info).then(res => {
           core.showSnackbar('success', res.data.message)
@@ -349,15 +349,15 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.images.push(res.data.data)
+        this.allImages.push(res.data.data)
         this.removeLoadingUi = true
       })
     },
     removeGalleryImage (id) {
       registrationServices.removeProviderImage(id).then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.images.findIndex(image => image.id === id)
-        this.images.splice(ind, 1)
+        const ind = this.allImages.findIndex(image => image.id === id)
+        this.allImages.splice(ind, 1)
       })
     },
     addNewLink () {

@@ -1,11 +1,12 @@
 <template>
-  <div class="bg-primary tailored py-5">
+  <div class="tailored py-5 d-flex align-items-center">
     <b-container>
       <div class="py-5 mt-5">
         <div class="header">
-          <h3 class="text-center text-white mb-2">Tailored System for your Business</h3>
-          <p class="text-center text-secondary font-size-12 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Ut <br/>pretium pretium tempor .</p>
+          <h3 class="text-center text-white mb-2 font-size-32">World Wide Community</h3>
+          <p class="text-center text-secondary font-size-14 mb-4">
+            Together we make the greatest offer of life changing experiences,
+            <br/>bringing people around the world to, failing in love with our flow.</p>
         </div>
       </div>
 <!--      <section class="d-flex justify-content-between align-items-center feature-user flex-column flex-md-row flex-wrap">
@@ -61,7 +62,7 @@
         </div>
       </section>-->
       <b-row class="feature-user justify-content-between pb-5">
-        <b-col md="2 mb-2">
+        <b-col md="2" cols="6" class="mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Ticket.png')" />
             <h4 class="text-white my-3">Tickets</h4>
@@ -71,7 +72,7 @@
             blandit. Nulla quis lorem ut liber.
           </p>
         </b-col>
-        <b-col md="2 mb-2">
+        <b-col md="2" cols="6" class="mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Activities.png')" />
             <h4 class="text-white my-3">Activities</h4>
@@ -81,7 +82,7 @@
             blandit. Nulla quis lorem ut liber.
           </p>
         </b-col>
-        <b-col md="2 mb-2">
+        <b-col md="2" cols="6" class="mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Courses.png')" />
             <h4 class="text-white my-3">Courses</h4>
@@ -91,7 +92,7 @@
             blandit. Nulla quis lorem ut liber.
           </p>
         </b-col>
-        <b-col md="2 mb-2">
+        <b-col md="2" cols="6" class="mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Flows.png')" class="w-17"/>
             <h4 class="text-white my-3">Flows</h4>
@@ -101,7 +102,7 @@
             blandit. Nulla quis lorem ut liber.
           </p>
         </b-col>
-        <b-col md="2 mb-2">
+        <b-col md="2" cols="6" class="mb-2">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Products.png')" />
             <h4 class="text-white my-3">Products</h4>
@@ -116,6 +117,13 @@
   </div>
 </template>
 <style>
+.tailored {
+  background-image: url('../../../../assets/images/businessLanding/tailored/Background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 900px;
+}
 .feature-user img{
   width: 35px;
 }

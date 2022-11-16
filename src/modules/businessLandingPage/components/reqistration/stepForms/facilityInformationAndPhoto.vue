@@ -436,8 +436,8 @@ export default {
       // console.log(this.providerInfo.activity_type_id)
       this.logoImage = this.providerInfo.logo
       this.coverImage = this.providerInfo.cover
-
-      this.images = this.providerInfo.images
+      console.log('this.providerInfo.images', this.providerInfo.images)
+      this.allImages = this.providerInfo.images
       this.info = {
         activity_line_id: this.providerInfo.activity_line_id,
         activity_type_id: this.providerInfo.activity_type_id,

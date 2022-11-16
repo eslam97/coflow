@@ -37,36 +37,53 @@
       <div class="py-5">
         <div class="header">
           <p class="text-center text-secondary font-size-12">Features</p>
-          <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Built and customized <br> for your
-            intrests</h2>
+          <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Save. Track. Go.</h2>
           <b-container>
-            <b-row>
-              <b-col md="3" class="mb-2">
-                <div class="d-flex flex-column">
+            <b-row class="d-flex justify-content-between mb-4">
+              <b-col md="3" class="mb-2 d-flex justify-content-center">
+                <div class="w-75">
+                  <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Discover</h5>
+                  <p class="">Find out the who, what, when & where with our detailed facility profiles. The why is yours.</p>
+                </div>
+              </b-col>
+              <b-col md="3" class="mb-2 d-flex justify-content-center">
+                <div class="w-75">
+                  <img :src="require('@/assets/images/mobilaAppLanding/Save@2x.png')" alt="Save" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Save</h5>
+                  <p class="">Save whatever catches your interest in your account for later, on the Go.</p>
+                </div>
+              </b-col>
+              <b-col md="3" class="mb-2 d-flex justify-content-center">
+                <div class="w-75">
+                  <img :src="require('@/assets/images/mobilaAppLanding/Track@2x.png')" alt="Track" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Track</h5>
+                  <p class="">Track any profile & you’ll be the first to know, if they update their schedule, services or
+                    promotions.</p>
+                </div>
+              </b-col>
+              <b-col md="3" class="mb-2 d-flex justify-content-center">
+                <div class="w-75">
+                  <img :src="require('@/assets/images/mobilaAppLanding/Go@3X.png')" alt="Go" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Go</h5>
+                  <p class="">Let go & Just Go. Give it a try. Money always comes & goes, but experiences last a life time.</p>
+                </div>
+              </b-col>
+            </b-row>
+            <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Explore & Shop</h2>
+            <b-row class="d-flex justify-content-center">
+              <b-col md="3" class="mb-2 d-flex justify-content-center">
+                <div class="w-75">
                   <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Explore</h5>
-                  <p class="w-75">You can explore all landmarks and camps avalaible around you.</p>
+                  <p class="">Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>
                 </div>
               </b-col>
-              <b-col md="3" class="mb-2">
-                <div class="d-flex flex-column">
-                  <img :src="require('@/assets/images/mobilaAppLanding/Go@2x.png')" alt="Explore" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">GO</h5>
-                  <p class="w-75">You can save all the places and activities you want to go to.</p>
-                </div>
-              </b-col>
-              <b-col md="3" class="mb-2">
-                <div class="d-flex flex-column">
-                  <img :src="require('@/assets/images/mobilaAppLanding/Products@2x.png')" alt="Explore" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">Product</h5>
-                  <p class="w-75">You can shop all products for the activities you want to do.</p>
-                </div>
-              </b-col>
-              <b-col md="3" class="mb-2">
-                <div class="d-flex flex-column">
-                  <img :src="require('@/assets/images/mobilaAppLanding/Track@2x.png')" alt="Explore" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">Track</h5>
-                  <p class="w-75">You can track any schedule to be updated with classes to attend.</p>
+              <b-col md="3" class="mb-2 d-flex justify-content-center">
+                <div class="w-75">
+                  <img :src="require('@/assets/images/mobilaAppLanding/Products@2x.png')" alt="Shop" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Shop</h5>
+                  <p class="">Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>
                 </div>
               </b-col>
             </b-row>
@@ -79,9 +96,9 @@
     <div class="Categories">
       <div class="py-5">
         <div class="header">
-          <p class="text-center text-secondary font-size-12">Features</p>
-          <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Built and customized <br> for your
-            intrests</h2>
+          <p class="text-center text-secondary font-size-12">Categories</p>
+          <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Sky Was Never The Limit<br>
+            It Was Always Our Playground</h2>
             <b-row class="m-0 p-0 align-items-center mb-5">
               <b-col md="5" class="p-0 mb-2">
                 <img class="w-100" :src="require('@/assets/images/mobilaAppLanding/sky.png')" alt="Explore">

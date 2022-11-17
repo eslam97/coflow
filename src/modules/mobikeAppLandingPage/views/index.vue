@@ -44,29 +44,33 @@
                 <div class="w-75">
                   <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Discover</h5>
-                  <p class="">Find out the who, what, when & where with our detailed facility profiles. The why is yours.</p>
+                  <p class="" style="text-align: justify">
+                    Find out the who, what, when & where with our detailed facility profiles. The why is yours.</p>
                 </div>
               </b-col>
               <b-col md="3" class="mb-2 d-flex justify-content-center">
                 <div class="w-75">
                   <img :src="require('@/assets/images/mobilaAppLanding/Save@2x.png')" alt="Save" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Save</h5>
-                  <p class="">Save whatever catches your interest in your account for later, on the Go.</p>
+                  <p class="" style="text-align: justify">
+                    Save whatever catches your interest in your account for later, on the Go.</p>
                 </div>
               </b-col>
               <b-col md="3" class="mb-2 d-flex justify-content-center">
                 <div class="w-75">
                   <img :src="require('@/assets/images/mobilaAppLanding/Track@2x.png')" alt="Track" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Track</h5>
-                  <p class="">Track any profile & you’ll be the first to know, if they update their schedule, services or
+                  <p class="" style="text-align: justify">
+                    Track any profile & you’ll be the first to know, if they update their schedule, services or
                     promotions.</p>
                 </div>
               </b-col>
               <b-col md="3" class="mb-2 d-flex justify-content-center">
                 <div class="w-75">
-                  <img :src="require('@/assets/images/mobilaAppLanding/Go@3X.png')" alt="Go" class='Explore'>
+                  <img :src="require('@/assets/images/mobilaAppLanding/Go@3XC.png')" alt="Go" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Go</h5>
-                  <p class="">Let go & Just Go. Give it a try. Money always comes & goes, but experiences last a life time.</p>
+                  <p class="" style="text-align: justify">
+                    Let go & Just Go. Give it a try. Money always comes & goes, but experiences last a life time.</p>
                 </div>
               </b-col>
             </b-row>
@@ -76,14 +80,16 @@
                 <div class="w-75">
                   <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Explore</h5>
-                  <p class="">Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>
+                  <p class="" style="text-align: justify">
+                    Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>
                 </div>
               </b-col>
               <b-col md="3" class="mb-2 d-flex justify-content-center">
                 <div class="w-75">
                   <img :src="require('@/assets/images/mobilaAppLanding/Products@2x.png')" alt="Shop" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Shop</h5>
-                  <p class="">Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>
+                  <p class="" style="text-align: justify">
+                    Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>
                 </div>
               </b-col>
             </b-row>
@@ -168,9 +174,9 @@
                     metus, scelerisque nec pharetra id, tempor a tortor. Donec facilisis tortor ut augue lacinia, at viverra est semper. </p>
                   <div class="d-flex activities_item">
                     <div
-                        :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Ride@2x.png')})`"
-                        class="text-white">
-                      Ride
+                        :style="`background: url(${require('../../../assets/images/mobilaAppLanding/ride@3x.png')});
+                        background-size:cover!important`"
+                        class="text-white">Ride
                     </div>
                     <div
                         :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Grip@2x.png')})`"

@@ -4,9 +4,9 @@
       <div class="pt-5 pb-3 my-5">
         <div class="header">
           <h3 class="text-center text-black mb-2">What our customer’s say</h3>
-          <p class="text-center text-secondary font-size-12 mb-0">Lorem ipsum dolor sit amet, consectetur
+<!--          <p class="text-center text-secondary font-size-12 mb-0">Lorem ipsum dolor sit amet, consectetur
             adipiscing
-            elit. Ut <br/>pretium pretium tempor .</p>
+            elit. Ut <br/>pretium pretium tempor .</p>-->
         </div>
       </div>
     </b-container>

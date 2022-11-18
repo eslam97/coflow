@@ -70,7 +70,7 @@
                   <img :src="require('@/assets/images/mobilaAppLanding/Go@3XC.png')" alt="Go" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Go</h5>
                   <p class="" style="text-align: justify">
-                    Let go & Just Go. Give it a try. Money always comes & goes, but experiences last a life time.</p>
+                    Let go & Just Go. Give it a try. <br> Money always comes & goes, <br/> but experiences last a life time.</p>
                 </div>
               </b-col>
             </b-row>
@@ -318,9 +318,9 @@ width: 100%;
 }
 .FooterMobile {
   position: absolute;
-  width: 387px;
-  bottom: 0;
-  left: 41%;
+  width: 263px;
+  bottom: 0px;
+  left: 40%;
 }
 </style>
 <style>

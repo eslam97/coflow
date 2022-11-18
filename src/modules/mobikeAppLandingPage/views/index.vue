@@ -17,8 +17,8 @@
         <b-container>
           <div class="d-flex align-items-start flex-column">
             <h1 class="header_hero">Directory to all fun <br> activities you can do</h1>
-            <p class="p_hero">Lorem ipsum dolor sit amet, consectetur <br>
-              adipiscing elit. Ut pretium pretium tempor.</p>
+            <p class="p_hero">Connect with a version of yourself you can love<br>
+              today, tomorrow, and forever.</p>
             <div class="d-flex mobile-section ">
               <img :src="require('@/assets/images/mobilaAppLanding/Apple-badge.png')" alt="ios" class="ios">
               <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android">
@@ -114,10 +114,11 @@
                 <div class="d-flex flex-column">
                   <div class="d-flex align-items-center">
                   <img :src="require('@/assets/images/mobilaAppLanding/skyFrame.png')" alt="Explore" class="frame-image">
-                  <h2 class="mb-2 text-primary ml-4">Sky</h2>
+                  <h2 class="mb-2 text-primary ml-4"><b>Sky</b></h2>
                   </div>
-                  <p class="w-75 mt-4">Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien
-                    metus, scelerisque nec pharetra id, tempor a tortor. Donec facilisis tortor ut augue lacinia, at viverra est semper. </p>
+                  <h4 class="mt-4 mb-0"><b>Fly Over the Horizon</b></h4>
+                  <p class="w-75">Paramotor with the Planes, Paraglide with the Birds,<br>
+                    Skydive with the Eagles & Parachute with the View.</p>
                   <div class="d-flex activities_item">
                     <div
                         :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Dive.png')})`"
@@ -138,10 +139,11 @@
                 <div class="d-flex flex-column">
                   <div class="d-flex align-items-center">
                     <img :src="require('@/assets/images/mobilaAppLanding/Sea (framed).png')" alt="Explore" class="frame-image">
-                    <h2 class="mb-2 text-primary ml-4">Sea</h2>
+                    <h2 class="mb-2 text-primary ml-4"><b>Sea</b></h2>
                   </div>
-                  <p class="w-75 mt-4">Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien
-                    metus, scelerisque nec pharetra id, tempor a tortor. Donec facilisis tortor ut augue lacinia, at viverra est semper. </p>
+                  <h4 class="mt-4 mb-0"><b>Fall Into The Deep</b></h4>
+                  <p class="w-75">Surf with the Waves, Kite with the Wind, Free Dive<br>
+                    with the Dolphins & Scuba Dive with the Sharks.</p>
                   <div class="d-flex activities_item">
                     <div
                         :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Dive@2x.png')})`"
@@ -168,10 +170,11 @@
                 <div class="d-flex flex-column">
                   <div class="d-flex align-items-center">
                   <img :src="require('@/assets/images/mobilaAppLanding/Earth (framed).png')" alt="Explore" class="frame-image">
-                  <h2 class="mb-2 text-primary ml-4">Earth</h2>
+                  <h2 class="mb-2 text-primary ml-4"><b>Earth</b></h2>
                   </div>
-                  <p class="w-75 mt-4">Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien
-                    metus, scelerisque nec pharetra id, tempor a tortor. Donec facilisis tortor ut augue lacinia, at viverra est semper. </p>
+                  <h4 class="mt-4 mb-0"><b>Fight With The Gravity</b></h4>
+                  <p class="w-75">Ride into the Wind, Slide over the Surface,<br>
+                    Grip over the Edge & Climb up the Mountain.</p>
                   <div class="d-flex activities_item">
                     <div
                         :style="`background: url(${require('../../../assets/images/mobilaAppLanding/ride@3x.png')});
@@ -193,10 +196,11 @@
                   <div class="d-flex align-items-center">
                     <img :src="require('@/assets/images/mobilaAppLanding/Energy (framed).png')" alt="Energy"
                          class="frame-image">
-                    <h2 class="mb-2 text-primary ml-4">Energy</h2>
+                    <h2 class="mb-2 text-primary ml-4"><b>Energy</b></h2>
                   </div>
-                  <p class="w-75 mt-4">Donec facilisis tortor ut augue lacinia, at viverra est semper. Sed sapien
-                    metus, scelerisque nec pharetra id, tempor a tortor. Donec facilisis tortor ut augue lacinia, at viverra est semper. </p>
+                  <h4 class="mt-4 mb-0"><b>Flow With The Elements</b></h4>
+                  <p class="w-75">Enhance your Fitness, Increase your Flexibility,<br>
+                    Tighten your Core & Elevate your Balance.</p>
                   <div class="d-flex activities_item">
                     <div
                         :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Flex@2x.png')})`"

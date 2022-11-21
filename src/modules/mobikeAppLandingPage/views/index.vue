@@ -12,23 +12,23 @@
     </b-container>
 
     <!-- hero Section -->
-    <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column">
-      <div class="w-65 h-100 pl-5">
+    <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column position-relative">
+      <div class="white-section">
         <b-container>
-          <div class="d-flex align-items-start flex-column pl-5 ml-5">
+          <div class="d-flex align-items-start flex-column">
             <h1 class="header_hero">Adventure Sports & <br>Spiritual Activities</h1>
             <p class="p_hero">Connect with a version of yourself you can love<br>
               today, tomorrow, and forever.</p>
-            <div class="d-flex mobile-section ">
-              <a href="https://play.google.com/store/apps/details?id=com.redgits.coflow" target="_blank">
-                <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android"></a>
-              <a href="https://apps.apple.com/nz/app/coflow/id1640503180" target="_blank">
-                <img :src="require('@/assets/images/mobilaAppLanding/Apple-badge.png')" alt="ios" class="ios"></a>
-            </div>
+            <b-row class="mobile-section ">
+              <b-col md="5" cols="12"><a href="https://play.google.com/store/apps/details?id=com.redgits.coflow" target="_blank">
+                <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android"></a></b-col>
+              <b-col md="5" cols="12"><a href="https://apps.apple.com/nz/app/coflow/id1640503180" target="_blank">
+                <img :src="require('@/assets/images/mobilaAppLanding/Apple-badge.png')" alt="ios" class="ios"></a></b-col>
+            </b-row>
           </div>
         </b-container>
       </div>
-      <div class="hero w-35 h-100 bg-primary d-flex align-items-center blue_section">
+      <div class="hero h-100 bg-primary d-flex align-items-center blue_section">
         <img :src="require('@/assets/images/mobilaAppLanding/Header-Logo.png')" alt="Header-Logo" class="circleLogo">
         <img :src="require('@/assets/images/mobilaAppLanding/phone.png')" alt="mobileApp" class="mobileImage">
       </div>
@@ -276,8 +276,19 @@ export default {
   margin: 30px 0 !important;
   font-size: 18px !important;
 }
+.white-section {
+  padding-top: 18vh;
+  padding-left: 10vw;
+  height: 90vh;
+  width: 65%;
+}
 .blue_section {
+  position: absolute !important;
+  top: 0px;
+  right: 0px;
+  width: 35%;
   border-bottom-left-radius: 63px;
+  z-index: -1;
 }
 .blue_section img {
   position: absolute;
@@ -287,7 +298,7 @@ export default {
   left: -64px;
 }
 .circleLogo {
-width: 100%;
+  width: 100%;
   left: -34%;
 }
 .mobile-section {
@@ -295,6 +306,37 @@ width: 100%;
 }
 .mobile-section img {
   width: 180px;
+}
+@media screen and (max-width: 500px) {
+  .white-section {
+    width: 100%;
+    padding-top: 10vh;
+    padding-left: 2vw;
+  }
+  .blue_section {
+    width: 100% !important;
+    overflow: hidden;
+  }
+  .mobileImage {
+    width: 55%;
+    left: 50vw;
+    bottom: 0px;
+  }
+  .circleLogo {
+    width: 80%;
+    left: 30%;
+    bottom: -70px;
+  }
+  .header_hero {
+    color: #c1c1c1 !important;
+    font-size: 40px !important;
+  }
+  .p_hero {
+    color: #a09e9e !important;
+  }
+  .mobile-section img {
+    box-shadow: 0px 0px 20px #777777;
+  }
 }
 .features img {
   width: 55px;

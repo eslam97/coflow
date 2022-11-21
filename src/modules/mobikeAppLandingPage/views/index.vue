@@ -15,8 +15,8 @@
     <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column">
       <div class="w-65 h-100 pl-5">
         <b-container>
-          <div class="d-flex align-items-start flex-column">
-            <h1 class="header_hero">Directory to all fun <br> activities you can do</h1>
+          <div class="d-flex align-items-start flex-column pl-5 ml-5">
+            <h1 class="header_hero">Adventure Sports & <br>Spiritual Activities</h1>
             <p class="p_hero">Connect with a version of yourself you can love<br>
               today, tomorrow, and forever.</p>
             <div class="d-flex mobile-section ">

@@ -5,9 +5,8 @@
     <b-container>
       <div class="py-5 mt-5">
         <div class="header">
-          <h3 class="text-center text-primary mb-2">Simple, Tailored, & Easy to use</h3>
-          <p class="text-center text-secondary font-size-12 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Ut <br/>pretium pretium tempor .</p>
+          <h3 class="text-center text-primary mb-2">Simple, Specialized & Straight To The Point</h3>
+          <p class="text-center text-secondary font-size-12 mb-4">Different Dashboards, Same Style & Core Functions</p>
         </div>
       </div>
       <b-row class="d-flex justify-content-center">

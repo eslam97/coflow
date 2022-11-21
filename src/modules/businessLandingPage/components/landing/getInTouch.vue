@@ -7,13 +7,13 @@
         <div class="py-5 mt-5">
           <div class="header">
             <h3 class="text-center text-primary mb-2">Get in Touch</h3>
-            <p class="text-center text-secondary font-size-12 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
-              elit. Ut <br/>pretium pretium tempor .</p>
+<!--            <p class="text-center text-secondary font-size-12 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
+              elit. Ut <br/>pretium pretium tempor .</p>-->
           </div>
         </div>
       </b-container>
     </section>
-    <section class="bg-primary">
+    <section class="bg-primary h-400">
       <b-container>
         <b-row class="d-flex justify-content-center">
           <b-col md="6">
@@ -135,7 +135,7 @@ export default {
   height: 400px;
 }
 .form-top {
-  top: -140px;
+  top: -160px;
   z-index: 5;
 }
 </style>

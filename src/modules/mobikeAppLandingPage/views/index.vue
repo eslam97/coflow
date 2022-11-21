@@ -15,13 +15,14 @@
     <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column">
       <div class="w-65 h-100 pl-5">
         <b-container>
-          <div class="d-flex align-items-start flex-column">
-            <h1 class="header_hero">Directory to all fun <br> activities you can do</h1>
+          <div class="d-flex align-items-start flex-column pl-5 ml-5">
+            <h1 class="header_hero">Adventure Sports & <br>Spiritual Activities</h1>
             <p class="p_hero">Connect with a version of yourself you can love<br>
               today, tomorrow, and forever.</p>
             <div class="d-flex mobile-section ">
-              <img :src="require('@/assets/images/mobilaAppLanding/Apple-badge.png')" alt="ios" class="ios">
-              <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android">
+              <a href="https://apps.apple.com/nz/app/coflow/id1640503180" target="_blank"> <img :src="require('@/assets/images/mobilaAppLanding/Apple-badge.png')" alt="ios"
+                                                   class="ios"></a>
+              <a href="https://play.google.com/store/apps/details?id=com.redgits.coflow" target="_blank">  <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android"></a>
             </div>
           </div>
         </b-container>
@@ -228,8 +229,12 @@
       <p class="p_hero text-white mb-0">What are you waiting for?</p>
       <h1 class="header_hero text-white mt-1 mb-5">Get the app</h1>
       <div class="download-last-section-images d-flex justify-content-center gap-20 mt-2">
-        <img :src="require('@/assets/images/mobilaAppLanding/googlestore@2x.png')" alt="googlestore">
-        <img :src="require('@/assets/images/mobilaAppLanding/appstore@2x.png')" alt="appstore">
+        <a href="https://apps.apple.com/nz/app/coflow/id1640503180" target="_blank">
+          <img :src="require('@/assets/images/mobilaAppLanding/googlestore@2x.png')" alt="googlestore">
+        </a>
+          <a href="https://play.google.com/store/apps/details?id=com.redgits.coflow" target="_blank">
+            <img :src="require('@/assets/images/mobilaAppLanding/appstore@2x.png')" alt="appstore">
+          </a>
       </div>
       <div class="position-relative mt-5">
         <img :src="require('@/assets/images/mobilaAppLanding/FooterLogoCircle.png')" alt="Logo" class="FooterLogoCircle">

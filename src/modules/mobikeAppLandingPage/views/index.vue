@@ -307,7 +307,7 @@ export default {
 .mobile-section img {
   width: 180px;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 960px) {
   .white-section {
     width: 100%;
     padding-top: 10vh;
@@ -319,8 +319,8 @@ export default {
   }
   .mobileImage {
     width: 55%;
-    left: 50vw;
-    bottom: 0px;
+    left: 48vw;
+    bottom: -20px;
   }
   .circleLogo {
     width: 80%;

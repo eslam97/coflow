@@ -4,6 +4,8 @@
         <b-alert show variant="warning" class="d-flex justify-content-around">
           <span><span class="text-bold">Email : </span> {{activationDetails.email}}</span>
           <span><span class="text-bold">Password : </span> {{activationDetails.password_text}}</span>
+          <span v-if="activationDetails.accept_reject_date">
+            <span class="text-bold">Date : </span> {{activationDetails.accept_reject_date}}</span>
         </b-alert>
       </div>
       <ValidationObserver v-slot="{ handleSubmit }">
@@ -86,6 +88,7 @@
                     :name="`name`"
                     :label="'Facility Name'"
                     v-model="info.name"
+                    :limit="20"
                 />
               </b-col>
             </b-row>
@@ -97,6 +100,7 @@
                     :name="`title`"
                     :label="'Facility Title'"
                     v-model="info.title"
+                    :limit="35"
                 />
               </b-col>
               <b-col class="mb-3" md="6">
@@ -294,6 +298,7 @@
                       :validate="'required'"
                       name="latitude"
                       :label="'Latitude'"
+                      type="text"
                   />
                 </b-col>
                 <b-col md="6" class="mb-4">
@@ -303,6 +308,7 @@
                       :validate="'required'"
                       name="longitude"
                       :label="'Longitude'"
+                      type="text"
                   />
                 </b-col>
               </b-row>

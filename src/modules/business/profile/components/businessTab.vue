@@ -108,6 +108,7 @@
                           disabled
                           :label="'Facility Name'"
                           v-model="info.name"
+                          :limit="20"
                       />
                     </b-col>
                   </b-row>
@@ -119,6 +120,7 @@
                           :name="`title`"
                           :label="'Facility Title'"
                           v-model="info.title"
+                          :limit="35"
                       />
                     </b-col>
                     <b-col class="mb-3" md="6">

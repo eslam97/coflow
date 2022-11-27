@@ -2870,16 +2870,16 @@ fieldset:disabled a.btn {
 
 .btn-warning:hover {
 	color: #212529;
-	background-color: #e0a800;
-	border-color: #d39e00
+	background-color: #ffca2b;
+	border-color: #ffca2b
 }
 
 .btn-warning.focus,
 .btn-warning:focus {
 	color: #212529;
-	background-color: #e0a800;
-	border-color: #d39e00;
-	box-shadow: 0 0 0 .2rem rgba(222, 170, 12, .5)
+	background-color: #ffca2b;
+	border-color: #ffca2b;
+	box-shadow: 0 0 0 .2rem rgba(242, 220, 155, .9)
 }
 
 .btn-warning.disabled,

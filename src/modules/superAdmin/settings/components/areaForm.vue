@@ -33,7 +33,6 @@
                 placeholder="Choose" :options="allCities"
                 v-model="area.city_id"
                 :reduce="data=> data.id"
-                @change="getCityDependOnCountry"
             ></main-select>
           </b-col>
         </b-row>

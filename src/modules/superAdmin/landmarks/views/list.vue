@@ -40,7 +40,7 @@
               </b-form-input>
             </b-col>
             <b-col md="3" sm="6">
-              <span>Filter by city:</span>
+              <span>Filter by governorate:</span>
               <main-select v-model="filter.city_id" @change="reloadTable=true"
                            :options="allGovernorates" label="name" :reduce="data => data.id"
                            placeholder="--Select--">

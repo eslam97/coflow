@@ -76,7 +76,7 @@
                           v-model="product.discount_price_egp"
                           :disabled="!selectedEGP"
                           :class="[{ 'is-invalid': errors.length > 0 }]"
-                          :placeholder="'0.0'"
+                          :placeholder="'000.0'"
                       />
                     </b-input-group>
                     <small class="text-danger" v-if="!product.discount_price_egp">{{ errors[0] }}</small>
@@ -227,15 +227,14 @@ export default {
       })
     },
     saveProduct () {
-      this.product.status = this.product.status ? 'active' : 'inactive'
+      // this.product.status = this.product.status ? 'active' : 'inactive'
       this.product.available = +this.product.available
-      console.log(this.product.discount_price_egp)
       // this.product.discount_price_egp = this.product.discount_price_egp ? this.product.discount_price_egp : 0
-      console.log(this.product.discount_price_egp)
       if (this.product.images.length > 0) {
         // delete this.product.images
         this.product.discount_price_egp = this.selectedEGP ? this.product.discount_price_egp : 0
         if (this.productDetails) {
+          this.product.status = this.productDetails.status
           this.$emit('editProduct', { ...this.product, _method: 'put' })
         } else {
           this.$emit('saveProduct', this.product)

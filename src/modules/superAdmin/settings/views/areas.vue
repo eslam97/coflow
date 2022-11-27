@@ -8,7 +8,7 @@
         <area-form :requestLoading="requestLoading" @addArea="addArea"/>
       </template>
     </main-modal>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mb-3">
       <b-button  variant="warning" v-b-modal:area class="add_button text-white"> Add Area
         <i class="las la-plus ml-3"></i></b-button>
     </div>

@@ -9,7 +9,7 @@
                 placeholder=""
                 :validate="'required'"
                 name="City"
-                :label="'City'"
+                :label="'Governorate'"
             />
           </b-col>
           <b-col md="12" class="mb-3">

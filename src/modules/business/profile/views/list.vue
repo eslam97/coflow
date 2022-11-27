@@ -78,7 +78,6 @@ import adminTab from '@/modules/business/profile/components/adminTab'
 import businessTab from '@/modules/business/profile/components/businessTab'
 import tempMsgModal from '@/modules/business/profile/components/tempMsgModal'
 import profileServices from '@/modules/business/profile/services/profile.services'
-import adminInfoService from '@/modules/superAdmin/admin/services/admins.services'
 import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
 export default {
@@ -133,7 +132,7 @@ export default {
     // Admin tab
     updateLoginCredential (credential) {
       console.log('credential', credential)
-      adminInfoService.saveAdmin(credential).then(res => {
+      profileServices.changePassword(credential).then(res => {
         core.showSnackbar('success', res.data.message)
       })
     },

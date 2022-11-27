@@ -19,6 +19,7 @@
                 :validate="'required'"
                 name="Facility Name"
                 :label="'Facility Name'"
+                :limit="20"
             />
           </b-col>
           <b-col md="4" class="mb-3">

@@ -20,7 +20,7 @@
               </b-form-radio>
             </div>
           </b-col>
-          <b-col md="4" class="mb-3">
+<!--          <b-col md="4" class="mb-3">
             <main-select labelTitle='Country'
                          :validate="''"
                          :name="'Country'"
@@ -54,6 +54,24 @@
                          :reduce="data => data.id"
                          v-model="notification.area_id">
             </main-select>
+          </b-col>-->
+          <b-col md="4" class="mb-3">
+            <input-form
+                v-model="notification.age"
+                placeholder="Ex: center"
+                :validate="'required'"
+                name="title"
+                :label="'Age'"
+            />
+          </b-col>
+          <b-col md="4" class="mb-3">
+            <input-form
+                v-model="notification.nationality"
+                placeholder="Ex: center"
+                :validate="'required'"
+                name="title"
+                :label="'Nationality'"
+            />
           </b-col>
           <b-col md="12" class="mb-3">
             <input-form

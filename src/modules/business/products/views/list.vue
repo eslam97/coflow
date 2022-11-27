@@ -13,8 +13,8 @@
                 class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
               <div class="custom-switch-inner">
                 <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
-                       @change="changeStatus(productDetailsInfo.id, productDetailsInfo.status)"
-                       v-model="productDetailsInfo.status">
+                       @change="changeStatus(productDetailsInfo.id, productDetailsInfo.statusBool)"
+                       v-model="productDetailsInfo.statusBool">
                 <label class="custom-control-label" :for="'status'">
                 </label>
               </div>
@@ -234,7 +234,7 @@ export default {
     viewProductToEdit (item) {
       this.typeOfModal = 'edit'
       this.productDetailsInfo = item
-      this.productDetailsInfo.status = this.productDetailsInfo.status === 'active'
+      this.productDetailsInfo.statusBool = this.productDetailsInfo.status === 'active'
       this.$bvModal.show('productDetailsModal')
     },
     editProduct (data) {
@@ -270,7 +270,7 @@ export default {
         this.getAllProducts()
         core.showSnackbar('success', res.data.message)
       }).catch(() => {
-        this.productDetailsInfo = !status
+        this.productDetailsInfo.status = !status
       })
     },
     changeSort (id, type, sort) {

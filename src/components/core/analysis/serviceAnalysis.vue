@@ -106,7 +106,7 @@ export default {
       serviceAnalysis: {},
       serviceFilterByDate: moment(new Date()).format('MMM YYYY'),
       itemsList: [],
-      itemId: 1,
+      itemId: '',
 
       monthDaysOptions: {
         legend: {
@@ -192,21 +192,25 @@ export default {
   methods: {
     getServiceAnalysis () {
       this.loading = true
-      dashboardServices.getServiceAnalysis(this.type, this.itemId, moment(this.serviceFilterByDate).format('YYYY-MM')).then(res => {
-        this.serviceAnalysis = res.data.data
-        this.serviceAnalysis.current_month = moment(this.serviceFilterByDate).format('MMMM')
-        this.serviceAnalysis.last_month = moment(this.serviceFilterByDate).add(-1, 'M').format('MMMM')
+      if (this.itemId) {
+        dashboardServices.getServiceAnalysis(this.type, this.itemId, moment(this.serviceFilterByDate).format('YYYY-MM')).then(res => {
+          this.serviceAnalysis = res.data.data
+          this.serviceAnalysis.current_month = moment(this.serviceFilterByDate).format('MMMM')
+          this.serviceAnalysis.last_month = moment(this.serviceFilterByDate).add(-1, 'M').format('MMMM')
 
-        const temp = this.serviceAnalysis.month_days.filter((month) => {
-          if (month.views > 0) {
-            return month
-          }
+          const temp = this.serviceAnalysis.month_days.filter((month) => {
+            if (month.views > 0) {
+              return month
+            }
+          })
+          setTimeout(() => {
+            this.loading = false
+          }, 0)
+          this.monthDaysOptions.xaxis.categories = temp.map((month) => month.date)
+          // this.monthDaysOptions.plotOptions.bar.columnWidth = '4px'
+          this.monthDaysSeries[0].data = temp.map((month) => month.views)
         })
-        setTimeout(() => { this.loading = false }, 0)
-        this.monthDaysOptions.xaxis.categories = temp.map((month) => month.date)
-        // this.monthDaysOptions.plotOptions.bar.columnWidth = '4px'
-        this.monthDaysSeries[0].data = temp.map((month) => month.views)
-      })
+      }
     },
     changeMonth (value) {
       this.serviceFilterByDate = moment(this.serviceFilterByDate).add(value, 'M').format('MMM YYYY')

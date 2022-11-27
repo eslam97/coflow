@@ -60,7 +60,7 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-            <b-col md="3">
+            <b-col md="3" sm="6">
               <span>Filter by status:</span>
               <main-select v-model="filter.status" @change="reloadTable=true"
                            :options="statusFilterOptions"
@@ -69,7 +69,7 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-            <b-col md="3">
+            <b-col md="3" sm="6">
               <span>Have a promotion:</span>
               <main-select v-model="filter.promotions" @change="reloadTable=true"
                            :options="promotion"
@@ -78,7 +78,7 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-            <b-col md="3">
+            <b-col md="3" sm="6">
               <span>Activity Line:</span>
               <main-select v-model="filter.activity_line_id" @change="reloadTable=true"
                            :options="allActivityLines"
@@ -87,12 +87,21 @@
                            placeholder="--Select--">
               </main-select>
             </b-col>
-            <b-col md="3">
+            <b-col md="3" sm="6">
               <span>Activity Type:</span>
               <main-select v-model="filter.activity_type_id" @change="reloadTable=true"
                            :options="allActivityTypes"
                            label="name"
                            :reduce="data => data.id"
+                           placeholder="--Select--">
+              </main-select>
+            </b-col>
+            <b-col md="3" sm="6">
+              <span>Sort by date:</span>
+              <main-select v-model="filter.sort_type" @change="reloadTable=true"
+                           :options="[{name: 'Ascending', key:'asc'}, {name: 'Descending', key:'desc'}]"
+                           label="name"
+                           :reduce="data => data.key"
                            placeholder="--Select--">
               </main-select>
             </b-col>
@@ -126,7 +135,7 @@ export default {
         { label: 'Facility Name', key: 'name', class: 'text-left' },
         { label: 'Account Type', key: 'service_types', class: 'text-left' },
         { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
-        { label: 'City', key: 'city.name', class: 'text-left' },
+        { label: 'Governorate', key: 'city.name', class: 'text-left' },
         { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Year', key: 'year', class: 'text-left', sortable: true },
         { label: 'Status', key: 'status', class: 'text-left' },
@@ -198,6 +207,7 @@ export default {
       reloadTable: false,
       filter:
       {
+        sort_type: '',
         service_types: '',
         profile_type: '',
         city_id: '',
@@ -205,7 +215,6 @@ export default {
         name: '',
         status: '',
         sort: '',
-        sort_type: '',
         promotions: '',
         activity_type_id: '',
         activity_line_id: ''

@@ -58,7 +58,7 @@ export default {
         { label: 'Gender', key: 'gender', class: 'text-left' },
         { label: 'Nationality', key: 'nationality', class: 'text-left' },
         { label: 'Views', key: 'views', class: 'text-left', sortable: true },
-        { label: 'Unique view', key: 'unique_views', class: 'text-left' },
+        { label: 'Unique view', key: 'unique_views', class: 'text-left', sortable: true },
         { label: 'Saves', key: 'saves', class: 'text-left', sortable: true },
         { label: 'Tracks', key: 'tracks', class: 'text-left', sortable: true },
         {

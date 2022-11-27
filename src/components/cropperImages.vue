@@ -68,6 +68,7 @@
       </b-button>
       <p class="m-0 p-0"> <i class="las la-cloud-upload-alt font-size-18 mr-1"></i> You can also drop your files here.
       </p>
+      <p>Image size limit: 1 MB</p>
     </div>
     <b-card v-show="showPopup" class="w-100 m-auto card" id="uploadImageCropper">
         <div class="actions d-flex justify-content-between align-items-center mb-3">

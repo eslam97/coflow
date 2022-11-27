@@ -93,7 +93,7 @@ export default {
       providerId: '',
       reloadTable: false,
       loadingActivation: false,
-      filter: { name: '', status: '', profile_type: '', sort_type: '' },
+      filter: { name: '', status: '', profile_type: '', sort_type: 'desc' },
       typeFilterOptions: [
         { key: 'Sky', value: 'sky_' },
         { key: 'Sea', value: 'sea_' },

@@ -12,5 +12,8 @@ export default {
   },
   removeImage (id) {
     return Api().get(`remove-provider-image/${id}`)
+  },
+  changePassword (payload) {
+    return Api().post('change-password', payload)
   }
 }

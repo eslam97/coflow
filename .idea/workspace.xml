@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/coFlow.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/bootstrap.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/core/analysis/serviceAnalysis.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/core/analysis/serviceAnalysis.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cropperImages.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cropperImages.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/accommodations/components/accommodationsView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/accommodations/components/accommodationsView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/products/components/productDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/components/productDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/services/profile.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/services/profile.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/tickets/components/ticketView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/tickets/components/ticketView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/businessRequestModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/businessRequestModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/customers/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/customers/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/landmarks/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/landmarks/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/leads/components/leadDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/leads/components/leadDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/flows.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/flows.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/products.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/areaForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/areaForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/cityForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/cityForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/areas.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/areas.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/cities.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/cities.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="29luvNgHij093K0p7oTeVRXeaN4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Alaa Diaa/Documents/git/translate&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.1.1\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Alaa Diaa\Documents\git\coflow\src\modules\business\activities" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="" />
+      <created>1653700223789</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653700223789</updated>
+      <workItem from="1653700226547" duration="68059000" />
+      <workItem from="1653952996614" duration="53186000" />
+      <workItem from="1654244009014" duration="65734000" />
+      <workItem from="1654567985351" duration="30044000" />
+      <workItem from="1654987730298" duration="9000" />
+      <workItem from="1655214606184" duration="645000" />
+      <workItem from="1655215261096" duration="4613000" />
+      <workItem from="1655602571314" duration="8050000" />
+      <workItem from="1655842948325" duration="2437000" />
+      <workItem from="1655929697897" duration="3801000" />
+      <workItem from="1655940268166" duration="15143000" />
+      <workItem from="1656115795380" duration="5568000" />
+      <workItem from="1656372967701" duration="25000" />
+      <workItem from="1656881129712" duration="1489000" />
+      <workItem from="1656914041654" duration="2329000" />
+      <workItem from="1657004506481" duration="56089000" />
+      <workItem from="1657646839338" duration="2755000" />
+      <workItem from="1657768477146" duration="246000" />
+      <workItem from="1657826403068" duration="18313000" />
+      <workItem from="1658014327024" duration="49000" />
+      <workItem from="1658017384022" duration="97000" />
+      <workItem from="1658359445820" duration="165000" />
+      <workItem from="1658364252439" duration="254000" />
+      <workItem from="1658390387104" duration="1223000" />
+      <workItem from="1658395135161" duration="148000" />
+      <workItem from="1658446609199" duration="662000" />
+      <workItem from="1658558237105" duration="339000" />
+      <workItem from="1658740663535" duration="6612000" />
+      <workItem from="1658867678431" duration="390000" />
+      <workItem from="1658886810558" duration="623000" />
+      <workItem from="1658967382212" duration="107478000" />
+      <workItem from="1660362158535" duration="70021000" />
+      <workItem from="1661163270436" duration="108000" />
+      <workItem from="1661602518556" duration="2171000" />
+      <workItem from="1661799643644" duration="14000" />
+      <workItem from="1661867051216" duration="672000" />
+      <workItem from="1661871950245" duration="24000" />
+      <workItem from="1661986535875" duration="73000" />
+      <workItem from="1662415275271" duration="67000" />
+      <workItem from="1662646846619" duration="9385000" />
+      <workItem from="1662804463629" duration="17186000" />
+      <workItem from="1662903933618" duration="10580000" />
+      <workItem from="1663088485539" duration="18000" />
+      <workItem from="1663429553203" duration="20500000" />
+      <workItem from="1663954126353" duration="9856000" />
+      <workItem from="1664426213975" duration="8000" />
+      <workItem from="1664557759973" duration="8923000" />
+      <workItem from="1664840531991" duration="587000" />
+      <workItem from="1665237439884" duration="24035000" />
+      <workItem from="1665856398960" duration="3664000" />
+      <workItem from="1666656242429" duration="35000" />
+      <workItem from="1667063333014" duration="17259000" />
+      <workItem from="1667379361475" duration="4754000" />
+      <workItem from="1667608594978" duration="619000" />
+      <workItem from="1667950724948" duration="325000" />
+      <workItem from="1668670420448" duration="68000" />
+      <workItem from="1668704956380" duration="30000" />
+      <workItem from="1668706464028" duration="1898000" />
+      <workItem from="1668716446126" duration="10951000" />
+      <workItem from="1668922324997" duration="7000" />
+      <workItem from="1668984452098" duration="3284000" />
+      <workItem from="1668990269895" duration="25178000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XPathView.XPathProjectComponent">
+    <history />
+    <find-history />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

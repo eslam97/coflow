@@ -448,6 +448,7 @@ export default {
     getDurationList () {
       settingsService.getDurationList().then(res => {
         this.allDurationList = res.data.data
+        this.type = this.allDurationList.find((item) => item.id === this.coursesDetails.duration_list_id).name
       })
     },
     selectLevel (value) {

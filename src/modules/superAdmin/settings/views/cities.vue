@@ -2,14 +2,14 @@
   <div>
     <main-modal id="city" size="lg">
       <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-warning"> Add: </span>City</h4>
+        <h4 class="font-weight-bold"><span class="text-warning"> Add: </span>Governorate</h4>
       </template>
       <template v-slot:body>
         <city-form :requestLoading="requestLoading" @addCity="addCity"/>
       </template>
     </main-modal>
     <div class="d-flex justify-content-end mb-3">
-      <b-button  variant="warning" v-b-modal:city class="add_button text-white"> Add City
+      <b-button  variant="warning" v-b-modal:city class="add_button text-white"> Add Governorate
         <i class="las la-plus ml-3"></i></b-button>
     </div>
       <b-row>
@@ -71,7 +71,7 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'City',
+              titleHeader: 'Governorate',
               textContent: 'name',
               url: 'cities'
             }

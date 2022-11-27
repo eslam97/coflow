@@ -3,8 +3,9 @@
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(saveProfile)">
         <div>
-          <b-alert show variant="warning" v-if="profileDetails">
-            <span class="text-bold">Password : </span> {{profileDetails.password_text}}
+          <b-alert show variant="warning" class="d-flex justify-content-around" v-if="profileDetails">
+            <span><span class="text-bold">Password : </span> {{profileDetails.password_text}}</span>
+            <span><span class="text-bold">Date : </span> {{profileDetails.accept_reject_date}}</span>
           </b-alert>
           <b-row>
             <b-col md="6" class="mb-4">
@@ -100,6 +101,7 @@
                   :name="`name`"
                   :label="'Facility Name'"
                   v-model="profile.name"
+                  :limit="20"
               />
             </b-col>
           </b-row>
@@ -111,6 +113,7 @@
                   :name="`title`"
                   :label="'Facility Title'"
                   v-model="profile.title"
+                  :limit="35"
               />
             </b-col>
             <b-col class="mb-3" md="6">

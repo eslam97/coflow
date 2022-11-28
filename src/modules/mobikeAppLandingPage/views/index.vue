@@ -289,6 +289,7 @@ export default {
   width: 35%;
   border-bottom-left-radius: 63px;
   z-index: -1;
+  overflow: hidden;
 }
 .blue_section img {
   position: absolute;
@@ -318,9 +319,9 @@ export default {
     overflow: hidden;
   }
   .mobileImage {
-    width: 55%;
-    left: 48vw;
-    bottom: -20px;
+    width: 50%;
+    left: 53vw;
+    bottom: -25px;
   }
   .circleLogo {
     width: 80%;
@@ -329,10 +330,11 @@ export default {
   }
   .header_hero {
     color: #c1c1c1 !important;
-    font-size: 40px !important;
+    font-size: 35px !important;
   }
   .p_hero {
-    color: #a09e9e !important;
+    color: #bababa !important;
+    font-size: 16px !important;
   }
   .mobile-section img {
     box-shadow: 0px 0px 20px #777777;

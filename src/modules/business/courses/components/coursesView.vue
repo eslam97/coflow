@@ -12,17 +12,38 @@
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
-          <b-col md="4" class="infoKey">
-            <p>Price</p>
+          <b-col md="6" col="6" class="infoKey">
+            <p>Price EGP</p>
+            <p class="text-black font-weight-bold">EGP {{coursesDetails.price_egp}}</p>
           </b-col>
-          <b-col md="8" class="infoKey">
+          <b-col md="6" col="6" class="infoKey">
             <p>Discounted price</p>
+            <p class="text-black font-weight-bold"><span v-if="coursesDetails.discount_price_egp">EGP
+              {{coursesDetails.discount_price_egp}}</span>
+              <span v-else>N/A</span></p>
           </b-col>
-          <b-col md="4" class="infoValue">
-            <p>EGP {{coursesDetails.price_egp}}</p>
+        </b-row>
+        <b-row class="pl-3 mb-2" v-if="coursesDetails.price_euro">
+          <b-col md="6" col="6" class="infoKey">
+            <p>Foreigner Price</p>
+            <p class="text-black font-weight-bold">€ {{coursesDetails.price_euro}}</p>
           </b-col>
-          <b-col md="8" class="infoValue">
-            <p><span v-if="coursesDetails.discount_price_egp">EGP {{coursesDetails.discount_price_egp}}</span>
+          <b-col md="6" col="6" class="infoKey">
+            <p>Discounted Price</p>
+            <p class="text-black font-weight-bold">
+              <span v-if="coursesDetails.discount_price_euro">€ {{coursesDetails.discount_price_euro}}</span>
+              <span v-else>N/A</span></p>
+          </b-col>
+        </b-row>
+        <b-row class="pl-3 mb-2" v-if="coursesDetails.price_dollar">
+          <b-col md="6" col="6" class="infoKey">
+            <p>Foreigner Price</p>
+            <p class="text-black font-weight-bold">$ {{coursesDetails.price_dollar}}</p>
+          </b-col>
+          <b-col md="6" col="6" class="infoKey">
+            <p>Discounted Price</p>
+            <p class="text-black font-weight-bold">
+              <span v-if="coursesDetails.discount_price_dollar">$ {{coursesDetails.discount_price_dollar}}</span>
               <span v-else>N/A</span></p>
           </b-col>
         </b-row>

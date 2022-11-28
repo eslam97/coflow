@@ -61,7 +61,7 @@
                          @change="getMarketData()" v-model="marketCity">
             </main-select>
             <export-excel
-                :name="`coflow-market-business-${allGovernorates.find((i)=>i.id===marketCity).name}.xls`"
+                :name="`coflow-market-business-${allGovernorates.find((i)=>i.id===marketCity)}.xls`"
                 type="xls"
                 worksheet="Market Business"
                 :fields="marketFieldsForExport"

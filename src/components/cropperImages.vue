@@ -4,9 +4,9 @@
     <div class="mb-3 d-flex align-items-center flex" v-if="imageUrl && !multi">
       <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
            :style="{ 'background-image': 'url(' + imageUrl + ')' }"></div>
-      <div class="d-flex justify-content-between position-relative flex-grow-1">
-        <section>
-          <span class="text-dark ml-3 font-weight-bold">{{nameOfImage}}</span>
+      <div class="d-flex justify-content-between w-75 mx-3 position-relative">
+        <section class="w-75">
+          <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{nameOfImage}}</span>
         </section>
         <section>
           <span class="cursor-pointer text-bold font-size-12" @click="$refs.file.click()">
@@ -19,9 +19,9 @@
       <div class="mb-3 d-flex align-items-center"  v-for="(image, key) in images" :key="key">
         <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
              :style="{ 'background-image': 'url(' + image.image + ')' }"></div>
-        <div class="d-flex justify-content-between position-relative flex-grow-1">
-          <section>
-            <span class="text-dark ml-3 font-weight-bold">{{image.name}}</span>
+        <div class="d-flex justify-content-between w-75 mx-3 position-relative">
+          <section class="w-75">
+            <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{image.name}}</span>
           </section>
           <section>
             <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage(image.id)" v-if="multi">Remove</span>
@@ -32,9 +32,9 @@
     <div class="mb-3 d-flex align-items-center" v-if="finalImage && !removeLoadingUi">
       <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
            :style="{ 'background-image': 'url(' + showImage + ')' }"></div>
-      <div class="d-flex justify-content-between position-relative flex-grow-1">
-        <section>
-          <span class="text-dark ml-3 font-weight-bold">{{image.name}}</span>
+      <div class="d-flex justify-content-between w-75 mx-3 position-relative">
+        <section class="w-75">
+          <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{image.name}}</span>
         </section>
         <section>
           <span v-if="progressLoading == 100">
@@ -48,7 +48,7 @@
               <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
               Change</span>
           </span>
-          <span class="cursor-pointer text-bold" v-else>
+          <span class="cursor-pointer text-bold ml-3" v-else>
             <span v-if="showProgress">
               Uploading {{progressLoading}}%
               </span>

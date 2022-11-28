@@ -6,6 +6,7 @@ const profileSetting = () => import('./views/profile')
 const activityLines = () => import('./views/activityLines')
 const activityTypes = () => import('./views/activityTypes')
 const durationList = () => import('./views/durationLists')
+const amenitiesList = () => import('./views/amenities')
 const nationalities = () => import('./views/nationalities')
 const accommodationTypes = () => import('./views/accommodationTypes')
 const links = () => import('./views/links')
@@ -50,6 +51,12 @@ export default [
           name: 'durationLists',
           meta: { name: 'durationLists', userType: 'admin', permission: '' },
           component: durationList
+        },
+        {
+          path: 'amenities',
+          name: 'amenities',
+          meta: { name: 'amenities', userType: 'admin', permission: '' },
+          component: amenitiesList
         },
         {
           path: 'nationalities',

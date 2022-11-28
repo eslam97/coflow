@@ -2,43 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/coFlow.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/bootstrap.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/core/analysis/serviceAnalysis.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/core/analysis/serviceAnalysis.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/cropperImages.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cropperImages.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/accommodations/components/accommodationsView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/accommodations/components/accommodationsView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/amenityForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/business/products/components/productDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/components/productDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/services/profile.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/services/profile.services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/tickets/components/ticketView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/tickets/components/ticketView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/businessRequestModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/businessRequestModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/customers/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/customers/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/landmarks/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/landmarks/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/leads/components/leadDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/leads/components/leadDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/analytics/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/analytics/views/list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/flows.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/flows.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/products.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/areaForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/areaForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/cityForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/cityForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/areas.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/areas.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/cities.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/cities.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/services/settings.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/services/settings.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/settings.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/settings.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/amenities.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/amenities.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/list.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,25 +42,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Alaa Diaa/Documents/git/translate&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.1.1\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Alaa Diaa/Documents/git/coflow/src/modules/superAdmin/settings/components",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.javascript.linters.eslint",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2022.1.1\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Alaa Diaa\Documents\git\coflow\src\modules\superAdmin\settings\components" />
       <recent name="C:\Users\Alaa Diaa\Documents\git\coflow\src\modules\business\activities" />
     </key>
   </component>
@@ -158,7 +134,7 @@
       <workItem from="1668716446126" duration="10951000" />
       <workItem from="1668922324997" duration="7000" />
       <workItem from="1668984452098" duration="3284000" />
-      <workItem from="1668990269895" duration="25178000" />
+      <workItem from="1668990269895" duration="32666000" />
     </task>
     <servers />
   </component>
@@ -176,7 +152,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="origin/sheet-fixes" />
                       </list>
                     </value>
                   </entry>

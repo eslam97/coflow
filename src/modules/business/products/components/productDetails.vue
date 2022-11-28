@@ -222,8 +222,10 @@ export default {
     removeGalleryImage (id) {
       mainService.removeImage(id, 'product').then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.images.findIndex(image => image.id === id)
-        this.images.splice(ind, 1)
+        const ind = this.allImages.findIndex(image => image.id === id)
+        // this.images.splice(ind, 1)
+        this.allImages.splice(ind, 1)
+        this.product.images.splice(ind, 1)
       })
     },
     saveProduct () {

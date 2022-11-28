@@ -22,9 +22,9 @@
 <!--        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'nationalities'}" exact>Nationalities</router-link>
         </li>-->
-<!--        <li class="nav-item">
+        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'amenities'}" exact>Amenities</router-link>
-        </li>-->
+        </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'accommodationTypes'}" exact>Accommodation Types</router-link>
         </li>

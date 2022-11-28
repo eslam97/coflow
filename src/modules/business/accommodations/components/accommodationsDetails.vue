@@ -9,7 +9,7 @@
                 <input-form
                   v-model="accommodations.name"
                   placeholder="Write accommodation name"
-                  :validate="'required'"
+                  :validate="'required|max:50'"
                   name="Accommodation name"
                   :label="'Accommodation Name'"
                   :limit="50"

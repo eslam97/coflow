@@ -13,7 +13,7 @@
             <input-form
                 v-model="info.offer_title"
                 placeholder="Ex: offer_title"
-                :validate="'required'"
+                :validate="'required|max:30'"
                 name="Offer Title"
                 :label="'Offer Title'"
                 :limit="30"
@@ -23,7 +23,7 @@
             <input-form
                 v-model="packages.package"
                 placeholder="Ex: offer"
-                :validate="'required'"
+                :validate="'required|max:30'"
                 name="Offer"
                 :label="'Offer'"
                 :limit="30"

@@ -97,7 +97,7 @@
             <b-col class="mb-3" md="6">
               <input-form
                   placeholder="Ex: Diving"
-                  :validate="'required'"
+                  :validate="'required|max:20'"
                   :name="`name`"
                   :label="'Facility Name'"
                   v-model="profile.name"
@@ -109,7 +109,7 @@
             <b-col class="mb-3" md="6">
               <input-form
                   placeholder="Ex: The Yoga Studio"
-                  :validate="'required'"
+                  :validate="'required|max:35'"
                   :name="`title`"
                   :label="'Facility Title'"
                   v-model="profile.title"

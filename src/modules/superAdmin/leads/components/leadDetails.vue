@@ -21,7 +21,7 @@
             <input-form
                 v-model="businessRequest.name"
                 placeholder="Ex: The Yoga Studio"
-                :validate="'required'"
+                :validate="'required|max:20'"
                 name="Facility Name"
                 :label="'Facility Name'"
                 :limit="20"

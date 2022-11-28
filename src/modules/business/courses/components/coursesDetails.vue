@@ -9,7 +9,7 @@
                 <input-form
                     v-model="courses.name"
                     placeholder="Write course name"
-                    :validate="'required'"
+                    :validate="'required|max:50'"
                     name="Course name"
                     :label="'Course Name'"
                     :limit="50"

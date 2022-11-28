@@ -742,9 +742,11 @@ export default {
       })
     },
     getAreasDependOnCityRemote (location) {
-      settingsService.getCityArea(location.city_id).then(res => {
-        location.areaList = res.data.data
-      })
+      if (location.city_id) {
+        settingsService.getCityArea(location.city_id).then(res => {
+          location.areaList = res.data.data
+        })
+      }
     },
     getAllActivityLine () {
       settingsService.getAllActivityLine().then(res => {

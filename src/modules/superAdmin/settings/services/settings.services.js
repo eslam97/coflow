@@ -101,5 +101,8 @@ export default {
   // Amenities
   getAllAmenities () {
     return Api().get('amenities')
+  },
+  addAmenity (payload) {
+    return Api().post('amenities', payload)
   }
 }

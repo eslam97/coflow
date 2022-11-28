@@ -417,9 +417,9 @@ export default {
         price_egp: this.activitiesDetails.price_egp,
         price_euro: this.activitiesDetails.price_euro ? this.activitiesDetails.price_euro : '',
         price_dollar: this.activitiesDetails.price_dollar ? this.activitiesDetails.price_dollar : '',
-        discount_price_egp: this.activitiesDetails.discount_price_egp,
-        discount_price_euro: this.activitiesDetails.discount_price_euro,
-        discount_price_dollar: this.activitiesDetails.discount_price_dollar,
+        discount_price_egp: this.activitiesDetails.discount_price_egp || '',
+        discount_price_euro: this.activitiesDetails.discount_price_euro || '',
+        discount_price_dollar: this.activitiesDetails.discount_price_dollar || '',
         status: this.activitiesDetails.status,
         images: this.activitiesDetails.images,
         duration_list_id: this.activitiesDetails.duration_list_id

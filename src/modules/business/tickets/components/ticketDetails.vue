@@ -316,9 +316,9 @@ export default {
         price_egp: this.ticketDetails.price_egp,
         price_euro: this.ticketDetails.price_euro ? this.ticketDetails.price_euro : '',
         price_dollar: this.ticketDetails.price_dollar ? this.ticketDetails.price_dollar : '',
-        discount_price_egp: this.ticketDetails.discount_price_egp,
-        discount_price_euro: this.ticketDetails.discount_price_euro,
-        discount_price_dollar: this.ticketDetails.discount_price_dollar,
+        discount_price_egp: this.ticketDetails.discount_price_egp || '',
+        discount_price_euro: this.ticketDetails.discount_price_euro || '',
+        discount_price_dollar: this.ticketDetails.discount_price_dollar || '',
         conditions: this.ticketDetails.conditions,
         status: this.ticketDetails.status
       }

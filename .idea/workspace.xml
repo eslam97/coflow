@@ -2,18 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/components/amenityForm.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/accommodations/components/accommodationsDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/accommodations/components/accommodationsDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/activities/components/activitiesDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/flows/components/flowsDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/flows/components/flowsDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/business/products/components/productDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/components/productDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/promotions/components/promotionDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/promotions/components/promotionDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/businessRequestModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/businessRequestModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityInformationAndPhoto.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityInformationAndPhoto.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/analytics/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/analytics/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/leads/components/leadDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/leads/components/leadDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/services/settings.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/services/settings.services.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/settings.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/settings.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/amenities.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/amenities.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/views/list.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +135,7 @@
       <workItem from="1668716446126" duration="10951000" />
       <workItem from="1668922324997" duration="7000" />
       <workItem from="1668984452098" duration="3284000" />
-      <workItem from="1668990269895" duration="32666000" />
+      <workItem from="1668990269895" duration="35990000" />
     </task>
     <servers />
   </component>

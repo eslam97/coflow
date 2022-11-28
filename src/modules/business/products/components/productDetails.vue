@@ -9,7 +9,7 @@
                 <input-form
                     v-model="product.name"
                     placeholder="Ex: name"
-                    :validate="'required'"
+                    :validate="'required|max:25'"
                     name="name"
                     :label="'Name'"
                     :limit="25"
@@ -19,7 +19,7 @@
                 <input-form
                     v-model="product.title"
                     placeholder="Ex: title"
-                    :validate="'required'"
+                    :validate="'required|max:20'"
                     name="title"
                     :label="'Title'"
                     :limit="20"

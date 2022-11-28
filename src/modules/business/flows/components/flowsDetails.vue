@@ -8,7 +8,7 @@
               <input-form
                 v-model="flows.name"
                 placeholder="Write flow name"
-                :validate="'required'"
+                :validate="'required|max:50'"
                 name="Flow name"
                 :label="'Flow Name'"
                 :limit="50"

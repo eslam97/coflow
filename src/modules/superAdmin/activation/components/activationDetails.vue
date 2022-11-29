@@ -196,7 +196,7 @@
                 <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
               </b-col>
             </b-row>
-<!--            <b-row>
+            <b-row>
               <b-col md="12" class="mb-5">
                 <cropper-images
                     label="Upload Logo"
@@ -231,7 +231,7 @@
                     :images="images"
                 ></cropper-images>
               </b-col>
-            </b-row>-->
+            </b-row>
           </div>
           <div class="mb-5">
             <div class="border-bottom mb-2">
@@ -878,18 +878,17 @@ export default {
     },
     // save change
     saveChanges () {
-      if (this.logoImage && this.coverImage) {
+      // eslint-disable-next-line
+      if ((this.loadingLogo == 100) && (this.loadingCover == 100)) {
         if (this.images.length > 0) {
           let location = {}
           let operation = {}
-          console.log(this.location_type)
           if (this.location_type === 'remote location') {
             this.remote_locations.forEach((location) => {
               location.availability_type = location.availability_type ? location.availability_type : 'open'
             })
             location = { location: this.remote_locations }
           }
-          console.log(this.remote_locations)
           if (this.typeOfOperation === '24 hours') {
             operation = { operation_type: '24 hours' }
           } else {
@@ -909,13 +908,12 @@ export default {
             location_type: this.location_type,
             service_types: this.service_types
           }
-          console.log(newObj)
           this.$emit('activation-provider', newObj)
         } else {
           core.showSnackbar('error', 'You Should Upload At Least One Image')
         }
       } else {
-        core.showSnackbar('You should upload logo and cover images')
+        core.showSnackbar('error', 'You should upload logo and cover images')
       }
     }
   },

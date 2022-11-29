@@ -48,8 +48,7 @@ export default {
       required: false
     },
     value: {
-      default: '',
-      type: String
+      default: ''
     },
     placeholder: {
       default: '',

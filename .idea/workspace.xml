@@ -3,7 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/formElements/InputForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/formElements/InputForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/footer.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/analytics/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/analytics/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +131,7 @@
       <workItem from="1668716446126" duration="10951000" />
       <workItem from="1668922324997" duration="7000" />
       <workItem from="1668984452098" duration="3284000" />
-      <workItem from="1668990269895" duration="40022000" />
+      <workItem from="1668990269895" duration="46685000" />
     </task>
     <servers />
   </component>

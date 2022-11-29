@@ -875,16 +875,26 @@ export default {
     saveChangesPhone () {
       let location = {}
       if (this.location_type === 'address based') {
-        location = { phones: this.phones, ...this.based, location_type: this.location_type }
+        location = {
+          phones: this.phones,
+          location: {
+            address: {
+              ...this.based,
+              location_type: this.location_type
+            }
+          },
+          location_type: this.location_type
+        }
       } else {
         this.remote_locations.forEach((location) => {
           location.availability_type = location.availability_type ? location.availability_type : 'open'
         })
-        location = { phones: this.phones, location: this.remote_locations, location_type: this.location_type }
+        location = { location: this.remote_locations, location_type: this.location_type }
       }
       const newObj = {
         _method: 'post',
-        ...location
+        ...location,
+        phones: this.phones
       }
       this.$emit('updateFacilityPhones', this.location_type, newObj)
     },

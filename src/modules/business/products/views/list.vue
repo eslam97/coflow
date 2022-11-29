@@ -268,6 +268,7 @@ export default {
       }
       mainService.changeStatus(obj).then(res => {
         this.getAllProducts()
+        this.productDetailsInfo.status = status ? 'active' : 'inactive'
         core.showSnackbar('success', res.data.message)
       }).catch(() => {
         this.productDetailsInfo.status = !status

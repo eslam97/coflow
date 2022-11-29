@@ -21,16 +21,6 @@
             </div>
           </b-col>
 <!--          <b-col md="4" class="mb-3">
-            <main-select labelTitle='Country'
-                         :validate="''"
-                         :name="'Country'"
-                         placeholder="Choose"
-                         :options="allCountries"
-                         label="name"
-                         :reduce="data=> data.id"
-                         @change="getCityDependOnCountry(notification.country_id)"
-                         v-model="notification.country_id">
-            </main-select>
           </b-col>
           <b-col md="4" class="mb-3">
             <main-select labelTitle='Governorate'
@@ -55,23 +45,22 @@
                          v-model="notification.area_id">
             </main-select>
           </b-col>-->
-          <b-col md="4" class="mb-3">
-            <input-form
-                v-model="notification.age"
-                placeholder="Ex: center"
-                :validate="'required'"
-                name="title"
-                :label="'Age'"
-            />
+          <b-col md="6" class="mb-3">
+            <main-select labelTitle='Age range' :validate="'required'"
+                         :name="`age range`" placeholder="Choose" :options="ageOptions"
+                         label="key" multiple
+                         :reduce="data=> data.value"
+                         v-model="notification.age"></main-select>
           </b-col>
-          <b-col md="4" class="mb-3">
-            <input-form
-                v-model="notification.nationality"
-                placeholder="Ex: center"
-                :validate="'required'"
-                name="title"
-                :label="'Nationality'"
-            />
+          <b-col md="6" class="mb-3">
+            <main-select labelTitle='Country' :validate="'required'"
+                         :name="'Country'"
+                         placeholder="Choose"
+                         :options="allCountries"
+                         label="name" multiple
+                         :reduce="data=> data.id"
+                         v-model="notification.nationality">
+            </main-select>
           </b-col>
           <b-col md="12" class="mb-3">
             <input-form
@@ -147,6 +136,12 @@ export default {
         title: '',
         body: ''
       },
+      ageOptions: [{ key: ' < 10 years', value: 0 },
+        { key: '10 - 19 years', value: 1 },
+        { key: '20 - 29 years', value: 2 },
+        { key: '30 - 39 years', value: 3 },
+        { key: '40 - 50 years', value: 4 },
+        { key: '> 51 years', value: 5 }],
       allCountries: [],
       allGovernorates: [],
       allArea: []

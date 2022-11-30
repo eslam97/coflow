@@ -73,8 +73,10 @@
 
           <!--   Promoting   -->
           <div v-else-if="field.type == 'promo'">
-            <p v-if="$_.get(data.item, field.key) > 0">P ({{ $_.get(data.item, field.key) }})</p>
-            <p v-else>NP</p>
+            <p class="m-0">
+              <span v-if="$_.get(data.item, field.key) > 0">P ({{ $_.get(data.item, field.key) }})</span>
+              <span v-else>NP</span>
+            </p>
           </div>
 
           <!--    Offer      -->

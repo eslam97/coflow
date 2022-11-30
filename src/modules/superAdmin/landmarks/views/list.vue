@@ -22,7 +22,7 @@
              class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Landmarks</h3>
         <div class="d-flex justify-content-between gap-20">
-          <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
+          <b-button @click="arrangeMode = !arrangeMode; resize()" variant="dark" class="add_button text-white">
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
@@ -237,6 +237,11 @@ export default {
         this.allAreas = res.data.data.data
         this.allAreas.push({ name: 'None', id: '' })
       })
+    },
+    resize () {
+      setTimeout(() => {
+        document.getElementsByClassName('arrange-overlay')[0].style.height = document.body.scrollHeight + 'px'
+      }, 10)
     }
   },
   created () {

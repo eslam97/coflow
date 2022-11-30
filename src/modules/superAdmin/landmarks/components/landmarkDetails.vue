@@ -288,7 +288,7 @@ export default {
       }
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.landmark.images.push(res.data.data.id)
+        this.landmark.images.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })

@@ -17,7 +17,7 @@
                 <main-select labelTitle='Day of the week' :validate="'required'"
                              :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
                              label="key"
-                             multiple
+                             :multiple="typeOfModal==='add'"
                              :reduce="data => data.value"
                              v-model="slot.day"></main-select>
               </b-col>
@@ -151,6 +151,7 @@ export default {
       if (this.typeOfModal === 'add') {
         this.$emit('addSlots', this.schedule)
       } else {
+        this.schedule.slots[0].status = this.scheduleDetails.status
         this.schedule.slots[0].from = this.schedule.slots[0].from.slice(0, 5)
         this.schedule.slots[0].to = this.schedule.slots[0].to.slice(0, 5)
         this.schedule.slots[0].ladies_only = this.schedule.slots[0].ladies_only ? 1 : 0

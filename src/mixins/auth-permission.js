@@ -1,6 +1,9 @@
 export default {
   methods: {
-    hasPer: () => true,
+    hasPer: name => {
+      const index = JSON.parse(localStorage.getItem('permissions')).indexOf(name)
+      return index > -1
+    },
     /*    hasPer: () => true,
     isType: () => true,
     isAdmin: () => true,

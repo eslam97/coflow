@@ -19,8 +19,8 @@
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Profiles</h3>
         <div>
-          <b-button  variant="warning" @click="openAddModal" class="add_button text-white">Create
-            Profile<i class="las la-plus ml-3"></i></b-button>
+          <b-button v-if="hasPer('profile.create')" variant="warning" @click="openAddModal"
+                    class="add_button text-white">Create Profile<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12" class="mb-2">
@@ -155,6 +155,7 @@ export default {
               icon: 'las la-pen',
               color: 'success-light',
               text: 'Edit',
+              showIf: () => this.hasPer('profile.edit'),
               actionName: 'viewProfile',
               actionParams: ['id']
             },
@@ -162,7 +163,7 @@ export default {
               icon: 'las la-lock',
               color: 'primary',
               text: 'Can Login',
-              showIf: (data) => data.can_login === false,
+              showIf: (data) => (data.can_login === false) && this.hasPer('profile.deactivate'),
               showAlert: true,
               actionHeader: 'Alert',
               titleHeader: 'change login status',
@@ -177,7 +178,7 @@ export default {
               icon: 'la la-lock-open',
               color: 'cobalt-blue',
               text: "Can't Login",
-              showIf: (data) => data.can_login === true,
+              showIf: (data) => (data.can_login === true) && this.hasPer('profile.deactivate'),
               showAlert: true,
               actionHeader: 'Alert',
               titleHeader: 'change login status',
@@ -192,6 +193,7 @@ export default {
               icon: 'las la-trash-alt',
               color: 'danger',
               text: 'Delete',
+              showIf: () => this.hasPer('profile.delete'),
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Profile',

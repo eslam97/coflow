@@ -26,8 +26,8 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <b-button @click="openPopup" variant="warning" class="add_button text-white">Create
-            Landmark<i class="las la-plus ml-3"></i></b-button>
+          <b-button v-if="hasPer('landmark.create')" @click="openPopup" variant="warning"
+                    class="add_button text-white">Create Landmark<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12" class="mb-2">
@@ -103,6 +103,7 @@ export default {
           label: 'Change Status',
           key: 'change_status',
           type: 'switch',
+          showIf: () => this.hasPer('landmark.edit'),
           tableType: 'landmark',
           idKey: 'landmark_id',
           class: 'text-left'
@@ -124,6 +125,7 @@ export default {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
+              showIf: () => this.hasPer('landmark.edit'),
               actionName: 'showLandmarkToEdit',
               actionParams: ['id']
             },
@@ -131,6 +133,7 @@ export default {
               icon: 'las la-trash-alt',
               color: 'danger',
               text: 'Delete',
+              showIf: () => this.hasPer('landmark.delete'),
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Landmark',

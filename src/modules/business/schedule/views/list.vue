@@ -18,8 +18,8 @@
                   class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
                 <div class="custom-switch-inner">
                   <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
-                         @change="changeStatus(scheduleDetailsFront.id, scheduleDetailsFront.status_traker)"
-                         v-model="scheduleDetailsFront.status_traker">
+                         @change="changeStatus(scheduleDetails.id, scheduleDetails.status_traker)"
+                         v-model="scheduleDetails.status_traker">
                   <label class="custom-control-label" :for="'status'">
                   </label>
                 </div>
@@ -167,9 +167,9 @@ export default {
     showScheduleToEdit (obj) {
       this.typeOfModal = 'edit'
       this.scheduleDetailsFront = obj
-      this.scheduleDetailsFront.status_traker = this.scheduleDetailsFront.status === 'active'
       scheduleServices.getScheduleDetails(obj.id).then(res => {
         this.scheduleDetails = res.data.data
+        this.scheduleDetails.status_traker = this.scheduleDetails.status === 'active'
         this.scheduleDetails.slotId = obj.id
         this.$bvModal.show('scheduleDetailsModal')
       })
@@ -211,9 +211,11 @@ export default {
         type: 'schedule'
       }
       mainService.changeStatus(obj).then(res => {
-        this.scheduleDetailsFront.status = obj.status
+        this.scheduleDetails.status = obj.status
         this.getSchedule()
         core.showSnackbar('success', res.data.message)
+      }).catch(() => {
+        this.scheduleDetails.status = !status
       })
     },
     formatTime (time) {

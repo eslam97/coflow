@@ -13,13 +13,13 @@ export default [
     children: [{
       path: '',
       name: 'admin',
-      meta: { name: 'admin', userType: 'admin', permission: '' },
+      meta: { name: 'admin', userType: 'admin', permission: 'admin.list' },
       component: Adminlist
     },
     {
       path: 'roles',
       name: 'roles',
-      meta: { name: 'roles', userType: 'admin', permission: '' },
+      meta: { name: 'roles', userType: 'admin', permission: 'admin.createRole' },
       component: rolelist
     }
     ]

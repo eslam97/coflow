@@ -504,7 +504,7 @@
                          :options="['Go', 'Flow', 'Pro', 'Shop', 'Camp']"
                          v-model="service_types"></main-select>
           </div>
-          <b-row>
+          <b-row v-if="hasPer('activation.activate')">
             <b-col md="12" class="mt-3 d-flex justify-content-center">
               <b-button class="container_button_blue slideNextArrow" type="submit" v-if="loadingActivation = true">
                 Activate
@@ -879,7 +879,7 @@ export default {
     // save change
     saveChanges () {
       // eslint-disable-next-line
-      if ((this.loadingLogo == 100) && (this.loadingCover == 100)) {
+      if ((this.logoImage || (this.loadingLogo == 100)) && (this.coverImage || (this.loadingCover == 100))) {
         if (this.images.length > 0) {
           let location = {}
           let operation = {}

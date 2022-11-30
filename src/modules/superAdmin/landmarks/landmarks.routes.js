@@ -12,7 +12,7 @@ export default [
     children: [{
       path: '',
       name: 'landmarks',
-      meta: { name: 'landmarks', userType: 'admin', permission: '' },
+      meta: { name: 'landmarks', userType: 'admin', permission: 'landmark.list' },
       component: landmarkslist
     }
     ]

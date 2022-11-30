@@ -62,7 +62,6 @@ export default {
     return {
       columns: [
         { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Type', key: 'type', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',

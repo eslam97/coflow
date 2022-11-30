@@ -18,39 +18,39 @@ export default [
     children: [{
       path: '',
       name: 'services',
-      meta: { name: 'services', userType: 'admin', permission: '' },
+      meta: { name: 'services', userType: 'admin', permission: 'services.list' },
       component: serviceslist,
       children: [{
         path: '',
         name: 'services',
-        meta: { name: 'services', userType: 'admin', permission: '' },
+        meta: { name: 'services', userType: 'admin', permission: 'services.tickets' },
         component: serviceTickets
       },
       {
         path: 'flows',
         name: 'serviceFlows',
-        meta: { name: 'services', userType: 'admin', permission: '' },
+        meta: { name: 'services', userType: 'admin', permission: 'services.flows' },
         component: serviceFlows
       },
       {
         path: 'activities',
         name: 'serviceActivities',
-        meta: { name: 'services', userType: 'admin', permission: '' },
+        meta: { name: 'services', userType: 'admin', permission: 'services.activities' },
         component: serviceActivities
       }, {
         path: 'courses',
         name: 'serviceCourses',
-        meta: { name: 'services', userType: 'admin', permission: '' },
+        meta: { name: 'services', userType: 'admin', permission: 'services.courses' },
         component: serviceCourses
       }, {
         path: 'products',
         name: 'serviceProducts',
-        meta: { name: 'services', userType: 'admin', permission: '' },
+        meta: { name: 'services', userType: 'admin', permission: 'services.products' },
         component: serviceProducts
       }, {
         path: 'accommodations',
         name: 'serviceAccommodations',
-        meta: { name: 'services', userType: 'admin', permission: '' },
+        meta: { name: 'services', userType: 'admin', permission: 'services.accommodations' },
         component: serviceAccommodations
       }
       ]

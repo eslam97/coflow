@@ -173,6 +173,7 @@
       </template>
       <template v-slot:cell(change_status)="data">
         <changeStatus
+            v-if="data.field.showIf()"
             :allData = data
             :id="data.item.id"
             :type="data.field.tableType"
@@ -180,6 +181,9 @@
             :statusKeyId="data.field.idKey"
             @changeStatus="changeStatus"
         />
+        <strong v-else>
+          <mainstatus :status="data.item.status" />
+        </strong>
       </template>
     </b-table>
     <b-pagination

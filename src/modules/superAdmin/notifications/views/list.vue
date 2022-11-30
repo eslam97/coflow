@@ -37,8 +37,8 @@
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Notifications</h3>
         <div>
-          <b-button  variant="warning"  @click="openPopup" class="add_button text-white">Create
-            Notification<i class="las la-plus ml-3"></i></b-button>
+          <b-button v-if="hasPer('customers.notifications')" variant="warning"  @click="openPopup"
+                     class="add_button text-white">Create Notification<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12">

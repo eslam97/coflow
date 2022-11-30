@@ -59,7 +59,7 @@
                          :options="allCountries"
                          label="name" multiple
                          :reduce="data=> data.id"
-                         v-model="notification.nationality">
+                         v-model="notification.nationality_id">
             </main-select>
           </b-col>
           <b-col md="12" class="mb-3">
@@ -129,10 +129,7 @@ export default {
     return {
       notification: {
         gender: '',
-        name: '',
-        country_id: '',
-        city_id: '',
-        area_id: '',
+        nationality_id: '',
         title: '',
         body: ''
       },
@@ -153,7 +150,7 @@ export default {
     },
     // depend
     getAllCountries () {
-      settingsService.getAllCountries().then(res => {
+      settingsService.getAllnationalities().then(res => {
         this.allCountries = res.data.data
       })
     },

@@ -119,7 +119,7 @@
                   <h2 class="mb-2 text-primary ml-4"><b>Sky</b></h2>
                   </div>
                   <h4 class="mt-4 mb-0"><b>Fly Over the Horizon</b></h4>
-                  <p class="w-75">Paramotor with the Planes, Paraglide with the Birds,<br>
+                  <p>Paramotor with the Planes, Paraglide with the Birds,<br>
                     Skydive with the Eagles & Parachute with the View.</p>
                   <div class="d-flex activities_item">
                     <div
@@ -135,7 +135,7 @@
                 </div>
               </b-col>
             </b-row>
-            <b-row class="m-0 p-0 align-items-center mb-5">
+            <b-row class="m-0 p-0 align-items-center mb-5 d-flex flex-column-reverse flex-md-row">
               <b-col md="2"></b-col>
             <b-col md="5" class="mb-2">
                 <div class="d-flex flex-column">
@@ -144,7 +144,7 @@
                     <h2 class="mb-2 text-primary ml-4"><b>Sea</b></h2>
                   </div>
                   <h4 class="mt-4 mb-0"><b>Fall Into The Deep</b></h4>
-                  <p class="w-75">Surf with the Waves, Kite with the Wind, Free Dive<br>
+                  <p>Surf with the Waves, Kite with the Wind, Free Dive<br>
                     with the Dolphins & Scuba Dive with the Sharks.</p>
                   <div class="d-flex activities_item">
                     <div
@@ -175,7 +175,7 @@
                   <h2 class="mb-2 text-primary ml-4"><b>Earth</b></h2>
                   </div>
                   <h4 class="mt-4 mb-0"><b>Fight With The Gravity</b></h4>
-                  <p class="w-75">Ride into the Wind, Slide over the Surface,<br>
+                  <p>Ride into the Wind, Slide over the Surface,<br>
                     Grip over the Edge & Climb up the Mountain.</p>
                   <div class="d-flex activities_item">
                     <div
@@ -191,36 +191,36 @@
                 </div>
               </b-col>
             </b-row>
-            <b-row class="m-0 p-0 align-items-center mb-5">
+            <b-row class="m-0 p-0 align-items-center mb-5 d-flex flex-column-reverse flex-md-row">
               <b-col md="2"></b-col>
-            <b-col md="5" class="p-0 mb-2">
-                <div class="d-flex flex-column">
-                  <div class="d-flex align-items-center">
-                    <img :src="require('@/assets/images/mobilaAppLanding/Energy (framed).png')" alt="Energy"
-                         class="frame-image">
-                    <h2 class="mb-2 text-primary ml-4"><b>Energy</b></h2>
-                  </div>
-                  <h4 class="mt-4 mb-0"><b>Flow With The Elements</b></h4>
-                  <p class="w-75">Enhance your Fitness, Increase your Flexibility,<br>
-                    Tighten your Core & Elevate your Balance.</p>
-                  <div class="d-flex activities_item">
-                    <div
-                        :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Flex@2x.png')})`"
-                        class="text-white">
-                      Flex
+              <b-col md="5" class="mb-2">
+                  <div class="d-flex flex-column">
+                    <div class="d-flex align-items-center">
+                      <img :src="require('@/assets/images/mobilaAppLanding/Energy (framed).png')" alt="Energy"
+                           class="frame-image">
+                      <h2 class="mb-2 text-primary ml-4"><b>Energy</b></h2>
                     </div>
-                    <div
-                        :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Fit@2x.png')})`"
-                        class="text-white">
-                      Fit
+                    <h4 class="mt-4 mb-0"><b>Flow With The Elements</b></h4>
+                    <p>Enhance your Fitness, Increase your Flexibility,<br>
+                      Tighten your Core & Elevate your Balance.</p>
+                    <div class="d-flex activities_item">
+                      <div
+                          :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Flex@2x.png')})`"
+                          class="text-white">
+                        Flex
+                      </div>
+                      <div
+                          :style="`background: url(${require('../../../assets/images/mobilaAppLanding/Fit@2x.png')})`"
+                          class="text-white">
+                        Fit
+                      </div>
                     </div>
                   </div>
-                </div>
+                </b-col>
+              <b-col md="5" class="mb-2 p-0">
+                <img class="w-100" :src="require('@/assets/images/mobilaAppLanding/energy.png')" alt="energy">
               </b-col>
-            <b-col md="5" class="mb-2">
-                <img class="w-100" :src="require('@/assets/images/mobilaAppLanding/energy.png')" alt="sea">
-              </b-col>
-          </b-row>
+            </b-row>
         </div>
       </div>
     </div>
@@ -289,7 +289,6 @@ export default {
   width: 35%;
   border-bottom-left-radius: 63px;
   z-index: -1;
-  overflow: hidden;
 }
 .blue_section img {
   position: absolute;
@@ -359,6 +358,7 @@ export default {
   background-repeat: no-repeat !important;
 }
 .download-last-section {
+  overflow: hidden;
   height: 75vh;
   border-top-left-radius: 63px;
   border-top-right-radius: 63px;

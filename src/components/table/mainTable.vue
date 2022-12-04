@@ -73,8 +73,10 @@
 
           <!--   Promoting   -->
           <div v-else-if="field.type == 'promo'">
-            <p v-if="$_.get(data.item, field.key) > 0">P ({{ $_.get(data.item, field.key) }})</p>
-            <p v-else>NP</p>
+            <p class="m-0">
+              <span v-if="$_.get(data.item, field.key) > 0">P ({{ $_.get(data.item, field.key) }})</span>
+              <span v-else>NP</span>
+            </p>
           </div>
 
           <!--    Offer      -->
@@ -173,6 +175,7 @@
       </template>
       <template v-slot:cell(change_status)="data">
         <changeStatus
+            v-if="data.field.showIf ? data.field.showIf(): true"
             :allData = data
             :id="data.item.id"
             :type="data.field.tableType"
@@ -180,6 +183,9 @@
             :statusKeyId="data.field.idKey"
             @changeStatus="changeStatus"
         />
+        <strong v-else>
+          <mainstatus :status="data.item.status" />
+        </strong>
       </template>
     </b-table>
     <b-pagination

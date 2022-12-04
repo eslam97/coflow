@@ -64,6 +64,7 @@ export default {
       localStorage.removeItem('userToken')
       localStorage.removeItem('userInfo')
       localStorage.removeItem('formStep')
+      localStorage.removeItem('permissions')
       this.$router.push('/business')
     }
   },

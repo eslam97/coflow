@@ -13,7 +13,7 @@ export default [
     children: [{
       path: '',
       name: 'profiles',
-      meta: { auth: true, name: 'profiles' },
+      meta: { name: 'profiles', userType: 'admin', permission: 'profile.list' },
       component: profileslist
     }
     ]

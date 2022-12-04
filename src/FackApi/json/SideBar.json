@@ -2,7 +2,7 @@
   {
     "title": "Leads",
     "name": "Leads",
-    "permission": "dashboard",
+    "permission": "lead.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -16,7 +16,7 @@
   {
     "title": "Activation",
     "name": "Activation",
-    "permission": "dashboard",
+    "permission": "activation.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -30,7 +30,7 @@
   {
     "title": "Profiles",
     "name": "Profiles",
-    "permission": "dashboard",
+    "permission": "profile.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -44,7 +44,7 @@
   {
     "title": "Landmarks",
     "name": "Landmarks",
-    "permission": "dashboard",
+    "permission": "landmark.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -58,7 +58,7 @@
   {
     "title": "Services",
     "name": "Services",
-    "permission": "dashboard",
+    "permission": "services.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -72,7 +72,7 @@
   {
     "title": "Promotions",
     "name": "Promotions",
-    "permission": "dashboard",
+    "permission": "promotions.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -86,7 +86,7 @@
   {
     "title": "Customers",
     "name": "Customers",
-    "permission": "dashboard",
+    "permission": "customers.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -100,7 +100,7 @@
   {
     "title": "Settings",
     "name": "Settings",
-    "permission": "dashboard",
+    "permission": "settings.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -114,7 +114,7 @@
   {
     "title": "Notifications",
     "name": "Notifications",
-    "permission": "dashboard",
+    "permission": "notification.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -128,7 +128,7 @@
   {
     "title": "Analytics",
     "name": "Analytics",
-    "permission": "dashboard",
+    "permission": "analytics.list",
     "is_heading": false,
     "is_active": false,
     "link": {
@@ -142,7 +142,7 @@
   {
     "title": "Admin",
     "name": "Admin",
-    "permission": "dashboard",
+    "permission": "admin.list",
     "is_heading": false,
     "is_active": false,
     "link": {

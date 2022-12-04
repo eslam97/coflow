@@ -22,12 +22,12 @@
              class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Landmarks</h3>
         <div class="d-flex justify-content-between gap-20">
-          <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
+          <b-button @click="arrangeMode = !arrangeMode; resize()" variant="dark" class="add_button text-white">
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <b-button @click="openPopup" variant="warning" class="add_button text-white">Create
-            Landmark<i class="las la-plus ml-3"></i></b-button>
+          <b-button v-if="hasPer('landmark.create')" @click="openPopup" variant="warning"
+                    class="add_button text-white">Create Landmark<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12" class="mb-2">
@@ -103,6 +103,7 @@ export default {
           label: 'Change Status',
           key: 'change_status',
           type: 'switch',
+          showIf: () => this.hasPer('landmark.edit'),
           tableType: 'landmark',
           idKey: 'landmark_id',
           class: 'text-left'
@@ -124,6 +125,7 @@ export default {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
+              showIf: () => this.hasPer('landmark.edit'),
               actionName: 'showLandmarkToEdit',
               actionParams: ['id']
             },
@@ -131,6 +133,7 @@ export default {
               icon: 'las la-trash-alt',
               color: 'danger',
               text: 'Delete',
+              showIf: () => this.hasPer('landmark.delete'),
               showAlert: true,
               actionHeader: 'Delete',
               titleHeader: 'Landmark',
@@ -234,6 +237,11 @@ export default {
         this.allAreas = res.data.data.data
         this.allAreas.push({ name: 'None', id: '' })
       })
+    },
+    resize () {
+      setTimeout(() => {
+        document.getElementsByClassName('arrange-overlay')[0].style.height = document.body.scrollHeight + 'px'
+      }, 10)
     }
   },
   created () {

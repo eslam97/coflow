@@ -53,11 +53,11 @@
           <h3>Business Market</h3>
           <div class="d-flex justify-content-between gap-20">
             <main-select style="min-width: 180px" :validate="'required'" :name="'Country'" placeholder="Country"
-                         :options="allCountries" label="name" :reduce="data=> data.id"
+                         :options="allCountries" label="name" :reduce="data=> data.id" class="bg-white"
                          @change="getCityDependOnCountry(country)" v-model="country">
             </main-select>
             <main-select style="min-width: 180px" :validate="'required'" :name="`Governorate`" placeholder="Governorate"
-                         :options="allGovernorates" label="name" :reduce="data => data.id"
+                         :options="allGovernorates" label="name" :reduce="data => data.id" class="bg-white"
                          @change="getMarketData()" v-model="marketCity">
             </main-select>
             <export-excel

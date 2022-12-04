@@ -12,7 +12,7 @@ export default [
     children: [{
       path: '',
       name: 'promostionslist',
-      meta: { name: 'promostionslist', userType: 'admin', permission: '' },
+      meta: { name: 'promostionslist', userType: 'admin', permission: 'promotions.list' },
       component: promostionslist
     }
     ]

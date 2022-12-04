@@ -19,12 +19,13 @@
              class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Admins</h3>
         <div>
-          <router-link :to="{name: 'roles'}">
+          <router-link :to="{name: 'roles'}" v-if="hasPer('admin.createRole')">
             <b-button variant="warning" class="add_button text-white">
               Go To Roles<i class="las la-arrow-right ml-3"></i></b-button>
           </router-link>
-          <b-button variant="warning" class="ml-3 add_button text-white" @click="openAdminCreate">Create
-            Admin<i class="las la-plus ml-3"></i></b-button>
+          <b-button variant="warning" v-if="hasPer('admin.create')"
+                    class="ml-3 add_button text-white" @click="openAdminCreate">
+            Create Admin<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12">
@@ -62,6 +63,7 @@ export default {
             icon: 'las la-pen',
             color: 'info',
             text: 'Edit',
+            showIf: () => this.hasPer('admin.edit'),
             actionName: 'showAdminInfo',
             actionParams: ['id']
           },
@@ -69,6 +71,7 @@ export default {
             icon: 'las la-trash-alt',
             color: 'danger',
             text: 'Delete',
+            showIf: () => this.hasPer('admin.delete'),
             showAlert: true,
             actionHeader: 'Delete',
             titleHeader: 'Admin',

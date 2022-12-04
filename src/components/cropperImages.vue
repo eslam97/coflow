@@ -4,7 +4,7 @@
     <div class="mb-3 d-flex align-items-center flex" v-if="imageUrl && !multi">
       <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
            :style="{ 'background-image': 'url(' + imageUrl + ')' }"></div>
-      <div class="d-flex justify-content-between w-75 mx-3 position-relative">
+      <div class="d-flex justify-content-between w-100 mx-3 position-relative">
         <section class="w-75">
           <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{nameOfImage}}</span>
         </section>
@@ -19,7 +19,7 @@
       <div class="mb-3 d-flex align-items-center"  v-for="(image, key) in images" :key="key">
         <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
              :style="{ 'background-image': 'url(' + image.image + ')' }"></div>
-        <div class="d-flex justify-content-between w-75 mx-3 position-relative">
+        <div class="d-flex justify-content-between w-100 mx-3 position-relative">
           <section class="w-75">
             <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{image.name}}</span>
           </section>
@@ -32,7 +32,7 @@
     <div class="mb-3 d-flex align-items-center" v-if="finalImage && !removeLoadingUi">
       <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
            :style="{ 'background-image': 'url(' + showImage + ')' }"></div>
-      <div class="d-flex justify-content-between w-75 mx-3 position-relative">
+      <div class="d-flex justify-content-between w-100 mx-3 position-relative">
         <section class="w-75">
           <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{image.name}}</span>
         </section>
@@ -68,7 +68,7 @@
       </b-button>
       <p class="m-0 p-0"> <i class="las la-cloud-upload-alt font-size-18 mr-1"></i> You can also drop your files here.
       </p>
-      <p>Image size limit: 1 MB</p>
+      <p>Image size limit: {{ limit }} MB</p>
     </div>
     <b-card v-show="showPopup" class="w-100 m-auto card" id="uploadImageCropper">
         <div class="actions d-flex justify-content-between align-items-center mb-3">
@@ -132,6 +132,7 @@
 
 import 'vue-advanced-cropper/dist/style.css'
 import { Cropper } from 'vue-advanced-cropper'
+import { core } from '@/config/pluginInit'
 
 // This function is used to detect the actual image type,
 function getMimeType (file, fallback = null) {
@@ -155,7 +156,6 @@ function getMimeType (file, fallback = null) {
       return fallback
   }
 }
-
 export default {
   components: {
     Cropper
@@ -196,6 +196,9 @@ export default {
     removeLoadingUi: {
       type: Boolean,
       required: false
+    },
+    limit: {
+      default: 1
     }
   },
   data () {
@@ -220,23 +223,29 @@ export default {
     },
     loadImage (event) {
       const { files } = event.target
+      console.log(files[0].size)
       if (files && files[0]) {
-        if (this.image.src) {
-          URL.revokeObjectURL(this.image.src)
-        }
-        this.newName = files[0].name
-        const blob = URL.createObjectURL(files[0])
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.image = {
-            src: blob,
-            type: getMimeType(e.target.result, files[0].type),
-            name: this.image.name
+        if (files[0].size < (1048576 * this.limit)) {
+          if (this.image.src) {
+            URL.revokeObjectURL(this.image.src)
           }
-          this.showPopup = true
-          this.removeLoadingUi = false
+          this.newName = files[0].name
+          const blob = URL.createObjectURL(files[0])
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            this.image = {
+              src: blob,
+              type: getMimeType(e.target.result, files[0].type),
+              name: this.image.name
+            }
+            this.showPopup = true
+            this.removeLoadingUi = false
+          }
+          reader.readAsArrayBuffer(files[0])
+        } else {
+          console.log('exceed')
+          core.showSnackbar('error', `Your file size mustn't exceed ${this.limit} MB`)
         }
-        reader.readAsArrayBuffer(files[0])
       }
     },
     zoom (factor) {

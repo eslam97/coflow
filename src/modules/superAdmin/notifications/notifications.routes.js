@@ -12,7 +12,7 @@ export default [
     children: [{
       path: '',
       name: 'notifications',
-      meta: { name: 'notifications', userType: 'admin', permission: '' },
+      meta: { name: 'notifications', userType: 'admin', permission: 'notification.list' },
       component: notificationslist
     }
     ]

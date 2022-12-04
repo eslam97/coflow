@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'leads',
       component: leadslist,
-      meta: { name: 'leads', userType: 'admin', permission: '' }
+      meta: { name: 'leads', userType: 'admin', permission: 'lead.list' }
     }
     ]
   }

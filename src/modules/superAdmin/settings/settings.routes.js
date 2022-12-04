@@ -31,73 +31,73 @@ export default [
         {
           path: '',
           name: 'settings',
-          meta: { name: 'settings', userType: 'admin', permission: '' },
+          meta: { name: 'settings', userType: 'admin', permission: 'settings.list' },
           component: profileSetting
         },
         {
           path: 'activity-lines',
           name: 'activityLines',
-          meta: { name: 'activityLines', userType: 'admin', permission: '' },
+          meta: { name: 'activityLines', userType: 'admin', permission: 'settings.list' },
           component: activityLines
         },
         {
           path: 'activity-types',
           name: 'activityTypes',
-          meta: { name: 'activityTypes', userType: 'admin', permission: '' },
+          meta: { name: 'activityTypes', userType: 'admin', permission: 'settings.list' },
           component: activityTypes
         },
         {
           path: 'duration-lists',
           name: 'durationLists',
-          meta: { name: 'durationLists', userType: 'admin', permission: '' },
+          meta: { name: 'durationLists', userType: 'admin', permission: 'settings.list' },
           component: durationList
         },
         {
           path: 'amenities',
           name: 'amenities',
-          meta: { name: 'amenities', userType: 'admin', permission: '' },
+          meta: { name: 'amenities', userType: 'admin', permission: 'settings.list' },
           component: amenitiesList
         },
         {
           path: 'nationalities',
           name: 'nationalities',
-          meta: { name: 'nationalities', userType: 'admin', permission: '' },
+          meta: { name: 'nationalities', userType: 'admin', permission: 'settings.list' },
           component: nationalities
         },
         {
           path: 'accommodation-types',
           name: 'accommodationTypes',
-          meta: { name: 'accommodationTypes', userType: 'admin', permission: '' },
+          meta: { name: 'accommodationTypes', userType: 'admin', permission: 'settings.list' },
           component: accommodationTypes
         },
         {
           path: 'links',
           name: 'links',
-          meta: { name: 'links', userType: 'admin', permission: '' },
+          meta: { name: 'links', userType: 'admin', permission: 'settings.list' },
           component: links
         },
         {
           path: 'languages',
           name: 'languages',
-          meta: { name: 'languages', userType: 'admin', permission: '' },
+          meta: { name: 'languages', userType: 'admin', permission: 'settings.list' },
           component: languages
         },
         {
           path: 'countries',
           name: 'countries',
-          meta: { name: 'countries', userType: 'admin', permission: '' },
+          meta: { name: 'countries', userType: 'admin', permission: 'settings.list' },
           component: countries
         },
         {
           path: 'cities',
           name: 'cities',
-          meta: { name: 'cities', userType: 'admin', permission: '' },
+          meta: { name: 'cities', userType: 'admin', permission: 'settings.list' },
           component: cities
         },
         {
           path: 'areas',
           name: 'areas',
-          meta: { name: 'areas', userType: 'admin', permission: '' },
+          meta: { name: 'areas', userType: 'admin', permission: 'settings.list' },
           component: areas
         }
       ]

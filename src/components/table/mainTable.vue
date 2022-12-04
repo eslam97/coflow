@@ -175,7 +175,7 @@
       </template>
       <template v-slot:cell(change_status)="data">
         <changeStatus
-            v-if="data.field.showIf()"
+            v-if="data.field.showIf ? data.field.showIf(): true"
             :allData = data
             :id="data.item.id"
             :type="data.field.tableType"

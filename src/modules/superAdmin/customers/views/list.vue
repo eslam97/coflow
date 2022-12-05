@@ -68,6 +68,7 @@ export default {
           type: 'actions',
           actions: [
             {
+              showIf: () => this.hasPer('customers.delete'),
               icon: 'las la-trash-alt',
               color: 'danger',
               text: 'Delete',

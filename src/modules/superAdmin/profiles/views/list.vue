@@ -155,7 +155,7 @@ export default {
               icon: 'las la-pen',
               color: 'success-light',
               text: 'Edit',
-              // showIf: () => this.hasPer('profile.edit'),
+              showIf: () => this.hasPer('profile.edit'),
               actionName: 'viewProfile',
               actionParams: ['id']
             },

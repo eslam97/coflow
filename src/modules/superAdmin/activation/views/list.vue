@@ -84,6 +84,7 @@ export default {
             color: 'success-light',
             text: 'View',
             actionName: 'viewProfile',
+            showIf: () => this.hasPer('activation.view'),
             actionParams: ['id']
           }
           ]

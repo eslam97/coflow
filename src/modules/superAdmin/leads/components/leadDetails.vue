@@ -99,10 +99,10 @@
               <spinner-loading  text="Loading" />
             </p>
             <div class="d-flex justify-content-center gap_10" v-else>
-              <b-button class="container_button_blue ml-2" @click="selectedStatus = 'accepted'" type="submit">
+              <b-button v-if="hasPer('lead.accept')" class="container_button_blue ml-2" @click="selectedStatus = 'accepted'" type="submit">
                 <span>ACCEPT</span>
               </b-button>
-              <b-button class="gradient-orange-button box_orange_shadow" @click="selectedStatus = 'rejected'"
+              <b-button v-if="hasPer('lead.reject')" class="gradient-orange-button box_orange_shadow" @click="selectedStatus = 'rejected'"
                         type="submit">
                 <span>REJECT</span>
               </b-button>

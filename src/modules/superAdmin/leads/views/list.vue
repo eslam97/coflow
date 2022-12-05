@@ -71,6 +71,7 @@ export default {
             color: 'success-light',
             text: 'View',
             actionName: 'viewLead',
+            showIf: () => this.hasPer('lead.view'),
             actionParams: ['id']
           }
           /* {

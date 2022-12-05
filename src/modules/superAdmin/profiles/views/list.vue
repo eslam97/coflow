@@ -46,13 +46,13 @@
                            placeholder="&#45;&#45;Select&#45;&#45;">
               </main-select>
             </b-col>-->
-<!--            <b-col md="3" sm="6">
-              <span>Filter by city:</span>
+            <b-col md="3" sm="6">
+              <span>Filter by governate:</span>
               <main-select v-model="filter.city_id" @change="reloadTable=true"
                            :options="allGovernorates" label="name" :reduce="data => data.id"
-                           placeholder="&#45;&#45;Select&#45;&#45;">
+                           placeholder="--Select--">
               </main-select>
-            </b-col>-->
+            </b-col>
             <b-col md="3" sm="6">
               <span>Filter by area:</span>
               <main-select v-model="filter.area_id" @change="reloadTable=true"
@@ -209,14 +209,14 @@ export default {
       reloadTable: false,
       filter:
       {
-        sort_type: '',
+        sort_type: 'desc',
         service_types: '',
         profile_type: '',
         city_id: '',
         area_id: '',
         name: '',
         status: '',
-        sort: '',
+        sort: 'id',
         promotions: '',
         activity_type_id: '',
         activity_line_id: ''

@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/customers/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/customers/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/leads/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/leads/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/admin/components/adminDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/admin/components/adminDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

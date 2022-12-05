@@ -115,6 +115,7 @@
                 <b-th>Tracked Energy</b-th>
                 <b-th>Onboarded Business</b-th>
                 <b-th>Visible Business</b-th>
+                <b-th>invisible Business</b-th>
                 <b-th>Promoting</b-th>
                 <b-th>Temp Closed Business</b-th>
                 <b-th>Onboarded Customers</b-th>

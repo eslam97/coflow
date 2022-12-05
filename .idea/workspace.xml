@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="" />
+    <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/table/mainTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/mainTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

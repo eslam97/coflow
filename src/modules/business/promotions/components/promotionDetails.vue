@@ -124,7 +124,7 @@
         <b-row v-if="promotion_type === 'package'">
           <b-col md="6" class="mb-3" >
             <input-form
-                v-model="packages.price_egp"
+                v-model="packages.package_price_egp"
                 placeholder="Ex: 0.0"
                 :validate="{
                         regex: /^\d{1,10}(\.\d{1,10})?$/,
@@ -263,7 +263,7 @@ export default {
       },
       packages: {
         package: '',
-        price_egp: '',
+        package_price_egp: '',
         price_euro: '',
         price_dollar: '',
         discount_price_egp: '',

@@ -119,8 +119,8 @@
             </div>
           </template>
           <template v-slot:cell(offer)="data">
-            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }}</p>
-            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy: {{ data.item.buy_x }}, Get: {{ data.item.get_y }}</p>
+            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }} for {{data.item.package_price_egp}} EGP</p>
+            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy {{ data.item.buy_x }}, Get {{ data.item.get_y }}</p>
             <p v-else>{{ data.item.discount_price_egp }}%</p>
           </template>
           <template v-slot:cell(actions)="data">
@@ -174,8 +174,7 @@ export default {
       },
       columns: [
         { label: 'Promotion Type', key: 'promotion_type', class: 'text-left' },
-        { label: 'Offer', key: 'offer', class: 'text-left' },
-        { label: 'Price', key: 'package_price_egp', class: 'text-left' },
+        { label: 'Offer', key: 'offer', class: 'text-left', type: 'offer' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
         { label: 'Offer Title', key: 'offer_title', class: 'text-left' },

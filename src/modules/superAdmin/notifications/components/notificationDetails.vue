@@ -6,16 +6,28 @@
           <b-col md="12" class="mb-3" >
             <label class="mb-3">Gender</label>
             <div>
-              <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="notification.gender" color="warning"
-                            name="typeOfOperation" value="" >
+              <b-form-radio class="custom-radio-color-checked mr-5"
+                            inline
+                            v-model="notification.gender"
+                            color="warning"
+                            name="typeOfOperation"
+                            value="">
                 <span class="text-primary font-size-12">All</span>
               </b-form-radio>
-              <b-form-radio class="custom-radio-color-checked mr-5" inline v-model="notification.gender" color="warning"
-                            name="typeOfOperation" value="male" >
+              <b-form-radio class="custom-radio-color-checked mr-5"
+                            inline
+                            v-model="notification.gender"
+                            color="warning"
+                            name="typeOfOperation"
+                            value="male" >
                 <span class="text-primary font-size-12">Male</span>
               </b-form-radio>
-              <b-form-radio class="custom-radio-color-checked" inline v-model="notification.gender" color="warning"
-                            name="typeOfOperation" value="female" >
+              <b-form-radio class="custom-radio-color-checked"
+                            inline
+                            v-model="notification.gender"
+                            color="warning"
+                            name="typeOfOperation"
+                            value="female" >
                 <span class="text-primary font-size-12">Female</span>
               </b-form-radio>
             </div>
@@ -46,13 +58,24 @@
             </main-select>
           </b-col>-->
           <b-col md="6" class="mb-3">
-            <main-select labelTitle='Age range' :validate="'required'"
-                         :name="`age range`" placeholder="Choose" :options="ageOptions"
-                         label="key" multiple
-                         :reduce="data=> data.value"
-                         v-model="notification.age"></main-select>
+            <input-form
+                v-model="notification.start_age"
+                placeholder="Ex: 1997"
+                :validate="'required|numeric'"
+                name="start age"
+                :label="'Start Age'"
+            />
           </b-col>
           <b-col md="6" class="mb-3">
+            <input-form
+                v-model="notification.end_age"
+                placeholder="Ex: 2023"
+                :validate="'required|numeric'"
+                name="end age"
+                :label="'End Age'"
+            />
+          </b-col>
+          <b-col md="12" class="mb-3">
             <main-select labelTitle='Country' :validate="'required'"
                          :name="'Country'"
                          placeholder="Choose"
@@ -128,10 +151,11 @@ export default {
   data () {
     return {
       notification: {
-        gender: '',
         nationality_id: '',
         title: '',
-        body: ''
+        body: '',
+        start_age: '',
+        end_age: ''
       },
       ageOptions: [{ key: ' < 10 years', value: 0 },
         { key: '10 - 19 years', value: 1 },

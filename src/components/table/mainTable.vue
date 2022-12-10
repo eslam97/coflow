@@ -78,12 +78,10 @@
               <span v-else>NP</span>
             </p>
           </div>
-
           <!--    Offer      -->
           <div v-else-if="field.type == 'offer'">
-<!--            {{data.item}}-->
-            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }}</p>
-            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy: {{ data.item.buy_x }}, Get: {{ data.item.get_y }}</p>
+            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }} for {{data.item.package_price_egp}} EGP</p>
+            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy {{ data.item.buy_x }}, Get {{ data.item.get_y }}</p>
             <p v-else>{{ data.item.discount_price_egp }}%</p>
           </div>
 
@@ -127,12 +125,11 @@
           <div v-else-if="field.type == 'multi-currency'">
             <ul class="p-0">
               <li v-for="(arrKey, key) in field.key.split(',')" :key="key">
-<!--                <span v-if="$_.get(data.item, arrKey) > 0">-->
-                  <span v-if="arrKey.includes('egp')">
+                <span v-if="arrKey.includes('egp')">
                     <span v-if="$_.get(data.item, arrKey)">EGP {{ $_.get(data.item, arrKey) }}</span>
                     <span v-else>N/A</span>
                   </span>
-                  <span v-else-if="arrKey.includes('euro')">
+                <span v-else-if="arrKey.includes('euro')">
                     <span v-if="$_.get(data.item, 'price_euro')">
                       <span v-if="arrKey.includes('discount')&& !$_.get(data.item, arrKey)">
                         N/A
@@ -148,7 +145,6 @@
                       <span v-else>$ {{ $_.get(data.item, arrKey) }}</span>
                     </span>
                   </span>
-<!--                </span>-->
               </li>
             </ul>
           </div>

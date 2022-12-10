@@ -148,7 +148,9 @@ export default {
       })
     },
     updateFacilityPhones (typeOfLocation, location) {
-      if (this.typeOfLocation === 'based') {
+      console.log(typeOfLocation)
+      console.log(location)
+      if (typeOfLocation === 'address based') {
         facilityInfoService.saveStepLocationBased(location).then(res => {
           core.showSnackbar('success', res.data.message)
         })

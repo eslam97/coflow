@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/businessTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/src/components/table/mainTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/mainTable.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/promotions/views/list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/notifications/components/notificationDetails.vue" afterDir="false" />
+>>>>>>> 650d0d7462e1caf562a46c419688cf920a27b3d6
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,7 +137,10 @@
       <workItem from="1668922324997" duration="7000" />
       <workItem from="1668984452098" duration="3284000" />
       <workItem from="1668990269895" duration="60329000" />
-      <workItem from="1670113054561" duration="4124000" />
+      <workItem from="1670113054561" duration="4964000" />
+      <workItem from="1670498408872" duration="1773000" />
+      <workItem from="1670591790281" duration="55000" />
+      <workItem from="1670592251620" duration="66000" />
     </task>
     <servers />
   </component>

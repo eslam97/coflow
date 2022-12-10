@@ -877,12 +877,7 @@ export default {
       if (this.location_type === 'address based') {
         location = {
           phones: this.phones,
-          location: {
-            address: {
-              ...this.based,
-              location_type: this.location_type
-            }
-          },
+          ...this.based,
           location_type: this.location_type
         }
       } else {

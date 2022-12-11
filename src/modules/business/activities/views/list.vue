@@ -15,7 +15,7 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="activitiesDetailsViewModal" size="lg" border="true">
+    <main-modal id="activitiesDetailsViewModal" size="xl" border="true">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Activity</h4>
       </template>

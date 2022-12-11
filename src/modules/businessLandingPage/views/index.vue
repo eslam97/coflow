@@ -32,7 +32,7 @@
     <user-experience/>
     <easy-to-use/>
     <tailored />
-    <testimonials />
+<!--    <testimonials />-->
     <get-in-touch />
     <landing-footer />
   </div>
@@ -45,7 +45,7 @@ import hero from '../components/landing/hero'
 import userExperience from '../components/landing/userExperience'
 import easyToUse from '../components/landing/easyToUse'
 import tailored from '../components/landing/tailored'
-import testimonials from '../components/landing/testimonials'
+// import testimonials from '../components/landing/testimonials'
 import getInTouch from '../components/landing/getInTouch'
 import landingFooter from '../components/landing/footer'
 import { core } from '@/config/pluginInit'
@@ -70,7 +70,7 @@ export default {
     userExperience,
     easyToUse,
     tailored,
-    testimonials,
+    // testimonials,
     getInTouch,
     landingFooter
   },

@@ -1,10 +1,10 @@
 <template>
   <div class="iq-sidebar" >
     <div class="iq-sidebar-logo d-flex justify-content-between">
-      <router-link :to="homeURL">
+      <div class="width-100 d-block m-auto d-flex justify-content-center">
         <img :src="logo" v-if="onlyLogo" class="img-fluid" alt="logo">
 <!--        <span v-if="onlyLogoText">{{ appName }}</span>-->
-      </router-link>
+      </div>
       <div class="iq-menu-bt-sidebar" v-if="toggleButton">
         <div class="iq-menu-bt align-self-center">
           <div class="wrapper-menu" @click="miniSidebar">
@@ -28,7 +28,7 @@
         </ul>
       </div>
       <footer>
-        © 2021 Coflow, All rights reserved
+        © 2023 flow, All rights reserved
       </footer>
     </div>
   </div>

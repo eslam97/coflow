@@ -15,14 +15,16 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="accommodationDetailsViewModal" size="lg" border="true">
+    <main-modal id="accommodationDetailsViewModal" size="xl" border="true">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Accommodation</h4>
       </template>
-      <template v-slot:borderHeader class="flex-nowrap">
-        <span class="p-4 borderHeaderModal m-0" v-if="accommodationsDetails">
-          {{accommodationsViewData.name}}, {{accommodationsViewData.type}}
-        </span>
+      <template v-slot:borderHeader class="flex-nowrap" v-if="accommodationsDetails">
+        <p class="p-4 borderHeaderModal m-0">
+          <span class="px-2">
+            {{accommodationsViewData.name}}, {{accommodationsViewData.type}}
+          </span>
+        </p>
       </template>
       <template v-slot:body>
         <accommodations-view :accommodationsDetails="accommodationsDetails"/>
@@ -69,7 +71,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
+        { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
         { label: 'Accommodation Name', key: 'name', class: 'text-left' },
         { label: 'Type', key: 'accommodation_type.name', class: 'text-left' },
         /* { label: 'Description', key: 'description', class: 'text-left' }, */

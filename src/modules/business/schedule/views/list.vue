@@ -4,7 +4,7 @@
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" >
           <span class="text-warning">Add: </span> Flow Slots</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> FlowSlots</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Slot</h4>
       </template>
       <template v-slot:actions v-if="typeOfModal == 'edit'">
         <div class="d-flex">
@@ -39,25 +39,23 @@
     </main-modal>
     <b-row>
       <!--   Header   -->
-      <b-col lg="12" class="mb-4 d-flex justify-content-between align-items-center">
+      <b-col lg="12" class="mb-5 d-flex justify-content-between align-items-center">
         <h3>Schedule</h3>
-        <div>
-          <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Add Schedule<i class="las la-calendar ml-3"></i></b-button>
-        </div>
-      </b-col>
-      <b-col md="12" class="mb-4 d-flex justify-content-center align-items-center">
-        <ul class="levels-list m-0">
+        <ul class="levels-list m-0 p-0">
           <li class="p-1" v-for="(level, key) in levels" :key="key">
-            <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`" ></i>{{ level.text }}
+            <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`" ></i>
+            <span class="font-size-12">{{ level.text }}</span>
           </li>
         </ul>
+        <div>
+          <b-button @click="openPopup" variant="warning" class="add_button text-white">
+            Add Slots<i class="las la-calendar ml-3"></i></b-button>
+        </div>
       </b-col>
-      <!--   Body   -->
       <spinner-loading v-if="requestLoading"></spinner-loading>
       <b-col lg="12" v-if="allSlots.length > 0">
         <b-card class="overflow-auto text-center schedule-card">
-            <b-row class="flex-nowrap">
+            <b-row class="flex-nowrap m-0">
               <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
                 <h6 class="mb-3 pt-3 schedule-header">{{ day.key }}</h6>
                 <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"

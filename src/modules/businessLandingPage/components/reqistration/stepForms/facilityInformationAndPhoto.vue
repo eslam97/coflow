@@ -151,7 +151,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col md="12" class="mb-5">
+            <b-col md="10" class="mb-5">
               <cropper-images
                   ratio="2 / 2"
                   label="Upload Logo"
@@ -164,7 +164,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col md="12" class="mb-5">
+            <b-col md="10" class="mb-5">
               <cropper-images
                   label="Upload Cover"
                   nameOfImage="cover.jpg"
@@ -176,7 +176,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col md="12" class="mb-5">
+            <b-col md="10" class="mb-5">
               <cropper-images
                   label="Upload Facility Photos"
                   @cropper-save="saveGalleryImage"

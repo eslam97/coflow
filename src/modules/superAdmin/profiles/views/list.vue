@@ -28,7 +28,7 @@
           <b-row>
             <b-col md="3" sm="6">
               <span>Filter by name:</span>
-              <b-form-input v-model="filter.name" @keyup="reloadTable=true"
+              <b-form-input v-model="filter.name" @input="reloadTable=true"
                             placeholder="Search">
               </b-form-input>
             </b-col>

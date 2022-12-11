@@ -19,7 +19,7 @@
     </main-modal>
     <main-modal id="addPhoto" size="lg">
       <template v-slot:header class="p2">
-        <h4 class="font-weight-bold"><span class="text-info">Add: </span>New Images</h4>
+        <h4 class="font-weight-bold"><span class="text-info">Manage: </span>Photos</h4>
       </template>
       <template v-slot:body>
         <b-row>
@@ -69,8 +69,8 @@
             <b-form @submit.prevent="handleSubmit(saveChangesInfo)">
               <b-card class="mb-5">
                 <b-card-header class="mb-4 py-2">
-                  <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Information & Details</span>
-                    Use this section to update your business and facility inforamtion</p>
+                  <p class="font-size-12"><span class="text-dark font-weight-bold font-size-18 mr-3">Facility Information & Details</span>
+                    Use this section to update your business and facility information</p>
                 </b-card-header>
                 <b-card-body>
                   <b-row md="12">
@@ -230,36 +230,62 @@
             <b-form @submit.prevent="handleSubmit(saveChangesPhone)">
               <b-card class="mb-5">
                 <b-card-header class="py-2">
-                  <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Contacts and Location Details</span>
-                    Use this section to update your contact and location information</p>
+                  <p class="font-size-12"><span class="text-dark font-weight-bold font-size-18 mr-3">Facility Contacts and Location Details</span>
+                    Use this section to update your customer contact information and location information</p>
                 </b-card-header>
                 <b-card-body>
                   <b-row v-if="location_type === 'address based'">
                     <b-col>
-                      <b-row>
-                        <b-col md="3"><p>Facility Address</p></b-col>
-                        <b-col md="9"><p>Location</p></b-col>
-                      </b-row>
-                      <b-row class="border mb-3">
-                        <b-col md="3" class="p-0">
-                          <div class="border-right p-4">
-                            <h5 class="font-weight-bold">
-                              {{based.address}},<br>
-                              {{allAreas.find(area => area.id === based.area_id).name}},
-                              {{allGovernorates.find(city => city.id === based.city_id).name}},<br>
-                              {{allCountries.find(country => country.id === based.country_id).name}}
-                            </h5>
-                          </div>
-                        </b-col>
-                        <b-col md="9" class="p-0">
-                          <div class="p-4">
-                            <h6>
-                              {{ based.location }}
-                            </h6>
-                          </div>
-                        </b-col>
-                      </b-row>
+                      <div>
+                        <table class='address-table'>
+                          <tr>
+                            <td class="font-weight-bold text-dark">Address</td>
+                            <td>{{based.address}}</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold text-dark">Area</td>
+                            <td>{{allAreas.find(area => area.id === based.area_id).name}}</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold text-dark">Governorate</td>
+                            <td> {{allGovernorates.find(city => city.id === based.city_id).name}}</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold text-dark">Country</td>
+                            <td> {{allCountries.find(country => country.id === based.country_id).name}}</td>
+                          </tr>
+                          <tr>
+                            <td class="font-weight-bold text-dark">Location</td>
+                            <td>{{ based.location }}</td>
+                          </tr>
+                        </table>
+                      </div>
                     </b-col>
+<!--                    <b-col>-->
+<!--                      <b-row>-->
+<!--                        <b-col md="3"><p>Facility Address</p></b-col>-->
+<!--                        <b-col md="9"><p>Location</p></b-col>-->
+<!--                      </b-row>-->
+<!--                      <b-row class="border mb-3">-->
+<!--                        <b-col md="3" class="p-0">-->
+<!--                          <div class="border-right p-4">-->
+<!--                            <h5 class="font-weight-bold">-->
+<!--                              {{based.address}},<br>-->
+<!--                              {{allAreas.find(area => area.id === based.area_id).name}},-->
+<!--                              {{allGovernorates.find(city => city.id === based.city_id).name}},<br>-->
+<!--                              {{allCountries.find(country => country.id === based.country_id).name}}-->
+<!--                            </h5>-->
+<!--                          </div>-->
+<!--                        </b-col>-->
+<!--                        <b-col md="9" class="p-0">-->
+<!--                          <div class="p-4">-->
+<!--                            <h6>-->
+<!--                              {{ based.location }}-->
+<!--                            </h6>-->
+<!--                          </div>-->
+<!--                        </b-col>-->
+<!--                      </b-row>-->
+<!--                    </b-col>-->
                   </b-row>
                   <b-row v-else class="mb-4">
                     <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
@@ -307,9 +333,9 @@
                     </span>
                     </b-col>
                   </b-row>
-                  <b-row class="mb-4" v-if="location_type === 'address based'">
+                  <b-row class="mb-4 mt-1" v-if="location_type === 'address based'">
                     <b-col md="12">
-                      <span>Note: To edit Address/Location please contact coflow personnel</span>
+                      <span>Note: to edit address or location, please contact coflow support.</span>
                     </b-col>
                   </b-row>
                   <b-row class="mb-4">
@@ -368,7 +394,7 @@
             <b-form @submit.prevent="handleSubmit(saveChangesOperatingDays)">
               <b-card class="mb-5">
                 <b-card-header class="mb-1 py-2">
-                  <p><span class="text-dark font-weight-bold font-size-20 mr-3">Facility Operating Days & Hours</span>
+                  <p class="font-size-12"><span class="text-dark font-weight-bold font-size-18 mr-3">Facility Operating Days & Hours</span>
                     Use this section to update your operating days and hours</p>
                 </b-card-header>
                 <b-card-body>
@@ -382,7 +408,7 @@
                         </b-form-radio>
                         <b-form-radio class="custom-radio-color-checked" inline v-model="typeOfOperation" color="warning"
                                       name="typeOfOperation" value="specify days" >
-                          <span class="text-primary font-size-12">Specify Days(s) and Hours</span>
+                          <span class="text-primary font-size-12">Specify Day(s) & Hours</span>
                         </b-form-radio>
                       </div>
                     </b-col>
@@ -426,7 +452,7 @@
                               @click="deleteOperationDay(operationKey)">Delete</span>
                       </b-col>
                       <b-col md="12" class="mb-3">
-                  <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add another Operation Day
+                  <span class="text-warning cursor-pointer" @click="addNewOperation">+ Add Another Operating Day
                     (s)</span>
                       </b-col>
 <!--                      <b-col md="12">
@@ -450,7 +476,7 @@
             <b-link>
               <b-card-img :style="`background-image: url(${logoImage})`" class="card-profile-img mb-5"></b-card-img>
             </b-link>
-            <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility photos</h5>
+            <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility Photos</h5>
             <b-card-body class="m-0">
               <b-row class="mb-3 cursor-pointer px-2 m-0" v-if="images">
                 <b-col cols="3"  v-for="(img, key) in images" class="position-relative mb-1 p-0 m-0" :key="key">
@@ -471,9 +497,9 @@
             </div>
             </b-card-body>
             <b-card-text>
-              <b-row class="border-top mb-2 pt-4">
+              <b-row class="border-top mb-2 pt-4 w-100 p-0 m-0">
                 <b-col class>
-                  <p class="text-warning cursor-pointer text-center" @click="$bvModal.show('addPhoto')">Manage photos</p>
+                  <p class="text-warning cursor-pointer text-center" @click="$bvModal.show('addPhoto')">Manage Photos</p>
                 </b-col>
 <!--                <b-col>
                   <span class="text-warning cursor-pointer" @click="$bvModal.show('addPhoto')">Upload photo</span>
@@ -972,7 +998,15 @@ export default {
   padding: 3px;
   font-size: 17px;
 }
-.card-img-top {
+/*.card-img-top {
   height: 140px !important;
+}*/
+.address-table {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #e1e1e1;
+  margin-bottom: 23px !important;
+  border-collapse: unset !important;
+  border-spacing: 0 !important;
 }
 </style>

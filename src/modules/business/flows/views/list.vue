@@ -15,13 +15,13 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="flowDetailsViewModal" size="lg" border="true">
+    <main-modal id="flowDetailsViewModal" size="xl" border="true">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
       </template>
       <template v-slot:borderHeader class="flex-nowrap">
         <p class="p-4 borderHeaderModal m-0">
-          {{flowsDetails.name}}
+          <span class="px-2">{{flowsDetails.name}}</span>
           <button v-if="optionInd > -1"
                   class="ml-4 p-2 btn radio-btn" active
                   :class="`radio-btn-${options[optionInd].color} radio-btn-selected-${options[optionInd].color}`">

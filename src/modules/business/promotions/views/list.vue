@@ -87,7 +87,7 @@
              class="mb-4 d-flex justify-content-between align-items-center">
         <h3>Promotions</h3>
         <div>
-          <b-button variant="warning" v-b-modal:promotionDetails class="add_button text-white">Create
+          <b-button variant="warning" v-b-modal:promotionDetails class="add_button text-white">Add
             Promotion<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
@@ -119,9 +119,9 @@
             </div>
           </template>
           <template v-slot:cell(offer)="data">
-            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }} for {{data.item.package_price_egp}} EGP</p>
-            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy {{ data.item.buy_x }}, Get {{ data.item.get_y }}</p>
-            <p v-else>{{ data.item.discount_price_egp }}%</p>
+            <p class="m-0 p-0 text-offer" v-if="data.item.promotion_type === 'package'">{{ data.item.package }} for {{data.item.package_price_egp}} EGP</p>
+            <p class="m-0 p-0 text-offer" v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy {{ data.item.buy_x }}, Get {{ data.item.get_y }}</p>
+            <p class="m-0 p-0 text-offer" v-else>{{ data.item.discount_price_egp }}%</p>
           </template>
           <template v-slot:cell(actions)="data">
             <b-button variant="danger" v-if="type === 'current'" @click="end(data.item)" class="w-100 rounded-0">End</b-button>
@@ -173,7 +173,7 @@ export default {
         total: 6
       },
       columns: [
-        { label: 'Promotion Type', key: 'promotion_type', class: 'text-left' },
+        { label: 'Promotion Type', key: 'promotion_type', class: 'text-left text-capitalize' },
         { label: 'Offer', key: 'offer', class: 'text-left', type: 'offer' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
@@ -290,3 +290,9 @@ export default {
   }
 }
 </script>
+<style>
+.text-offer {
+  width: 175px;
+  white-space: break-spaces;
+}
+</style>

@@ -8,17 +8,17 @@
               <b-col md="6" class="mb-3">
                 <input-form
                     v-model="product.name"
-                    placeholder="Ex: name"
+                    placeholder="Type Product name..."
                     :validate="'required|max:25'"
                     name="name"
-                    :label="'Name'"
+                    :label="'Product Name'"
                     :limit="25"
                 />
               </b-col>
               <b-col md="6" class="mb-3">
                 <input-form
                     v-model="product.title"
-                    placeholder="Ex: title"
+                    placeholder="Type title..."
                     :validate="'required|max:20'"
                     name="title"
                     :label="'Title'"

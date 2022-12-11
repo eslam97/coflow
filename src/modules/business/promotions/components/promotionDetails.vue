@@ -12,10 +12,10 @@
           <b-col md="8" class="mb-3">
             <input-form
                 v-model="info.offer_title"
-                placeholder="Ex: offer_title"
+                placeholder="Ex: offer_name"
                 :validate="'required|max:30'"
-                name="Offer Title"
-                :label="'Offer Title'"
+                name="Offer Name"
+                :label="'Offer Name'"
                 :limit="30"
             />
           </b-col>

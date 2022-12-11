@@ -146,7 +146,7 @@
         <b-row v-if="dashboardHome.market_customers[userType].nationality.length > 0" class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
-              <apex-chart class="chart-flex" width="500" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
+              <apex-chart class="chart-flex" width="400" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
             </div>
           </b-col>
 
@@ -316,24 +316,17 @@ export default {
         chart: {
           id: 'age-char',
           foreColor: '#8c91b6',
-          type: 'donut',
-          height: 300
-        },
-        plotOptions: {
-          pie: {
-            size: 200
-          }
+          type: 'donut'
         },
         dataLabels: {
           enabled: false,
           show: false,
           name: {
             show: true,
-            fontSize: '22px',
+            fontSize: '18px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 600,
             color: undefined,
-            offsetY: -10,
             formatter: function (val) {
               return val
             }
@@ -343,9 +336,7 @@ export default {
         legend: {
           position: 'right',
           offsetY: 50,
-          offsetX: -20,
-          height: 170,
-          fontSize: '18px'
+          offsetX: 0
         }
       },
       ageSeries: [],
@@ -361,9 +352,7 @@ export default {
         legend: {
           position: 'right',
           offsetY: 50,
-          offsetX: -20,
-          height: 170,
-          fontSize: '18px'
+          offsetX: 0
         },
         responsive: [{
           breakpoint: 480,
@@ -372,7 +361,9 @@ export default {
               width: 200
             },
             legend: {
-              position: 'bottom'
+              position: 'right',
+              offsetY: 50,
+              offsetX: 0
             }
           }
         }]

@@ -1,5 +1,5 @@
 <template>
-    <b-navbar toggleable="lg" type="dark" variant="primary" class="p-3" id="nav-bar-business">
+    <b-navbar toggleable="lg" type="dark" variant="primary" class="p-3 px-5" id="nav-bar-business">
       <b-container fluid>
         <b-navbar-brand>
           <router-link to="/">

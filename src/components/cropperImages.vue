@@ -102,9 +102,7 @@
               class="upload-example-cropper"
               :src="image.src"
               :stencil-props="ratio"
-              :resize-image="{
-                adjustStencil: true,
-              }"
+              :resize-image="resizeImage"
               default-boundaries="fill"
               image-restriction="fit-area"
           />
@@ -168,6 +166,11 @@ export default {
     ratio: {
       type: Number,
       default: 2 / 1
+    },
+    resizeImage: {
+      default: {
+        adjustStencil: true
+      }
     },
     label: {
       type: String,

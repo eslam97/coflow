@@ -17,7 +17,7 @@
           <iq-card class="filter-card p-1">
             <b-row>
               <b-col md="3" sm="6">
-          <span>Filter by governate:</span>
+          <span>Filter by Country:</span>
           <main-select v-model="filter.country_id" @change="reloadTable=true"
                        :options="allCountries" label="name" :reduce="data => data.id"
                        placeholder="--Select--">

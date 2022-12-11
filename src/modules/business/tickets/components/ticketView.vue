@@ -51,7 +51,7 @@
         <p>Conditions</p>
       </b-col>
       <b-col md="12" class="infoValue">
-        <pre class="font-size-14">{{ticketDetails.conditions}}</pre>
+        <p class="font-size-14 font-weight-bold">{{ticketDetails.conditions}}</p>
       </b-col>
     </b-row>
   </div>
@@ -67,3 +67,4 @@ export default {
 }
 
 </script>
+<style></style>

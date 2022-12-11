@@ -3,13 +3,13 @@
     <b-row class="mb-4">
       <b-col md="4">
         <b-card>
-          <div class="d-flex d-flex align-items-center justify-content-between">
+          <div class="d-flex d-flex align-items-start justify-content-between">
             <div>
-              <p class="fontsize-sm m-0">USERS: VIEWED</p>
+              <p class="statistics-text m-0">USERS: VIEWED</p>
               <h2 class="font-weight-bold">{{ section1.users_views }}</h2>
             </div>
             <div>
-              <p class="fontsize-sm m-0">UNIQUE VIEWS</p>
+              <p class="statistics-text m-0">UNIQUE VIEWS</p>
               <h3 class="font-weight-bold text-info">{{ section1.unique_views }}</h3>
             </div>
             <div class="rounded-full-circle iq-card-icon  dark-icon-light iq-bg-info ">
@@ -20,13 +20,13 @@
       </b-col>
       <b-col md="4">
         <b-card>
-          <div class="d-flex d-flex align-items-center justify-content-between">
+          <div class="d-flex d-flex align-items-start justify-content-between">
             <div>
-              <p class="fontsize-sm m-0">USERS: SAVED</p>
+              <p class="statistics-text m-0">USERS: SAVED</p>
               <h2 class="font-weight-bold">{{ section1.users_saves }}</h2>
             </div>
             <div>
-              <p class="fontsize-sm m-0">CURRENT SAVES</p>
+              <p class="statistics-text m-0">CURRENT SAVES</p>
               <h3 class="text-light-green font-weight-bold">{{ section1.current_saves }}</h3>
             </div>
             <div class="rounded-full-circle iq-card-icon  dark-icon-light bg-light-green ">
@@ -37,13 +37,13 @@
       </b-col>
       <b-col md="4">
         <b-card>
-          <div class="d-flex d-flex align-items-center justify-content-between">
+          <div class="d-flex d-flex align-items-start justify-content-between">
             <div>
-              <p class="fontsize-sm m-0">USERS: TRACKED</p>
+              <p class="statistics-text p-0 m-0">USERS: TRACKED</p>
               <h2 class="font-weight-bold">{{ section1.tracks }}</h2>
             </div>
             <div>
-              <p class="fontsize-sm m-0">CURRENT TRACKERS</p>
+              <p class="statistics-text m-0">CURRENT TRACKERS</p>
               <h3 class="font-weight-bold text-warning">{{ section1.current_tracks }}</h3>
             </div>
             <div class="rounded-full-circle iq-card-icon  dark-icon-light iq-bg-warning ">
@@ -56,7 +56,7 @@
     <b-card class="statistics-views mb-4">
       <template v-slot:header>
         <div class="d-flex justify-content-between">
-          <h5 class="">Daily Frequency of Views, Saves & Tracks</h5>
+          <h5 class="font-weight-bold-medium">Daily Frequency of Views, Saves & Tracks</h5>
           <div class="d-flex justify-content-between gap-20">
             <div class="cursor-pointer" @click="changeMonth(-1)">
               <i class="las la-arrow-left mr-2"></i>
@@ -79,21 +79,21 @@
               <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.last.month }}</h5>
             </div>
             <div>
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="text-black-50">TOTAL VIEWS</h6>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-black-50 font-size-12 font-weight-bold">TOTAL VIEWS</h6>
                 <h4 class="text-info font-weight-bold">{{ analysisByDate.last.views }}</h4>
               </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="text-black-50">TOTAL SAVES</h6>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-black-50 font-size-12 font-weight-bold">TOTAL SAVES</h6>
                 <h4 class="text-light-green font-weight-bold">{{ analysisByDate.last.saves }}</h4>
               </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="text-black-50">TOTAL TRACKS</h6>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-black-50 font-size-12 font-weight-bold ">TOTAL TRACKS</h6>
                 <h4 class="text-warning font-weight-bold">{{ analysisByDate.last.tracks }}</h4>
               </div>
             </div>
             <div class="statisticsLowOrHight">
-              <h6 class="text-black-50 mb-3">TOTAL CHANGE</h6>
+              <h6 class="text-black-50 mb-3 text-center font-size-12 font-weight-bold">TOTAL CHANGE</h6>
               <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center flex-column">
                   <span>V</span>
@@ -137,21 +137,21 @@
               <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.current.month }}</h5>
             </div>
             <div>
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="text-black-50">TOTAL VIEWS</h6>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-black-50 font-size-12 font-weight-bold">TOTAL VIEWS</h6>
                 <h4 class="text-info font-weight-bold">{{ analysisByDate.current.views }}</h4>
               </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="text-black-50">TOTAL SAVES</h6>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-black-50 font-size-12 font-weight-bold">TOTAL SAVES</h6>
                 <h4 class="text-light-green font-weight-bold">{{ analysisByDate.current.saves }}</h4>
               </div>
-              <div class="d-flex justify-content-between mb-3">
-                <h6 class="text-black-50">TOTAL TRACKS</h6>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="text-black-50 font-size-12 font-weight-bold">TOTAL TRACKS</h6>
                 <h4 class="text-warning font-weight-bold">{{ analysisByDate.current.tracks }}</h4>
               </div>
             </div>
             <div class="statisticsLowOrHight">
-              <h6 class="text-black-50 mb-3">TOTAL CHANGE</h6>
+              <h6 class="text-black-50 mb-3 font-size-12 font-weight-bold text-center ">TOTAL CHANGE</h6>
               <div class="d-flex justify-content-between">
                 <div class="d-flex align-items-center flex-column">
                   <span>V</span>
@@ -180,7 +180,7 @@
     <b-card class="statistics-views mb-4">
       <template v-slot:header>
         <div class="d-flex justify-content-between align-items-center">
-          <h5 class="">Market Customers - Demographics: Age, Gender, & Nationalities</h5>
+          <h5 class="font-weight-bold">Demographics: Age, Gender, & Nationalities</h5>
           <main-select class="m-0" style="min-width: 130px" :options="['viewers', 'savers', 'trackers']"
                        v-model="userType" @change="updateUserTypeData"></main-select>
         </div>
@@ -189,7 +189,7 @@
         <b-row v-if="section2[userType].nationality.length > 0" class="mb-4">
           <b-col md="4" sm="12" class="border-right">
             <div class="py-3">
-              <apex-chart class="chart-flex" width="420" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
+              <apex-chart class="chart-flex" width="400" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
             </div>
           </b-col>
 
@@ -295,7 +295,7 @@ export default {
               }
             },
             horizontal: false,
-            columnWidth: '50%',
+            columnWidth: '40%',
             borderRadius: 5,
             endingShape: 'rounded'
           }
@@ -353,6 +353,7 @@ export default {
           id: 'age-char',
           foreColor: '#8c91b6',
           type: 'donut',
+          width: 380,
           height: 300
         },
         plotOptions: {
@@ -376,12 +377,17 @@ export default {
           }
         },
         colors: ['#000', '#2f9be8', '#2fdac2', '#fe9e12', '#da302b', '#74798c'],
+        // legend: {
+        //   position: 'right',
+        //   offsetY: 50,
+        //   offsetX: -20,
+        //   height: 170,
+        //   fontSize: '18px'
+        // }
         legend: {
           position: 'right',
           offsetY: 50,
-          offsetX: -20,
-          height: 170,
-          fontSize: '18px'
+          offsetX: 0
         }
       },
       ageSeries: [],
@@ -394,12 +400,17 @@ export default {
         },
         labels: ['Male', 'Female'],
         colors: ['#2f9be8', '#FD6C9E'],
+        // legend: {
+        //   position: 'right',
+        //   offsetY: 50,
+        //   offsetX: -20,
+        //   height: 170,
+        //   fontSize: '18px'
+        // },
         legend: {
           position: 'right',
           offsetY: 50,
-          offsetX: -20,
-          height: 170,
-          fontSize: '18px'
+          offsetX: 0
         },
         responsive: [{
           breakpoint: 480,
@@ -527,5 +538,12 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.statistics-text {
+  font-size: 12px;
+  font-weight: bold;
+}
+.font-weight-bold-medium {
+  font-weight: 500 !important;
 }
 </style>

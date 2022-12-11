@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
-    <!--  Temporary close modal  -->
+    <!--  Temporarily close modal  -->
     <main-modal id="tempCloseModal" size="md" @unsavedMsg="unsavedMsg">
       <template v-slot:header class="p-2">
-        <h4 class="font-weight-bold"><span class="text-danger">Temporary close: </span> Account</h4>
+        <h4 class="font-weight-bold"><span class="text-danger">Temporarily close: </span> Account</h4>
       </template>
       <template v-slot:body>
         <temp-msg-modal @setMsg="setTempCloseMsg"
@@ -15,7 +15,7 @@
         <h3>Profile</h3>
           <b-card v-if="!loading">
             <span class="text-dark font-weight-bold font-size-14 mr-3">
-              {{ statusDetails.status === 'visible'? 'Temporary close account' : 'Temporarily closed account' }}
+              {{ statusDetails.status === 'visible'? 'Temporarily close account' : 'Temporarily closed account' }}
             </span>
             <div
                 class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
@@ -37,15 +37,15 @@
 <!--          </b-form-radio>-->
 <!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
 <!--                        name="status" value="temp_closed" @change="changeStatus(1)">-->
-<!--            <span class="text-primary font-size-14">Temporary closed</span>-->
+<!--            <span class="text-primary font-size-14">Temporarily closed</span>-->
 <!--          </b-form-radio>-->
       </b-col>
       <b-col md="12">
         <tab-nav :tabs="true" id="myTab-1">
           <tab-nav-items :active="true" id="admin-tab" ariaControls="adminInfo"
-                         role="tab" :ariaSelected="true" title="Admin information" />
+                         role="tab" :ariaSelected="true" title="Admin Information" />
           <tab-nav-items :active="false" id="business-tab" ariaControls="businessInfo"
-                         role="tab" :ariaSelected="false" title="Business information" />
+                         role="tab" :ariaSelected="false" title="Business Information" />
         </tab-nav>
         <tab-content id="myTabContent">
           <tab-content-item :active="true" id="adminInfo" aria-labelled-by="admin-tab">

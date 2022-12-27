@@ -91,9 +91,9 @@ export default {
     login (payload) {
       this.loginLoading = true
       registrationService.login(payload).then(res => {
-        console.log(res)
         core.showSnackbar('success', 'Welcome ' + res.data.data.name)
         localStorage.setItem('userInfo', JSON.stringify(res.data.data))
+        localStorage.setItem('permissions', JSON.stringify(res.data.data.permissions.map(item => item.name)))
         if (res.data.data.status === 'accepted' || res.data.data.status === 'active lead') {
           this.$router.push({ name: 'profileInfo' })
           switch (res.data.data.profile_step) {
@@ -129,10 +129,7 @@ export default {
           localStorage.setItem('formStep', 'completed')
         } else {
           if (res.data.data.type === 'admin') {
-            adminsServices.getRoleDetails(res.data.data.role_id).then(response => {
-              localStorage.setItem('permissions', JSON.stringify(response.data.data.map(item => item.name)))
-              this.$router.push({ name: 'leads' })
-            })
+            this.$router.push({ name: 'leads' })
           } else this.$router.push({ name: 'dashboard' })
         }
         localStorage.setItem('userToken', res.data.data.token)

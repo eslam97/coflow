@@ -883,12 +883,7 @@ export default {
         if (this.images.length > 0) {
           let location = {}
           let operation = {}
-          if (this.location_type === 'remote location') {
-            this.remote_locations.forEach((location) => {
-              location.availability_type = location.availability_type ? location.availability_type : 'open'
-            })
-            location = { location: this.remote_locations }
-          }
+          let newObj = {}
           if (this.typeOfOperation === '24 hours') {
             operation = { operation_type: '24 hours' }
           } else {
@@ -897,16 +892,34 @@ export default {
               operation: this.allOperation
             }
           }
-          const newObj = {
-            _method: 'put',
-            contact: this.adminInformation,
-            ...this.info,
-            ...location,
-            address: { ...this.based },
-            ...operation,
-            phones: this.phones,
-            location_type: this.location_type,
-            service_types: this.service_types
+
+          if (this.location_type === 'remote location') {
+            this.remote_locations.forEach((location) => {
+              location.availability_type = location.availability_type ? location.availability_type : 'open'
+            })
+            location = { location: this.remote_locations }
+            newObj = {
+              _method: 'put',
+              contact: this.adminInformation,
+              ...this.info,
+              ...location,
+              ...operation,
+              phones: this.phones,
+              location_type: this.location_type,
+              service_types: this.service_types
+            }
+          } else {
+            newObj = {
+              _method: 'put',
+              contact: this.adminInformation,
+              ...this.info,
+              ...location,
+              address: { ...this.based },
+              ...operation,
+              phones: this.phones,
+              location_type: this.location_type,
+              service_types: this.service_types
+            }
           }
           this.$emit('activation-provider', newObj)
         } else {

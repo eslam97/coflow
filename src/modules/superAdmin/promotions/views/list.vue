@@ -72,14 +72,14 @@ export default {
       reloadTable: false,
       filter:
           {
+            sort_type: 'desc',
             city_id: '',
             area_id: '',
             promotion_type: '',
             profile_type: '',
             name: '',
             status: '',
-            sort: '',
-            sort_type: ''
+            sort: 'id'
           },
       profileTypeFilterOptions: [
         { key: 'Sky', value: 'sky_' },

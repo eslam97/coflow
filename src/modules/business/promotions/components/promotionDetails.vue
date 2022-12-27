@@ -63,7 +63,7 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`buy_x`"
-                      :rules="'required'"
+                      :rules="'required|max:35'"
                       class="flex-grow-1"
                   >
                     <b-form-input
@@ -78,7 +78,7 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`buy_y`"
-                    :rules="'required'"
+                    :rules="'required|max:35'"
                     class="flex-grow-1"
                 >
                   <b-form-input
@@ -216,8 +216,8 @@
                 </div>-->
                 <div class="d-flex justify-content-between">
                   <small class="text-danger">{{ errors[0] }}</small>
-                  <small :class="[{ 'text-danger': info.description.length > 100 }]">
-                    {{ (100 > info.description.length) ? 100 - info.description.length : 0 }} characters</small>
+                  <small :class="[{ 'text-danger': info.description.length > 200 }]">
+                    {{ (200 > info.description.length) ? 200 - info.description.length : 0 }} characters</small>
                 </div>
               </ValidationProvider>
             </b-form-group>

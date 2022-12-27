@@ -54,6 +54,7 @@ export default {
       columns: [
         '#',
         { label: 'User Name', key: 'name', class: 'text-left' },
+        { label: 'Email', key: 'email', class: 'text-left' },
         { label: 'Age', key: 'birthdate', class: 'text-left', type: 'birthDate', sortable: true },
         { label: 'Gender', key: 'gender', class: 'text-left' },
         { label: 'Nationality', key: 'nationality', class: 'text-left' },

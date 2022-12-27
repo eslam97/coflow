@@ -9,20 +9,20 @@
                 <input-form
                     v-model="ticket.name"
                     placeholder="Ticket Name"
-                    :validate="'required|max:20'"
+                    :validate="'required|max:30'"
                     name="Ticket name"
                     :label="'Ticket Name'"
-                    :limit="20"
+                    :limit="30"
                 />
               </b-col>
               <b-col md="8" class="mb-3">
                 <input-form
                     v-model="ticket.details"
                     placeholder="Write a brief description"
-                    :validate="'required|max:40'"
+                    :validate="'required|max:170'"
                     name="Ticket details"
                     :label="'Details'"
-                    :limit="40"
+                    :limit="170"
                 />
               </b-col>
             </b-row>

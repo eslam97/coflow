@@ -20,7 +20,7 @@
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Ticket</h4>
       </template>
       <template v-slot:borderHeader>
-        <p class="p-4 borderHeaderModal">
+        <p class="p-4 px-5 borderHeaderModal">
           {{ticketDetails.name}}
         </p>
       </template>

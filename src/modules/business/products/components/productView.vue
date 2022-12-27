@@ -10,13 +10,13 @@
             <label class="text-gray font-size-12 mb-2">Product Price</label>
             <span v-if="productDetails.discount_price_egp">
               <div class="regular-price font-size-14">
-                <b class="mr-5 font-weight-bold font-siz-14"> EGP {{productDetails.discount_price_egp}}</b>
+                <b class="mr-5 font-weight-bold font-siz-12"> EGP {{productDetails.discount_price_egp}}</b>
                 <span class="offer-price ml-2 text-danger font-weight-bold font-size-12">EGP {{productDetails.price_egp}}</span>
               </div>
             </span>
             <span v-else>
-              <div class="regular-price font-size-14">
-                <b class="mr-5 font-weight-bold font-siz-14"> EGP {{productDetails.price_egp}}</b>
+              <div class="regular-price font-size-12">
+                <b class="mr-5 font-weight-bold font-size-12"> EGP {{productDetails.price_egp}}</b>
               </div>
             </span>
           </div>

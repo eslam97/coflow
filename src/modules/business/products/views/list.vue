@@ -32,7 +32,7 @@
         />
       </template>
     </main-modal>
-    <main-modal id="productDetailsViewModal" size="xl">
+    <main-modal id="productDetailsViewModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Product</h4>
       </template>
@@ -90,17 +90,17 @@
               <div class="mt-2">
                 <div>
                   <div class="text-justify mb-2">
-                    <a  href="javascript:void(0)" class="font-weight-bold" :title="item.name">
+                    <a  href="javascript:void(0)" class="font-weight-bold-500" :title="item.name">
                       {{ item.name.length > 30 ? item.name.substring(0,30) + '...' : item.name }}
                     </a>
-                    <p class="font-size-12 font-weight-bold text-primary">{{ item.title.length > 35 ?
+                    <p class="font-size-12 font-weight-bold-500 text-primary">{{ item.title.length > 35 ?
                         item.title.substring(0,35)
                         + '...' : item.title }}</p>
                   </div>
                 </div>
-                <b-col md="12" v-if="item.discount_price_egp" class="d-flex justify-content-between align-items-start">
-                  <p class="font-size-16 font-weight-bold text-primary">EGP {{ item.discount_price_egp }}</p>
-                  <p class="font-size-16 text-danger text-decoration-line-through">
+                <b-col md="12" v-if="item.discount_price_egp" class="d-flex justify-content-between align-items-start p-0">
+                  <p class="font-size-14 font-weight-bold text-primary">EGP {{ item.discount_price_egp }}</p>
+                  <p class="font-size-14 text-danger text-decoration-line-through">
                     EGP {{ item.price_egp }}</p>
                 </b-col>
                 <b-col md="12" v-else>
@@ -110,7 +110,7 @@
             </div>
             <div v-if="item.status === 'inactive' || !item.status" class="inactive-overlay"></div>
             <div class="d-flex justify-content-between align-items-center border-product-price pr-3 pl-3">
-              <b-row>
+              <b-row class="w-50">
                 <b-col md="12" class="border-actions d-flex justify-content-between font-size-20 w-50 py-3 pr-3">
                   <i class="cursor-pointer las la-eye text-success-light" @click="viewProduct(item)"></i>
                   <i class="cursor-pointer las la-pen text-info" @click="viewProductToEdit(item)"></i>
@@ -123,13 +123,13 @@
                   </main-select>
                 </b-col>
               </b-row>
-              <div class="w-50 pt-3 py-3 pl-4 pr-1">
+              <div class="p-0 m-0 w-50">
                 <p class="text-primary font-weight-bold font-size-12 mb-2">Product Status:</p>
-                <div class="d-flex justify-content-between align-items-top">
-                  <span v-if="item.available" class="text-info font-weight-bold font-size-12 font-weight-bold">
+                <div class="d-flex align-items-top">
+                  <span v-if="item.available" class="text-info font-weight-bold font-size-12 font-weight-bold mr-3">
                     Available
                   </span>
-                  <span v-else class="text-danger font-weight-bold font-size-12 font-weight-bold">
+                  <span v-else class="text-danger font-weight-bold font-size-12 font-weight-bold mr-3">
                     Sold out
                   </span>
                   <div

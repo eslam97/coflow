@@ -1,12 +1,12 @@
 <template>
-  <div class="position-relative pt-5 get-in-touch">
+  <div class="position-relative get-in-touch">
     <section class="bg-white h-400">
       <img :src="require('@/assets/images/businessLanding/getInTouch/Getintouch-right.png')" class="right-image-get-in-touch">
       <img :src="require('@/assets/images/businessLanding/getInTouch/Getintouch-right.png')" class="left-image-get-in-touch">
       <b-container>
-        <div class="py-5 mt-5">
+        <div class="py-5">
           <div class="header">
-            <h3 class="text-center text-primary mb-2">Get in Touch</h3>
+            <h3 class="text-center text-primary mb-2">Get in touch</h3>
 <!--            <p class="text-center text-secondary font-size-12 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
               elit. Ut <br/>pretium pretium tempor .</p>-->
           </div>

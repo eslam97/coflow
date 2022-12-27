@@ -89,8 +89,8 @@ export default {
             profile_type: '',
             name: '',
             status: '',
-            sort: '',
-            sort_type: ''
+            sort: 'id',
+            sort_type: 'desc'
           },
       profileTypeFilterOptions: [
         { key: 'Sky', value: 'sky_' },

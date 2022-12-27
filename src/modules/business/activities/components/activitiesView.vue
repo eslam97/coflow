@@ -2,23 +2,23 @@
   <div class="pl-3 pr-3">
     <b-row>
       <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
-        <h5 class="mb-4 font-size-14">ACTIVITY INFORMATION</h5>
+        <h5 class="mb-4 font-size-14 px-2">ACTIVITY INFORMATION</h5>
         <b-row class="pl-3 mb-2">
           <b-col md="12" class="infoKey">
             <p>Description</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{activitiesDetails.description}}</p>
+            <p class="text-black font-weight-bold-400">{{activitiesDetails.description}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
           <b-col md="6" col="6" class="infoKey">
             <p>Price EGP</p>
-            <p class="text-black font-weight-bold">EGP {{activitiesDetails.price_egp}}</p>
+            <p class="text-black font-weight-bold-400">EGP {{activitiesDetails.price_egp}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted price</p>
-            <p class="text-black font-weight-bold"><span v-if="activitiesDetails.discount_price_egp">EGP
+            <p class="text-black font-weight-bold-400"><span v-if="activitiesDetails.discount_price_egp">EGP
               {{activitiesDetails.discount_price_egp}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -26,11 +26,11 @@
         <b-row class="pl-3 mb-2" v-if="activitiesDetails.price_euro">
           <b-col md="6" col="6" class="infoKey">
             <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold">€ {{activitiesDetails.price_euro}}</p>
+            <p class="text-black font-weight-bold-400">€ {{activitiesDetails.price_euro}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted Price</p>
-            <p class="text-black font-weight-bold">
+            <p class="text-black font-weight-bold-400">
               <span v-if="activitiesDetails.discount_price_euro">€ {{activitiesDetails.discount_price_euro}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -38,11 +38,11 @@
         <b-row class="pl-3 mb-2" v-if="activitiesDetails.price_dollar">
           <b-col md="6" col="6" class="infoKey">
             <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold">$ {{activitiesDetails.price_dollar}}</p>
+            <p class="text-black font-weight-bold-400">$ {{activitiesDetails.price_dollar}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted Price</p>
-            <p class="text-black font-weight-bold">
+            <p class="text-black font-weight-bold-400">
               <span v-if="activitiesDetails.discount_price_dollar">$ {{activitiesDetails.discount_price_dollar}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -53,7 +53,7 @@
             <p>Conditions</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{activitiesDetails.conditions}}</p>
+            <p class="text-black font-weight-bold-400">{{activitiesDetails.conditions}}</p>
           </b-col>
         </b-row>
       </b-col>

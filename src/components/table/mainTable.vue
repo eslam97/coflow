@@ -15,6 +15,13 @@
       @sort-changed="sortChanged"
       :no-sort-reset="true"
     >
+      <template v-slot:[`cell(#)`]="data">
+        <div class="text-center">
+          {{ pagination.from  + ( data.index ) }}
+        </div>
+      </template>
+
+      <!-- A virtual column -->
       <template #table-busy>
         <div class="text-center text-danger my-2">
           <b-spinner
@@ -23,11 +30,6 @@
             variant="primary"
           />
         </div>
-      </template>
-
-      <!-- A virtual column -->
-      <template #cell(#)="data">
-        {{ pagination.from  + ( data.index ) }}
       </template>
 
       <template
@@ -55,7 +57,7 @@
                           onkeyup="console.log(this.value)"
                           :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
                           :value="$_.get(data.item, field.key)">-->
-            <p v-else>{{ $_.get(data.item, field.key) }}</p>
+            <p v-else class="p-0 m-0">{{ $_.get(data.item, field.key) }}</p>
           </div>
 
           <!-- handle status -->
@@ -103,7 +105,7 @@
           </div>
 
           <!-- Multi-image handler -->
-          <div class="min-width-image-cell" v-else-if="field.type == 'multi_image'">
+          <div class="min-width-image-cell width-180px" v-else-if="field.type == 'multi_image'">
             <div class="iq-media-group position-relative">
               <b-link href="#" class="iq-media" v-for="(image, counter) in $_.get(data.item, field.key).slice(0,3)" :key="counter">
                 <b-img class="avatar-40" rounded="circle" fluid :src="image.image" :alt="image.name" />
@@ -160,7 +162,7 @@
             class="text-nowrap m-0"
           >
             <span v-if="$_.get(data.item, field.key)">
-              {{ $_.get(data.item, field.key).length > 30 ? $_.get(data.item, field.key).substring(0,30) + '...' : $_.get(data.item, field.key) }}
+              {{ $_.get(data.item, field.key).length > 20 ? $_.get(data.item, field.key).substring(0,20) + '...' : $_.get(data.item, field.key) }}
             </span>
             <span v-else>
               ---
@@ -394,5 +396,8 @@ table#table-transition-example .flip-list-move {
   width: 50px !important;
   border: none !important;
   border-bottom: 1px dashed grey !important;
+}
+#table-transition-example > thead > tr > th:nth-child(1) {
+  text-align: center
 }
 </style>

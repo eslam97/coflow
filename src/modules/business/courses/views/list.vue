@@ -47,7 +47,7 @@
             <span v-else>Save</span>
           </b-button>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Add courses<i class="las la-plus ml-3"></i></b-button>
+            Add course<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12">

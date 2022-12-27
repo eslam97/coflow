@@ -2,13 +2,13 @@
   <div class="px-3">
     <b-row>
       <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
-        <h5 class="mb-4 font-size-14">FLOW INFORMATION</h5>
+        <h5 class="mb-4 font-size-14 px-3">FLOW INFORMATION</h5>
         <b-row class="pl-3 mb-3">
           <b-col md="12" class="infoKey">
             <p>Description</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{flowsDetails.description}}</p>
+            <p class="font-weight-bold-400">{{flowsDetails.description}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-3">
@@ -16,7 +16,7 @@
             <p>Requirements</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{flowsDetails.requirements}}</p>
+            <p class="font-weight-bold-400">{{flowsDetails.requirements}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-3">
@@ -27,10 +27,10 @@
             <p>Discounted price</p>
           </b-col>
           <b-col md="4" class="infoValue">
-            <p>EGP {{flowsDetails.price_egp}}</p>
+            <p class="font-weight-bold-400">EGP {{flowsDetails.price_egp}}</p>
           </b-col>
           <b-col md="8" class="infoValue">
-            <p><span v-if="flowsDetails.discount_price_egp">EGP {{flowsDetails.discount_price_egp}}</span>
+            <p class="font-weight-bold-400"><span v-if="flowsDetails.discount_price_egp">EGP {{flowsDetails.discount_price_egp}}</span>
               <span v-else>N/A</span></p>
           </b-col>
         </b-row>
@@ -39,7 +39,7 @@
             <p>Instructors</p>
           </b-col>
           <b-col md="4" class="infoValue" v-for="(inst, key) in flowsDetails.instructors" :key="key">
-            <p>{{ inst.first_name }} {{ inst.last_name }}</p>
+            <p class="font-weight-bold-400">{{ inst.first_name }} {{ inst.last_name }}</p>
           </b-col>
         </b-row>
       </b-col>
@@ -61,3 +61,8 @@ export default {
 }
 
 </script>
+<style>
+.font-weight-bold-400 {
+  font-weight: 400;
+}
+</style>

@@ -426,7 +426,7 @@ form legend {
 }
 
 .min-width-image-cell {
-  min-width: 150px;
+  width: 100px;
 }
 
 .promotion_button {
@@ -684,4 +684,20 @@ slot-box-orange {
   border-radius: 0px !important;
   padding: 15px 30px !important;
   margin-bottom: 10px !important;
+}
+.address-table {
+  width: 100%;
+  border: 1px solid #e1e1e1;
+  margin-bottom: 23px !important;
+  border-collapse: unset !important;
+  border-spacing: 0 !important;
+}
+.address-table > tr:first-of-type {
+  border-right: 1px solid gray !important;
+}
+.font-weight-bold-400 {
+  font-weight: 400;
+}
+.font-weight-bold-500 {
+  font-weight: 500;
 }

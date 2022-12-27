@@ -68,3 +68,8 @@ export default {
   }
 }
 </script>
+<style>
+.form-group label {
+  text-transform: capitalize;
+}
+</style>

@@ -38,7 +38,7 @@
           <router-link class="nav-link" :to="{name:'countries'}" exact>Countries</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" :to="{name:'cities'}" exact>Governorates</router-link>
+          <router-link class="nav-link" :to="{name:'cities'}" exact>Governorate</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'areas'}" exact>Areas</router-link>

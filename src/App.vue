@@ -64,6 +64,7 @@ export default {
           console.log(sucess)
         })
       })
+    // document.body.style.zoom = '97%'
   },
   computed: {
     ...mapGetters([''])
@@ -287,5 +288,16 @@ ul.nav.nav-tabs::-webkit-scrollbar {
 }
 .ranges.col-12.col-md-auto{
   display: none !important;
+}
+.btn {
+  text-transform: capitalize !important;
+}
+.address-table {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #e1e1e1;
+  margin-bottom: 23px !important;
+  border-collapse: unset !important;
+  border-spacing: 0 !important;
 }
 </style>

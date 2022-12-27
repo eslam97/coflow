@@ -17,11 +17,11 @@
             <b-row><b-col md="12" class="mb-3">
               <input-form
                 v-model="flows.requirements"
-                placeholder="Any required experince or equipment for the flow"
+                placeholder="Any required experience or equipment for the flow"
                 :validate="'required'"
                 name="Flow requirements"
                 :label="'Requirements'"
-                limit="25"
+                limit="2000"
               />
             </b-col></b-row>
             <b-row>
@@ -197,7 +197,7 @@
               >
                 <b-form-group inline :label="'Instructor'" :label-for="'Instructor'">
                   <b-form-row>
-                    <b-col md="5" class="mb-3">
+                    <b-col md="6" class="mb-3">
                       <b-form-input
                         v-model="instructor.first_name"
                         placeholder="First Name"
@@ -205,7 +205,7 @@
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                       />
                     </b-col>
-                    <b-col md="5" class="mb-3">
+                    <b-col md="6" class="mb-3">
                       <b-form-input
                         v-model="instructor.last_name"
                         placeholder="Last Name"

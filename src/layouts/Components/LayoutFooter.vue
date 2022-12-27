@@ -2,11 +2,11 @@
   <div>
     <MiniFooter>
       <template v-slot:left>
-        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+<!--        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>-->
         <li class="list-inline-item"><a href="#">Terms of Use</a></li>
       </template>
       <template v-slot:right>
-        © 2021 Coflow,  All rights reserved
+        © 2023 Coflow,  All rights reserved
       </template>
     </MiniFooter>
   </div>

@@ -6,7 +6,7 @@ import ApexCharts from 'apexcharts'
 export default {
   name: 'ApexChart',
   props: ['element', 'chartOption', 'isLive', 'updateData'],
-  /* watch: {
+  /*   watch: {
     updateData (flag) {
       debugger
       if (flag) {

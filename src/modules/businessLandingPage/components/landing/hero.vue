@@ -6,7 +6,7 @@
       <b-col md="6" class=" mb-md-0 mb-5">
         <div class="d-flex flex-column justify-content-center align-items-start pl-5">
           <h1 class="header_hero text-white mb-4">Studio & Center<br/>Management <br>Simplified</h1>
-          <p class="p_hero font-size-14">Whether you’re a Kite Surfing or Scuba Diving<br/> Center,
+          <p class="p_hero_section font-size-14">Whether you’re a Kite Surfing or Scuba Diving<br/> Center,
           Fitness or Yoga Studio — we’ve developed <br/> tailored software just for you & your customers.</p>
         <b-button class="gradient-orange-button" @click="$emit('getStarted')">Join Now</b-button>
         </div>
@@ -40,7 +40,7 @@
   color: var(--iq-primary) !important;
   line-height: 1.3 !important;
 }
-.p_hero {
+.p_hero_section {
   color: rgba(167, 169, 204, 0.6) !important;
   margin: 30px 0 !important;
   color: #fff9;

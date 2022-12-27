@@ -8,17 +8,17 @@
             <p>Description</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{coursesDetails.description}}</p>
+            <p class="text-black font-weight-bold-600 text-justify">{{coursesDetails.description}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
           <b-col md="6" col="6" class="infoKey">
             <p>Price EGP</p>
-            <p class="text-black font-weight-bold">EGP {{coursesDetails.price_egp}}</p>
+            <p class="text-black font-weight-bold-600">EGP {{coursesDetails.price_egp}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted price</p>
-            <p class="text-black font-weight-bold"><span v-if="coursesDetails.discount_price_egp">EGP
+            <p class="text-black font-weight-bold-600"><span v-if="coursesDetails.discount_price_egp">EGP
               {{coursesDetails.discount_price_egp}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -26,11 +26,11 @@
         <b-row class="pl-3 mb-2" v-if="coursesDetails.price_euro">
           <b-col md="6" col="6" class="infoKey">
             <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold">€ {{coursesDetails.price_euro}}</p>
+            <p class="text-black font-weight-bold-600">€ {{coursesDetails.price_euro}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted Price</p>
-            <p class="text-black font-weight-bold">
+            <p class="text-black font-weight-bold-600">
               <span v-if="coursesDetails.discount_price_euro">€ {{coursesDetails.discount_price_euro}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -38,11 +38,11 @@
         <b-row class="pl-3 mb-2" v-if="coursesDetails.price_dollar">
           <b-col md="6" col="6" class="infoKey">
             <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold">$ {{coursesDetails.price_dollar}}</p>
+            <p class="text-black font-weight-bold-600">$ {{coursesDetails.price_dollar}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted Price</p>
-            <p class="text-black font-weight-bold">
+            <p class="text-black font-weight-bold-600">
               <span v-if="coursesDetails.discount_price_dollar">$ {{coursesDetails.discount_price_dollar}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -52,7 +52,7 @@
             <p>Requirements</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{coursesDetails.requirements}}</p>
+            <p class="text-black font-weight-bold-600">{{coursesDetails.requirements}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
@@ -60,7 +60,7 @@
             <p>Conditions</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p>{{coursesDetails.conditions}}</p>
+            <p class="text-black font-weight-bold-600">{{coursesDetails.conditions}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
@@ -68,7 +68,7 @@
             <p>Locations</p>
           </b-col>
           <b-col md="4" class="infoValue" v-for="(location, key) in coursesDetails.location" :key="key">
-            <p>{{ location }}</p>
+            <p class="text-black font-weight-bold-600">{{ location }}</p>
           </b-col>
         </b-row>
       </b-col>

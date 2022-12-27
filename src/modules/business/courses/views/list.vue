@@ -14,7 +14,7 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="coursesDetailsViewModal" size="lg" border="true">
+    <main-modal id="coursesDetailsViewModal" size="xl" border="true">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Course</h4>
       </template>
@@ -59,6 +59,7 @@
             :reloadData="reloadTable"
             :service_type="'course'"
             :arrangeMode="arrangeMode"
+            limit-of-char="15"
         >
         </main-table>
       </b-col>
@@ -76,7 +77,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
+        { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
         { label: 'Courses Name', key: 'name', class: 'text-left' },
         { label: 'Level', key: 'level_ex', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
@@ -88,7 +89,7 @@ export default {
         // { label: 'Location', key: 'location', class: 'text-left', type: 'array' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
-          label: 'Change Status',
+          label: 'Status',
           key: 'change_status',
           type: 'switch',
           tableType: 'course',

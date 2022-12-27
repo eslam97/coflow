@@ -39,6 +39,7 @@
           </b-col>
           <b-col md="12" class="mb-5">
             <cropper-images
+                :ratio= "1/1"
                 label="Upload Logo"
                 nameOfImage="image.jpg"
                 @cropper-save="savelogoImage"

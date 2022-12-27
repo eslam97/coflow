@@ -8,13 +8,13 @@
             <p>Description</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p class="text-black font-weight-bold-400">{{activitiesDetails.description}}</p>
+            <p class="text-black font-weight-bold-600 text-justify">{{activitiesDetails.description}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
           <b-col md="6" col="6" class="infoKey">
             <p>Price EGP</p>
-            <p class="text-black font-weight-bold-400">EGP {{activitiesDetails.price_egp}}</p>
+            <p class="text-black font-weight-bold-600">EGP {{activitiesDetails.price_egp}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted price</p>
@@ -26,11 +26,11 @@
         <b-row class="pl-3 mb-2" v-if="activitiesDetails.price_euro">
           <b-col md="6" col="6" class="infoKey">
             <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold-400">€ {{activitiesDetails.price_euro}}</p>
+            <p class="text-black font-weight-bold-600">€ {{activitiesDetails.price_euro}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted Price</p>
-            <p class="text-black font-weight-bold-400">
+            <p class="text-black font-weight-bold-600">
               <span v-if="activitiesDetails.discount_price_euro">€ {{activitiesDetails.discount_price_euro}}</span>
               <span v-else>N/A</span></p>
           </b-col>
@@ -38,11 +38,11 @@
         <b-row class="pl-3 mb-2" v-if="activitiesDetails.price_dollar">
           <b-col md="6" col="6" class="infoKey">
             <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold-400">$ {{activitiesDetails.price_dollar}}</p>
+            <p class="text-black font-weight-bold-600">$ {{activitiesDetails.price_dollar}}</p>
           </b-col>
           <b-col md="6" col="6" class="infoKey">
             <p>Discounted Price</p>
-            <p class="text-black font-weight-bold-400">
+            <p class="text-black font-weight-bold-600">
               <span v-if="activitiesDetails.discount_price_dollar">$ {{activitiesDetails.discount_price_dollar}}</span>
               <span v-else>N/A</span></p>
           </b-col>

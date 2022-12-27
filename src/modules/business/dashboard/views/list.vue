@@ -26,7 +26,7 @@
               <h2 class="font-weight-bold">{{ section1.users_saves }}</h2>
             </div>
             <div>
-              <p class="statistics-text m-0">CURRENT SAVES</p>
+              <p class="statistics-text m-0">CURRENT SAVERS</p>
               <h3 class="text-light-green font-weight-bold">{{ section1.current_saves }}</h3>
             </div>
             <div class="rounded-full-circle iq-card-icon  dark-icon-light bg-light-green ">
@@ -56,7 +56,7 @@
     <b-card class="statistics-views mb-4">
       <template v-slot:header>
         <div class="d-flex justify-content-between">
-          <h5 class="font-weight-bold-medium">Daily Frequency of Views, Saves & Tracks</h5>
+          <h5 class="font-weight-bold">Daily Frequency of Views, Saves & Tracks</h5>
           <div class="d-flex justify-content-between gap-20">
             <div class="cursor-pointer" @click="changeMonth(-1)">
               <i class="las la-arrow-left mr-2"></i>
@@ -122,7 +122,7 @@
             <div style="overflow-x: scroll;overflow-y: hidden;">
               <spinner-loading v-if=(loading) />
               <apex-chart v-else class="chart-flex" height="300px"
-                          :style="`width: ${monthDaysOptions.xaxis.categories.length*80 < 1000? 1000 :
+                          :style="`max-width: ${monthDaysOptions.xaxis.categories.length*80 < 1000? 1000 :
                           monthDaysOptions.xaxis.categories.length*80}px;`"
                           type="bar" :options="monthDaysOptions" :series="monthDaysSeries"></apex-chart>
             </div>
@@ -177,24 +177,26 @@
         </b-col>
       </b-row>
     </b-card>
-    <b-card class="statistics-views mb-4">
+    <b-card class="statistics-views mb-0 pb-0">
       <template v-slot:header>
         <div class="d-flex justify-content-between align-items-center">
-          <h5 class="font-weight-bold">Demographics: Age, Gender, & Nationalities</h5>
-          <main-select class="m-0" style="min-width: 130px" :options="['viewers', 'savers', 'trackers']"
+          <h5 class="font-weight-bold">Demographics: Age, Gender & Nationalities</h5>
+          <main-select class="m-0 text-capitalize" style="min-width: 130px" :options="['viewers', 'savers', 'trackers']"
                        v-model="userType" @change="updateUserTypeData"></main-select>
         </div>
       </template>
-      <b-card-body>
-        <b-row v-if="section2[userType].nationality.length > 0" class="mb-4">
+      <b-card-body body-class="pb-0 mb-0">
+        <b-row v-if="section2[userType].nationality.length > 0" class="mb-0">
           <b-col md="4" sm="12" class="border-right">
-            <div class="py-3">
+            <div class="py-3 d-flex justify-content-center align-items-center w-100 h-100">
               <apex-chart class="chart-flex" width="400" type="donut" :options="agePie" :series="ageSeries"></apex-chart>
             </div>
           </b-col>
 
           <b-col md="4" sm="12" class="border-right">
-            <apex-chart class="chart-flex" width="400" type="pie" :options="genderPie" :series="genderSeries"></apex-chart>
+            <div class="py-3 d-flex justify-content-center align-items-center w-100 h-100">
+            <apex-chart class="chart-flex" width="380" type="pie" :options="genderPie" :series="genderSeries"></apex-chart>
+            </div>
           </b-col>
 
           <b-col md="4" sm="12" class="">
@@ -221,7 +223,7 @@
         </b-row>
       </b-card-body>
     </b-card>
-    <service-analysis v-for="(type, key) in serviceTypes" :key="key" :type="type"/>
+    <service-analysis class="mt-4" v-for="(type, key) in serviceTypes" :key="key" :type="type"/>
   </div>
 </template>
 <script>
@@ -238,7 +240,6 @@ export default {
           enabled: true,
           type: 'x',
           resetIcon: {
-            offsetX: -10,
             offsetY: 0,
             fillColor: '#fff',
             strokeColor: '#37474F'
@@ -370,7 +371,7 @@ export default {
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 600,
             color: undefined,
-            offsetY: -10,
+            offsetY: 0,
             formatter: function (val) {
               return val
             }
@@ -395,7 +396,8 @@ export default {
       genderSeries: [],
       genderPie: {
         chart: {
-          width: 380,
+          width: 280,
+          height: 280,
           type: 'pie'
         },
         labels: ['Male', 'Female'],
@@ -416,7 +418,7 @@ export default {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 380
             },
             legend: {
               position: 'bottom'
@@ -545,5 +547,11 @@ export default {
 }
 .font-weight-bold-medium {
   font-weight: 500 !important;
+}
+.apexcharts-legend-series {
+  display: flex;
+  justify-content: start;
+  gap:2px;
+  align-items: center;
 }
 </style>

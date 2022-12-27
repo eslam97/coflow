@@ -38,6 +38,7 @@
             @sortChanged="sortChanged"
             :list_url="'faq'"
             :reloadData="reloadTable"
+            :limitOfChar="60"
         >
         </main-table>
       </b-col>
@@ -138,6 +139,7 @@ export default {
       this.$bvModal.show('faqsDetailsViewModal')
     },
     showFaqsToEdit (obj) {
+      console.log('obj => ', obj)
       this.typeOfModal = 'edit'
       this.faqsId = obj.id
       this.faqsDetails = obj

@@ -6,5 +6,8 @@ export default {
   },
   login (payload) {
     return Api().post('login', payload)
+  },
+  getData () {
+    return Api().get('all-data')
   }
 }

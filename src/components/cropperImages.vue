@@ -101,10 +101,20 @@
               ref="cropper"
               class="upload-example-cropper"
               :src="image.src"
-              :stencil-props="ratio"
               :resize-image="resizeImage"
               default-boundaries="fill"
               image-restriction="fit-area"
+              :stencil-props="{
+                handlers: {
+                  westNorth: 'handler-wrapper--west-north',
+                  eastNorth: 'handler-wrapper--east-north',
+                  westSouth: 'handler-wrapper--west-south',
+                  eastSouth: 'handler-wrapper--east-south',
+                },
+                movable: true,
+                resizable: true,
+                aspectRatio: ratio,
+              }"
           />
         </div>
       </b-card>
@@ -164,8 +174,7 @@ export default {
       default: 0
     },
     ratio: {
-      type: Number,
-      default: 2 / 1
+      type: String
     },
     resizeImage: {
       default: {

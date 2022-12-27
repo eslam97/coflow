@@ -22,7 +22,7 @@
                     :validate="'required|max:40'"
                     name="Ticket details"
                     :label="'Details'"
-                    :limit="40"
+                    :limit="500"
                 />
               </b-col>
             </b-row>

@@ -2,8 +2,8 @@
   <b-card class="statistics-views mb-4">
     <template v-slot:header>
       <div class="d-flex justify-content-between">
-        <h5 class="" v-if="type !=='activity'">{{ type.charAt(0).toUpperCase() + type.slice(1) }}s : Total Number, Change & Frequency of Views</h5>
-        <h5 class="" v-else>Activities : Total Number, Change & Frequency of Views</h5>
+        <h5 class="font-weight-bold" v-if="type !=='activity'">{{ type.charAt(0).toUpperCase() + type.slice(1) }}s: Total Number, Change & Frequency of Views</h5>
+        <h5 class="font-weight-bold" v-else>Activities: Total Number, Change & Frequency of Views</h5>
         <div class="d-flex justify-content-between gap-20">
           <div class="cursor-pointer" @click="changeMonth(-1)">
             <i class="las la-arrow-left mr-2"></i>
@@ -26,7 +26,7 @@
             <main-select v-if="itemsList.length > 0" :name="`${type} name`" :options="itemsList"
                          label="name" :reduce="data => data.id"
                          v-model="itemId"></main-select>
-            <div class="d-flex flex-column justify-content-center h-242px">
+            <div class="d-flex flex-column py-3 h-242px">
               <p class="fontsize-sm m-0">TOTAL NUMBER</p>
               <h3 class="font-weight-bold">{{ serviceAnalysis.total_views }}</h3>
             </div>

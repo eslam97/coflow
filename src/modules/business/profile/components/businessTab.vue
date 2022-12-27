@@ -25,7 +25,7 @@
         <b-row>
           <b-col md="12" class="mb-5">
             <cropper-images
-                ratio="2 / 2"
+                :ratio= "1/1"
                 label="Upload Logo"
                 nameOfImage="logo.jpg"
                 @cropper-save="savelogoImage"
@@ -38,6 +38,7 @@
         <b-row>
           <b-col md="12" class="mb-5">
             <cropper-images
+                :ratio= "1/1.5"
                 label="Upload Cover"
                 nameOfImage="cover.jpg"
                 @cropper-save="saveCoverImage"
@@ -231,7 +232,7 @@
               <b-card class="mb-5">
                 <b-card-header class="py-2">
                   <p class="font-size-12"><span class="text-dark font-weight-bold font-size-18 mr-3">Facility Contacts and Location Details</span>
-                    Use this section to update your customer contact information and location information</p>
+                    Use this section to update your customer contact information.</p>
                 </b-card-header>
                 <b-card-body>
                   <b-row v-if="location_type === 'address based'">

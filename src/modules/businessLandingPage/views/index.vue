@@ -51,7 +51,7 @@ import landingFooter from '../components/landing/footer'
 import { core } from '@/config/pluginInit'
 // import service
 import registrationService from '../services/auth.services'
-import adminsServices from '@/modules/superAdmin/admin/services/admins.services'
+// import adminsServices from '@/modules/superAdmin/admin/services/admins.services'
 export default {
   data () {
     return {
@@ -129,10 +129,10 @@ export default {
           localStorage.setItem('formStep', 'completed')
         } else {
           if (res.data.data.type === 'admin') {
-            adminsServices.getRoleDetails(res.data.data.role_id).then(response => {
-              localStorage.setItem('permissions', JSON.stringify(response.data.data.map(item => item.name)))
-              this.$router.push({ name: 'leads' })
-            })
+            // adminsServices.getRoleDetails(res.data.data.role_id).then(response => {
+            localStorage.setItem('permissions', JSON.stringify(res.data.data.permissions.map(item => item.name)))
+            this.$router.push({ name: 'leads' })
+            // })
           } else this.$router.push({ name: 'dashboard' })
         }
         localStorage.setItem('userToken', res.data.data.token)

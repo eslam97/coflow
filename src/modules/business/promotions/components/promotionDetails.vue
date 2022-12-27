@@ -5,7 +5,7 @@
         <b-row>
           <b-col md="4" class="mb-3">
             <main-select labelTitle='Promotion Type' :validate="'required'"
-                         :name="`Promotion type`" placeholder="Choose" :options="allPromotionTypes"
+                         :name="`Promotion type`" placeholder="Choose" class="text-capitalize" :options="allPromotionTypes"
                          v-model="promotion_type">
             </main-select>
           </b-col>

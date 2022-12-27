@@ -72,7 +72,7 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
+        { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
         { label: 'Activity Name', key: 'name', class: 'text-left' },
         /* { label: 'Description', key: 'description', class: 'text-left' }, */
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },

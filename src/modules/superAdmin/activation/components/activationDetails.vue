@@ -199,6 +199,7 @@
             <b-row>
               <b-col md="12" class="mb-5">
                 <cropper-images
+                    :ratio= "1/1"
                     label="Upload Logo"
                     nameOfImage="logo.jpg"
                     @cropper-save="savelogoImage"
@@ -211,6 +212,7 @@
             <b-row>
               <b-col md="12" class="mb-5">
                 <cropper-images
+                    :ratio= "1/2"
                     label="Upload Cover"
                     nameOfImage="cover.jpg"
                     @cropper-save="saveCoverImage"

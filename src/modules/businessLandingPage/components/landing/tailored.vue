@@ -6,7 +6,7 @@
           <h3 class="text-center text-white mb-2 font-size-32">World Wide Community</h3>
           <b-row class="justify-content-center"><b-col md="5" cols="11">
           <p class="text-center text-secondary font-size-14 mb-4 font-weight-bold-400">
-            Together we make the greatest offer of life changing experiences,
+            Together we make the greatest offer of life changing experiences, <br />
             bringing people from around the world, falling in love with our flow.</p>
           </b-col></b-row>
         </div>
@@ -63,46 +63,62 @@
           </p>
         </div>
       </section>-->
-      <b-row class="feature-user justify-content-between pb-5 mt-5">
+      <b-row class="feature-user justify-content-around pb-5 mt-5">
         <b-col md="2" cols="6" class="mb-5">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Ticket.png')" />
             <h4 class="text-white font-weight-bold my-3">Tickets</h4>
-            <h3 class="text-warning">1011</h3>
+            <h3 class="text-warning">{{ allData.tickets }}</h3>
           </div>
         </b-col>
         <b-col md="2" cols="6" class="mb-5">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Activities.png')" />
             <h4 class="text-white font-weight-bold my-3">Activities</h4>
-            <h3 class="text-success">1011</h3>
+            <h3 class="text-success">{{ allData.activities }}</h3>
           </div>
         </b-col>
         <b-col md="2" cols="6" class="mb-5">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Courses.png')" />
             <h4 class="text-white font-weight-bold my-3">Courses</h4>
-            <h3 class="text-info">1011</h3>
+            <h3 class="text-info">{{ allData.courses }}</h3>
           </div>
         </b-col>
         <b-col md="2" cols="6" class="mb-5">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Flows.png')" class="w-17"/>
             <h4 class="text-white font-weight-bold my-3">Flows</h4>
-            <h3 class="text-danger">1011</h3>
+            <h3 class="text-danger">{{ allData.flows }}</h3>
           </div>
         </b-col>
         <b-col md="2" cols="12" class="mb-5">
           <div class="text-center">
             <img :src="require('@/assets/images/businessLanding/tailored/Products.png')" />
             <h4 class="text-white font-weight-bold my-3">Products</h4>
-            <h3 class="text-secondary">1011</h3>
+            <h3 class="text-secondary">{{ allData.products }}</h3>
           </div>
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
+<script>
+import services from '../../services/auth.services'
+export default {
+  data () {
+    return {
+      allData: {}
+    }
+  },
+  created () {
+    services.getData().then(res => {
+      console.log(res)
+      this.allData = res.data.data
+    })
+  }
+}
+</script>
 <style>
 .tailored {
   background-image: url('../../../../assets/images/businessLanding/tailored/Background.jpg');

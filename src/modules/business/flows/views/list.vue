@@ -74,8 +74,8 @@ export default {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-left', type: 'sort' },
-        { label: 'Name', key: 'name', class: 'text-left' },
+        { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
+        { label: 'Flow Name', key: 'name', class: 'text-left' },
         /* { label: 'Description', key: 'description', class: 'text-left' }, */
         /* { label: 'Requirements', key: 'requirements', class: 'text-left' }, */
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },

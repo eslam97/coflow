@@ -82,9 +82,9 @@
           </div>
           <!--    Offer      -->
           <div v-else-if="field.type == 'offer'">
-            <p v-if="data.item.promotion_type === 'package'">{{ data.item.package }} for {{data.item.package_price_egp}} EGP</p>
-            <p v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy {{ data.item.buy_x }}, Get {{ data.item.get_y }}</p>
-            <p v-else>{{ data.item.discount_price_egp }}%</p>
+            <p class="m-0" v-if="data.item.promotion_type === 'package'">{{ data.item.package }} for {{data.item.package_price_egp}} EGP</p>
+            <p class="m-0" v-else-if="data.item.promotion_type === 'buy_x get_y'">Buy {{ data.item.buy_x }}, Get {{ data.item.get_y }}</p>
+            <p class="m-0" v-else>{{ data.item.discount_price_egp }}%</p>
           </div>
 
           <!-- Array handler -->
@@ -162,7 +162,7 @@
             class="text-nowrap m-0"
           >
             <span v-if="$_.get(data.item, field.key)">
-              {{ $_.get(data.item, field.key).length > 20 ? $_.get(data.item, field.key).substring(0,20) + '...' : $_.get(data.item, field.key) }}
+              {{ $_.get(data.item, field.key).length > limitOfChar ? $_.get(data.item, field.key).substring(0,limitOfChar) + '...' : $_.get(data.item, field.key) }}
             </span>
             <span v-else>
               ---
@@ -217,6 +217,10 @@ export default {
     changeStatus
   },
   props: {
+    limitOfChar: {
+      default: 20,
+      required: false
+    },
     fields: {
       type: Array,
       required: true

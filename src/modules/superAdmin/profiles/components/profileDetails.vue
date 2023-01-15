@@ -884,9 +884,11 @@ export default {
     }, */
     // save change
     saveProfile () {
-      if (!this.profile.location.availability_type) {
-        this.profile.location.availability_type = 'open'
-      }
+      this.profile.location.forEach(item => {
+        if (!item.availability_type) {
+          item.availability_type = 'open'
+        }
+      })
       const action = this.typeOfModal === 'add' ? 'addProfile' : 'editProfile'
       if (this.profile.location_type === 'address based' && this.profile.operation_type === '24 hours') {
         this.$emit(action, this.profileDetails.id, this.$_.omit(this.profile, ['location', 'operation']))

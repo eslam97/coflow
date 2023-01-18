@@ -3,7 +3,7 @@
     <!--  Photos edit modal  -->
     <main-modal id="modal-image" size="lg">
       <template v-slot:header class="p2">
-        <h4 class="font-weight-bold"><span class="text-info">show: </span>image</h4>
+        <h4 class="font-weight-bold"><span class="text-info">View: </span>Photo</h4>
       </template>
       <template v-slot:body>
         <img :src="selectedImage" class="w-100" />
@@ -240,24 +240,24 @@
                       <div>
                         <table class='address-table'>
                           <tr>
-                            <td class="font-weight-bold text-dark">Address</td>
-                            <td>{{based.address}}</td>
+                            <td class="font-weight-bold text-dark border-right">Address</td>
+                            <td class="pl-3">{{based.address}}</td>
                           </tr>
                           <tr>
-                            <td class="font-weight-bold text-dark">Area</td>
-                            <td>{{allAreas.find(area => area.id === based.area_id).name}}</td>
+                            <td class="font-weight-bold text-dark border-right">Area</td>
+                            <td class="pl-3">{{allAreas.find(area => area.id === based.area_id).name}}</td>
                           </tr>
                           <tr>
-                            <td class="font-weight-bold text-dark">Governorate</td>
-                            <td> {{allGovernorates.find(city => city.id === based.city_id).name}}</td>
+                            <td class="font-weight-bold text-dark border-right">Governorate</td>
+                            <td class="pl-3"> {{allGovernorates.find(city => city.id === based.city_id).name}}</td>
                           </tr>
                           <tr>
-                            <td class="font-weight-bold text-dark">Country</td>
-                            <td> {{allCountries.find(country => country.id === based.country_id).name}}</td>
+                            <td class="font-weight-bold text-dark border-right">Country</td>
+                            <td class="pl-3"> {{allCountries.find(country => country.id === based.country_id).name}}</td>
                           </tr>
                           <tr>
-                            <td class="font-weight-bold text-dark">Location</td>
-                            <td>{{ based.location }}</td>
+                            <td class="font-weight-bold text-dark border-right">Location</td>
+                            <td class="pl-3">{{ based.location }}</td>
                           </tr>
                         </table>
                       </div>
@@ -293,27 +293,27 @@
                            :key="locationKey">
                       <b-row class="d-flex align-items-center">
                         <b-col class="mb-2" md="3">
-                          <main-select labelTitle='Country' :validate="'required'"
+                          <main-select labelTitle='Country' :validate="'required'" disabled
                                        :name="`Country ${locationKey + 1}`" placeholder="Choose" :options="allCountries"
                                        label="name" :reduce="data=> data.id"
                                        @change="location.city_id = ''; location.areas = []; getCityDependOnCountryRemote(location)"
                                        v-model="location.country_id"></main-select>
                         </b-col>
                         <b-col md="1">
-                          <b-form-checkbox value="all country" v-model="location.availability_type" class="custom-checkbox-color-check"
+                          <b-form-checkbox disabled value="all country" v-model="location.availability_type" class="custom-checkbox-color-check"
                                            color="warning">
                             <span class="font-size-12 text-primary"> All </span>
                           </b-form-checkbox>
                         </b-col>
                         <b-col class="mb-2" md="3" v-if="location.availability_type !== 'all country'">
-                          <main-select labelTitle='Governorate' :validate="'required'"
+                          <main-select disabled labelTitle='Governorate' :validate="'required'"
                                        :name="`Governorate ${locationKey + 1}`"  placeholder="Choose" :options="location.cityList"
                                        label="name" :reduce="data=> data.id"
                                        @change="location.areas = []; getAreasDependOnCityRemote(location)"
                                        v-model="location.city_id"></main-select>
                         </b-col>
                         <b-col md="1"  v-if="location.availability_type !== 'all country'">
-                          <b-form-checkbox value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
+                          <b-form-checkbox disabled value="all city" v-model="location.availability_type" class="custom-checkbox-color-check"
                                            color="warning">
                             <span class="font-size-12 text-primary"> All </span>
                           </b-form-checkbox>
@@ -321,17 +321,13 @@
                         <b-col class="mb-2" md="4"
                                v-if="location.availability_type !== 'all country' && location.availability_type !== 'all city'">
                           <div>
-                            <main-select labelTitle='Area' :validate="'required'"
+                            <main-select disabled labelTitle='Area' :validate="'required'"
                                          :name="`Area ${locationKey + 1}`"  placeholder="Choose" :options="location.areaList"
                                          :multiple="true" label="name" :reduce="data=> data.id"
                                          v-model="location.areas"></main-select>
                           </div>
                         </b-col>
                       </b-row>
-                      <span class="text-danger deleteLabelButton cursor-pointer" v-if="!locationKey == 0"
-                            @click="deletezone(locationKey)">Delete
-                        Zone
-                    </span>
                     </b-col>
                   </b-row>
                   <b-row class="mb-4 mt-1" v-if="location_type === 'address based'">
@@ -472,13 +468,15 @@
           </validationObserver>
         </b-col>
         <b-col md="3">
-          <b-card :img-src="coverImage" img-top class="p-0 mb-5" align="center"
-                  @click.self="openPhotoView('cover')">
-            <b-link>
-              <b-card-img :style="`background-image: url(${logoImage})`" class="card-profile-img mb-5"></b-card-img>
-            </b-link>
-            <h5 class="border-top border-bottom p-3 pt-5 mb-3">Facility Photos</h5>
-            <b-card-body class="m-0">
+          <b-card :body-class="'p-0'">
+            <div class="p-0 mb-5 position-relative">
+              <img :src="coverImage" class="img-fluid w-100 cursor-pointer" @click.self="openPhotoView('cover')"/>
+              <img :style="`background-image: url(${logoImage})`" class="card-profile-img" />
+            </div>
+            <label class="w-100 border-bottom font-weight-bold text-gray p-2 text-center mb-3">
+              Facility Photos
+            </label>
+            <b-card-body class="m-0 p-0">
               <b-row class="mb-3 cursor-pointer px-2 m-0" v-if="images">
                 <b-col cols="3"  v-for="(img, key) in images" class="position-relative mb-1 p-0 m-0" :key="key">
                                       <span class="position-absolute deleteImage" v-if="showDeletedImage"
@@ -1004,10 +1002,16 @@ export default {
 }*/
 .address-table {
   width: 100%;
-  padding: 9px;
   border: 1px solid #e1e1e1;
   margin-bottom: 23px !important;
   border-collapse: unset !important;
   border-spacing: 0 !important;
+}
+.address-table .border-right {
+  padding: 6px;
+  border-right: 1px solid #c0c0c0 !important;
+}
+.vs__search {
+  display: none;
 }
 </style>

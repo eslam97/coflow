@@ -4,7 +4,7 @@
   <b-container>
   <section class="d-flex align-items-center customHight">
     <div>
-      <h2 class="text-white mb-4">Profile Information</h2>
+      <h2 class="text-white mb-4">Profile Builder</h2>
       <p class="w-50 text-white mb-4">To activate your account, we need to build your facility’s profile using information
         such as
         address,

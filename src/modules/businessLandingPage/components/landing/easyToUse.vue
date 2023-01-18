@@ -17,10 +17,14 @@
           controls
           indicators
       >
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/PicDashborad.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-6-min.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-5-min.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-4-min.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-3-min.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-2-min.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-1-min.png')"></b-carousel-slide>
+
+<!--        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/Websit-Mockup-7-min.png')"></b-carousel-slide>-->
       </b-carousel>
           </div>
         </b-col>

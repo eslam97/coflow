@@ -9,5 +9,8 @@ export default {
   },
   getData () {
     return Api().get('all-data')
+  },
+  forgetPassword (payload) {
+    return Api().post('forgetPassword', payload)
   }
 }

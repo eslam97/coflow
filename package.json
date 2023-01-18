@@ -20,6 +20,7 @@
     "@codekraft-studio/vue-record": "0.0.3",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@joeattardi/emoji-button": "^4.6.0",
+    "@popperjs/core": "^2.11.6",
     "@ssthouse/vue-tree-chart": "^0.5.3",
     "@toast-ui/vue-calendar": "^1.1.1",
     "ag-grid-community": "^22.1.1",

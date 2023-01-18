@@ -76,117 +76,10 @@
                 </validation-provider>
               </b-col>
             </b-row>
-<!--            <b-row>
-              <b-col md="4" class="mb-3">
-                <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
-                             v-model="foreignerPrice"></main-select>
-              </b-col>
-            </b-row>
-            <b-row v-if="foreignerPrice === 'Euro'">
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`EURO price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Foreigner Price'"
-                  ><b-input-group append="EUR">
-                    <b-form-input
-                        v-model="flows.price_euro"
-                        placeholder="000.00"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /></b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-              <b-col md="4" class="mb-5  pt-4 mt-3 text-center">
-                <b-form-checkbox
-                    type="checkbox"
-                    v-model="selectedEUR"
-                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                    color="warning"
-                >
-                  Discounted Price
-                </b-form-checkbox>
-              </b-col>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Discounted EURO price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEUR, max: flows.price_euro}"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="EUR">
-                    <b-form-input
-                        v-model="flows.discount_price_euro"
-                        placeholder="000.00"
-                        :disabled="!selectedEUR"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group>
-                    <small class="text-danger" v-if="!flows.discount_price_euro">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(flows.discount_price_euro) > Number(flows.price_euro)">
-                      More than price
-                    </small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-            </b-row>
-            <b-row v-else-if="foreignerPrice === 'Dollar'">
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Dollar price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Foreigner Price'"
-                  ><b-input-group append="$">
-                    <b-form-input
-                        v-model="flows.price_dollar"
-                        placeholder="000.00"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
-                <b-form-checkbox
-                    type="checkbox"
-                    v-model="selectedDollar"
-                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                    color="warning"
-                >
-                  Discounted Price
-                </b-form-checkbox>
-              </b-col>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Discounted Dollar price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedDollar, max: flows.price_dollar}"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="$">
-                    <b-form-input
-                        v-model="flows.discount_price_dollar"
-                        placeholder="000.00"
-                        :disabled="!selectedDollar"
-                        :class="[{ 'is-invalid': errors.length > 0}]"
-                    /> </b-input-group>
-                    <small class="text-danger" v-if="!flows.discount_price_dollar">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(flows.discount_price_dollar) > Number(flows.price_dollar)">
-                      More than price
-                    </small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-            </b-row>-->
-            <span class="d-flex"><span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span></span>
+            <div class="position-relative">
+            <span class="d-flex position-absolute add_position w-100">
+              <span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span>
+            </span>
             <div v-for="(instructor, counter) in flows.instructors"
                 :key="counter">
               <validation-provider
@@ -217,6 +110,7 @@
                   </b-form-row>
                 </b-form-group>
               </validation-provider>
+            </div>
             </div>
           </b-col>
           <b-col lg="6" class="mb-3">
@@ -475,3 +369,10 @@ export default {
   }
 }
 </script>
+<style>
+.add_position {
+  text-align: right;
+  right: 0;
+  top: -10px;
+}
+</style>

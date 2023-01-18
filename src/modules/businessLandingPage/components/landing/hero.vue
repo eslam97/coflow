@@ -13,7 +13,7 @@
       </b-col>
       <b-col md="6">
         <div class="pr-5">
-          <img :src="require('@/assets/images/businessLanding/PicDashborad.png')" class="w-100">
+          <img :src="require('@/assets/images/businessLanding/header-right1.png')" class="w-100">
         </div>
       </b-col>
     </b-row>
@@ -62,10 +62,10 @@
 .blue_section img {
   position: absolute;
 }
-.mobileImage {
-  width: 55%;
-  left: -64px;
-}
+/*.mobileImage {*/
+/*  width: 55%;*/
+/*  left: -64px;*/
+/*}*/
 .circleLogo {
   width: 100%;
   left: -34%;
@@ -86,11 +86,11 @@
     width: 100% !important;
     overflow: hidden;
   }
-  .mobileImage {
-    width: 50%;
-    left: 53vw;
-    bottom: -25px;
-  }
+  /*.mobileImage {*/
+  /*  width: 50%;*/
+  /*  left: 53vw;*/
+  /*  bottom: -25px;*/
+  /*}*/
   .circleLogo {
     width: 80%;
     left: 30%;

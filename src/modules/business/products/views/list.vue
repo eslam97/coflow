@@ -118,7 +118,7 @@
                 </b-col>
                 <b-col md="12" class="border-actions">
                   <p class="font-size-12 font-weight-bold-500 text-primary" v-if="!arrangeMode">Arrange: <span class="text-black">{{item.sort}}</span></p>
-                  <main-select v-else :options="allProducts.map(data => data.sort)" :value="item.sort"
+                  <main-select v-else :inBody="true" :options="allProducts.map(data => data.sort)" :value="item.sort"
                                @input="changeSort(item.id, 'product', $event)">
                   </main-select>
                 </b-col>
@@ -294,5 +294,8 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+.card {
+  z-index: initial !important;
+}
 </style>

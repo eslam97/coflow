@@ -49,7 +49,7 @@
         </ul>
         <div>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Add Slots<i class="las la-calendar ml-3"></i></b-button>
+            Add Flow Slots<i class="las la-calendar ml-3"></i></b-button>
         </div>
       </b-col>
       <spinner-loading v-if="requestLoading"></spinner-loading>

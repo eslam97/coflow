@@ -46,6 +46,8 @@
               </b-col>
               <b-col>
                 <b-form-checkbox type="checkbox"
+                                 value="1"
+                                 unchecked-value="0"
                                  v-model="slot.ladies_only" label="Ladies only" :name="`Ladies only ${slotKey + 1}`"
                                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0" color="warning">
                   Ladies Only Class
@@ -56,8 +58,8 @@
                   @click="deleteSlot(slotKey)">Delete</span>
           </b-col>
           <b-col md="12" class="mb-3">
-            <span class="text-warning cursor-pointer deleteLabelButton " v-if="(typeOfModal === 'add')"
-                  @click="addNewSlot">+Add another slot</span>
+            <span class="text-warning cursor-pointer deleteLabelButton px-3" v-if="(typeOfModal === 'add')"
+                  @click="addNewSlot">+Add another slot(s)</span>
           </b-col>
         </b-row>
         <b-row v-if="typeOfModal != 'view'">
@@ -169,7 +171,7 @@ export default {
         from: '',
         to: '',
         instructor: '',
-        ladies_only: false
+        ladies_only: +false
       })
     },
     deleteSlot (ind) {
@@ -178,7 +180,6 @@ export default {
   },
   created () {
     if (this.scheduleDetails) {
-      console.log(this.scheduleDetails.status)
       this.schedule = {
         slots: [{
           id: this.scheduleDetails.slotId,

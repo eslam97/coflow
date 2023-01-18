@@ -1,15 +1,27 @@
 <template>
   <div>
-    <b-container>
-      <div class="d-flex justify-content-between align-items-center py-3 mt-2">
-        <b-navbar-brand href="#">
-          <img :src="require('@/assets/images/LogoBlack.png')" alt="coFlow" class='brandImage'>
-        </b-navbar-brand>
+    <b-navbar toggleable="lg" type="dark" variant="" class="p-3 px-5 position-sticky top-0" id="nav-bar-business">
+      <b-container fluid>
+        <b-navbar-brand class="d-flex justify-content-between align-items-center w-100">
+          <router-link to="/">
+            <img :src="require('@/assets/images/LogoBlack.png')" alt="coFlow" class='brandImage'>
+          </router-link>
           <b-button variant="primary" class="businessButton" @click="$router.push({name: 'businessLandingPage'})">
             <span>Business</span>
           </b-button>
-      </div>
-    </b-container>
+        </b-navbar-brand>
+      </b-container>
+    </b-navbar>
+<!--    <b-container>-->
+<!--      <div class="d-flex justify-content-between align-items-center py-3 mt-2">-->
+<!--        <b-navbar-brand href="#">-->
+<!--          <img :src="require('@/assets/images/LogoBlack.png')" alt="coFlow" class='brandImage'>-->
+<!--        </b-navbar-brand>-->
+<!--          <b-button variant="primary" class="businessButton" @click="$router.push({name: 'businessLandingPage'})">-->
+<!--            <span>Business</span>-->
+<!--          </b-button>-->
+<!--      </div>-->
+<!--    </b-container>-->
 
     <!-- hero Section -->
     <div class="d-flex justify-content-between align-items-center flex-lg-row flex-column position-relative">
@@ -47,7 +59,7 @@
                   <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
                   <h5 class="mb-2 text-primary font-weight-bold">Discover</h5>
                   <p class="font-weight-bold-500" style="text-align: justify">
-                    Find out the who, what, when <br/>& where with our detailed facility <br/> profiles. Why is yours.</p>
+                    Find out the who, what, when <br/>& where with our detailed facility <br/> profiles. The why is yours.</p>
                 </div>
               </div>
               <div class="mb-2 d-flex justify-content-center">
@@ -145,7 +157,7 @@
                     <h2 class="mb-2 text-primary ml-4"><b>Sea</b></h2>
                   </div>
                   <h4 class="mt-4 mb-0"><b>Fall Into The Deep</b></h4>
-                  <p class="font-weight-bold-500">Surf with the Waves, Kite with the Wind, Free Dive<br>
+                  <p class="font-weight-bold-500">Surf with the Waves, Kite with the Wind, Snorkel<br>
                     with the Dolphins & Scuba Dive with the Sharks.</p>
                   <div class="d-flex activities_item">
                     <div
@@ -238,7 +250,7 @@
       </div>
 <!--      <div class="position-relative mt-5">-->
         <img :src="require('@/assets/images/mobilaAppLanding/FooterLogoCircle.png')" alt="Logo" class="FooterLogoCircle">
-        <img :src="require('@/assets/images/mobilaAppLanding/FooterMobile.png')" alt="Mobile" class="FooterMobile">
+        <img :src="require('@/assets/images/mobilaAppLanding/FooterMobile1.png')" alt="Mobile" class="FooterMobile">
 <!--      </div>-->
     </div>
     <landing-footer />
@@ -296,8 +308,8 @@ export default {
   position: absolute;
 }
 .mobileImage {
-  width: 55%;
-  left: -64px;
+  width: 80%;
+  left: -20%;
 }
 .circleLogo {
   width: 100%;
@@ -307,7 +319,7 @@ export default {
   gap: 20px;
 }
 .mobile-section img {
-  width: 180px;
+  width: 180px !important;
 }
 @media screen and (max-width: 960px) {
   .white-section {
@@ -382,9 +394,9 @@ export default {
 }
 .FooterMobile {
   position: absolute;
-  width: 263px;
+  width: 400px;
   bottom: 0;
-  left: calc((100vw - 263px)/2);
+  left: calc((100vw - 400px)/2);
 }
 </style>
 <style>

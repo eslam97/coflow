@@ -2,7 +2,7 @@
   <div class="pl-3 pr-3">
     <b-row>
       <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
-        <h5 class="mb-4 font-size-14 px-2">ACTIVITY INFORMATION</h5>
+        <h5 class="mb-4 font-size-14 px-3">ACTIVITY INFORMATION</h5>
         <b-row class="pl-3 mb-2">
           <b-col md="12" class="infoKey">
             <p>Description</p>

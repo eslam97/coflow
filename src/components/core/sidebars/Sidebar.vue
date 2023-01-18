@@ -28,7 +28,7 @@
         </ul>
       </div>
       <footer>
-        © 2023 flow, All rights reserved
+        © {{ new Date().getFullYear() }} Coflow, All rights reserved
       </footer>
     </div>
   </div>

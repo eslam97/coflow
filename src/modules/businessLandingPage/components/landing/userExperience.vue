@@ -4,7 +4,7 @@
       <div class="header">
         <h3 class="text-center text-primary mb-2">Digital Transformation, Industry Solution</h3>
         <p class="text-center text-secondary font-size-12 mb-4">Multiple Lines of Sports & Activities,<br>
-          One Integrated Community</p>
+          One Integrated Marketplace</p>
       </div>
       <section class="experienceCard mt-4 pb-5">
        <b-row>
@@ -25,7 +25,7 @@
                <img class="w-50"
                     :src="require('@/assets/images/businessLanding/userExperience/Trackprogress.png')"/>
                <h4 class="mb-4 mt-3">One Customer Experience</h4>
-               <p class="font-size-12 text-justify font-weight-bold-400 px-4">Today is all about online hubs offering businesses industry tailored tools, features & analytics that promote efficient quality service. While simultaneously offering customers an effortless, convenient & unified user experience as they purchase all they desire from an entire industry, all under a single user account.
+               <p class="font-size-12 text-justify font-weight-bold-400 px-4">Today is all about online platforms offering businesses industry tailored tools, features & analytics that promote efficient quality service. While simultaneously offering customers an effortless, convenient & unified user experience as they purchase all they desire from an entire industry, all under a single user account.
                </p>
              </b-card>
            </div>

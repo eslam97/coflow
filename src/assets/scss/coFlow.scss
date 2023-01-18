@@ -577,9 +577,8 @@ form legend {
   position: absolute;
   width: 90px;
   height: 90px;
-  top: 90px;
-  left: 35%;
-  margin-bottom: 15px;
+  bottom: -45px;
+  left: calc(50% - 45px);
   border: 3px solid #fff;
   border-radius: 50%;
   box-shadow: 0 5px 10px rgb(0 0 0 / 15%);

@@ -8,7 +8,7 @@
             <p>Description</p>
           </b-col>
           <b-col md="12" class="infoValue">
-            <p class="text-black font-weight-bold-600">{{accommodationsDetails.description}}</p>
+            <p class="text-black font-weight-bold-600 text-justify">{{accommodationsDetails.description}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">

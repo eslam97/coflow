@@ -294,7 +294,7 @@ ul.nav.nav-tabs::-webkit-scrollbar {
 }
 .address-table {
   width: 100%;
-  padding: 9px;
+  //padding: 9px;
   border: 1px solid #e1e1e1;
   margin-bottom: 23px !important;
   border-collapse: unset !important;

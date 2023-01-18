@@ -10,50 +10,50 @@
         class="flex-grow-1"
     >
       <vue-select
-        v-model="selected"
-        :multiple="multiple"
-        :close-on-select="closeOnSelect_v"
-        :clearable="clearable_v"
-        :placeholder="placeholder"
-        :name="name"
-        :options="options"
-        :label="label"
-        :reduce="reduce"
-        :disabled="disabled"
-        :value="selected"
-        :loading="showLoadingIcon"
-        :taggable="taggable"
-        @input="onChange"
-        @keydown.native="isTextVerify"
-        @search:focus="onFocus"
-        @search:blur="onBlur"
-        :no-drop="taggable"
-        :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
-        :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
-        >
-          <template #open-indicator="{ attributes }" v-if="!taggable">
-            <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
-          </template>
-          <template
+          v-model="selected"
+          :multiple="multiple"
+          :close-on-select="closeOnSelect_v"
+          :clearable="clearable_v"
+          :placeholder="placeholder"
+          :name="name"
+          :options="options"
+          :label="label"
+          :reduce="reduce"
+          :disabled="disabled"
+          :value="selected"
+          :loading="showLoadingIcon"
+          :taggable="taggable"
+          @input="onChange"
+          @keydown.native="isTextVerify"
+          @search:focus="onFocus"
+          @search:blur="onBlur"
+          :no-drop="taggable"
+          :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
+          :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
+      >
+        <template #open-indicator="{ attributes }" v-if="!taggable">
+          <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
+        </template>
+        <template
             v-if="showSelectAll"
             #list-header
-          >
-            <li class="cursor-pointer text-white pl-3 bg-warning" @click="checkAll = !checkAll; checkAllOptions()">Select All</li>
-          </template>
-          <template
+        >
+          <li class="cursor-pointer text-white pl-3 bg-warning" @click="checkAll = !checkAll; checkAllOptions()">Select All</li>
+        </template>
+        <template
             v-if="noOptionsText"
             v-slot:no-options="{ search, searching }"
-          >
-            <template v-if="searching">
-              {{ $t('basic.no_results_found_for') }} <em>{{ search }}</em>.
-            </template>
-            <em
+        >
+          <template v-if="searching">
+            {{ $t('basic.no_results_found_for') }} <em>{{ search }}</em>.
+          </template>
+          <em
               v-else
               style="opacity: 0.5"
-            >{{ noOptionsText }}</em>
-          </template>
-          <slot />
-        </vue-select>
+          >{{ noOptionsText }}</em>
+        </template>
+        <slot />
+      </vue-select>
       <div class="d-flex justify-content-between">
         <small class="text-danger">{{ errors[0] }}</small>
         <small v-if="showAlert" class="text-danger">number of text not valid</small>

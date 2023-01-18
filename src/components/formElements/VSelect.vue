@@ -10,50 +10,52 @@
         class="flex-grow-1"
     >
       <vue-select
-          v-model="selected"
-          :multiple="multiple"
-          :close-on-select="closeOnSelect_v"
-          :clearable="clearable_v"
-          :placeholder="placeholder"
-          :name="name"
-          :options="options"
-          :label="label"
-          :reduce="reduce"
-          :disabled="disabled"
-          :value="selected"
-          :loading="showLoadingIcon"
-          :taggable="taggable"
-          @input="onChange"
-          @keydown.native="isTextVerify"
-          @search:focus="onFocus"
-          @search:blur="onBlur"
-          :no-drop="taggable"
-          :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
-          :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
-      >
-        <template #open-indicator="{ attributes }" v-if="!taggable">
-          <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
-        </template>
-        <template
+        v-model="selected"
+        :multiple="multiple"
+        :close-on-select="!multiple"
+        :clearable="clearable_v"
+        :placeholder="placeholder"
+        :name="name"
+        :options="options"
+        :label="label"
+        :reduce="reduce"
+        :disabled="disabled"
+        :value="selected"
+        :loading="showLoadingIcon"
+        :taggable="taggable"
+        :append-to-body="inBody"
+        :calculate-position="withPopper"
+        @input="onChange"
+        @keydown.native="isTextVerify"
+        @search:focus="onFocus"
+        @search:blur="onBlur"
+        :no-drop="taggable"
+        :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
+        :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
+        >
+          <template #open-indicator="{ attributes }" v-if="!taggable">
+            <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
+          </template>
+          <template
             v-if="showSelectAll"
             #list-header
-        >
-          <li class="cursor-pointer text-white pl-3 bg-warning" @click="checkAll = !checkAll; checkAllOptions()">Select All</li>
-        </template>
-        <template
+          >
+            <li class="cursor-pointer text-white pl-3 bg-warning" @click="checkAll = !checkAll; checkAllOptions()">Select All</li>
+          </template>
+          <template
             v-if="noOptionsText"
             v-slot:no-options="{ search, searching }"
-        >
-          <template v-if="searching">
-            {{ $t('basic.no_results_found_for') }} <em>{{ search }}</em>.
-          </template>
-          <em
+          >
+            <template v-if="searching">
+              {{ $t('basic.no_results_found_for') }} <em>{{ search }}</em>.
+            </template>
+            <em
               v-else
               style="opacity: 0.5"
-          >{{ noOptionsText }}</em>
-        </template>
-        <slot />
-      </vue-select>
+            >{{ noOptionsText }}</em>
+          </template>
+          <slot />
+        </vue-select>
       <div class="d-flex justify-content-between">
         <small class="text-danger">{{ errors[0] }}</small>
         <small v-if="showAlert" class="text-danger">number of text not valid</small>
@@ -64,11 +66,16 @@
 </template>
 <script>
 import VueSelect from 'vue-select'
+import { createPopper } from '@popperjs/core'
 
 export default {
   name: 'VSelect',
   components: { VueSelect },
   props: {
+    inBody: {
+      type: Boolean,
+      default: false
+    },
     multiple: {
       type: Boolean,
       default: false
@@ -84,7 +91,8 @@ export default {
       default: false
     },
     closeOnSelect: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     clearable: {
       type: Boolean
@@ -138,13 +146,13 @@ export default {
       checkAll: false,
       selected: null,
       showAlert: false,
-      text: ''
-
+      text: '',
+      placement: 'bottom'
     }
   },
   computed: {
     closeOnSelect_v () {
-      return this.closeOnSelect || !this.multiple
+      return !this.multiple
     },
     clearable_v () {
       return this.clearable || this.multiple
@@ -168,6 +176,38 @@ export default {
     this.selected = this.$attrs.value
   },
   methods: {
+    withPopper (dropdownList, component, { width }) {
+      console.log(component)
+      dropdownList.style.width = width
+      const popper = createPopper(component.$refs.toggle, dropdownList, {
+        placement: this.placement,
+        modifiers: [
+          {
+            name: 'offset',
+            options: {
+              offset: [0, -1]
+            }
+          },
+          {
+            name: 'toggleClass',
+            enabled: true,
+            phase: 'write',
+            fn ({ state }) {
+              component.$el.classList.toggle(
+                'drop-up',
+                state.placement === 'top'
+              )
+            }
+          }
+        ]
+      })
+
+      /**
+       * To prevent memory leaks Popper needs to be destroyed.
+       * If you return function, it will be called just before dropdown is removed from DOM.
+       */
+      return () => popper.destroy()
+    },
     isTextVerify (e) {
       this.text = e.target.value
       if (this.inputLength && (e.target.value.length > this.inputLength)) {

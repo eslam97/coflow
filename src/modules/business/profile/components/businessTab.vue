@@ -1011,7 +1011,4 @@ export default {
   padding: 6px;
   border-right: 1px solid #c0c0c0 !important;
 }
-.vs__search {
-  display: none;
-}
 </style>

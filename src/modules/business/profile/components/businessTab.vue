@@ -241,52 +241,59 @@
                         <table class='address-table'>
                           <tr>
                             <td class="font-weight-bold text-dark border-right">Address</td>
-                            <td class="pl-3">{{based.address}}</td>
+                            <td class="pl-3">{{based_location.based.address}}</td>
                           </tr>
                           <tr>
                             <td class="font-weight-bold text-dark border-right">Area</td>
-                            <td class="pl-3">{{allAreas.find(area => area.id === based.area_id).name}}</td>
+                            <td class="pl-3">{{based_location.areaList.find(area => area.id === based_location.area).name}}</td>
                           </tr>
+<!--                          <tr>
+                            <td class="font-weight-bold text-dark border-right">Area</td>
+                            <td class="pl-3">{{allAreas.find(area => area.id === based.area_id).name}}</td>
+                          </tr>-->
                           <tr>
                             <td class="font-weight-bold text-dark border-right">Governorate</td>
-                            <td class="pl-3"> {{allGovernorates.find(city => city.id === based.city_id).name}}</td>
+                            <td class="pl-3"> {{based_location.cityList.find(city => city.id === based_location.city_id).name}}</td>
                           </tr>
                           <tr>
                             <td class="font-weight-bold text-dark border-right">Country</td>
-                            <td class="pl-3"> {{allCountries.find(country => country.id === based.country_id).name}}</td>
+                            <td class="pl-3"> {{allCountries.find(country=> country.id === based_location.country_id).name}}</td>
                           </tr>
                           <tr>
                             <td class="font-weight-bold text-dark border-right">Location</td>
-                            <td class="pl-3">{{ based.location }}</td>
+                            <td class="pl-3"><i class="fas fa-link mr-1"></i>
+                              <a class="text-secondary" target="_blank" :href="based_location.based.location">
+                                {{ based_location.based.location }}</a>
+                            </td>
                           </tr>
                         </table>
                       </div>
                     </b-col>
-<!--                    <b-col>-->
-<!--                      <b-row>-->
-<!--                        <b-col md="3"><p>Facility Address</p></b-col>-->
-<!--                        <b-col md="9"><p>Location</p></b-col>-->
-<!--                      </b-row>-->
-<!--                      <b-row class="border mb-3">-->
-<!--                        <b-col md="3" class="p-0">-->
-<!--                          <div class="border-right p-4">-->
-<!--                            <h5 class="font-weight-bold">-->
-<!--                              {{based.address}},<br>-->
-<!--                              {{allAreas.find(area => area.id === based.area_id).name}},-->
-<!--                              {{allGovernorates.find(city => city.id === based.city_id).name}},<br>-->
-<!--                              {{allCountries.find(country => country.id === based.country_id).name}}-->
-<!--                            </h5>-->
-<!--                          </div>-->
-<!--                        </b-col>-->
-<!--                        <b-col md="9" class="p-0">-->
-<!--                          <div class="p-4">-->
-<!--                            <h6>-->
-<!--                              {{ based.location }}-->
-<!--                            </h6>-->
-<!--                          </div>-->
-<!--                        </b-col>-->
-<!--                      </b-row>-->
-<!--                    </b-col>-->
+<!--                    <b-col>
+                      <b-row>
+                        <b-col md="3"><p>Facility Address</p></b-col>
+                        <b-col md="9"><p>Location</p></b-col>
+                      </b-row>
+                      <b-row class="border mb-3">
+                        <b-col md="3" class="p-0">
+                          <div class="border-right p-4">
+                            <h5 class="font-weight-bold">
+                              {{based.address}},<br>
+                              {{allAreas.find(area => area.id === based.area_id).name}},
+                              {{allGovernorates.find(city => city.id === based.city_id).name}},<br>
+                              {{allCountries.find(country => country.id === based.country_id).name}}
+                            </h5>
+                          </div>
+                        </b-col>
+                        <b-col md="9" class="p-0">
+                          <div class="p-4">
+                            <h6>
+                              {{ based.location }}
+                            </h6>
+                          </div>
+                        </b-col>
+                      </b-row>
+                    </b-col>-->
                   </b-row>
                   <b-row v-else class="mb-4">
                     <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
@@ -573,6 +580,14 @@ export default {
           areaList: []
         }
       ],
+      based_location: {
+        based: '',
+        country_id: '',
+        city_id: '',
+        area: '',
+        cityList: [],
+        areaList: []
+      },
       phones: [
         {
           type: '',
@@ -686,7 +701,6 @@ export default {
       this.logoImage = ''
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        console.log(res.data)
         this.logoImage = data.imageInfo.src // response
       })
     },
@@ -865,10 +879,21 @@ export default {
         }
         if (this.oldProfile.location_type === 'address based') {
           this.location_type = 'address based'
-          this.based = this.oldProfile.address_based
-          this.city = this.oldProfile.city
-          this.country = this.oldProfile.country
-          this.area = this.oldProfile.area
+          const obj = {
+            based: this.oldProfile.address_based,
+            country_id: this.oldProfile.country_id,
+            city_id: this.oldProfile.city_id,
+            area: this.oldProfile.area_id,
+            cityList: [],
+            areaList: []
+          }
+          this.getCityDependOnCountryRemote(obj)
+          this.getAreasDependOnCityRemote(obj)
+          this.based_location = Object(obj)
+          /* this.based = this.oldProfile.address_based
+          this.city = this.oldProfile.city_id
+          this.country = this.oldProfile.country_id
+          this.area = this.oldProfile.area_id */
         } else {
           this.location_type = 'remote location'
           this.remote_locations = []

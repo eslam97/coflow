@@ -156,7 +156,7 @@ export default {
         this.schedule.slots[0].status = this.scheduleDetails.status
         this.schedule.slots[0].from = this.schedule.slots[0].from.slice(0, 5)
         this.schedule.slots[0].to = this.schedule.slots[0].to.slice(0, 5)
-        this.schedule.slots[0].ladies_only = this.schedule.slots[0].ladies_only ? 1 : 0
+        this.schedule.slots[0].ladies_only = +this.schedule.slots[0].ladies_only
         const obj = {
           flow_id: this.schedule.flow_id,
           ...this.schedule.slots[0],
@@ -187,7 +187,7 @@ export default {
           from: this.scheduleDetails.from,
           to: this.scheduleDetails.to,
           instructor: this.scheduleDetails.instructor,
-          ladies_only: this.scheduleDetails.ladies_only,
+          ladies_only: +this.scheduleDetails.ladies_only,
           status: this.scheduleDetails.status
         }],
         status: 'active',

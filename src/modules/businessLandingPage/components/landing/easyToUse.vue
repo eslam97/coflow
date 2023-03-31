@@ -3,13 +3,13 @@
     <img :src="require('@/assets/images/businessLanding/easyToUse/S-right.png')" class="right-image">
     <img :src="require('@/assets/images/businessLanding/easyToUse/S-left.png')" class="left-image">
     <b-container>
-      <div class="py-5 mt-5">
+      <div class="py-3">
         <div class="header">
           <h3 class="text-center text-primary mb-2">Simple, Specialized & Straight To The Point</h3>
           <p class="text-center text-secondary font-size-12 mb-4">Different Dashboards, Same Style & Core Functions</p>
         </div>
       </div>
-      <b-row class="d-flex justify-content-center">
+      <b-row class="d-flex justify-content-center mb-5">
         <b-col md="7" sm="12" class="justify-content-center">
           <div>
       <b-carousel

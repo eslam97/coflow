@@ -266,20 +266,6 @@
     "serviceTypes": "Flow"
   },
   {
-    "title": "FAQ's",
-    "name": "FAQ's",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "faq"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-question-circle",
-    "userType": "provider",
-    "serviceTypes": "all"
-  },
-  {
     "title": "Promotions",
     "name": "Promotions",
     "is_heading": false,
@@ -290,6 +276,20 @@
     "class_name": "",
     "is_icon_class": true,
     "icon": "las la-percentage",
+    "userType": "provider",
+    "serviceTypes": "all"
+  },
+  {
+    "title": "FAQ's",
+    "name": "FAQ's",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "faq"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-question-circle",
     "userType": "provider",
     "serviceTypes": "all"
   },

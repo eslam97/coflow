@@ -4,8 +4,8 @@
         <b-alert show variant="warning" class="d-flex justify-content-around">
           <span><span class="text-bold">Email : </span> {{activationDetails.email}}</span>
           <span><span class="text-bold">Password : </span> {{activationDetails.password_text}}</span>
-          <span v-if="activationDetails.accept_reject_date">
-            <span class="text-bold">Date : </span> {{activationDetails.accept_reject_date}}</span>
+          <span><span class="text-bold">Date : </span>
+            {{activationDetails.accept_reject_date || activationDetails.activation_date}}</span>
         </b-alert>
       </div>
       <ValidationObserver v-slot="{ handleSubmit }">

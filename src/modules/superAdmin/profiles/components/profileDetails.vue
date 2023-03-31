@@ -5,7 +5,8 @@
         <div>
           <b-alert show variant="warning" class="d-flex justify-content-around" v-if="profileDetails">
             <span><span class="text-bold">Password : </span> {{profileDetails.password_text}}</span>
-            <span><span class="text-bold">Date : </span> {{profileDetails.accept_reject_date}}</span>
+            <span><span class="text-bold">Date : </span>
+              {{profileDetails.accept_reject_date || profileDetails.activation_date}}</span>
           </b-alert>
           <b-row>
             <b-col md="6" class="mb-4">
@@ -71,14 +72,14 @@
         </div>
         <div>
           <b-row>
-            <b-col md="2" class="mb-3">
+            <b-col md="3" class="mb-3">
               <main-select labelTitle='Activity Line' :validate="'required'"
                            :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
                            label="name"
                            :reduce="data=> data.id"
                            v-model="profile.activity_line_id"></main-select>
             </b-col>
-            <b-col class="mb-3" md="2">
+            <b-col class="mb-3" md="3">
               <main-select labelTitle='Activity Type' :validate="'required'"
                            :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
                            label="name"
@@ -94,7 +95,7 @@
                   v-model="profile.year"
               />
             </b-col>
-            <b-col class="mb-3" md="6">
+            <b-col class="mb-3" md="4">
               <input-form
                   placeholder="Ex: Diving"
                   :validate="'required|max:20'"

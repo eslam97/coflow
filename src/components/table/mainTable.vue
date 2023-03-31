@@ -50,7 +50,8 @@
                           :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
                           :value="$_.get(data.item, field.key)">
             </b-form-input>-->
-            <main-select v-if="arrangeMode" :options="listOfData.map(data => data.sort)" :value="$_.get(data.item, 'sort')"
+            <main-select v-if="arrangeMode" :options="Array.from({length: total},(_, i) => i + 1)"
+                         :value="$_.get(data.item, 'sort')"
                          @input="changeSort($_.get(data.item, 'id'), service_type, $event)">
             </main-select>
 <!--            <input v-if="arrangeMode" class="sort-field"
@@ -268,6 +269,7 @@ export default {
         name: 'flip-list'
       },
       listOfData: [],
+      total: 0,
       pagination: {
         current_page: 1,
         per_page: 10,
@@ -297,6 +299,7 @@ export default {
   methods: {
     async getListData () {
       this.listOfData = []
+      this.total = 0
       let filters = {}
       if (this.params) {
         this.params.map(data => {
@@ -322,6 +325,8 @@ export default {
         console.log('List', List)
         if (List.data?.data?.data) {
           this.listOfData = List.data?.data?.data
+          this.total = List.data?.data?.total
+          console.log(this.total)
           this.pagination = {
             current_page: List.data?.data?.current_page,
             per_page: List.data?.data?.per_page,

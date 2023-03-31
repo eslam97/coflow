@@ -46,73 +46,6 @@
       </div>
     </div>
 
-    <!--Features-->
-    <div class="features">
-      <div class="">
-        <div class="header">
-          <p class="text-center text-secondary font-size-12">Features</p>
-          <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Save. Track. Go.</h2>
-          <b-container>
-            <div class="d-flex justify-content-around align-items-start pl-md-0 pl-3 mb-4 flex-column flex-md-row">
-              <div class="mb-2 d-flex justify-content-center">
-                <div>
-                  <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">Discover</h5>
-                  <p class="font-weight-bold-500" style="text-align: justify">
-                    Find out the who, what, when <br/>& where with our detailed facility <br/> profiles. The why is yours.</p>
-                </div>
-              </div>
-              <div class="mb-2 d-flex justify-content-center">
-                <div>
-                  <img :src="require('@/assets/images/mobilaAppLanding/Save@2x.png')" alt="Save" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">Save</h5>
-                  <p class="font-weight-bold-500" style="text-align: justify">
-                    Save whatever catches your<br/> interest in your account for <br/> later, on the Go.</p>
-                </div>
-              </div>
-              <div class="mb-2 d-flex justify-content-center">
-                <div>
-                  <img :src="require('@/assets/images/mobilaAppLanding/Track@2x.png')" alt="Track" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">Track</h5>
-                  <p class="font-weight-bold-500" style="text-align: start">
-                    Track any profile & you’ll be the <br/> first to know, if they update
-                    their    <br/> schedule, services or
-                    promotions.</p>
-                </div>
-              </div>
-              <div class="mb-2 d-flex justify-content-center">
-                <div>
-                  <img :src="require('@/assets/images/mobilaAppLanding/Go@3XC.png')" alt="Go" class='Explore'>
-                  <h5 class="mb-2 text-primary font-weight-bold">Go</h5>
-                  <p class="font-weight-bold-500" style="text-align: justify">
-                    Let go & Just Go. Give it a try. <br> Money always comes & goes, <br/> but experiences last a life time.</p>
-                </div>
-              </div>
-            </div>
-<!--            <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Explore & Shop</h2>-->
-<!--            <b-row class="d-flex justify-content-center">-->
-<!--              <b-col md="3" class="mb-2 d-flex justify-content-center">-->
-<!--                <div class="w-75">-->
-<!--                  <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>-->
-<!--                  <h5 class="mb-2 text-primary font-weight-bold">Explore</h5>-->
-<!--                  <p class="" style="text-align: justify">-->
-<!--                    Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>-->
-<!--                </div>-->
-<!--              </b-col>-->
-<!--              <b-col md="3" class="mb-2 d-flex justify-content-center">-->
-<!--                <div class="w-75">-->
-<!--                  <img :src="require('@/assets/images/mobilaAppLanding/Products@2x.png')" alt="Shop" class='Explore'>-->
-<!--                  <h5 class="mb-2 text-primary font-weight-bold">Shop</h5>-->
-<!--                  <p class="" style="text-align: justify">-->
-<!--                    Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>-->
-<!--                </div>-->
-<!--              </b-col>-->
-<!--            </b-row>-->
-          </b-container>
-        </div>
-      </div>
-    </div>
-
     <!--Categories-->
     <div class="Categories">
       <div class="">
@@ -204,7 +137,7 @@
                 </div>
               </b-col>
             </b-row>
-            <b-row class="m-0 p-0 align-items-center mb-main d-flex flex-column-reverse flex-md-row">
+            <b-row class="m-0 p-0 align-items-center mb-2 d-flex flex-column-reverse flex-md-row">
               <b-col md="2"></b-col>
               <b-col md="5" class="mb-2">
                   <div class="d-flex flex-column">
@@ -234,6 +167,73 @@
                 <img class="w-100" :src="require('@/assets/images/mobilaAppLanding/energy.png')" alt="energy">
               </b-col>
             </b-row>
+        </div>
+      </div>
+    </div>
+
+    <!--Features-->
+    <div class="features">
+      <div class="">
+        <div class="header">
+          <p class="text-center text-secondary font-size-12">Features</p>
+          <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Save. Track. Go.</h2>
+          <b-container>
+            <div class="d-flex justify-content-around align-items-start pl-md-0 pl-3 mb-4 flex-column flex-md-row">
+              <div class="mb-2 d-flex justify-content-center">
+                <div>
+                  <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Discover</h5>
+                  <p class="font-weight-bold-500" style="text-align: justify">
+                    Find out the who, what, when <br/>& where with our detailed facility <br/> profiles. The why is yours.</p>
+                </div>
+              </div>
+              <div class="mb-2 d-flex justify-content-center">
+                <div>
+                  <img :src="require('@/assets/images/mobilaAppLanding/Save@2x.png')" alt="Save" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Save</h5>
+                  <p class="font-weight-bold-500" style="text-align: justify">
+                    Save whatever catches your<br/> interest in your account for <br/> later, on the Go.</p>
+                </div>
+              </div>
+              <div class="mb-2 d-flex justify-content-center">
+                <div>
+                  <img :src="require('@/assets/images/mobilaAppLanding/Track@2x.png')" alt="Track" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Track</h5>
+                  <p class="font-weight-bold-500" style="text-align: start">
+                    Track any profile & you’ll be the <br/> first to know, if they update
+                    their    <br/> schedule, services or
+                    promotions.</p>
+                </div>
+              </div>
+              <div class="mb-2 d-flex justify-content-center">
+                <div>
+                  <img :src="require('@/assets/images/mobilaAppLanding/Go@3XC.png')" alt="Go" class='Explore'>
+                  <h5 class="mb-2 text-primary font-weight-bold">Go</h5>
+                  <p class="font-weight-bold-500" style="text-align: justify">
+                    Let go & Just Go. Give it a try. <br> Money always comes & goes, <br/> but experiences last a life time.</p>
+                </div>
+              </div>
+            </div>
+            <!--            <h2 class="text-center text-primary mb-2 font-weight-bold mb-5">Explore & Shop</h2>-->
+            <!--            <b-row class="d-flex justify-content-center">-->
+            <!--              <b-col md="3" class="mb-2 d-flex justify-content-center">-->
+            <!--                <div class="w-75">-->
+            <!--                  <img :src="require('@/assets/images/mobilaAppLanding/Explore@4x.png')" alt="Explore" class='Explore'>-->
+            <!--                  <h5 class="mb-2 text-primary font-weight-bold">Explore</h5>-->
+            <!--                  <p class="" style="text-align: justify">-->
+            <!--                    Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>-->
+            <!--                </div>-->
+            <!--              </b-col>-->
+            <!--              <b-col md="3" class="mb-2 d-flex justify-content-center">-->
+            <!--                <div class="w-75">-->
+            <!--                  <img :src="require('@/assets/images/mobilaAppLanding/Products@2x.png')" alt="Shop" class='Explore'>-->
+            <!--                  <h5 class="mb-2 text-primary font-weight-bold">Shop</h5>-->
+            <!--                  <p class="" style="text-align: justify">-->
+            <!--                    Go to the source; to mountains, caves, camps & all of nature's landmarks to understand the why</p>-->
+            <!--                </div>-->
+            <!--              </b-col>-->
+            <!--            </b-row>-->
+          </b-container>
         </div>
       </div>
     </div>
@@ -387,16 +387,30 @@ export default {
   width: 120px;
 }
 .FooterLogoCircle {
-  width: 75vh;
+  width: 90vh;
   position: absolute;
-  bottom: 0;
-  left: calc((100vw - 75vh)/2);
+  bottom: -50px;
+  left: calc((100vw - 90vh)/2);
 }
 .FooterMobile {
   position: absolute;
-  width: 400px;
+  width: 800px;
   bottom: 0;
-  left: calc((100vw - 400px)/2);
+  left: calc((100vw - 800px)/2);
+}
+@media screen and (max-width: 960px) {
+  .FooterLogoCircle {
+    width: 80vh;
+    position: absolute;
+    bottom: -50px;
+    left: calc((100vw - 80vh)/2);
+  }
+  .FooterMobile {
+    position: absolute;
+    width: 700px;
+    bottom: 0;
+    left: calc((100vw - 700px)/2);
+  }
 }
 </style>
 <style>

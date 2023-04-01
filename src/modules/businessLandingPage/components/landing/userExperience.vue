@@ -1,9 +1,9 @@
 <template>
-  <b-container class="userExp py-5">
-    <div class="py-5 mt-5">
+  <b-container class="userExp py-md-5 py-2">
+    <div class="py-md-5 mt-5">
       <div class="header">
         <h3 class="text-center text-primary mb-2">Digital Transformation, Industry Solution</h3>
-        <p class="text-center text-secondary font-size-12 mb-4">Multiple Lines of Sports & Activities,<br>
+        <p class="text-center font-size-12 mb-4">Multiple Lines of Sports & Activities,<br>
           One Integrated Marketplace</p>
       </div>
       <section class="experienceCard mt-4 pb-5">

@@ -99,7 +99,21 @@
   position: absolute;
 }
 .main_content {
-  padding-top: 7rem;
+  align-items: center !important;
+  padding-top: 12rem;
+}
+@media (max-width:767px) {
+  .main_content {
+    align-items: initial;
+    padding-top: 4rem;
+  }
+  .header_hero {
+    font-size: 30px !important;
+  }
+  .bg-hero-image{
+    top: initial;
+    bottom: -110px;
+  }
 }
 .container_button {
   padding: 2px;

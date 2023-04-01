@@ -262,8 +262,10 @@
                           <tr>
                             <td class="font-weight-bold text-dark border-right">Location</td>
                             <td class="pl-3"><i class="fas fa-link mr-1"></i>
-                              <a class="text-secondary" target="_blank" :href="based_location.based.location">
-                                {{ based_location.based.location }}</a>
+                              <a v-if="based_location.based.location.length < 80" class="text-secondary" target="_blank" :href="based_location.based.location">
+                                {{ based_location.based.location}}</a>
+                              <a v-else class="text-secondary" target="_blank" :href="based_location.based.location">
+                                {{ based_location.based.location.slice(0,80) + '...' }}</a>
                             </td>
                           </tr>
                         </table>

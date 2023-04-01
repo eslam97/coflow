@@ -1,18 +1,18 @@
 <template>
-  <section class="hero bg-primary">
+  <section class="hero bg-primary overflow-hidden">
     <img :src="require('@/assets/images/businessLanding/header-right.png')" class="bg-hero-image">
     <b-container>
-    <b-row class="main_content align-items-center">
+    <b-row class="main_content mb-5">
       <b-col md="6" class=" mb-md-0 mb-5">
-        <div class="d-flex flex-column justify-content-center align-items-start pl-5">
-          <h1 class="header_hero text-white mb-4">Studio & Center<br/>Management <br>Simplified</h1>
-          <p class="p_hero_section font-size-14">Whether you’re a Kite Surfing or Scuba Diving<br/> Center,
+        <div class="d-flex flex-column justify-content-center align-items-start pl-md-5 pl-2">
+          <h1 class="header_hero text-white mb-md-4">Studio & Center<br/>Management <br>Simplified</h1>
+          <p class="p_hero_section">Whether you’re a Kite Surfing or Scuba Diving<br/> Center,
           Fitness or Yoga Studio — we’ve developed <br/> tailored software just for you & your customers.</p>
         <b-button class="gradient-orange-button" @click="$emit('getStarted')">Join Now</b-button>
         </div>
       </b-col>
       <b-col md="6">
-        <div class="pr-5">
+        <div class="pr-md-5">
           <img :src="require('@/assets/images/businessLanding/header-right1.png')" class="w-100">
         </div>
       </b-col>
@@ -41,7 +41,8 @@
   line-height: 1.3 !important;
 }
 .p_hero_section {
-  color: rgba(167, 169, 204, 0.6) !important;
+  font-size: 16px;
+  color: #bababa !important;
   margin: 30px 0 !important;
   color: #fff9;
 }

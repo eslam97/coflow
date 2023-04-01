@@ -50,7 +50,7 @@
                           :validate="`numeric|between:1,${listOfData.length}|digits:${listOfData.toString().length}`"
                           :value="$_.get(data.item, field.key)">
             </b-form-input>-->
-            <main-select v-if="arrangeMode" :options="Array.from({length: total},(_, i) => i + 1)"
+            <main-select :inBody="true" v-if="arrangeMode" :options="Array.from({length: total},(_, i) => i + 1)"
                          :value="$_.get(data.item, 'sort')"
                          @input="changeSort($_.get(data.item, 'id'), service_type, $event)">
             </main-select>
@@ -92,15 +92,16 @@
           <div v-else-if="field.type == 'array'">
             <span v-if="field.array_keys" >
               <ul class="p-0">
-                <li v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
-                    <span v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
+                <li v-for="(arr, key) in $_.get(data.item, field.key).slice(0,4)" :key="key">
+                  <span v-if="key==3">...</span>
+                  <span v-else v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
                 </li>
               </ul>
             </span>
             <span v-else>
-              <span v-for="(arr, key) in $_.get(data.item, field.key)" :key="key">
+              <span v-for="(arr, key) in $_.get(data.item, field.key).slice(0,3)" :key="key">
                 {{ arr }}
-                <span v-if="(key < $_.get(data.item, field.key).length-1)">,</span>
+                <span v-if="(key < 3)">,</span>
               </span>
             </span>
           </div>

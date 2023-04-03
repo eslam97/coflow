@@ -407,9 +407,9 @@ export default {
   }
   .FooterMobile {
     position: absolute;
-    width: 700px;
+    width: 600px;
     bottom: 0;
-    left: calc((100vw - 700px)/2);
+    left: calc((100vw - 600px)/2);
   }
 }
 </style>

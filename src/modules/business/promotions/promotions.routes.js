@@ -1,5 +1,5 @@
 // Layout
-const VerticleLayout = () => import('@/layouts/VerticleLayout')
+const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const promotionslist = () => import('./views/list')
 
@@ -8,7 +8,7 @@ export default [
   {
     path: '/promotions',
     name: 'promotions',
-    component: VerticleLayout,
+    component: VerticalLayout,
     meta: { auth: true },
     children: [{
       path: '',

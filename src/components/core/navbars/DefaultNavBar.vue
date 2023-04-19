@@ -12,27 +12,30 @@
       </div>
       <div class="iq-menu-horizontal" v-if="horizontal">
         <div class="iq-sidebar-menu">
-          <CollapseMenu :items="items" :open="true" :horizontal="horizontal" :sidebarGroupTitle="sidebarGroupTitle" class="collapse-menu"/>
-          <HoverMenu :items="items" :sidebarGroupTitle="sidebarGroupTitle" class="hover-menu" />
+          <CollapseMenu :items="items" :open="true" :horizontal="horizontal" :sidebarGroupTitle="sidebarGroupTitle"
+                        class="collapse-menu"/>
+          <HoverMenu :items="items" :sidebarGroupTitle="sidebarGroupTitle" class="hover-menu"/>
         </div>
       </div>
-      <nav class="navbar navbar-expand-lg navbar-light p-0" >
+      <nav class="navbar navbar-expand-lg navbar-light p-0">
         <div class="navbar-left" v-if="!horizontal">
           <ul class="d-flex p-0 m-0 align-items-center" v-if="!ifSearch">
-<!--            <li v-for="(item, index) in bookmark" :key="index" class="upperMenu d-none d-lg-block">
-              <router-link :to="item.link" class="nav-link" style="color: var(&#45;&#45;iq-primary)" exact>
-                <i :class="`${item.icon}`" class="font-size-22"></i>
-              </router-link>
-            </li>-->
-            <li class="upperMenu d-block d-xl-none cursor-pointer "  v-if="$route.meta.layout !== 'two-sidebar'" @click="miniSidebar">
+            <!--            <li v-for="(item, index) in bookmark" :key="index" class="upperMenu d-none d-lg-block">
+                          <router-link :to="item.link" class="nav-link" style="color: var(&#45;&#45;iq-primary)" exact>
+                            <i :class="`${item.icon}`" class="font-size-22"></i>
+                          </router-link>
+                        </li>-->
+            <li class="upperMenu d-block d-xl-none cursor-pointer " v-if="$route.meta.layout !== 'two-sidebar'"
+                @click="miniSidebar">
               <a class="nav-link" style="color: var(--iq-primary)">
-                <i class="las la-bars font-size-22" ></i>
+                <i class="las la-bars font-size-22"></i>
               </a>
             </li>
           </ul>
           <div class="mt-0 iq-search-bar" v-if="ifSearch">
             <form action="#" class="searchbox">
-              <input type="text" class="text search-input" style="cursor: pointer" ref='inputData' id="inputData" autofocus
+              <input type="text" class="text search-input" style="cursor: pointer" ref='inputData' id="inputData"
+                     autofocus
                      @input="filterBox"
                      @click="openSearch" v-model="search"
                      placeholder="Type here to search...">
@@ -41,14 +44,15 @@
             </form>
           </div>
         </div>
-<!--        <div class="iq-menu-bt align-self-center">
-          <div class="wrapper-menu" >
-            <div class="main-circle"><i class="ri-arrow-left-s-line"></i></div>
-            <div class="hover-circle"><i class="ri-arrow-right-s-line"></i></div>
-          </div>
-        </div>-->
-          <slot name="responsiveRight"/>
-          <slot name="right"/>
+        <!--        <div class="iq-menu-bt align-self-center">
+                  <div class="wrapper-menu" >
+                    <div class="main-circle"><i class="ri-arrow-left-s-line"></i></div>
+                    <div class="hover-circle"><i class="ri-arrow-right-s-line"></i></div>
+                  </div>
+                </div>-->
+        <slot name="menus" />
+        <slot name="responsiveRight"/>
+        <slot name="right"/>
       </nav>
     </div>
   </div>
@@ -60,14 +64,27 @@ import { mapGetters } from 'vuex'
 import HoverMenu from '../menus/HoverMenu'
 import GlobalSearch from '../search/GlobalSearch'
 import CollapseMenu from '../menus/CollapseMenu'
+
 export default {
   name: 'DefaultNavBar',
   props: {
-    homeURL: { type: Object, default: () => ({ name: 'dashboard.home-1' }) },
-    logo: { type: String, default: require('../../../assets/images/logo.png') },
-    horizontal: { type: Boolean, default: false },
+    homeURL: {
+      type: Object,
+      default: () => ({ name: 'dashboard.home-1' })
+    },
+    logo: {
+      type: String,
+      default: require('../../../assets/images/logo.png')
+    },
+    horizontal: {
+      type: Boolean,
+      default: false
+    },
     items: { type: Array },
-    sidebarGroupTitle: { type: Boolean, default: true },
+    sidebarGroupTitle: {
+      type: Boolean,
+      default: true
+    },
     ifSearch: { type: Boolean }
   },
   mounted () {
@@ -77,8 +94,7 @@ export default {
     this.showSearch = true
     this.showMenu = 'iq-show'
   },
-  watch: {
-  },
+  watch: {},
   components: {
     HoverMenu,
     CollapseMenu,
@@ -133,15 +149,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .collapse-menu{
-    @media (min-width:1300px) {
-      display: none;
-    }
+.collapse-menu {
+  @media (min-width: 1300px) {
+    display: none;
   }
-  .iq-sidebar-menu .iq-menu.hover-menu{
-    display: flex;
-    @media (max-width:1299px){
-      display: none !important;
-    }
+}
+
+.iq-sidebar-menu .iq-menu.hover-menu {
+  display: flex;
+  @media (max-width: 1299px) {
+    display: none !important;
   }
+}
 </style>

@@ -1,5 +1,5 @@
 // Layout
-const VerticleLayout = () => import('@/layouts/VerticleLayout')
+const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const Adminlist = () => import('./views/list')
 const rolelist = () => import('./views/role')
@@ -9,7 +9,7 @@ export default [
   {
     path: '/admin',
     name: 'admin',
-    component: VerticleLayout,
+    component: VerticalLayout,
     children: [{
       path: '',
       name: 'admin',

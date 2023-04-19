@@ -1,4 +1,4 @@
-const VerticleLayout = () => import('@/layouts/VerticleLayout')
+const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 /*
 const amChart = () => import('./AmCharts')
@@ -11,7 +11,7 @@ export default [
   {
     path: '/amChart',
     name: 'amChart',
-    component: VerticleLayout,
+    component: VerticalLayout,
     meta: { auth: true },
     children: [{
       path: '',

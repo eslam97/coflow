@@ -1,13 +1,32 @@
 <template>
   <div>
-    <Loader />
-<!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
+    <main-modal id="bugModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-warning">Feedback: </span> Form</h4>
+      </template>
+      <template v-slot:body>
+        <bug-form @addReport="addReport"
+                  :requestLoading="requestLoading"
+                  :report="report"/>
+      </template>
+    </main-modal>
+    <Loader/>
+    <!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
     <div class="wrapper">
       <!-- Sidebar  -->
-      <SmallSidebar v-if="$route.name === 'dashboard.home-5'" :logo="SmallSidebarLogo" @toggle="sidebarMini" />
-      <Sidebar :items="verticalMenu" :logo="logo" :onlyLogo="onlyLogo" :onlyLogoText="onlyLogoText" @toggle="sidebarMini" :toggleButton="toggleSideIcon" :sidebarGroupTitle="sidebarGroupTitle" />
+      <SmallSidebar v-if="$route.name === 'dashboard.home-5'" :logo="SmallSidebarLogo" @toggle="sidebarMini"/>
+      <Sidebar :items="verticalMenu" :logo="logo" :onlyLogo="onlyLogo" :onlyLogoText="onlyLogoText"
+               @toggle="sidebarMini" :toggleButton="toggleSideIcon" :sidebarGroupTitle="sidebarGroupTitle"/>
       <!-- TOP Nav Bar -->
-      <DefaultNavBar :ifSearch='ifSearch' title="Dashboard" :homeURL="{ name: 'dashboard.home-2' }" :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
+      <DefaultNavBar :ifSearch='ifSearch' title="Dashboard" :homeURL="{ name: 'dashboard.home-2' }"
+                     :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
+        <template slot="menus">
+          <ul class="list-group list-group-horizontal menu-icons">
+            <li><i class="las la-question-circle" alt="FAQ"></i></li>
+            <li @click="openBugPopup"><i class="las la-bug"></i></li>
+            <li><i class="las la-bell"></i></li>
+          </ul>
+        </template>
         <template slot="responsiveRight">
           <ul class="navbar-nav ml-auto navbar-list">
             <li class="" v-nav-toggle>
@@ -81,7 +100,7 @@
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pr-1 pt-2">
                 <div class="caption mr-3">
                   <h6 class="mb-0 line-height text-primary">{{ userData.name }}</h6>
-                  <span class="font-size-12 text-success" >{{ userData.service_types }}</span>
+                  <span class="font-size-12 text-success">{{ userData.service_types }}</span>
                 </div>
               </a>
             </li>
@@ -89,20 +108,20 @@
         </template>
       </DefaultNavBar>
       <!-- TOP Nav Bar END -->
-    <div id="content-page" class="content-page">
-<!--        <b-container fluid="" v-if="!notBookmarkRouts.includes($route.name)">
-          <b-row>
-            <BreadCrumb />
-          </b-row>
-        </b-container>-->
+      <div id="content-page" class="content-page">
+        <!--        <b-container fluid="" v-if="!notBookmarkRouts.includes($route.name)">
+                  <b-row>
+                    <BreadCrumb />
+                  </b-row>
+                </b-container>-->
         <transition name="router-anim" :enter-active-class="`animated ${animated.enter}`" mode="out-in"
                     :leave-active-class="`animated ${animated.exit}`">
           <router-view/>
         </transition>
       </div>
-      <LayoutFixRightSide v-if="$route.name === 'dashboard.home-1' " />
+      <LayoutFixRightSide v-if="$route.name === 'dashboard.home-1' "/>
     </div>
-    <LayoutFooter />
+    <LayoutFooter/>
   </div>
 </template>
 <script>
@@ -130,8 +149,10 @@ import SmallSidebar from '../components/core/sidebars/SmallSidebar'
 import BreadCrumb from '../components/core/breadcrumbs/BreadCrumb'
 */
 import LayoutFooter from './Components/LayoutFooter'
+import BugForm from '@/layouts/Components/bugForm'
+
 export default {
-  name: 'VerticleLayout',
+  name: 'VerticalLayout',
   data () {
     return {
       userData: JSON.parse(localStorage.getItem('userInfo')),
@@ -140,7 +161,10 @@ export default {
       infiniteId: +new Date(),
       getNotifications: [],
       notification_unread: '',
-      animated: { enter: 'fadeInUp', exit: 'fadeOut' },
+      animated: {
+        enter: 'fadeInUp',
+        exit: 'fadeOut'
+      },
       verticalMenu: SideBarItems,
       userProfile: profile,
       onlyLogo: false,
@@ -152,18 +176,63 @@ export default {
       SmallSidebarLogo: WhiteLogo,
       theme: 'dark',
       message: [
-        { image: require('../assets/images/user/user-01.jpg'), name: 'Nik Emma Watson', date: '13 jan' },
-        { image: require('../assets/images/user/user-02.jpg'), name: 'Greta Life', date: '14 Jun' },
-        { image: require('../assets/images/user/user-03.jpg'), name: 'Barb Ackue', date: '16 Aug' },
-        { image: require('../assets/images/user/user-04.jpg'), name: 'Anna Sthesia', date: '21 Sept' },
-        { image: require('../assets/images/user/user-05.jpg'), name: 'Bob Frapples', date: '29 Sept' }
+        {
+          image: require('../assets/images/user/user-01.jpg'),
+          name: 'Nik Emma Watson',
+          date: '13 jan'
+        },
+        {
+          image: require('../assets/images/user/user-02.jpg'),
+          name: 'Greta Life',
+          date: '14 Jun'
+        },
+        {
+          image: require('../assets/images/user/user-03.jpg'),
+          name: 'Barb Ackue',
+          date: '16 Aug'
+        },
+        {
+          image: require('../assets/images/user/user-04.jpg'),
+          name: 'Anna Sthesia',
+          date: '21 Sept'
+        },
+        {
+          image: require('../assets/images/user/user-05.jpg'),
+          name: 'Bob Frapples',
+          date: '29 Sept'
+        }
       ],
       notification: [
-        { image: require('../assets/images/user/user-01.jpg'), name: 'Nik Emma Watson', date: '23 hour ago', description: 'Enjoy smart access to videos, games' },
-        { image: require('../assets/images/user/user-02.jpg'), name: 'Greta Life', date: '14 hour ago', description: 'Google Chromecast: Enjoy a world of entertainment' },
-        { image: require('../assets/images/user/user-03.jpg'), name: 'Barb Ackue', date: '16 hour ago', description: 'Dell Inspiron Laptop: Get speed and performance from' },
-        { image: require('../assets/images/user/user-04.jpg'), name: 'Anna Sthesia', date: '21 hour ago', description: 'Deliver your favorite playlist anywhere in your home ' },
-        { image: require('../assets/images/user/user-05.jpg'), name: 'Bob Frapples', date: '11 hour ago', description: 'MacBook Air features up to 8GB of memory, a fifth-generation' }
+        {
+          image: require('../assets/images/user/user-01.jpg'),
+          name: 'Nik Emma Watson',
+          date: '23 hour ago',
+          description: 'Enjoy smart access to videos, games'
+        },
+        {
+          image: require('../assets/images/user/user-02.jpg'),
+          name: 'Greta Life',
+          date: '14 hour ago',
+          description: 'Google Chromecast: Enjoy a world of entertainment'
+        },
+        {
+          image: require('../assets/images/user/user-03.jpg'),
+          name: 'Barb Ackue',
+          date: '16 hour ago',
+          description: 'Dell Inspiron Laptop: Get speed and performance from'
+        },
+        {
+          image: require('../assets/images/user/user-04.jpg'),
+          name: 'Anna Sthesia',
+          date: '21 hour ago',
+          description: 'Deliver your favorite playlist anywhere in your home '
+        },
+        {
+          image: require('../assets/images/user/user-05.jpg'),
+          name: 'Bob Frapples',
+          date: '11 hour ago',
+          description: 'MacBook Air features up to 8GB of memory, a fifth-generation'
+        }
       ],
       notBookmarkRouts: [
         'dashboard.home-1',
@@ -174,10 +243,13 @@ export default {
         'dashboard.home-6'
       ],
       currentPage: 2,
-      readNotification: ''
+      readNotification: '',
+      requestLoading: false,
+      report: {}
     }
   },
   components: {
+    BugForm,
     LayoutFooter,
     LayoutFixRightSide,
     /* Lottie */
@@ -229,7 +301,10 @@ export default {
   methods: {
     themeMode (mode) {
       this.dark = mode
-      this.modeChange({ rtl: this.rtl, dark: mode })
+      this.modeChange({
+        rtl: this.rtl,
+        dark: mode
+      })
       if (mode) {
         this.logo = darkLoader
         this.theme = 'light'
@@ -240,7 +315,10 @@ export default {
       this.$emit('onLogo', this.logo)
     },
     layoutSetting (routeName) {
-      this.modeChange({ rtl: this.rtlMode, dark: this.darkMode })
+      this.modeChange({
+        rtl: this.rtlMode,
+        dark: this.darkMode
+      })
       this.onlyLogo = true
       this.onlyLogoText = true
       this.sidebarGroupTitle = true
@@ -305,21 +383,45 @@ export default {
     changeStatus (id, item) {
       item.read = 1
       if (item.setting.key === 'create_discount') {
-        this.$router.push({ name: 'accounting', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accounting',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'discount_approve') {
-        this.$router.push({ name: 'accounting', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accounting',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'refund_request') {
-        this.$router.push({ name: 'accountingRefund', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accountingRefund',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'refund_change_status') {
-        this.$router.push({ name: 'accountingRefund', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accountingRefund',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'refund_done') {
-        this.$router.push({ name: 'accountingRefund', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accountingRefund',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'transfer_request') {
-        this.$router.push({ name: 'accountingTransfer', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accountingTransfer',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'transfer_status') {
-        this.$router.push({ name: 'accountingTransfer', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'accountingTransfer',
+          query: { key: item.object_id }
+        })
       } else if (item.setting.key === 'task_request') {
-        this.$router.push({ name: 'task', query: { key: item.object_id } })
+        this.$router.push({
+          name: 'task',
+          query: { key: item.object_id }
+        })
       }
       /*      this.$store.dispatch('changeNotificationStatus', id).then(res => {
         this.readNotification = id
@@ -348,30 +450,66 @@ export default {
           $state.complete()
         }
       }) */
+    },
+    openBugPopup () {
+      this.$bvModal.show('bugModal')
+    },
+    addReport (report) {
+      this.$bvModal.hide('bugModal')
     }
   }
-/*  created () {
-    channel.channel.bind('my-event', (data) => {
-      this.getNotifications = data.data
-      this.notification_unread = data.notification_unread
-      this.currentPage = 2
-    })
-  } */
+  /*  created () {
+      channel.channel.bind('my-event', (data) => {
+        this.getNotifications = data.data
+        this.notification_unread = data.notification_unread
+        this.currentPage = 2
+      })
+    } */
 }
 </script>
 <style>
-  @import url("../assets/css/custom.css");
-  @import url("../assets/css/PriceSlider.css");
-  .unread{
-    left: -16px;
-    top: 5px;
-    font-size: 9px;
+@import url("../assets/css/custom.css");
+@import url("../assets/css/PriceSlider.css");
+
+.unread {
+  left: -16px;
+  top: 5px;
+  font-size: 9px;
+}
+
+.mark {
+  background-color: #e3e5fc !important;
+}
+
+.allNotifications {
+  overflow: auto;
+  height: 30rem;
+}
+
+@media(max-width:479px) {
+  .iq-navbar-custom {
+    padding-right: 0px !important;
   }
-  .mark {
-    background-color: #e3e5fc !important;
+  .menu-icons {
+    font-size: 24px !important;
+    margin-left: auto !important;
   }
-  .allNotifications {
-    overflow: auto;
-    height: 30rem;
+}
+@media(max-width: 1200px) {
+  .menu-icons {
+    margin-left: auto !important;
   }
+}
+.menu-icons {
+  font-size: 32px;
+  margin-left: 300px;
+}
+.menu-icons li {
+  margin-right: 30px;
+}
+.menu-icons li:hover {
+  color: var(--iq-amber);
+  cursor: pointer;
+}
+
 </style>

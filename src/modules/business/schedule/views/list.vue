@@ -2,9 +2,9 @@
   <b-container fluid>
     <main-modal id="scheduleDetailsModal" size="lg">
       <template v-slot:header>
-        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" >
+        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'">
           <span class="text-warning">Add: </span> Flow Slots</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Slot</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info">Edit: </span> Slot</h4>
       </template>
       <template v-slot:actions v-if="typeOfModal == 'edit'">
         <div class="d-flex">
@@ -15,7 +15,7 @@
             <div class="d-flex justify-content-between">
               <span class="text-info font-weight-bold font-size-12 mr-3">Active</span>
               <div
-                  class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+                  class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0">
                 <div class="custom-switch-inner">
                   <input type="checkbox" class="custom-control-input bg-info" :id="'status'"
                          @change="changeStatus(scheduleDetails.id, scheduleDetails.status_traker)"
@@ -30,49 +30,58 @@
       </template>
       <template v-slot:body>
         <schedule-details @addSlots="addSlots"
-                       @editSlot="editSlot"
-                       :requestLoading="requestLoading"
-                       :scheduleDetails="scheduleDetails"
-                       :allFlows="allFlows"
-                       :typeOfModal="typeOfModal"/>
+                          @editSlot="editSlot"
+                          :requestLoading="requestLoading"
+                          :scheduleDetails="scheduleDetails"
+                          :allFlows="allFlows"
+                          :typeOfModal="typeOfModal"/>
       </template>
     </main-modal>
     <b-row>
       <!--   Header   -->
-      <b-col lg="12" class="mb-5 d-flex justify-content-between align-items-center">
-        <h3>Schedule</h3>
-        <ul class="levels-list m-0 p-0">
-          <li class="p-1" v-for="(level, key) in levels" :key="key">
-            <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`" ></i>
-            <span class="font-size-12">{{ level.text }}</span>
-          </li>
-        </ul>
-        <div>
-          <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Add Flow Slots<i class="las la-calendar ml-3"></i></b-button>
-        </div>
+      <b-col md="12">
+        <b-row class="mb-4">
+          <b-col md="2" class="mb-2"><h3>Schedule</h3></b-col>
+          <b-col md="6" class="mb-3">
+            <ul class="levels-list m-0 p-0 justify-content-center">
+              <li class="p-1" v-for="(level, key) in levels" :key="key">
+                <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
+                <span class="font-size-12">{{ level.text }}</span>
+              </li>
+            </ul>
+          </b-col>
+          <b-col md="4" class="">
+            <div class="d-flex justify-content-md-end justify-content-center gap-20">
+              <b-button @click="clearSchedule" variant="dark" class="add_button text-white">
+                <span>Clear Schedule<i class="fas fa-trash-alt ml-3"></i></span>
+              </b-button>
+              <b-button @click="openPopup" variant="warning" class="add_button text-white">
+                Add Flow Slots<i class="fas fa-calendar-alt ml-3"></i></b-button>
+            </div>
+          </b-col>
+        </b-row>
       </b-col>
       <spinner-loading v-if="requestLoading"></spinner-loading>
       <b-col lg="12" v-if="allSlots.length > 0">
         <b-card class="overflow-auto text-center schedule-card">
-            <b-row class="flex-nowrap m-0">
-              <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
-                <h6 class="mb-3 pt-3 schedule-header">{{ day.key }}</h6>
-                <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
-                     :key="slotKey"
-                     class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                     :class="(slot.status === 'active' || slot.status === true)?
+          <b-row class="flex-nowrap m-0">
+            <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
+              <h6 class="mb-3 pt-3 schedule-header">{{ day.key }}</h6>
+              <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
+                   :key="slotKey"
+                   class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
+                   :class="(slot.status === 'active' || slot.status === true)?
                      `slot-box-${levels.find(l => l.value === slot.flow.level).color}` : 'slot-box-grey'"
-                      @click="showScheduleToEdit(slot)">
-                  <ul class="pl-0">
-                    <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
-                    <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
-                    <li>{{ slot.flow.name }}</li>
-                    <li>{{ slot.instructor }}</li>
-                  </ul>
-                </div>
-              </b-col>
-            </b-row>
+                   @click="showScheduleToEdit(slot)">
+                <ul class="pl-0">
+                  <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
+                  <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
+                  <li>{{ slot.flow.name }}</li>
+                  <li>{{ slot.instructor }}</li>
+                </ul>
+              </div>
+            </b-col>
+          </b-row>
         </b-card>
       </b-col>
       <b-col v-else-if="!requestLoading" md="12" class="text-center text-black">
@@ -89,6 +98,7 @@ import scheduleServices from '@/modules/business/schedule/services/schedule.sevi
 import flowsServices from '@/modules/business/flows/services/flows.services'
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
+
 export default {
   data () {
     return {
@@ -99,11 +109,30 @@ export default {
       allFlows: [],
       allSlots: [],
       levels: [
-        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
-        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
-        { text: 'ADVANCED', value: 'advanced', color: 'red' },
-        { text: 'LADIES ONLY', color: 'pink' }
+        {
+          text: 'ALL LEVELS',
+          value: 'all',
+          color: 'blue'
+        },
+        {
+          text: 'BEGINNER',
+          value: 'beginner',
+          color: 'cyan'
+        },
+        {
+          text: 'INTERMEDIATE',
+          value: 'intermediate',
+          color: 'orange'
+        },
+        {
+          text: 'ADVANCED',
+          value: 'advanced',
+          color: 'red'
+        },
+        {
+          text: 'LADIES ONLY',
+          color: 'pink'
+        }
       ],
       days: [
         {
@@ -199,6 +228,22 @@ export default {
         actionOnAlert: '',
         text: 'Delete',
         url: 'schedules',
+        rowId: this.scheduleDetailsFront.id
+      })
+    },
+    clearSchedule () {
+      EventBus.$emit('openDeleteModal', {
+        actionHeader: 'Delete',
+        titleHeader: 'Schedule',
+        textContent: 'Are You Sure You Want to Clear the whole Schedule?',
+        question: '',
+        textDeleteButton: 'YES, Delete',
+        textCancelButton: 'NO, CANCEL',
+        icon: 'las la-trash-alt',
+        type: 'delete',
+        actionOnAlert: '',
+        text: 'Delete',
+        url: 'destroy-all-schedule',
         rowId: this.scheduleDetailsFront.id
       })
     },

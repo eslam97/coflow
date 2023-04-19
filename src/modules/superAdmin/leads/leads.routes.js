@@ -1,5 +1,5 @@
 // Layout
-const VerticleLayout = () => import('@/layouts/VerticleLayout')
+const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const leadslist = () => import('./views/list')
 
@@ -8,7 +8,7 @@ export default [
   {
     path: '/leads',
     name: 'leads',
-    component: VerticleLayout,
+    component: VerticalLayout,
     children: [{
       path: '',
       name: 'leads',

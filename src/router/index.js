@@ -19,6 +19,8 @@ import settings from '@/modules/superAdmin/settings/settings.routes'
 import notifications from '@/modules/superAdmin/notifications/notifications.routes'
 import analytics from '@/modules/superAdmin/analytics/analytics.routes'
 import admin from '@/modules/superAdmin/admin/admin.routes'
+import adminFaq from '@/modules/superAdmin/faq/faq.routes'
+import feedback from '@/modules/superAdmin/feedback/feedback.routes'
 import welcomePage from '@/components/welcomePage'
 import charts from '@/views/Charts/charts.routes'
 
@@ -36,7 +38,7 @@ import activities from '@/modules/business/activities/activities.routes'
 import schedule from '@/modules/business/schedule/schedule.routes'
 
 /* Layouts */
-const VerticleLayout = () => import('../layouts/VerticleLayout')
+const VerticalLayout = () => import('../layouts/VerticalLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
 
 /* Authentic View */
@@ -104,6 +106,8 @@ const routes = [
   ...tickets,
   ...bussinessPromotions,
   ...faq,
+  ...adminFaq,
+  ...feedback,
   ...products,
   ...flows,
   ...accommodations,
@@ -114,7 +118,7 @@ const routes = [
   {
     path: '/welcome',
     name: 'welcome',
-    component: VerticleLayout,
+    component: VerticalLayout,
     meta: { auth: true },
     children: [{
       path: '',

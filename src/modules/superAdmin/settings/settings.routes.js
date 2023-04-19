@@ -1,5 +1,5 @@
 // Layout
-const VerticleLayout = () => import('@/layouts/VerticleLayout')
+const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const settingsList = () => import('./views/list')
 const profileSetting = () => import('./views/profile')
@@ -20,7 +20,7 @@ export default [
   {
     path: '/settings',
     name: 'settings',
-    component: VerticleLayout,
+    component: VerticalLayout,
     meta: { auth: true },
     children: [{
       path: '',

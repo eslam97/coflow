@@ -140,6 +140,34 @@
     "userType": "admin"
   },
   {
+    "title": "FAQ's",
+    "name": "FAQ's",
+    "permission": "admin.list",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "adminfaq"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-question-circle",
+    "userType": "admin"
+  },
+  {
+    "title": "Feedback",
+    "name": "Feedback",
+    "permission": "admin.list",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "feedback"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-comments",
+    "userType": "admin"
+  },
+  {
     "title": "Admin",
     "name": "Admin",
     "permission": "admin.list",

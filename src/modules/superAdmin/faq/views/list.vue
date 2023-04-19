@@ -43,10 +43,10 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :list_url="'faq'"
+            :list_url="'admin-FAQ'"
             :reloadData="reloadTable"
             :limitOfChar="60"
-            :service_type="'faq'"
+            :service_type="'admin-FAQ'"
             :arrangeMode="arrangeMode"
         >
         </main-table>

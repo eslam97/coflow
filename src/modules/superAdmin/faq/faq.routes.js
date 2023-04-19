@@ -3,17 +3,18 @@ const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const faqsList = () => import('./views/list')
 
-// start routes
+// start Routes
 export default [
   {
-    path: '/faq',
-    name: 'faq',
+    path: '/adminfaq',
+    name: 'adminfaq',
     component: VerticalLayout,
     children: [{
       path: '',
-      name: 'faq',
-      component: faqsList,
-      meta: { name: 'faq', userType: 'provider', serviceTypes: 'all' }
-    }]
+      name: 'adminfaq',
+      meta: { name: 'adminfaq', userType: 'admin', permission: 'admin.list' },
+      component: faqsList
+    }
+    ]
   }
 ]

@@ -1,5 +1,5 @@
 // Layout
-const VerticleLayout = () => import('@/layouts/VerticleLayout')
+const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const flowsList = () => import('./views/list')
 
@@ -8,7 +8,7 @@ export default [
   {
     path: '/flows',
     name: 'flows',
-    component: VerticleLayout,
+    component: VerticalLayout,
     children: [{
       path: '',
       name: 'flows',

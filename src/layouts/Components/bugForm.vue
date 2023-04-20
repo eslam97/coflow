@@ -21,6 +21,13 @@
             </validation-provider>
           </b-col>
           <b-col md="12" class="mb-3">
+            <cropper-images
+                label="Upload Image"
+                nameOfImage="image.jpg"
+                @cropper-save="saveBugImage"
+                :multi="false"
+                :show-progress="false"
+            ></cropper-images>
           </b-col>
         </b-row>
         <b-row>
@@ -40,23 +47,28 @@
   </div>
 </template>
 <script>
-
+const formData = new FormData()
 export default {
   props: {
     requestLoading: {
       type: Boolean,
       default: false
-    },
-    report: {
-      type: Object
     }
   },
   data () {
-    return {}
+    return {
+      report: {
+        description: ''
+      }
+    }
   },
   methods: {
     addFaqs () {
-      this.$emit('addReport', this.report)
+      formData.append('desc', this.report.description)
+      this.$emit('addReport', formData)
+    },
+    saveBugImage (data) {
+      formData.append('image', data.image)
     }
   },
   watch: {},

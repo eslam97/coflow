@@ -24,5 +24,8 @@ export default {
   },
   getProfileDetails (id) {
     return Api().get(`providers/${id}`)
+  },
+  getInTouch (payload) {
+    return Api().post('contacts', payload)
   }
 }

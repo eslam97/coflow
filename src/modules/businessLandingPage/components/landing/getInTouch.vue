@@ -78,6 +78,7 @@
   </div>
 </template>
 <script>
+import registrationServices from '@/modules/businessLandingPage/services/registration.services'
 export default {
   data () {
     return {
@@ -93,6 +94,11 @@ export default {
   methods: {
     sendGetInTouch () {
       this.getInTouchLoading = true
+      registrationServices.getInTouch(this.getInTouch).then(res => {
+        // console.log('res => ', res)
+      }).finally(() => {
+        this.getInTouchLoading = false
+      })
     }
   }
 }

@@ -119,7 +119,11 @@ export default {
       allLinks: [
         'Website',
         'Facebook',
-        'Instagram'
+        'Instagram',
+        'Whatsapp',
+        'Youtube',
+        'Email',
+        'Reservation Link DD_L'
       ],
       businessRequest: {
         email: '',

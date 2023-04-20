@@ -150,6 +150,7 @@ import BreadCrumb from '../components/core/breadcrumbs/BreadCrumb'
 */
 import LayoutFooter from './Components/LayoutFooter'
 import BugForm from '@/layouts/Components/bugForm'
+import feedback from '@/modules/superAdmin/feedback/services/feedback'
 
 export default {
   name: 'VerticalLayout',
@@ -455,7 +456,11 @@ export default {
       this.$bvModal.show('bugModal')
     },
     addReport (report) {
-      this.$bvModal.hide('bugModal')
+      this.requestLoading = true
+      feedback.addFeedBacks(report).then(() => {
+        this.requestLoading = false
+        this.$bvModal.hide('bugModal')
+      })
     }
   }
   /*  created () {

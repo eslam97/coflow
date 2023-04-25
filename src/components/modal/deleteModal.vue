@@ -51,6 +51,7 @@ export default {
       textCancelButton: '',
       icon: '',
       url: '',
+      method: '',
       rowId: '',
       type: 'delete',
       actionOnAlert: ''
@@ -77,6 +78,7 @@ export default {
       this.icon = opts.icon
       this.url = opts.url
       this.rowId = opts.rowId
+      this.method = opts.method
       this.type = opts.type
       this.actionOnAlert = opts.actionOnAlert
       this.$bvModal.show('deleteModal')
@@ -86,7 +88,7 @@ export default {
       })
     },
     confirm () {
-      mainServices.removeRow(this.url, this.rowId).then(res => {
+      mainServices.removeRow(this.url, this.rowId, this.method).then(res => {
         core.showSnackbar('success', res.data.message)
         Bus.$emit('reloadTableAfterDelete', true)
         this.$bvModal.hide('deleteModal')

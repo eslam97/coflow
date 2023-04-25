@@ -244,6 +244,7 @@ export default {
         actionOnAlert: '',
         text: 'Delete',
         url: 'destroy-all-schedule',
+        method: 'get',
         rowId: this.scheduleDetailsFront.id
       })
     },

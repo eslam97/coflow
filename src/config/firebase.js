@@ -1,12 +1,15 @@
-import firebase from 'firebase'
+
+import firebase from 'firebase/app'
+import 'firebase/firebase-messaging'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyC-t0X7kjpwpCsuS-VUQm0tCjb5bUeGl0w',
-  authDomain: 'nemken-9ef56.firebaseapp.com',
-  projectId: 'nemken-9ef56',
-  storageBucket: 'nemken-9ef56.appspot.com',
-  messagingSenderId: '991558651084',
-  appId: '1:991558651084:web:b2f92d84e77dcf0d148669',
-  measurementId: 'G-P243276M75'
+  apiKey: 'AIzaSyDfiemmxtHtPUtdzJ0rwvX2upH-VxPAgJg',
+  authDomain: 'coflow-45a6f.firebaseapp.com',
+  projectId: 'coflow-45a6f',
+  storageBucket: 'coflow-45a6f.appspot.com',
+  messagingSenderId: '319699081416',
+  appId: '1:319699081416:web:186b2d43e59a8fdf48adfd',
+  measurementId: 'G-56ZECC3JSJ'
 }
 firebase.initializeApp(firebaseConfig)
+export default firebase.messaging()

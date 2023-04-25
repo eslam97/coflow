@@ -10,6 +10,14 @@
                   :report="report"/>
       </template>
     </main-modal>
+    <main-modal id="faqModalAdmin" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-warning">view: </span> FAQ's</h4>
+      </template>
+      <template v-slot:body>
+        getFAQ
+      </template>
+    </main-modal>
     <Loader/>
     <!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
     <div class="wrapper">
@@ -22,7 +30,7 @@
                      :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
         <template slot="menus">
           <ul class="list-group list-group-horizontal menu-icons">
-            <li><i class="las la-question-circle" alt="FAQ"></i></li>
+            <li @click="openFAQ"><i class="las la-question-circle" alt="FAQ"></i></li>
             <li @click="openBugPopup"><i class="las la-bug"></i></li>
             <li><i class="las la-bell"></i></li>
           </ul>
@@ -125,6 +133,7 @@
   </div>
 </template>
 <script>
+import authServices from '../modules/businessLandingPage/services/auth.services'
 import { core } from '../config/pluginInit'
 import { Users } from '../FackApi/api/chat'
 import { mapActions, mapGetters } from 'vuex'
@@ -160,7 +169,6 @@ export default {
       ifSearch: false,
       notFoundImage: require('../assets/images/error/search.png'),
       infiniteId: +new Date(),
-      getNotifications: [],
       notification_unread: '',
       animated: {
         enter: 'fadeInUp',
@@ -176,6 +184,13 @@ export default {
       rtl: false,
       SmallSidebarLogo: WhiteLogo,
       theme: 'dark',
+      getNotifications: [
+        {
+          published: '',
+          read: 0,
+          body: 'sssssssssss'
+        }
+      ],
       message: [
         {
           image: require('../assets/images/user/user-01.jpg'),
@@ -264,6 +279,7 @@ export default {
   },
   mounted () {
     this.layoutSetting(this.$route.name)
+    this.startListeners()
     /* this.$store.dispatch('getUserNotification', 1).then(res => {
       this.getNotifications = res.data.data.notification.data
       this.notification_unread = res.data.data.notification_unread
@@ -455,12 +471,65 @@ export default {
     openBugPopup () {
       this.$bvModal.show('bugModal')
     },
+    openFAQ () {
+      this.$bvModal.show('faqModalAdmin')
+    },
     addReport (report) {
       this.requestLoading = true
       feedback.addFeedBacks(report).then(() => {
         this.requestLoading = false
         this.$bvModal.hide('bugModal')
       })
+    },
+    async startListeners () {
+      await this.startOnMessageListener()
+      await this.startTokenRefreshListener()
+      await this.requestPermission()
+      await this.getIdToken()
+    },
+    startOnMessageListener () {
+      try {
+        this.$messaging.onMessage((payload) => {
+          console.log('payload', payload)
+        })
+      } catch (e) {
+        console.error('Error : ', e)
+      }
+    },
+    startTokenRefreshListener () {
+      try {
+        this.$messaging.onTokenRefresh(async () => {
+          try {
+            this.idToken = this.$messaging.getToken()
+            authServices.sendFirebase(JSON.parse(localStorage.getItem('userInfo')).user.id, this.idToken)
+            localStorage.setItem('fcmToken', this.idToken)
+          } catch (e) {
+            console.error('Error : ', e)
+          }
+        })
+      } catch (e) {
+        console.error('Error : ', e)
+      }
+    },
+    async requestPermission () {
+      try {
+        const permission = await Notification.requestPermission()
+        console.log('GIVEN notify perms')
+        console.log(permission)
+      } catch (e) {
+        console.error('Error : ', e)
+      }
+    },
+    async getIdToken () {
+      console.log(this.$messaging.getToken())
+      try {
+        this.idToken = await this.$messaging.getToken()
+        console.log('TOKEN ID FOR this browser', this.idToken)
+        localStorage.setItem('fcmToken', this.idToken)
+        authServices.sendFirebase(localStorage.getItem('userToken'))
+      } catch (e) {
+        console.error('Error : ', e)
+      }
     }
   }
   /*  created () {

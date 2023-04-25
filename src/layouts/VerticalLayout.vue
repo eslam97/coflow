@@ -10,12 +10,12 @@
                   :report="report"/>
       </template>
     </main-modal>
-    <main-modal id="faqModalAdmin" size="lg">
+    <main-modal id="faqList" size="lg">
       <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-warning">view: </span> FAQ's</h4>
+        <h4 class="font-weight-bold"><span class="text-warning">FAQ's </span></h4>
       </template>
       <template v-slot:body>
-        getFAQ
+        <faq-popup/>
       </template>
     </main-modal>
     <Loader/>
@@ -30,13 +30,45 @@
                      :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
         <template slot="menus">
           <ul class="list-group list-group-horizontal menu-icons">
-            <li @click="openFAQ"><i class="las la-question-circle" alt="FAQ"></i></li>
+            <li @click="openFaqPopup"><i class="las la-question-circle" alt="FAQ"></i></li>
             <li @click="openBugPopup"><i class="las la-bug"></i></li>
-            <li><i class="las la-bell"></i></li>
+
           </ul>
         </template>
         <template slot="responsiveRight">
           <ul class="navbar-nav ml-auto navbar-list">
+            <li class="nav-item px-0 mr-3" v-nav-toggle>
+              <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">
+                <lottie :option="require('../assets/images/small/lottie-bell')" id="lottie-beil" />
+                <span class="bg-danger dots"></span>
+              </a>
+              <div class="iq-sub-dropdown">
+                <div class="iq-card shadow-none m-0">
+                  <div class="iq-card-body p-0 ">
+                    <div class="bg-warning p-3">
+                      <h5 class="mb-0 text-white">{{ $t('nav.allNotifications') }}<small class="badge  badge-light float-right pt-1">{{ notification_unread }}</small></h5>
+                    </div>
+                    <div class="allNotifications" id="infinite-list">
+                      <span v-if="getNotifications.length > 0">
+                      <a href="#" class="iq-sub-card" v-for="(item, index) in getNotifications" :key="index" :class="item.read == 0 ? 'unmark' : 'unmark'">
+                      <div class="media align-items-center">
+<!--                        <div class="">
+                          <img class="avatar-40 rounded" :src="item.image" alt="img">
+                        </div>-->
+                        <div class="media-body ml-3 position-relative">
+                          <h6 class="mb-0 "> <i v-if="item.read == 0" class="ri-checkbox-blank-circle-fill text-warning position-absolute unread"></i>{{ item.title }}</h6>
+                          <small class="float-right font-size-12">{{ item.published }}</small>
+                          <p class="mb-0">{{ item.body ? item.body.substring(0,40) + '...' : 'NO body' }}</p>
+                        </div>
+                      </div>
+                    </a>
+                    </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
                 <img :src="userData.logo ? userData.logo : require('@/assets/images/user/default-user-image.png')"
@@ -133,7 +165,6 @@
   </div>
 </template>
 <script>
-import authServices from '../modules/businessLandingPage/services/auth.services'
 import { core } from '../config/pluginInit'
 import { Users } from '../FackApi/api/chat'
 import { mapActions, mapGetters } from 'vuex'
@@ -159,8 +190,9 @@ import BreadCrumb from '../components/core/breadcrumbs/BreadCrumb'
 */
 import LayoutFooter from './Components/LayoutFooter'
 import BugForm from '@/layouts/Components/bugForm'
-import feedback from '@/modules/superAdmin/feedback/services/feedback'
+import FaqPopup from '@/layouts/Components/faqPopup'
 
+import LayoutServices from './services/layout.services'
 export default {
   name: 'VerticalLayout',
   data () {
@@ -169,6 +201,208 @@ export default {
       ifSearch: false,
       notFoundImage: require('../assets/images/error/search.png'),
       infiniteId: +new Date(),
+      getNotifications: [
+        {
+          id: 50958,
+          project_id: 2,
+          object_id: 1994,
+          title: 'Member Discount',
+          body: ' ds',
+          file: null,
+          read: 0,
+          notification_setting_id: 4,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T20:30:58.000000Z',
+          updated_at: '2023-04-24T20:30:58.000000Z',
+          published: '17 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 4,
+            key: 'create_discount'
+          }
+        },
+        {
+          id: 50944,
+          project_id: 2,
+          object_id: 423,
+          title: 'Member Refund done',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 3,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T20:26:11.000000Z',
+          updated_at: '2023-04-24T20:26:11.000000Z',
+          published: '17 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 3,
+            key: 'refund_done'
+          }
+        },
+        {
+          id: 50931,
+          project_id: 2,
+          object_id: 423,
+          title: 'Member Refund Status',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 2,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T20:21:26.000000Z',
+          updated_at: '2023-04-24T20:21:26.000000Z',
+          published: '17 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 2,
+            key: 'refund_change_status'
+          }
+        },
+        {
+          id: 50918,
+          project_id: 2,
+          object_id: 423,
+          title: 'Member Refund Request',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 1,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T20:21:01.000000Z',
+          updated_at: '2023-04-24T20:21:01.000000Z',
+          published: '17 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 1,
+            key: 'refund_request'
+          }
+        },
+        {
+          id: 50905,
+          project_id: 2,
+          object_id: 422,
+          title: 'Member Refund done',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 3,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T19:59:51.000000Z',
+          updated_at: '2023-04-24T19:59:51.000000Z',
+          published: '17 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 3,
+            key: 'refund_done'
+          }
+        },
+        {
+          id: 50892,
+          project_id: 2,
+          object_id: 422,
+          title: 'Member Refund Status',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 2,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T19:04:19.000000Z',
+          updated_at: '2023-04-24T19:04:19.000000Z',
+          published: '18 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 2,
+            key: 'refund_change_status'
+          }
+        },
+        {
+          id: 50867,
+          project_id: 2,
+          object_id: 422,
+          title: 'Member Refund Status',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 2,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T19:02:48.000000Z',
+          updated_at: '2023-04-24T19:02:48.000000Z',
+          published: '18 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 2,
+            key: 'refund_change_status'
+          }
+        },
+        {
+          id: 50854,
+          project_id: 2,
+          object_id: 422,
+          title: 'Member Refund Status',
+          body: ' ',
+          file: null,
+          read: 0,
+          notification_setting_id: 2,
+          user_id: 104,
+          is_active: 1,
+          deleted_at: null,
+          created_at: '2023-04-24T19:02:23.000000Z',
+          updated_at: '2023-04-24T19:02:23.000000Z',
+          published: '18 hours ago',
+          user: {
+            id: 104,
+            name: 'islam ashraf',
+            is_online: true
+          },
+          setting: {
+            id: 2,
+            key: 'refund_change_status'
+          }
+        }
+      ],
       notification_unread: '',
       animated: {
         enter: 'fadeInUp',
@@ -184,13 +418,6 @@ export default {
       rtl: false,
       SmallSidebarLogo: WhiteLogo,
       theme: 'dark',
-      getNotifications: [
-        {
-          published: '',
-          read: 0,
-          body: 'sssssssssss'
-        }
-      ],
       message: [
         {
           image: require('../assets/images/user/user-01.jpg'),
@@ -265,6 +492,7 @@ export default {
     }
   },
   components: {
+    FaqPopup,
     BugForm,
     LayoutFooter,
     LayoutFixRightSide,
@@ -279,7 +507,6 @@ export default {
   },
   mounted () {
     this.layoutSetting(this.$route.name)
-    this.startListeners()
     /* this.$store.dispatch('getUserNotification', 1).then(res => {
       this.getNotifications = res.data.data.notification.data
       this.notification_unread = res.data.data.notification_unread
@@ -468,77 +695,26 @@ export default {
         }
       }) */
     },
+    openFaqPopup () {
+      this.$bvModal.show('faqList')
+    },
     openBugPopup () {
       this.$bvModal.show('bugModal')
     },
-    openFAQ () {
-      this.$bvModal.show('faqModalAdmin')
-    },
     addReport (report) {
-      this.requestLoading = true
-      feedback.addFeedBacks(report).then(() => {
-        this.requestLoading = false
-        this.$bvModal.hide('bugModal')
-      })
-    },
-    async startListeners () {
-      await this.startOnMessageListener()
-      await this.startTokenRefreshListener()
-      await this.requestPermission()
-      await this.getIdToken()
-    },
-    startOnMessageListener () {
-      try {
-        this.$messaging.onMessage((payload) => {
-          console.log('payload', payload)
-        })
-      } catch (e) {
-        console.error('Error : ', e)
-      }
-    },
-    startTokenRefreshListener () {
-      try {
-        this.$messaging.onTokenRefresh(async () => {
-          try {
-            this.idToken = this.$messaging.getToken()
-            authServices.sendFirebase(JSON.parse(localStorage.getItem('userInfo')).user.id, this.idToken)
-            localStorage.setItem('fcmToken', this.idToken)
-          } catch (e) {
-            console.error('Error : ', e)
-          }
-        })
-      } catch (e) {
-        console.error('Error : ', e)
-      }
-    },
-    async requestPermission () {
-      try {
-        const permission = await Notification.requestPermission()
-        console.log('GIVEN notify perms')
-        console.log(permission)
-      } catch (e) {
-        console.error('Error : ', e)
-      }
-    },
-    async getIdToken () {
-      console.log(this.$messaging.getToken())
-      try {
-        this.idToken = await this.$messaging.getToken()
-        console.log('TOKEN ID FOR this browser', this.idToken)
-        localStorage.setItem('fcmToken', this.idToken)
-        authServices.sendFirebase(localStorage.getItem('userToken'))
-      } catch (e) {
-        console.error('Error : ', e)
-      }
+      this.$bvModal.hide('bugModal')
     }
+  },
+  created () {
+    /* channel.channel.bind('my-event', (data) => {
+      this.getNotifications = data.data
+      this.notification_unread = data.notification_unread
+      this.currentPage = 2
+    }) */
+    LayoutServices.filterNotification().then(res => {
+      console.log(res.data.data)
+    })
   }
-  /*  created () {
-      channel.channel.bind('my-event', (data) => {
-        this.getNotifications = data.data
-        this.notification_unread = data.notification_unread
-        this.currentPage = 2
-      })
-    } */
 }
 </script>
 <style>
@@ -560,27 +736,32 @@ export default {
   height: 30rem;
 }
 
-@media(max-width:479px) {
+@media (max-width: 479px) {
   .iq-navbar-custom {
     padding-right: 0px !important;
   }
-  .menu-icons {
+
+  .menu-icons > li > i {
     font-size: 24px !important;
     margin-left: auto !important;
   }
 }
-@media(max-width: 1200px) {
+
+@media (max-width: 1200px) {
   .menu-icons {
     margin-left: auto !important;
   }
 }
+
 .menu-icons {
   font-size: 32px;
   margin-left: 300px;
 }
+
 .menu-icons li {
   margin-right: 30px;
 }
+
 .menu-icons li:hover {
   color: var(--iq-amber);
   cursor: pointer;

@@ -12,9 +12,10 @@ export default {
   removeImage (id, type) {
     return Api().get(`remove-image/${id}/${type}`)
   },
-  removeRow (url, rowId) {
+  removeRow (url, rowId, method = 'delete') {
     console.log(url, rowId)
-    return Api().delete(`${url}/${rowId}`)
+    const api = rowId ? url + '/' + rowId : url
+    return Api()[method](`${api}`)
   },
   changeStatus (payload) {
     return Api().post('change-status', payload)

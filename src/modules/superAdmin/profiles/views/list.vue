@@ -15,6 +15,57 @@
             :typeOfModal="typeOfModal"/>
       </template>
     </main-modal>
+    <main-modal id="commentsModal" size="lg">
+    <template v-slot:header>
+      <h4 class="font-weight-bold"><span class="text-warning" >Notes: </span></h4>
+    </template>
+    <template v-slot:body>
+      <div>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <b-form @submit.prevent="handleSubmit(saveProduct)">
+            <b-form-group
+                label="Add new note"
+                label-for="Notes"
+            >
+              <ValidationProvider name="notes" ref="Notes" rules="required" v-slot="{ errors }">
+                <b-form-textarea
+                    placeholder="Note..."
+                    rows="2"
+                    v-model="note"
+                    :class="(errors.length > 0 ? ' is-invalid' : '')"
+                ></b-form-textarea>
+                <div class="invalid-feedback">
+                  <span>{{ errors[0] }}</span>
+                </div>
+              </ValidationProvider>
+            </b-form-group>
+            <div class="d-flex justify-content-center">
+              <b-button
+                  class="button-orange-modal"
+                  type="submit"
+                  v-if="!requestLoading"
+              >
+                <i class="las la-plus"></i>
+              </b-button>
+              <b-button class="button-orange-modal" v-else>
+                <spinner-loading></spinner-loading>
+              </b-button>
+            </div>
+          </b-form>
+        </ValidationObserver>
+      </div>
+    </template>
+    </main-modal>
+    <main-modal id="notificationModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold"><span class="text-warning" >Add: </span> Notification
+        </h4>
+      </template>
+      <template v-slot:body>
+        <notification-details @addProviderNotification="addNotification"
+                              :requestLoading="requestLoading"/>
+      </template>
+    </main-modal>
     <b-row>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Profiles</h3>
@@ -127,6 +178,8 @@ import { core } from '@/config/pluginInit'
 import profileDetails from '../components/profileDetails'
 import profilesServices from '@/modules/superAdmin/profiles/services/profiles.services'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+import notificationsServices from '@/modules/superAdmin/notifications/services/notifications.services'
+import NotificationDetails from '@/modules/superAdmin/profiles/components/notificationDetails'
 export default {
   data () {
     return {
@@ -148,7 +201,7 @@ export default {
         {
           label: 'Actions',
           key: 'actions',
-          class: 'text-left wt-150',
+          class: 'text-left',
           type: 'actions',
           actions: [
             {
@@ -199,10 +252,26 @@ export default {
               titleHeader: 'Profile',
               textContent: 'name',
               url: 'providers'
+            },
+            {
+              icon: 'las la-comment',
+              color: 'secondary',
+              text: 'Comment',
+              showIf: () => this.hasPer('profile.delete'),
+              actionName: 'addComment'
+            },
+            {
+              icon: 'las la-bell',
+              color: 'warning',
+              text: 'Notification',
+              showIf: () => this.hasPer('profile.delete'),
+              actionName: 'sendNotification',
+              actionParams: ['id']
             }
           ]
         }
       ],
+      note: '',
       profileDetails: false,
       typeOfModal: 'add',
       requestLoading: false,
@@ -250,7 +319,8 @@ export default {
       allActivityLines: [],
       allActivityTypes: [],
       allGovernorates: [],
-      allAreas: []
+      allAreas: [],
+      selectedId: ''
     }
   },
   methods: {
@@ -307,6 +377,19 @@ export default {
         this.$bvModal.show('profileDetalilsModal')
       })
     },
+    addComment () {
+      this.$bvModal.show('commentsModal')
+    },
+    sendNotification (obj) {
+      this.selectedId = obj.id
+      this.$bvModal.show('notificationModal')
+    },
+    addNotification (payload) {
+      notificationsServices.filterForSendNotifications({ ...payload, provider_id: this.selectedId }).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.selectedId = ''
+      })
+    },
     changeToActiveStatus (id) {
       this.reloadTable = false
       profilesServices.changeProfileCanLogin(id, { can_login: 1, _method: 'post' }).then(res => {
@@ -357,6 +440,7 @@ export default {
     core.index()
   },
   components: {
+    NotificationDetails,
     profileDetails
   },
   beforeDestroy () {
@@ -369,6 +453,8 @@ export default {
     this.getAllAreas()
     this.getAllActivityLine()
     this.$root.$on('viewProfile', this.viewProfile)
+    this.$root.$on('addComment', this.addComment)
+    this.$root.$on('sendNotification', this.sendNotification)
     this.$root.$on('changeToDisactive', this.changeToDisactive)
     this.$root.$on('changeToActive', this.changeToActiveStatus)
   }

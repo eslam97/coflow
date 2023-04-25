@@ -75,7 +75,7 @@
                 :label="'End Age'"
             />
           </b-col>
-          <b-col md="12" class="mb-3">
+          <b-col md="6" class="mb-3">
             <main-select labelTitle='Country' :validate="'required'"
                          :name="'Country'"
                          placeholder="Choose"
@@ -83,6 +83,14 @@
                          label="name"
                          :reduce="data=> data.id"
                          v-model="notification.country_id">
+            </main-select>
+          </b-col>
+          <b-col md="6" class="mb-3">
+            <main-select labelTitle='Customer type' :validate="'required'"
+                         :name="'Type'"
+                         placeholder="Choose"
+                         :options="['view', 'save', 'track']"
+                         v-model="notification.type">
             </main-select>
           </b-col>
           <b-col md="12" class="mb-3">
@@ -114,9 +122,9 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row v-if="typeOfModal != 'view'">
+        <b-row>
           <b-col md="12" class="mt-4">
-            <div class="d-flex justify-content-center" v-if="typeOfModal == 'add'">
+            <div class="d-flex justify-content-center">
               <b-button class="button-orange-modal" type="submit" v-if="!requestLoading">
                 <i class="las la-plus"></i>
               </b-button>
@@ -137,13 +145,6 @@ export default {
     requestLoading: {
       type: Boolean,
       default: false
-    },
-    typeOfModal: {
-      type: String,
-      default: 'add'
-    },
-    notificationDetails: {
-      type: Object
     }
   },
   components: {
@@ -154,8 +155,9 @@ export default {
         country_id: '',
         title: '',
         body: '',
-        start_age: '',
-        end_age: ''
+        type: '',
+        start_age: null,
+        end_age: null
       },
       ageOptions: [{ key: ' < 10 years', value: 0 },
         { key: '10 - 19 years', value: 1 },
@@ -170,7 +172,7 @@ export default {
   },
   methods: {
     sendNotification () {
-      this.$emit('addNotification', this.notification)
+      this.$emit('addProviderNotification', this.notification)
     },
     // depend
     getAllCountries () {

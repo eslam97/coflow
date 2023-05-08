@@ -218,6 +218,15 @@
                       <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
                     </b-col>
                   </b-row>
+                  <b-row>
+                    <b-col md="12">
+                      <main-select labelTitle='Reservation Link' :validate="'required'"
+                                   :name="`reservation_contact`"  placeholder="Choose" :options="info.links"
+                                   label="selectSocial"
+                                   :reduce="data=> data"
+                                   v-model="info.reservation_contact"></main-select>
+                    </b-col>
+                  </b-row>
                   <button
                       class="btn radio-btn radio-btn-orange save-changes-btn"
                   >
@@ -555,6 +564,7 @@ export default {
         bio: '',
         tags: [],
         amenities: [],
+        reservation_contact: [],
         links: [
           {
             selectSocial: '',
@@ -873,6 +883,7 @@ export default {
         this.coverImage = this.oldProfile.cover ? this.oldProfile.cover : require('@/assets/images/user/default-user-image.png')
         this.images = this.oldProfile.images
         this.phones = this.oldProfile.phones
+        this.info.reservation_contact = this.oldProfile.reservation_contact ? this.oldProfile.reservation_contact[0] : ''
         if (this.oldProfile.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'
         } else {
@@ -892,8 +903,8 @@ export default {
           this.getCityDependOnCountryRemote(obj)
           this.getAreasDependOnCityRemote(obj)
           this.based_location = Object(obj)
-          /* this.based = this.oldProfile.address_based
-          this.city = this.oldProfile.city_id
+          this.based = this.oldProfile.address_based
+          /* this.city = this.oldProfile.city_id
           this.country = this.oldProfile.country_id
           this.area = this.oldProfile.area_id */
         } else {
@@ -920,7 +931,8 @@ export default {
     saveChangesInfo () {
       const newObj = {
         _method: 'post',
-        ...this.info
+        ...this.info,
+        reservation_contact: [this.info.reservation_contact]
       }
       this.$emit('updateFacilityInfo', newObj)
     },

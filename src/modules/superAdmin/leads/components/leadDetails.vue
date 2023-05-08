@@ -130,7 +130,10 @@ export default {
       allLinks: [
         'Website',
         'Facebook',
-        'Instagram'
+        'Instagram',
+        'Whatsapp',
+        'Youtube',
+        'Email'
       ],
       businessRequest: {
         email: '',

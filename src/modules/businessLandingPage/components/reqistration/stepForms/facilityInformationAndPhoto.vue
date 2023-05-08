@@ -151,6 +151,18 @@
             </b-col>
           </b-row>
           <b-row>
+            <b-col md="12">
+              <main-select labelTitle='Reservation Link' :validate="'required'"
+                           :name="`reservation_contact`"  placeholder="Choose" :options="[...info.links, {
+                              selectSocial: 'Contact Number',
+                              link: 'contact_number'
+                            }]"
+                           label="selectSocial"
+                           :reduce="data=> data"
+                           v-model="info.reservation_contact"></main-select>
+            </b-col>
+          </b-row>
+          <b-row>
             <b-col md="10" class="mb-5">
               <cropper-images
                   :ratio= "1/1"
@@ -223,6 +235,7 @@ export default {
     return {
       test: true,
       info: {
+        reservation_contact: '',
         activity_line_id: '',
         activity_type_id: '',
         year: '',
@@ -233,10 +246,6 @@ export default {
         tags: [],
         amenities: [],
         links: [
-          {
-            selectSocial: '',
-            link: ''
-          }
         ]
       },
       providerId: JSON.parse(localStorage.getItem('userInfo')).id,
@@ -272,7 +281,7 @@ export default {
       console.log(this.allImages)
       if (this.coverFlag && this.logoFlag && this.allImages.length > 0) {
         this.loadingFacilityInformation = true
-        registrationServices.saveStepFacility(this.info).then(res => {
+        registrationServices.saveStepFacility({ ...this.info, reservation_contact: [this.info.reservation_contact] }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 3)
           localStorage.setItem('formStep', 3)

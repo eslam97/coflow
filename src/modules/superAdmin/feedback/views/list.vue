@@ -37,6 +37,7 @@ export default {
         { label: 'User', key: 'user.name', class: 'text-left' },
         { label: 'description', key: 'desc', class: 'text-left', sortable: true },
         { label: 'Image', key: 'image', class: 'text-left', type: 'image' },
+        { label: 'created date', key: 'created_at', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',
@@ -49,6 +50,16 @@ export default {
               text: 'View',
               actionName: 'showBug',
               actionParams: 'fullObj'
+            },
+            {
+              icon: 'las la-trash-alt',
+              color: 'danger',
+              text: 'Delete',
+              showAlert: true,
+              actionHeader: 'Delete',
+              titleHeader: 'Feedback',
+              textContent: 'user.name',
+              url: 'feedbacks'
             }
           ]
         }

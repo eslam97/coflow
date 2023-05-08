@@ -13,6 +13,13 @@ export default () => {
   apiClient.interceptors.response.use((response) => {
     return response
   }, (error) => {
+    if (error.response.status === 401) {
+      localStorage.removeItem('userToken')
+      localStorage.removeItem('userInfo')
+      localStorage.removeItem('formStep')
+      localStorage.removeItem('permissions')
+      this.$router.push('/business')
+    }
     // eslint-disable-next-line
     /*
     if (error.response.data.message == 'system_shutdown' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'Unauthenticated.') {

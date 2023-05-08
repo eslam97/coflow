@@ -122,8 +122,7 @@ export default {
         'Instagram',
         'Whatsapp',
         'Youtube',
-        'Email',
-        'Reservation Link DD_L'
+        'Email'
       ],
       businessRequest: {
         email: '',

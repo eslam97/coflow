@@ -42,7 +42,7 @@
       <b-col md="12">
         <b-row class="mb-4">
           <b-col md="2" class="mb-2"><h3>Schedule</h3></b-col>
-          <b-col md="6" class="mb-3">
+          <b-col md="7" class="mb-3">
             <ul class="levels-list m-0 p-0 justify-content-center">
               <li class="p-1" v-for="(level, key) in levels" :key="key">
                 <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
@@ -50,7 +50,7 @@
               </li>
             </ul>
           </b-col>
-          <b-col md="4" class="">
+          <b-col md="3" class="">
             <div class="d-flex justify-content-md-end justify-content-center gap-20">
               <b-button @click="clearSchedule" variant="dark" class="add_button text-white">
                 <span>Clear Schedule<i class="fas fa-trash-alt ml-3"></i></span>
@@ -217,16 +217,16 @@ export default {
     },
     deleteSlot () {
       EventBus.$emit('openDeleteModal', {
-        actionHeader: 'Delete',
+        actionHeader: 'Clear',
         titleHeader: 'Slot',
         textContent: `${this.scheduleDetailsFront.flow.name} in ${this.scheduleDetailsFront.day} `,
-        question: 'Are You Sure You Want Delete This Slot?',
-        textDeleteButton: 'YES, Delete',
+        question: 'Are you want to delete all the slots in the schedule?',
+        textDeleteButton: 'YES, Clear',
         textCancelButton: 'NO, CANCEL',
         icon: 'las la-trash-alt',
         type: 'delete',
         actionOnAlert: '',
-        text: 'Delete',
+        text: 'Clear',
         url: 'schedules',
         rowId: this.scheduleDetailsFront.id
       })

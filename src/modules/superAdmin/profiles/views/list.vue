@@ -22,7 +22,7 @@
     <template v-slot:body>
       <div>
         <ValidationObserver v-slot="{ handleSubmit }">
-          <b-form @submit.prevent="handleSubmit(saveProduct)">
+          <b-form @submit.prevent="handleSubmit(saveNote)">
             <b-form-group
                 label="Add new note"
                 label-for="Notes"
@@ -379,6 +379,9 @@ export default {
     },
     addComment () {
       this.$bvModal.show('commentsModal')
+    },
+    saveNote () {
+      this.$bvModal.hide('commentsModal')
     },
     sendNotification (obj) {
       this.selectedId = obj.id

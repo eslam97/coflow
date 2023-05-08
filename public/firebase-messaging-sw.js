@@ -2,13 +2,13 @@ importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js')
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDfiemmxtHtPUtdzJ0rwvX2upH-VxPAgJg',
-  authDomain: 'coflow-45a6f.firebaseapp.com',
-  projectId: 'coflow-45a6f',
-  storageBucket: 'coflow-45a6f.appspot.com',
-  messagingSenderId: '319699081416',
-  appId: '1:319699081416:web:186b2d43e59a8fdf48adfd',
-  measurementId: 'G-56ZECC3JSJ'
+  apiKey: 'AIzaSyBHeom2jUc35eyf6knMk5thsDQFakceC9g',
+  authDomain: 'coflow-2022.firebaseapp.com',
+  projectId: 'coflow-2022',
+  storageBucket: 'coflow-2022.appspot.com',
+  messagingSenderId: '603113695990',
+  appId: '1:603113695990:web:4b86207eff37cebfc3dad7',
+  measurementId: 'G-DW6RP5RS58'
 }
 // const app = firebase.initializeApp(firebaseConfig)
 firebase.initializeApp(firebaseConfig)

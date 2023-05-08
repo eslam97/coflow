@@ -1,17 +1,17 @@
 <template>
   <div>
     <div v-if="!loading" class="accordion" role="tablist">
-      <b-card v-for="item in faqList" :key="item.sort" no-body class="mb-1">
+      <b-card v-for="item in faqList" :key="item.id" no-body class="mb-1">
         <b-card-header header-tag="header" class="p-0 border-0" role="tab">
           <b-button
               class="d-flex justify-content-between align-items-center header-faq"
               block
-              v-b-toggle="`accordion-${item.sort}`">
+              v-b-toggle="`accordion-${item.id}`">
             {{ item.question }}
             <i class="las la-angle-down"></i>
           </b-button>
         </b-card-header>
-        <b-collapse :id="`accordion-${item.sort}`" visible accordion="my-accordion" role="tabpanel">
+        <b-collapse :id="`accordion-${item.id}`" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
             <b-card-text>{{ item.answer }}</b-card-text>
           </b-card-body>

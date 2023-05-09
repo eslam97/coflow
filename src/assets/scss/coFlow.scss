@@ -723,3 +723,19 @@ slot-box-orange {
 .brandImage-footer {
   width: 100px !important;
 }
+@media  screen and (max-width: 1158px) and (min-width: 818px) {
+  .vs--single .vs__selected {
+    position: absolute;
+    z-index: 2;
+    top: 5px;
+  }
+
+}
+@media  screen and (max-width: 1446px) and (min-width: 1300px) {
+  .vs--single .vs__selected {
+    position: absolute;
+    z-index: 2;
+    top: 5px;
+  }
+
+}

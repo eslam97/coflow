@@ -11,6 +11,6 @@ export default {
     return Api().get(`${type}-analysis/${id}/${date}`)
   },
   getAllItems (route) {
-    return Api().get(route)
+    return Api().get(`${route}?limit=100`)
   }
 }

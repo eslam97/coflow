@@ -171,7 +171,6 @@ export default {
       serviceFilterByDate: moment(new Date()).format('MMM YYYY'),
       itemsList: [],
       itemId: '',
-
       monthDaysOptions: {
         legend: {
           show: false
@@ -248,7 +247,6 @@ export default {
           data: []
         }
       ],
-
       loading: false
     }
   },

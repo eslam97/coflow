@@ -209,6 +209,16 @@
             <b-col md="12" class="mb-3" v-if="allLinks.length !== profile.links.length">
               <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
             </b-col>
+            <b-col md="12">
+              <main-select labelTitle='Reservation Link' :validate="'required'"
+                           :name="`reservation_contact`"  placeholder="Choose" :options="[...profile.links, {
+                              selectSocial: 'Contact Number',
+                              link: 'contact_number'
+                            }]"
+                           label="selectSocial"
+                           :reduce="data=> data"
+                           v-model="profile.reservation_contact"></main-select>
+            </b-col>
           </b-row>
 <!--          <b-row>
             <b-col md="12" class="mb-5">
@@ -561,6 +571,7 @@ export default {
   data () {
     return {
       profile: {
+        reservation_contact: '',
         email: '',
         password: '',
         contact: [
@@ -776,6 +787,7 @@ export default {
     },
     fillData () {
       if (this.profileDetails) {
+        this.profile.reservation_contact = this.profileDetails.reservation_contact
         this.profile.email = this.profileDetails.email
         this.profile.password = this.profileDetails.password_text
         this.profile.contact = this.profileDetails.contacts

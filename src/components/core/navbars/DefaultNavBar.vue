@@ -50,7 +50,6 @@
                     <div class="hover-circle"><i class="ri-arrow-right-s-line"></i></div>
                   </div>
                 </div>-->
-        <slot name="menus" />
         <slot name="responsiveRight"/>
         <slot name="right"/>
       </nav>

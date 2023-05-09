@@ -28,15 +28,14 @@
       <!-- TOP Nav Bar -->
       <DefaultNavBar :ifSearch='ifSearch' title="Dashboard" :homeURL="{ name: 'dashboard.home-2' }"
                      :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
-        <template slot="menus">
-          <ul class="list-group list-group-horizontal menu-icons">
-            <li @click="openFaqPopup"><i class="las la-question-circle" alt="FAQ"></i></li>
-            <li @click="openBugPopup"><i class="las la-bug"></i></li>
-
-          </ul>
-        </template>
         <template slot="responsiveRight">
           <ul class="navbar-nav ml-auto navbar-list">
+            <li class="nav-item px-0 mr-3 list-actions" @click="openFaqPopup">
+              <i class="las la-question-circle" alt="FAQ"></i>
+            </li>
+            <li class="nav-item px-0 mr-3 list-actions" @click="openBugPopup">
+              <i class="las la-bug"></i>
+            </li>
             <li class="nav-item px-0 mr-3" v-nav-toggle>
               <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">
                 <lottie :option="require('../assets/images/small/lottie-bell')" id="lottie-beil" />
@@ -569,5 +568,9 @@ export default {
   color: var(--iq-amber);
   cursor: pointer;
 }
-
+.list-actions {
+  font-size: 27px;
+  display: flex;
+  align-items: center;
+}
 </style>

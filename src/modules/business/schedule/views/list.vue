@@ -37,30 +37,27 @@
                           :typeOfModal="typeOfModal"/>
       </template>
     </main-modal>
+      <section class="mb-4 d-flex justify-content-between align-items-center flex-wrap">
+          <div><h3>Schedule</h3></div>
+          <div>
+              <ul class="levels-list m-0 p-0 justify-content-center">
+                  <li class="p-1" v-for="(level, key) in levels" :key="key">
+                      <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
+                      <span class="font-size-12">{{ level.text }}</span>
+                  </li>
+              </ul>
+          </div>
+          <div>
+              <div class="d-flex justify-content-md-end justify-content-center gap-20">
+                  <b-button @click="clearSchedule" variant="dark" class="add_button text-white">
+                      <span>Clear Schedule<i class="fas fa-trash-alt ml-3"></i></span>
+                  </b-button>
+                  <b-button @click="openPopup" variant="warning" class="add_button text-white">
+                      Add Flow Slots<i class="fas fa-calendar-alt ml-3"></i></b-button>
+              </div>
+          </div>
+      </section>
     <b-row>
-      <!--   Header   -->
-      <b-col md="12">
-        <b-row class="mb-4">
-          <b-col md="2" class="mb-2"><h3>Schedule</h3></b-col>
-          <b-col md="7" class="mb-3">
-            <ul class="levels-list m-0 p-0 justify-content-center">
-              <li class="p-1" v-for="(level, key) in levels" :key="key">
-                <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
-                <span class="font-size-12">{{ level.text }}</span>
-              </li>
-            </ul>
-          </b-col>
-          <b-col md="3" class="">
-            <div class="d-flex justify-content-md-end justify-content-center gap-20">
-              <b-button @click="clearSchedule" variant="dark" class="add_button text-white">
-                <span>Clear Schedule<i class="fas fa-trash-alt ml-3"></i></span>
-              </b-button>
-              <b-button @click="openPopup" variant="warning" class="add_button text-white">
-                Add Flow Slots<i class="fas fa-calendar-alt ml-3"></i></b-button>
-            </div>
-          </b-col>
-        </b-row>
-      </b-col>
       <spinner-loading v-if="requestLoading"></spinner-loading>
       <b-col lg="12" v-if="allSlots.length > 0">
         <b-card class="overflow-auto text-center schedule-card">
@@ -235,7 +232,7 @@ export default {
       EventBus.$emit('openDeleteModal', {
         actionHeader: 'Delete',
         titleHeader: 'Schedule',
-        textContent: 'Are You Sure You Want to Clear the whole Schedule?',
+        textContent: 'Are you want to delete all the slots in the schedule?',
         question: '',
         textDeleteButton: 'YES, Delete',
         textCancelButton: 'NO, CANCEL',

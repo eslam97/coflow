@@ -28,7 +28,7 @@
       <b-row>
         <b-col md="2" class="border-right p-4">
           <div class="">
-            <main-select
+            <main-select :inBody="true"
               v-if="itemsList.length > 0"
               :name="`${type} name`"
               :options="itemsList"

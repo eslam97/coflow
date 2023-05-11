@@ -221,7 +221,10 @@
                   <b-row>
                     <b-col md="12">
                       <main-select labelTitle='Reservation Link' :validate="'required'"
-                                   :name="`reservation_contact`"  placeholder="Choose" :options="info.links"
+                                   :name="`reservation_contact`"  placeholder="Choose" :options="[...info.links, {
+                              selectSocial: 'Contact Number',
+                              link: 'contact_number'
+                            }]"
                                    label="selectSocial"
                                    :reduce="data=> data"
                                    v-model="info.reservation_contact"></main-select>

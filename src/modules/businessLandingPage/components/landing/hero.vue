@@ -142,10 +142,4 @@
   bottom: 0;
   left: calc((100vw - 75vh)/2);
 }
-.FooterMobile {
-  position: absolute;
-  width: 263px;
-  bottom: 0;
-  left: calc((100vw - 263px)/2);
-}
 </style>

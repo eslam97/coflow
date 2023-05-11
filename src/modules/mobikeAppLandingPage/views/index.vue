@@ -394,9 +394,9 @@ export default {
 }
 .FooterMobile {
   position: absolute;
-  width: 750px;
+  width: 540px;
   bottom: 0;
-  left: calc((100vw - 750px)/2);
+  left: calc((100vw - 540px)/2);
 }
 @media screen and (max-width: 960px) {
   .FooterLogoCircle {

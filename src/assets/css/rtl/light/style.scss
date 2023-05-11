@@ -353,7 +353,14 @@ body.sidebar-main .iq-sidebar:hover .iq-sidebar-menu .iq-menu li ul.iq-submenu-d
 .navbar-list li.iq-nav-user span { flex: 1; font-size: 14px; }
 .iq-top-navbar .iq-sidebar-logo .top-logo { display: none; }
 .iq-breadcrumb { display: none; }
-.nav-item span.dots { height: 5px; width: 5px; font-size: 0; text-align: center; padding: 0; position: absolute; top: 20px; left: 10px; animation: shadow-pulse-dots 1s infinite; border-radius: 50%; -webkit-border-radius: 50%; }
+.nav-item span.dots {  height: 8px;
+    width: 8px;
+    font-size: 0;
+    text-align: center;
+    padding: 0;
+    position: absolute;
+    top: 20px;
+    right: 5px;  animation: shadow-pulse-dots 1s infinite; border-radius: 50%; -webkit-border-radius: 50%; }
 .nav-item span.count-mail { height: 5px; width: 5px; font-size: 10px; text-align: center; line-height: 15px; padding: 0; position: absolute; top: 20px; left: 10px; animation: shadow-pulse 1s infinite; border-radius: 50%; }
 @keyframes shadow-pulse-dots {
     0% { box-shadow: 0 0 0 0px rgba(230, 65, 65, 0.2); }

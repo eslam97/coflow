@@ -1,6 +1,7 @@
 import axios from 'axios'
 /* import router from './router/index' */
 import { core } from '@/config/pluginInit'
+import router from './router/index'
 export default () => {
   const apiClient = axios.create({
     // baseURL: 'https://cashflow.redgits.com/CoFlow/apiProvider/',
@@ -13,12 +14,12 @@ export default () => {
   apiClient.interceptors.response.use((response) => {
     return response
   }, (error) => {
-    if (error.response.status === 401) {
+    if (error.response.status === 401 || error.response.data.message === 'Unauthenticated') {
       localStorage.removeItem('userToken')
       localStorage.removeItem('userInfo')
       localStorage.removeItem('formStep')
       localStorage.removeItem('permissions')
-      this.$router.push('/business')
+      router.push('/business')
     }
     // eslint-disable-next-line
     /*

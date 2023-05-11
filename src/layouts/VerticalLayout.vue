@@ -21,6 +21,33 @@
     <Loader/>
     <!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
     <div class="wrapper">
+        <b-sidebar id="sidebar-1" bg-variant="white" right backdrop no-header-close @change="toggleBodyScrollbar">
+            <div v-if="getNotifications.length > 0">
+                <ul class="notification-list p-0">
+                    <li v-for="(item, index) in getNotifications" :key="index" class="border-bottom py-2 px-3">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-icon mr-2" v-if="item.title === 'Track Alert'">
+                                <img src="@/assets/images/dashboard/Trackers@4x.png" class="w-20px" />
+                            </div>
+                            <div class="rounded-icon mr-2" v-else>
+                                <i class="las la-heart text-danger"></i>
+                            </div>
+                            <div>
+                                <template>
+                                    <p class="m-0 text-gray font-size-12">{{ item.title }}</p>
+                                    <p class="m-0 text-black font-size-14">{{ item.body }}</p>
+                                </template>
+                                <span class="m-0 text-gray font-size-10 mt-4">Now</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div v-else class="h-100 d-flex justify-content-center align-items-center flex-column">
+                <img src="@/assets/images/notify.png" alt="notify" class="w-250px"/>
+                <p class="font-size-18">No Notification</p>
+            </div>
+        </b-sidebar>
       <!-- Sidebar  -->
       <SmallSidebar v-if="$route.name === 'dashboard.home-5'" :logo="SmallSidebarLogo" @toggle="sidebarMini"/>
       <Sidebar :items="verticalMenu" :logo="logo" :onlyLogo="onlyLogo" :onlyLogoText="onlyLogoText"
@@ -30,106 +57,50 @@
                      :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
         <template slot="responsiveRight">
           <ul class="navbar-nav ml-auto navbar-list">
-            <li class="nav-item px-0 mr-3 list-actions" @click="openFaqPopup">
+            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" @click="openFaqPopup">
               <i class="las la-question-circle" alt="FAQ"></i>
             </li>
-            <li class="nav-item px-0 mr-3 list-actions" @click="openBugPopup">
+            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" @click="openBugPopup">
               <i class="las la-bug"></i>
             </li>
-            <li class="nav-item px-0 mr-3" v-nav-toggle>
-              <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">
-                <lottie :option="require('../assets/images/small/lottie-bell')" id="lottie-beil" />
-                <span class="bg-danger dots"></span>
-              </a>
-              <div class="iq-sub-dropdown">
-                <div class="iq-card shadow-none m-0">
-                  <div class="iq-card-body p-0 ">
-                    <div class="bg-warning p-3">
-                      <h5 class="mb-0 text-white">{{ $t('nav.allNotifications') }}<small class="badge  badge-light float-right pt-1">{{ notification_unread }}</small></h5>
-                    </div>
-                    <div class="allNotifications" id="infinite-list">
-                      <span v-if="getNotifications.length > 0">
-                      <a href="#" class="iq-sub-card" v-for="(item, index) in getNotifications" :key="index" :class="item.read == 0 ? 'unmark' : 'unmark'">
-                      <div class="media align-items-center">
-<!--                        <div class="">
-                          <img class="avatar-40 rounded" :src="item.image" alt="img">
-                        </div>-->
-                        <div class="media-body ml-3 position-relative">
-                          <h6 class="mb-0 "> <i v-if="item.read == 0" class="ri-checkbox-blank-circle-fill text-warning position-absolute unread"></i>{{ item.title }}</h6>
-                          <small class="float-right font-size-12">{{ item.published }}</small>
-                          <p class="mb-0">{{ item.body ? item.body.substring(0,40) + '...' : 'NO body' }}</p>
-                        </div>
-                      </div>
-                    </a>
-                    </span>
+            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" v-b-toggle.sidebar-1>
+                <i class="las la-bell"></i>
+<!--              <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">-->
+<!--                <lottie :option="require('../assets/images/small/lottie-bell')" id="lottie-beil" />-->
+                <span class="bg-danger dots" v-if="newNotification"></span>
+<!--              </a>-->
+<!--              <div class="iq-sub-dropdown">-->
+<!--                <div class="iq-card shadow-none m-0">-->
+<!--                  <div class="iq-card-body p-0 ">-->
+<!--                    <div class="bg-warning p-3">-->
+<!--                      <h5 class="mb-0 text-white">{{ $t('nav.allNotifications') }}<small class="badge  badge-light float-right pt-1">{{ notification_unread }}</small></h5>-->
+<!--                    </div>-->
+<!--                    <div class="allNotifications" id="infinite-list">-->
+<!--                      <span v-if="getNotifications.length > 0">-->
+<!--                      <a href="#" class="iq-sub-card" v-for="(item, index) in getNotifications" :key="index" :class="item.read == 0 ? 'unmark' : 'unmark'">-->
+<!--                      <div class="media align-items-center">-->
+<!--&lt;!&ndash;                        <div class="">-->
+<!--                          <img class="avatar-40 rounded" :src="item.image" alt="img">-->
+<!--                        </div>&ndash;&gt;-->
+<!--                        <div class="media-body ml-3 position-relative">-->
+<!--                          <h6 class="mb-0 "> <i v-if="item.read == 0" class="ri-checkbox-blank-circle-fill text-warning position-absolute unread"></i>{{ item.title }}</h6>-->
+<!--                          <small class="float-right font-size-12">{{ item.published }}</small>-->
+<!--                          <p class="mb-0">{{ item.body ? item.body.substring(0,40) + '...' : 'NO body' }}</p>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </a>-->
+<!--                    </span>-->
 
-                    </div>
-                  </div>
-                </div>
-              </div>
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
             </li>
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
                 <img :src="userData.logo ? userData.logo : require('@/assets/images/user/default-user-image.png')"
                      class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
               </a>
-              <!--              <div class="iq-sub-dropdown iq-user-dropdown">
-                              <div class="iq-card shadow-none m-0">
-                                <div class="iq-card-body p-0 ">
-                                  <div class="bg-primary p-3">
-                                    <h5 class="mb-0 text-white line-height">Hello {{ userName.username }}</h5>
-                                    <span class="text-white font-size-12">{{getDefaultProject ? getDefaultProject.en_title : defaultProject}}</span>
-                                  </div>
-                                  <a href="#" class="iq-sub-card iq-bg-primary-hover">
-                                    <div class="media align-items-center">
-                                      <div class="rounded iq-card-icon iq-bg-primary">
-                                        <i class="ri-file-user-line"></i>
-                                      </div>
-                                      <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ $t('nav.user.profileTitle') }}</h6>
-                                        <p class="mb-0 font-size-12">{{ $t('nav.user.profileSub') }}</p>
-                                      </div>
-                                    </div>
-                                  </a>
-                                  <a href="#" class="iq-sub-card iq-bg-primary-hover">
-                                    <div class="media align-items-center">
-                                      <div class="rounded iq-card-icon iq-bg-primary">
-                                        <i class="ri-profile-line"></i>
-                                      </div>
-                                      <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ $t('nav.user.profileEditTitle') }}</h6>
-                                        <p class="mb-0 font-size-12">{{ $t('nav.user.profileEditSub') }}</p>
-                                      </div>
-                                    </div>
-                                  </a>
-                                  <router-link :to="{name: 'userSettings'}" href="#" class="iq-sub-card iq-bg-primary-hover">
-                                    <div class="media align-items-center">
-                                      <div class="rounded iq-card-icon iq-bg-primary">
-                                        <i class="ri-account-box-line"></i>
-                                      </div>
-                                      <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ $t('nav.user.accountSettingTitle') }}</h6>
-                                        <p class="mb-0 font-size-12">{{ $t('nav.user.accountSettingSub') }}</p>
-                                      </div>
-                                    </div>
-                                  </router-link>
-                                  <a href="#" class="iq-sub-card iq-bg-primary-hover">
-                                    <div class="media align-items-center">
-                                      <div class="rounded iq-card-icon iq-bg-primary">
-                                        <i class="ri-lock-line"></i>
-                                      </div>
-                                      <div class="media-body ml-3">
-                                        <h6 class="mb-0 ">{{ $t('nav.user.privacySettingTitle') }}</h6>
-                                        <p class="mb-0 font-size-12">{{ $t('nav.user.privacySettingSub')}}</p>
-                                      </div>
-                                    </div>
-                                  </a>
-                                  <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="bg-primary iq-sign-btn" href="javascript:void(0)" @click="logout" role="button">{{ $t('nav.user.signout') }}<i class="ri-login-box-line ml-2"></i></a>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>-->
             </li>
           </ul>
         </template>
@@ -505,6 +476,11 @@ export default {
       feedbackService.addFeedBacks(report).then(() => {
         this.$bvModal.hide('bugModal')
       })
+    },
+    toggleBodyScrollbar (visible) {
+      const body = document.getElementsByTagName('body')[0]
+
+      if (visible) { body.classList.add('overflow-hidden') } else { body.classList.remove('overflow-hidden') }
     }
   },
   created () {
@@ -572,5 +548,28 @@ export default {
   font-size: 27px;
   display: flex;
   align-items: center;
+}
+.rounded-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f5f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+.b-sidebar-outer {
+z-index: 10 !important;
+}
+.b-sidebar {
+    top: 71px;
+    height: calc(100vh - 71px) !important;
+}
+.w-250px {
+    width: 250px;
+}
+.w-20px{
+    width: 20px;
 }
 </style>

@@ -13,7 +13,7 @@ export default {
   forgetPassword (payload) {
     return Api().post('forgetPassword', payload)
   },
-  sendFirebase (id, payload) {
+  sendFirebase (payload) {
     return Api().post('fcm-token', { token: payload })
   }
 }

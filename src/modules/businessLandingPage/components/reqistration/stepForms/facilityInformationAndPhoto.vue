@@ -246,6 +246,10 @@ export default {
         tags: [],
         amenities: [],
         links: [
+          {
+            selectSocial: '',
+            link: ''
+          }
         ]
       },
       providerId: JSON.parse(localStorage.getItem('userInfo')).id,

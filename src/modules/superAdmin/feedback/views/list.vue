@@ -15,12 +15,31 @@
       <b-col lg="12" class="mb-2">
         <h3>Feedback</h3>
       </b-col>
+        <b-col lg="12" class="mb-2">
+            <iq-card class="filter-card">
+                <b-row>
+                    <b-col md="3" sm="6">
+                        <span>Filter by Type:</span>
+                        <main-select v-model="filter.type" @change="reloadTable=true"
+                                     :options="['provider', 'user']" label="key"
+                                     placeholder="--Select--">
+                        </main-select>
+                    </b-col>
+                </b-row>
+            </iq-card>
+        </b-col>
       <b-col lg="12">
         <main-table
             :fields="columns"
+            @sortChanged="sortChanged"
             class="mb-0 table-borderless"
             :list_url="'feedbacks'"
+            :reloadData="reloadTable"
+            :custom-filter="filter"
         >
+            <template v-slot:custom="{data}">
+                {{data.provider ? 'Provider' : 'User'}}
+            </template>
         </main-table>
       </b-col>
     </b-row>
@@ -32,12 +51,19 @@ export default {
   data () {
     return {
       bugDetails: {},
+      reloadTable: false,
+      filter: {
+        type: '',
+        sort: '',
+        sort_type: ''
+      },
       columns: [
         '#',
         { label: 'User', key: 'user.name', class: 'text-left' },
-        { label: 'description', key: 'desc', class: 'text-left', sortable: true },
+        { label: 'Type', key: 'type', class: 'text-left', type: 'custom' },
+        { label: 'description', key: 'desc', class: 'text-left' },
         { label: 'Image', key: 'image', class: 'text-left', type: 'image' },
-        { label: 'created date', key: 'created_at', class: 'text-left' },
+        { label: 'created date', key: 'created_at', class: 'text-left', sortable: true },
         {
           label: 'Actions',
           key: 'actions',
@@ -67,6 +93,12 @@ export default {
     }
   },
   methods: {
+    sortChanged (key) {
+      this.reloadTable = false
+      this.filter.sort = key.sortBy
+      this.filter.sort_type = key.sortDesc ? 'desc' : 'asc'
+      this.reloadTable = true
+    },
     showDetails (data) {
       this.bugDetails = data
       this.$bvModal.show('bugDetails')

@@ -37,12 +37,15 @@
         v-slot:[`cell(${field.key})`]="data"
       >
         <div :key="key">
-          <!-- handle Image -->
+            <!-- handle Image -->
           <b-avatar
             v-if="field.type=='image'"
             :src="$_.get(data.item, field.key) ? $_.get(data.item, field.key) : require('@/assets/images/user/default-user-image.png')"
           />
 
+            <div v-else-if="field.type == 'custom'">
+                <slot name="custom" :data="data.item"></slot>
+            </div>
           <!-- Arrange-->
           <div v-else-if="field.type == 'sort'">
 <!--            <b-form-input v-if="arrangeMode" class="sort-field"

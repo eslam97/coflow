@@ -63,7 +63,7 @@
       </template>
       <template v-slot:body>
         <notification-details @addProviderNotification="addNotification"
-                              :requestLoading="requestLoading"/>
+                              :requestLoading="loadingNotify"/>
       </template>
     </main-modal>
     <b-row>
@@ -320,7 +320,8 @@ export default {
       allActivityTypes: [],
       allGovernorates: [],
       allAreas: [],
-      selectedId: ''
+      selectedId: '',
+      loadingNotify: false
     }
   },
   methods: {
@@ -355,7 +356,7 @@ export default {
       console.log(id)
       console.log(data)
       this.requestLoading = true
-      profilesServices.editProfile(id, { ...data, _method: 'put' }).then(res => {
+      profilesServices.editProfile(id, { ...data, reservation_contact: [data.reservation_contact], _method: 'put' }).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('profileDetalilsModal')
@@ -388,9 +389,12 @@ export default {
       this.$bvModal.show('notificationModal')
     },
     addNotification (payload) {
+      this.loadingNotify = true
       notificationsServices.filterForSendNotifications({ ...payload, provider_id: this.selectedId }).then(res => {
         core.showSnackbar('success', res.data.message)
         this.selectedId = ''
+        this.$bvModal.hide('notificationModal')
+        this.loadingNotify = false
       })
     },
     changeToActiveStatus (id) {

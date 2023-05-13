@@ -76,7 +76,7 @@
         <b-col md="2">
           <div class="py-3 px-2 d-flex justify-content-around flex-column h-100">
             <div class="d-flex justify-content-between mb-4 mt-2" v-if="analysisByDate != null">
-              <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.last.month }}</h5>
+              <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.last.month ? analysisByDate.last.month  : '' }}</h5>
             </div>
             <div>
               <div class="d-flex justify-content-between align-items-center mb-3">
@@ -201,12 +201,12 @@
 
           <b-col md="4" sm="12" class="">
             <div class="p-5" style="overflow-y: scroll; height: 300px">
-              <div v-for="(nation, key) in section2[userType].nationality" :key="key"
+              <div v-for="(nation, key) in section2[userType].nationality ? section2[userType].nationality : []" :key="key"
                    class="mb-3"
               >
                 <h4 class="d-flex justify-content-between mb-2">
-                  <span>{{nation.nationality}}</span>
-                  <span>{{nation.views}} user(s)</span>
+                  <span>{{nation.nationality ? nation.nationality : ''}}</span>
+                  <span>{{nation.views ? nation.views : 0}} user(s)</span>
                 </h4>
                 <section class="w-100" style="bottom: -9px;">
                   <b-progress :value="nation.views" :max="totalViews"
@@ -428,7 +428,15 @@ export default {
       },
 
       filterByDate: moment(new Date()).format('MMM YYYY'),
-      analysisByDate: {},
+      analysisByDate: {
+        last: {
+          month: ''
+        },
+        current: {
+          month: ''
+        },
+        month_days: []
+      },
 
       serviceAccess: {
         FLOW: ['flow'],
@@ -447,7 +455,7 @@ export default {
         this.section1 = res.data.data.section1
         this.section2 = res.data.data.section2
         const userData = this.section2[this.userType]
-        this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
+        this.totalViews = userData.nationality ? userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0) : []
 
         Object.keys(userData.age).sort().forEach(i => {
           this.ageSeries.push(userData.age[i])
@@ -460,7 +468,7 @@ export default {
     updateUserTypeData () {
       this.ageSeries = []
       const userData = this.section2[this.userType]
-      this.totalViews = userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0)
+      this.totalViews = userData.nationality ? userData.nationality.map((nation) => nation.views).reduce((prev, curr) => prev + curr, 0) : []
       Object.keys(userData.age).sort().forEach(i => {
         this.ageSeries.push(userData.age[i])
       })

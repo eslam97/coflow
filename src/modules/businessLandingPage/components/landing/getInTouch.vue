@@ -79,6 +79,8 @@
 </template>
 <script>
 import registrationServices from '@/modules/businessLandingPage/services/registration.services'
+import { core } from '@/config/pluginInit'
+
 export default {
   data () {
     return {
@@ -95,7 +97,13 @@ export default {
     sendGetInTouch () {
       this.getInTouchLoading = true
       registrationServices.getInTouch(this.getInTouch).then(res => {
-        // console.log('res => ', res)
+        core.showSnackbar('success', res.data.message)
+        this.getInTouch = {
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        }
       }).finally(() => {
         this.getInTouchLoading = false
       })

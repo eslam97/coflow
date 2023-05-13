@@ -22,6 +22,7 @@
     <!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
     <div class="wrapper">
         <b-sidebar id="sidebar-1" bg-variant="white" right backdrop no-header-close @change="toggleBodyScrollbar">
+            {{all}}
             <div v-if="getNotifications.length > 0">
                 <ul class="notification-list p-0">
                     <li v-for="(item, index) in getNotifications" :key="index" class="border-bottom py-2 px-3">
@@ -37,7 +38,7 @@
                                     <p class="m-0 text-gray font-size-12">{{ item.title }}</p>
                                     <p class="m-0 text-black font-size-14">{{ item.body }}</p>
                                 </template>
-                                <span class="m-0 text-gray font-size-10 mt-4">Now</span>
+                                <span class="m-0 text-gray font-size-10 mt-4">{{ item.created_at ? item.created_at : 'Now' }}</span>
                             </div>
                         </div>
                     </li>
@@ -162,7 +163,6 @@ import LayoutFooter from './Components/LayoutFooter'
 import BugForm from '@/layouts/Components/bugForm'
 import FaqPopup from '@/layouts/Components/faqPopup'
 
-import LayoutServices from './services/layout.services'
 import firebaseMixins from '@/mixins/firebaseMixins'
 import feedbackService from '@/modules/superAdmin/feedback/services/feedback'
 export default {
@@ -489,9 +489,10 @@ export default {
       this.notification_unread = data.notification_unread
       this.currentPage = 2
     }) */
-    LayoutServices.filterNotification().then(res => {
-      console.log(res.data.data)
-    })
+    // LayoutServices.filterNotification().then(res => {
+    //   console.log('allllllll', res.data.data)
+    //   this.all = res.data.data
+    // })
   }
 }
 </script>

@@ -26,6 +26,6 @@ export default {
     return Api().get(`providers/${id}`)
   },
   getInTouch (payload) {
-    return Api().post('contacts', payload)
+    return Api().post('get-in-touch', payload)
   }
 }

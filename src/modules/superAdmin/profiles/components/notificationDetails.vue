@@ -57,32 +57,32 @@
                          v-model="notification.area_id">
             </main-select>
           </b-col>-->
+<!--          <b-col md="6" class="mb-3">-->
+<!--            <input-form-->
+<!--                v-model="notification.start_age"-->
+<!--                placeholder="Ex: 1997"-->
+<!--                :validate="'required|numeric'"-->
+<!--                name="start age"-->
+<!--                :label="'Start Age'"-->
+<!--            />-->
+<!--          </b-col>-->
+<!--          <b-col md="6" class="mb-3">-->
+<!--            <input-form-->
+<!--                v-model="notification.end_age"-->
+<!--                placeholder="Ex: 2023"-->
+<!--                :validate="'required|numeric'"-->
+<!--                name="end age"-->
+<!--                :label="'End Age'"-->
+<!--            />-->
+<!--          </b-col>-->
           <b-col md="6" class="mb-3">
-            <input-form
-                v-model="notification.start_age"
-                placeholder="Ex: 1997"
-                :validate="'required|numeric'"
-                name="start age"
-                :label="'Start Age'"
-            />
-          </b-col>
-          <b-col md="6" class="mb-3">
-            <input-form
-                v-model="notification.end_age"
-                placeholder="Ex: 2023"
-                :validate="'required|numeric'"
-                name="end age"
-                :label="'End Age'"
-            />
-          </b-col>
-          <b-col md="6" class="mb-3">
-            <main-select labelTitle='Country' :validate="'required'"
-                         :name="'Country'"
+            <main-select labelTitle='Nationality' :validate="''"
+                         :name="'nationality'"
                          placeholder="Choose"
                          :options="allCountries"
                          label="name"
-                         :reduce="data=> data.id"
-                         v-model="notification.country_id">
+                         :reduce="data=> data.name"
+                         v-model="notification.nationality">
             </main-select>
           </b-col>
           <b-col md="6" class="mb-3">
@@ -152,12 +152,10 @@ export default {
   data () {
     return {
       notification: {
-        country_id: '',
         title: '',
         body: '',
-        type: '',
-        start_age: null,
-        end_age: null
+        nationality: '',
+        gender: ''
       },
       ageOptions: [{ key: ' < 10 years', value: 0 },
         { key: '10 - 19 years', value: 1 },

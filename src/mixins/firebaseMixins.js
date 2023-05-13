@@ -1,4 +1,5 @@
 import authServices from '../modules/businessLandingPage/services/auth.services'
+import LayoutServices from '@/layouts/services/layout.services'
 export default {
   data () {
     return {
@@ -6,9 +7,29 @@ export default {
       getNotifications: [
       ],
       newNotification: false
+      // all: []
     }
   },
   methods: {
+    async getIdToken () {
+      try {
+        this.idToken = await this.$messaging.getToken()
+        console.log('TOKEN ID FOR this browser', this.idToken)
+        var res = await authServices.sendFirebase(this.idToken)
+        localStorage.setItem('fcmToken', res.data)
+      } catch (e) {
+        console.error('Error : ', e)
+      }
+    },
+    async requestPermission () {
+      try {
+        const permission = await Notification.requestPermission()
+        console.log('GIVEN notify perms')
+        console.log(permission)
+      } catch (e) {
+        console.error('Error : ', e)
+      }
+    },
     async startListeners () {
       await this.startOnMessageListener()
       await this.startTokenRefreshListener()
@@ -42,28 +63,14 @@ export default {
       } catch (e) {
         console.error('Error : ', e)
       }
-    },
-    async requestPermission () {
-      try {
-        const permission = await Notification.requestPermission()
-        console.log('GIVEN notify perms')
-        console.log(permission)
-      } catch (e) {
-        console.error('Error : ', e)
-      }
-    },
-    async getIdToken () {
-      try {
-        this.idToken = await this.$messaging.getToken()
-        console.log('TOKEN ID FOR this browser', this.idToken)
-        var res = await authServices.sendFirebase(this.idToken)
-        localStorage.setItem('fcmToken', res.data)
-      } catch (e) {
-        console.error('Error : ', e)
-      }
     }
   },
   mounted () {
     this.startListeners()
+  },
+  created () {
+    LayoutServices.filterNotification().then(res => {
+      this.getNotifications = res.data.data.map(notification => ({ ...notification, body: notification.content }))
+    })
   }
 }

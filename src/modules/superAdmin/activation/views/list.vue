@@ -125,7 +125,7 @@ export default {
     },
     activate (obj) {
       this.loadingActivation = true
-      activationsServices.activateProvider(this.providerId, obj).then(res => {
+      activationsServices.activateProvider(this.providerId, { ...obj, reservation_contact: obj.reservation_contact[0] }).then(res => {
         core.showSnackbar('success', res.data.message)
         this.reloadTable = true
         this.$bvModal.hide('activationDetalilsModal')

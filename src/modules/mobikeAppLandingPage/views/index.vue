@@ -333,7 +333,7 @@ export default {
   }
   .mobileImage {
     width: 50%;
-    left: 53vw;
+    left: 48vw;
     bottom: -25px;
   }
   .circleLogo {
@@ -348,9 +348,6 @@ export default {
   .p_hero {
     color: #bababa !important;
     font-size: 16px !important;
-  }
-  .mobile-section img {
-    box-shadow: 0px 0px 20px #777777;
   }
 }
 .features {

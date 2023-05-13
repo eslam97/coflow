@@ -44,7 +44,7 @@
           />
 
             <div v-else-if="field.type == 'custom'">
-                <slot name="custom" :data="data.item"></slot>
+                <slot :name="field.key" :data="data.item"></slot>
             </div>
           <!-- Arrange-->
           <div v-else-if="field.type == 'sort'">

@@ -37,8 +37,11 @@
             :reloadData="reloadTable"
             :custom-filter="filter"
         >
-            <template v-slot:custom="{data}">
+            <template v-slot:type="{data}">
                 {{data.provider ? 'Provider' : 'User'}}
+            </template>
+            <template v-slot:user="{data}">
+                {{data.provider ? data.provider.name : data.user.name}}
             </template>
         </main-table>
       </b-col>
@@ -59,7 +62,8 @@ export default {
       },
       columns: [
         '#',
-        { label: 'User', key: 'user.name', class: 'text-left' },
+        { label: 'User', key: 'user', class: 'text-left', type: 'custom' },
+        // { label: 'Provider', key: 'provider.name', class: 'text-left' },
         { label: 'Type', key: 'type', class: 'text-left', type: 'custom' },
         { label: 'description', key: 'desc', class: 'text-left' },
         { label: 'Image', key: 'image', class: 'text-left', type: 'image' },

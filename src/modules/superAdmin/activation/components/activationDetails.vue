@@ -195,6 +195,16 @@
               <b-col md="12" class="mb-3" v-if="allLinks.length !== info.links.length">
                 <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
               </b-col>
+                <b-col md="12">
+                    <main-select labelTitle='Reservation Link' :validate="'required'"
+                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...info.links, {
+                              selectSocial: 'Contact Number',
+                              link: 'contact_number'
+                            }]"
+                                 label="selectSocial"
+                                 :reduce="data=> data"
+                                 v-model="info.reservation_contact"></main-select>
+                </b-col>
             </b-row>
             <b-row>
               <b-col md="12" class="mb-5">
@@ -562,7 +572,8 @@ export default {
             selectSocial: '',
             link: ''
           }
-        ]
+        ],
+        reservation_contact: {}
       },
       based: {
         country_id: '',
@@ -841,6 +852,7 @@ export default {
         this.info.bio = this.activationDetails.bio
         this.info.amenities = this.activationDetails.amenities.map(item => item.id)
         this.info.links = this.activationDetails.links
+        this.info.reservation_contact = this.activationDetails.reservation_contact[0]
         this.info.tags = this.activationDetails.tags
         this.service_types = this.activationDetails.service_types
         this.logoImage = this.activationDetails.logo

@@ -57,34 +57,44 @@
                          v-model="notification.area_id">
             </main-select>
           </b-col>-->
-          <b-col md="6" class="mb-3">
-            <input-form
-                v-model="notification.start_age"
-                placeholder="Ex: 1997"
-                :validate="'required|numeric'"
-                name="start age"
-                :label="'Start Age'"
-            />
-          </b-col>
-          <b-col md="6" class="mb-3">
-            <input-form
-                v-model="notification.end_age"
-                placeholder="Ex: 2023"
-                :validate="'required|numeric'"
-                name="end age"
-                :label="'End Age'"
-            />
-          </b-col>
-          <b-col md="12" class="mb-3">
-            <main-select labelTitle='Country' :validate="'required'"
-                         :name="'Country'"
-                         placeholder="Choose"
-                         :options="allCountries"
-                         label="name"
-                         :reduce="data=> data.id"
-                         v-model="notification.country_id">
-            </main-select>
-          </b-col>
+<!--          <b-col md="6" class="mb-3">-->
+<!--            <input-form-->
+<!--                v-model="notification.start_age"-->
+<!--                placeholder="Ex: 1997"-->
+<!--                :validate="'numeric'"-->
+<!--                name="start age"-->
+<!--                :label="'Start Age'"-->
+<!--            />-->
+<!--          </b-col>-->
+<!--          <b-col md="6" class="mb-3">-->
+<!--            <input-form-->
+<!--                v-model="notification.end_age"-->
+<!--                placeholder="Ex: 2023"-->
+<!--                :validate="'numeric'"-->
+<!--                name="end age"-->
+<!--                :label="'End Age'"-->
+<!--            />-->
+<!--          </b-col>-->
+<!--          <b-col md="12" class="mb-3">-->
+<!--            <main-select labelTitle='Country' :validate="'required'"-->
+<!--                         :name="'Country'"-->
+<!--                         placeholder="Choose"-->
+<!--                         :options="allCountries"-->
+<!--                         label="name"-->
+<!--                         :reduce="data=> data.id"-->
+<!--                         v-model="notification.country_id">-->
+<!--            </main-select>-->
+<!--          </b-col>-->
+            <b-col md="12" class="mb-3">
+                <main-select labelTitle='Nationality' :validate="''"
+                             :name="'Nationality'"
+                             placeholder="Nationality"
+                             :options="allNationalities"
+                             label="name"
+                             :reduce="data=> data.name"
+                             v-model="notification.nationality">
+                </main-select>
+            </b-col>
           <b-col md="12" class="mb-3">
             <input-form
                 v-model="notification.title"
@@ -151,11 +161,10 @@ export default {
   data () {
     return {
       notification: {
-        country_id: '',
         title: '',
         body: '',
-        start_age: '',
-        end_age: ''
+        nationality: '',
+        gender: ''
       },
       ageOptions: [{ key: ' < 10 years', value: 0 },
         { key: '10 - 19 years', value: 1 },
@@ -165,6 +174,7 @@ export default {
         { key: '> 51 years', value: 5 }],
       allCountries: [],
       allGovernorates: [],
+      allNationalities: [],
       allArea: []
     }
   },
@@ -174,8 +184,13 @@ export default {
     },
     // depend
     getAllCountries () {
-      settingsService.getAllnationalities().then(res => {
+      settingsService.getAllCountries().then(res => {
         this.allCountries = res.data.data
+      })
+    },
+    getAllnationalities () {
+      settingsService.getAllnationalities().then(res => {
+        this.allNationalities = res.data.data
       })
     },
     getCityDependOnCountry (id) {
@@ -197,6 +212,7 @@ export default {
   },
   created () {
     this.getAllCountries()
+    this.getAllnationalities()
   }
 }
 </script>

@@ -15,5 +15,8 @@ export default {
   },
   sendFirebase (payload) {
     return Api().post('fcm-token', { token: payload })
+  },
+  getAllNotifications () {
+    return Api().get('all-notifications?limit=100')
   }
 }

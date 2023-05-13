@@ -9,7 +9,7 @@
       </template>
       <template v-slot:body>
         <notification-details @addNotification="addNotification"
-                          :requestLoading="requestLoading"
+                          :requestLoading="loadingNotify"
                           :notificationDetails="notificationDetails"
                           :typeOfModal="typeOfModal"/>
       </template>
@@ -94,13 +94,17 @@ export default {
       typeOfModal: 'add',
       requestLoading: false,
       reloadTable: false,
-      selectedNotification: {}
+      selectedNotification: {},
+      loadingNotify: false
     }
   },
   methods: {
     addNotification (payload) {
+      this.loadingNotify = true
       notificationsServices.filterForSendNotifications(payload).then(res => {
         core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('notificationDetails')
+        this.loadingNotify = false
       })
     },
     openPopup () {

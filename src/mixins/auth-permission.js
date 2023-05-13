@@ -8,10 +8,10 @@ export default {
     isType: () => true,
     isAdmin: () => true,
     hasServiceType: () => true */
-    isType: nameOfType => JSON.parse(localStorage.getItem('userInfo')).type.toLowerCase() === nameOfType.toLowerCase(),
-    isAdmin: nameOfType => JSON.parse(localStorage.getItem('userInfo')).type === 'admin',
+    isType: nameOfType => !!(localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).type.toLowerCase() === nameOfType.toLowerCase()),
+    isAdmin: nameOfType => !!(localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).type === 'admin'),
     hasServiceType: nameOfType => {
-      if (JSON.parse(localStorage.getItem('userInfo')).service_types) {
+      if (localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).service_types) {
         return JSON.parse(localStorage.getItem('userInfo')).service_types.toLowerCase() === nameOfType.toLowerCase()
       } else {
         return true

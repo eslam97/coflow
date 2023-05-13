@@ -401,13 +401,6 @@ export default {
   // sidebarTicket
   data () {
     return {
-      getNotifications: [
-        {
-          published: '',
-          read: 0,
-          body: 'sssssssssss'
-        }
-      ],
       userName: localStorage.getItem('user_info').name,
       userRole: '',
       horizontal: true,

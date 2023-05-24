@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <!--  Add and Edit Modal  -->
-    <main-modal id="ticketsDetailsModal" size="lg">
+    <main-modal id="ticketsDetailsModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Ticket</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Ticket</h4>
@@ -15,7 +15,7 @@
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="ticketDetailsViewModal" size="lg">
+    <main-modal id="ticketDetailsViewModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Ticket</h4>
       </template>
@@ -71,9 +71,15 @@ export default {
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
         { label: 'Ticket Name', key: 'name', class: 'text-left' },
-        { label: 'Details', key: 'details', class: 'text-left' },
         { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
         { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
+        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
+        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
+        // { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
+        // { label: 'Ticket Name', key: 'name', class: 'text-left' },
+        // { label: 'Details', key: 'details', class: 'text-left' },
+        // { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
+        // { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
         /*   { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
         {
           label: 'Change Status',

@@ -128,7 +128,7 @@
                         :validate="'required'"
                         v-model="item.link"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
-                        :placeholder="'Ex: https://www.google.com'"
+                        :placeholder="''"
                         :disabled="!item.selectSocial"
                     />
                   </validation-provider>
@@ -148,18 +148,6 @@
             </b-col>
             <b-col md="12" class="mb-3" v-if="allLinks.length !== info.links.length">
               <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="12">
-              <main-select labelTitle='Reservation Link' :validate="'required'"
-                           :name="`reservation_contact`"  placeholder="Choose" :options="[...info.links, {
-                              selectSocial: 'Contact Number',
-                              link: 'contact_number'
-                            }]"
-                           label="selectSocial"
-                           :reduce="data=> data"
-                           v-model="info.reservation_contact"></main-select>
             </b-col>
           </b-row>
           <b-row>
@@ -235,7 +223,6 @@ export default {
     return {
       test: true,
       info: {
-        reservation_contact: '',
         activity_line_id: '',
         activity_type_id: '',
         year: '',
@@ -282,12 +269,16 @@ export default {
       })
     },
     saveFacilityInformation (e) {
-      console.log(this.allImages)
       if (this.coverFlag && this.logoFlag && this.allImages.length > 0) {
         this.loadingFacilityInformation = true
-        registrationServices.saveStepFacility({ ...this.info, reservation_contact: [this.info.reservation_contact] }).then(res => {
+        registrationServices.saveStepFacility(this.info).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 3)
+          localStorage.setItem('allLinks', JSON.stringify([...this.info.links,
+            {
+              selectSocial: 'Contact Number',
+              link: ''
+            }]))
           localStorage.setItem('formStep', 3)
         }).catch((err) => {
           if (err.response.data.errors) {
@@ -416,7 +407,6 @@ export default {
     }
   },
   watch: {
-
   },
   computed: {
     filterLinks () {

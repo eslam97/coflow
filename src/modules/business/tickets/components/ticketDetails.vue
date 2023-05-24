@@ -3,9 +3,9 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addTicket)">
         <b-row>
-          <b-col>
+            <b-col lg="6">
             <b-row>
-              <b-col md="4" class="mb-3">
+              <b-col md="6" class="mb-3">
                 <input-form
                     v-model="ticket.name"
                     placeholder="Ticket Name"
@@ -15,15 +15,30 @@
                     :limit="30"
                 />
               </b-col>
-              <b-col md="8" class="mb-3">
-                <input-form
-                    v-model="ticket.details"
-                    placeholder="Write a brief description"
-                    :validate="'required|max:170'"
-                    name="Ticket details"
-                    :label="'Details'"
-                    :limit="170"
-                />
+              <b-col md="6" class="mb-3">
+                  <label for="duration-group">Duration</label>
+                  <b-input-group id="duration-group">
+                      <b-form-input
+                              :label="'Duration'"
+                              v-model="ticket.duration"
+                              :placeholder="'duration'"
+                              :validate="'required'"
+                              name="duration"
+                      />
+                      <template #append>
+                          <b-dropdown
+                                  :text="type ? type : 'Pick duration type'"
+                                  class="selectWithInputAppend"
+                          >
+                              <b-dropdown-item v-for="(i, keyType) in allDurationList"
+                                               :key="keyType"
+                                               @click="ticket.duration_list_id = i.id;
+                                         type = i.name">
+                                  {{i.name}}
+                              </b-dropdown-item>
+                          </b-dropdown>
+                      </template>
+                  </b-input-group>
               </b-col>
             </b-row>
             <b-row>
@@ -78,145 +93,62 @@
                   </b-form-group>
                 </validation-provider>
               </b-col>
-            </b-row>
-<!--            <b-row>
-              <b-col md="12" class="mb-3">
-                <main-select labelTitle='Foreigner Price' :options="['None', 'Euro', 'Dollar']"
-                             v-model="foreignerPrice"></main-select>
-              </b-col>
-            </b-row>
-            <b-row v-if="foreignerPrice === 'Euro'">
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`EURO price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Foreigner Price'"
-                  ><b-input-group append="EUR">
-                    <b-form-input
-                        v-model="ticket.price_euro"
-                        placeholder="000.00"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-              <b-col md="4" class="mb-5  pt-4 mt-3 text-center">
-                <b-form-checkbox
-                    type="checkbox"
-                    v-model="selectedEUR"
-                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                    color="warning"
-                >
-                  Discounted Price
-                </b-form-checkbox>
-              </b-col>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Discounted EURO price`"
-                    :rules="`${selectedEUR ? 'required': ''}|numeric|between:0,${ticket.price_euro}`"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="EUR">
-                    <b-form-input
-                        v-model="ticket.discount_price_euro"
-                        placeholder="000.00"
-                        :disabled="!selectedEUR"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /></b-input-group>
-                    <small class="text-danger" v-if="!ticket.discount_price_euro">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(ticket.discount_price_euro) > Number(ticket.price_euro)">
-                      More than price
-                    </small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-            </b-row>
-            <b-row v-else-if="foreignerPrice === 'Dollar'">
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Dollar price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Foreigner Price'"
-                  ><b-input-group append="$">
-                    <b-form-input
-                        v-model="ticket.price_dollar"
-                        placeholder="000.00"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    /> </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
-                <b-form-checkbox
-                    type="checkbox"
-                    v-model="selectedDollar"
-                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                    color="warning"
-                >
-                  Discounted Price
-                </b-form-checkbox>
-              </b-col>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Discounted Dollar price`"
-                    :rules="`${selectedDollar ? 'required': ''}|numeric|between:0,${ticket.price_dollar}`"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="$">
-                    <b-form-input
-                        v-model="ticket.discount_price_dollar"
-                        placeholder="000.00"
-                        :disabled="!selectedDollar"
-                        :class="[{ 'is-invalid': errors.length > 0}]"
-                    /></b-input-group>
-                    <small class="text-danger" v-if="!ticket.discount_price_dollar">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(ticket.discount_price_dollar) > Number(ticket.price_dollar)">
-                      More than price
-                    </small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-            </b-row>-->
-            <b-row>
-              <b-col md="12" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Conditions`"
-                    :rules="'required'"
-                    class="flex-grow-1"
-                >
-                  <b-form-group label="Conditions">
-                    <b-form-textarea
-                        @focus="ticket.conditions = ticket.conditions === '' ? '• ' : ticket.conditions"
-                        @keyup.enter="ticket.conditions += '• '"
-                        v-model="ticket.conditions"
-                        placeholder="Write your conditions in bullet points"
-                        rows="3"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                    />
-                    <div class="d-flex justify-content-between">
-                      <small class="text-danger">{{ errors[0] }}</small>
-<!--                      <small :class="[{ 'text-danger': ticket.conditions.length > 88 }]">
-                        {{ (88 > ticket.conditions.length) ? 88 - ticket.conditions.length : 0 }} characters</small>-->
-                    </div>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
+                <b-col md="12" class="mb-3">
+                    <validation-provider
+                            #default="{ errors }"
+                            :name="`Conditions`"
+                            :rules="'required'"
+                            class="flex-grow-1"
+                    >
+                        <b-form-group label="Conditions">
+                            <b-form-textarea
+                                    @focus="ticket.conditions = ticket.conditions === '' ? '• ' : ticket.conditions"
+                                    @keyup.enter="ticket.conditions += '• '"
+                                    v-model="ticket.conditions"
+                                    placeholder="Write your conditions in bullet points"
+                                    rows="2"
+                                    :class="[{ 'is-invalid': errors.length > 0 }]"
+                            />
+                            <div class="d-flex justify-content-between">
+                                <small class="text-danger">{{ errors[0] }}</small>
+                                <!--                      <small :class="[{ 'text-danger': ticket.conditions.length > 88 }]">
+                                                        {{ (88 > ticket.conditions.length) ? 88 - ticket.conditions.length : 0 }} characters</small>-->
+                            </div>
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
             </b-row>
           </b-col>
+            <b-col lg="6" class="mb-3">
+                <validation-provider
+                        #default="{ errors }"
+                        :name="`Description`"
+                        :rules="'required'"
+                        class="flex-grow-1"
+                >
+                    <b-form-group label="Description">
+                        <b-form-textarea
+                                v-model="ticket.details"
+                                placeholder="Write a brief description"
+                                rows="4"
+                                :class="[{ 'is-invalid': errors.length > 0 }]"
+                        ></b-form-textarea>
+                    </b-form-group>
+                </validation-provider>
+            </b-col>
         </b-row>
+          <b-row>
+              <b-col class="mb-5">
+                  <cropper-images
+                          label="Upload Photos"
+                          @cropper-save="saveGalleryImage"
+                          @remove-image="removeGalleryImage"
+                          :removeLoadingUi="removeLoadingUi"
+                          :progressLoading="progressBar"
+                          :images="ticket.images"
+                  ></cropper-images>
+              </b-col>
+          </b-row>
         <b-row v-if="typeOfModal != 'view'">
           <b-col md="12" class="mt-4">
             <div class="d-flex justify-content-center" v-if="typeOfModal == 'add'">
@@ -242,6 +174,10 @@
   </div>
 </template>
 <script>
+
+import mainService from '@/services/main'
+import { core } from '@/config/pluginInit'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 
 export default {
   props: {
@@ -269,15 +205,55 @@ export default {
         discount_price_euro: null,
         discount_price_dollar: null,
         conditions: '',
-        status: 'active'
+        images: [],
+        status: 'active',
+        duration: '',
+        duration_list_id: ''
       },
       foreignerPrice: 'None',
       selectedEGP: false,
       selectedEUR: false,
-      selectedDollar: false
+      selectedDollar: false,
+      removeLoadingUi: false,
+      progressBar: 0,
+      type: '',
+      allDurationList: []
     }
   },
   methods: {
+    saveGalleryImage (file) {
+      this.removeLoadingUi = false
+      this.requestLoading = true
+      const formData = new FormData()
+      formData.append('image', file.image)
+      formData.append('type', 'ticket')
+      formData.append('status', this.ticketDetails ? 'exist' : 'new')
+      formData.append('name', file.imageInfo.name)
+      if (this.ticketDetails) {
+        formData.append('ticket_id', this.ticketDetails.id)
+      }
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent
+          const percent = Math.floor((loaded * 100) / total)
+          console.log(percent)
+          this.progressBar = percent
+        }
+      }
+      mainService.addImage(formData, options).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.ticket.images.push(res.data.data.id)
+        this.removeLoadingUi = true
+        this.requestLoading = false
+      })
+    },
+    removeGalleryImage (id) {
+      mainService.removeImage(id, 'activity').then(res => {
+        core.showSnackbar('success', res.data.message)
+        const ind = this.activities.images.findIndex(image => image.id === id)
+        this.activities.images.splice(ind, 1)
+      })
+    },
     addTicket () {
       // if foreigner price is empty send 0 to server
       this.ticket.price_euro = this.ticket.price_euro ? this.ticket.price_euro : 0
@@ -304,11 +280,18 @@ export default {
       } else {
         this.$emit('editTicket', { ...this.ticket, _method: 'put' })
       }
+    },
+    getDurationList () {
+      settingsService.getDurationList().then(res => {
+        this.allDurationList = res.data.data
+        this.type = this.allDurationList.find((item) => item.id === this.activitiesDetails.duration_list_id).name
+      })
     }
   },
   watch: {},
   computed: {},
   created () {
+    this.getDurationList()
     if (this.ticketDetails) {
       this.ticket = {
         name: this.ticketDetails.name,
@@ -320,7 +303,9 @@ export default {
         discount_price_euro: this.ticketDetails.discount_price_euro || '',
         discount_price_dollar: this.ticketDetails.discount_price_dollar || '',
         conditions: this.ticketDetails.conditions,
-        status: this.ticketDetails.status
+        status: this.ticketDetails.status,
+        images: this.ticketDetails.images,
+        duration: this.ticketDetails.duration
       }
       if (this.ticket.price_euro) {
         this.foreignerPrice = 'Euro'

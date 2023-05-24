@@ -66,6 +66,15 @@
               <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
             </b-col>
           </b-row>
+            <b-row>
+                <b-col md="12">
+                    <main-select labelTitle='Reservation Link' :validate="'required'"
+                                 :name="`reservation_contact`"  placeholder="Choose" :options="getAllReservationLinkWithoutYoutube"
+                                 label="selectSocial"
+                                 :reduce="data=> data"
+                                 v-model="reservation_contact"></main-select>
+                </b-col>
+            </b-row>
           <div v-if="location_type === 'address based'">
             <b-row>
               <b-col class="mb-3" md="2">
@@ -252,7 +261,22 @@ export default {
       allGovernorates: [],
       allArea: [],
       // loading Steps
-      loadingFacilityLocation: false
+      loadingFacilityLocation: false,
+      allLinks: JSON.parse(localStorage.getItem('allLinks')),
+      reservation_contact: ''
+    }
+  },
+  watch: {
+    'reservation_contact' (val) {
+      console.log(val)
+    }
+  },
+  computed: {
+    getAllReservationLinkWithoutYoutube () {
+      var newLinksArr = [...this.allLinks]
+      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      newLinksArr.splice(ind, 1)
+      return newLinksArr
     }
   },
   methods: {
@@ -264,9 +288,13 @@ export default {
       })
     },
     saveFacilityLocation () {
+      // eslint-disable-next-line no-prototype-builtins
+      if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
+        this.reservation_contact.link = this.phones
+      }
       this.loadingFacilityLocation = true
       if (this.location_type === 'address based') {
-        registrationServices.saveStepLocationBased({ ...this.based, phones: this.phones }).then(res => {
+        registrationServices.saveStepLocationBased({ ...this.based, phones: this.phones, reservation_contact: [this.reservation_contact] }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 4)
           localStorage.setItem('formStep', 4)

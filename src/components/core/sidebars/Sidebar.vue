@@ -16,7 +16,7 @@
     </div>
     <div id="sidebar-scrollbar">
       <nav class="iq-sidebar-menu" :class="horizontal ? 'd-xl-none' : ''">
-        <CollapseMenu :items="items" :open="true" :horizontal="horizontal" :sidebarGroupTitle="sidebarGroupTitle"/>
+        <CollapseMenu :items="items" :open="true" :horizontal="horizontal" :sidebarGroupTitle="sidebarGroupTitle" @click.native="miniSidebar"/>
       </nav>
     </div>
     <div class="logout_nav">
@@ -58,7 +58,9 @@ export default {
   },
   methods: {
     miniSidebar () {
-      this.$emit('toggle')
+      if (window.innerWidth <= 641) {
+        this.$emit('toggle')
+      }
     },
     logout () {
       localStorage.removeItem('userToken')

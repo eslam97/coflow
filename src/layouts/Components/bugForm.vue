@@ -33,11 +33,11 @@
         <b-row>
           <b-col md="12" class="mt-4">
             <div class="d-flex justify-content-center">
-              <b-button class="button-orange-modal" type="submit" v-if="!requestLoading">
-                <i class="las la-plus"></i>
+              <b-button class="gradient-orange-button" type="submit" v-if="!requestLoading">
+               Send
               </b-button>
-              <b-button class="button-orange-modal" v-else>
-                <spinner-loading></spinner-loading>
+              <b-button class="gradient-orange-button" v-else>
+                <spinner-loading text="sending"></spinner-loading>
               </b-button>
             </div>
           </b-col>

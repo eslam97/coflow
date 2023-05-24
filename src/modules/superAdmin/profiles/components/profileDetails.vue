@@ -211,7 +211,7 @@
             </b-col>
             <b-col md="12">
               <main-select labelTitle='Reservation Link' :validate="'required'"
-                           :name="`reservation_contact`"  placeholder="Choose" :options="[...profile.links, {
+                           :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube, {
                               selectSocial: 'Contact Number',
                               link: 'contact_number'
                             }]"
@@ -677,6 +677,12 @@ export default {
         })
       })
       return newLinksArr
+    },
+    getAllReservationLinkWithoutYoutube () {
+      var newLinksArr = [...this.profile.links]
+      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      newLinksArr.splice(ind, 1)
+      return newLinksArr
     }
   },
   methods: {
@@ -897,6 +903,10 @@ export default {
     }, */
     // save change
     saveProfile () {
+      // eslint-disable-next-line no-prototype-builtins
+      if (this.profile.reservation_contact.hasOwnProperty('selectSocial') && this.profile.reservation_contact.selectSocial === 'Contact Number') {
+        this.profile.reservation_contact.link = this.profile.phones
+      }
       this.profile.location.forEach(item => {
         if (!item.availability_type) {
           item.availability_type = 'open'

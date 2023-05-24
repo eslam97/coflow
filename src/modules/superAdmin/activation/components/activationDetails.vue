@@ -197,7 +197,7 @@
               </b-col>
                 <b-col md="12">
                     <main-select labelTitle='Reservation Link' :validate="'required'"
-                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...info.links, {
+                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube, {
                               selectSocial: 'Contact Number',
                               link: 'contact_number'
                             }]"
@@ -572,9 +572,9 @@ export default {
             selectSocial: '',
             link: ''
           }
-        ],
-        reservation_contact: {}
+        ]
       },
+      reservation_contact: {},
       based: {
         country_id: '',
         city_id: '',
@@ -661,6 +661,12 @@ export default {
           }
         })
       })
+      return newLinksArr
+    },
+    getAllReservationLinkWithoutYoutube () {
+      var newLinksArr = [...this.info.links]
+      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      newLinksArr.splice(ind, 1)
       return newLinksArr
     }
   },
@@ -852,7 +858,7 @@ export default {
         this.info.bio = this.activationDetails.bio
         this.info.amenities = this.activationDetails.amenities.map(item => item.id)
         this.info.links = this.activationDetails.links
-        this.info.reservation_contact = this.activationDetails.reservation_contact[0]
+        this.reservation_contact = this.activationDetails.reservation_contact[0]
         this.info.tags = this.activationDetails.tags
         this.service_types = this.activationDetails.service_types
         this.logoImage = this.activationDetails.logo
@@ -892,6 +898,10 @@ export default {
     },
     // save change
     saveChanges () {
+      // eslint-disable-next-line no-prototype-builtins
+      if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
+        this.reservation_contact.link = this.phones
+      }
       // eslint-disable-next-line
       if ((this.logoImage || (this.loadingLogo == 100)) && (this.coverImage || (this.loadingCover == 100))) {
         if (this.images.length > 0) {

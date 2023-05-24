@@ -55,7 +55,6 @@ export default {
       if (action.ifNavigate) {
         let params = {}
         let path = action.routePath || null
-
         const actionParams = action.routeName || null
         if (action.getParams) {
           params = action.getParams(this.dataItem)

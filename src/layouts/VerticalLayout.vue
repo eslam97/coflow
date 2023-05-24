@@ -473,8 +473,11 @@ export default {
       this.$bvModal.show('bugModal')
     },
     addReport (report) {
+      this.requestLoading = true
       feedbackService.addFeedBacks(report).then(() => {
         this.$bvModal.hide('bugModal')
+      }).finally(() => {
+        this.requestLoading = false
       })
     },
     toggleBodyScrollbar (visible) {

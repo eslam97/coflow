@@ -17,7 +17,7 @@
       <b-container>
         <b-row class="d-flex justify-content-center">
           <b-col md="6">
-            <ValidationObserver v-slot="{ handleSubmit }">
+            <ValidationObserver v-slot="{ handleSubmit }" ref="observer">
               <b-form class="position-relative form-top" @submit.prevent="handleSubmit(sendGetInTouch)">
                 <div class="card form-shadow iq-border-radius-5 overflow-hidden">
                   <b-row>
@@ -104,6 +104,7 @@ export default {
           subject: '',
           message: ''
         }
+        this.$refs.observer.reset()
       }).finally(() => {
         this.getInTouchLoading = false
       })

@@ -71,7 +71,7 @@
                       id="mm"
                       v-model="item.link"
                       :class="[{ 'is-invalid': errors.length > 0 }]"
-                      :placeholder="'Ex: https://www.google.com'"
+                      :placeholder="''"
                       :disabled="!item.selectSocial"
                   />
                 </validation-provider>

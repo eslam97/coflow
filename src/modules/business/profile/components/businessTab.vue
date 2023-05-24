@@ -196,7 +196,7 @@
                                 id="mm"
                                 v-model="item.link"
                                 :class="[{ 'is-invalid': errors.length > 0 }]"
-                                :placeholder="'Ex: https://www.google.com'"
+                                :placeholder="''"
                                 :disabled="!item.selectSocial"
                             />
                           </validation-provider>
@@ -216,18 +216,6 @@
                     </b-col>
                     <b-col md="12" class="mb-3" v-if="allLinks.length !== info.links.length">
                       <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
-                    </b-col>
-                  </b-row>
-                  <b-row>
-                    <b-col md="12">
-                      <main-select labelTitle='Reservation Link' :validate="'required'"
-                                   :name="`reservation_contact`"  placeholder="Choose" :options="[...info.links, {
-                              selectSocial: 'Contact Number',
-                              link: 'contact_number'
-                            }]"
-                                   label="selectSocial"
-                                   :reduce="data=> data"
-                                   v-model="info.reservation_contact"></main-select>
                     </b-col>
                   </b-row>
                   <button
@@ -399,6 +387,18 @@
                       <span class="text-warning cursor-pointer" @click="addNewContactNumber">+ Add another Contact Number</span>
                     </b-col>
                   </b-row>
+                    <b-row>
+                        <b-col md="12">
+                            <main-select labelTitle='Reservation Link' :validate="'required'"
+                                         :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube, {
+                                            selectSocial: 'Contact Number',
+                                            link: 'contact_number'
+                                          }]"
+                                         label="selectSocial"
+                                         :reduce="data=> data"
+                                         v-model="reservation_contact"></main-select>
+                        </b-col>
+                    </b-row>
                   <button
                       class="btn radio-btn radio-btn-orange save-changes-btn"
                   >
@@ -555,6 +555,7 @@ export default {
   },
   data () {
     return {
+      reservation_contact: [],
       selectedImage: '',
       loading: '',
       info: {
@@ -567,7 +568,6 @@ export default {
         bio: '',
         tags: [],
         amenities: [],
-        reservation_contact: [],
         links: [
           {
             selectSocial: '',
@@ -675,6 +675,12 @@ export default {
           }
         })
       })
+      return newLinksArr
+    },
+    getAllReservationLinkWithoutYoutube () {
+      var newLinksArr = [...this.info.links]
+      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      newLinksArr.splice(ind, 1)
       return newLinksArr
     }
   },
@@ -886,7 +892,7 @@ export default {
         this.coverImage = this.oldProfile.cover ? this.oldProfile.cover : require('@/assets/images/user/default-user-image.png')
         this.images = this.oldProfile.images
         this.phones = this.oldProfile.phones
-        this.info.reservation_contact = this.oldProfile.reservation_contact ? this.oldProfile.reservation_contact[0] : ''
+        this.reservation_contact = this.oldProfile.reservation_contact ? this.oldProfile.reservation_contact[0] : ''
         if (this.oldProfile.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'
         } else {
@@ -934,24 +940,28 @@ export default {
     saveChangesInfo () {
       const newObj = {
         _method: 'post',
-        ...this.info,
-        reservation_contact: [this.info.reservation_contact]
+        ...this.info
       }
       this.$emit('updateFacilityInfo', newObj)
     },
     saveChangesPhone () {
+      // eslint-disable-next-line no-prototype-builtins
+      if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
+        this.reservation_contact.link = this.phones
+      }
       let location = {}
       if (this.location_type === 'address based') {
         location = {
           phones: this.phones,
           ...this.based,
-          location_type: this.location_type
+          location_type: this.location_type,
+          reservation_contact: [this.reservation_contact]
         }
       } else {
         this.remote_locations.forEach((location) => {
           location.availability_type = location.availability_type ? location.availability_type : 'open'
         })
-        location = { location: this.remote_locations, location_type: this.location_type }
+        location = { location: this.remote_locations, location_type: this.location_type, reservation_contact: [this.reservation_contact] }
       }
       const newObj = {
         _method: 'post',

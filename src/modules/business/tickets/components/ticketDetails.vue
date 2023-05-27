@@ -242,16 +242,16 @@ export default {
       }
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.ticket.images.push(res.data.data.id)
+        this.ticket.images.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })
     },
     removeGalleryImage (id) {
-      mainService.removeImage(id, 'activity').then(res => {
+      mainService.removeImage(id, 'ticket').then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.activities.images.findIndex(image => image.id === id)
-        this.activities.images.splice(ind, 1)
+        const ind = this.ticket.images.findIndex(image => image.id === id)
+        this.ticket.images.splice(ind, 1)
       })
     },
     addTicket () {
@@ -276,15 +276,18 @@ export default {
         this.ticket.discount_price_euro = 0
       }
       if (this.typeOfModal === 'add') {
-        this.$emit('addTicket', this.ticket)
+        this.$emit('addTicket', {
+          ...this.ticket,
+          images: this.ticket.images.map(data => data.id)
+        })
       } else {
-        this.$emit('editTicket', { ...this.ticket, _method: 'put' })
+        this.$emit('editTicket', { ...this.ticket, _method: 'put', images: this.ticket.images.map(data => data.id) })
       }
     },
     getDurationList () {
       settingsService.getDurationList().then(res => {
         this.allDurationList = res.data.data
-        this.type = this.allDurationList.find((item) => item.id === this.activitiesDetails.duration_list_id).name
+        this.type = this.allDurationList.find((item) => item.id === this.ticketDetails.duration_list_id).name
       })
     }
   },
@@ -305,7 +308,7 @@ export default {
         conditions: this.ticketDetails.conditions,
         status: this.ticketDetails.status,
         images: this.ticketDetails.images,
-        duration: this.ticketDetails.duration
+        duration_list_id: this.ticketDetails.duration
       }
       if (this.ticket.price_euro) {
         this.foreignerPrice = 'Euro'

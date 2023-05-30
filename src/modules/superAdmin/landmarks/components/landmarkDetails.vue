@@ -139,6 +139,7 @@
                 :showProgress="false"
                 :multi="false"
                 :imageUrl="logoImage"
+                :uploadWithForm="true"
             />
           </b-col>
           <b-col md="12" class="mb-3">
@@ -151,6 +152,7 @@
                 :showProgress="false"
                 :multi="false"
                 :imageUrl="coverImage"
+                :uploadWithForm="true"
             />
           </b-col>
           <b-col md="12" class="mb-3">
@@ -171,6 +173,7 @@
                 :progressLoading="progressLogo"
                 :images="landmark.images"
                 :multi="true"
+                type="landmark_image"
             ></cropper-images>
           </b-col>
         </b-row>
@@ -264,7 +267,7 @@ export default {
           for (var key2 in this.landmark.tags) {
             fd.append(`tags[${key2}]`, this.landmark.tags[key2])
           } */
-          this.$emit('addLandmark', this.formDataLogo, this.formDataCover, this.landmark)
+          this.$emit('addLandmark', this.formDataLogo, this.formDataCover, { ...this.landmark, images: this.landmark.images.map(data => data.id) })
         }
       } else {
         core.showSnackbar('error', 'You Should Upload At Least One Image')
@@ -290,7 +293,7 @@ export default {
       }
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.landmark.images.push(res.data.data.id)
+        this.landmark.images.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })

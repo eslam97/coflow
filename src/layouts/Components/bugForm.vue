@@ -27,6 +27,7 @@
                 @cropper-save="saveBugImage"
                 :multi="false"
                 :show-progress="false"
+                :uploadWithForm="true"
             ></cropper-images>
           </b-col>
         </b-row>

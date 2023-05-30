@@ -246,6 +246,7 @@
                 :removeLoadingUi="removeLoadingUi"
                 :progressLoading="progressBar"
                 :images="activities.images"
+                type="activity_image"
             ></cropper-images>
           </b-col>
         </b-row>

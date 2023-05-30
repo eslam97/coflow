@@ -154,6 +154,7 @@
                 :removeLoadingUi="removeLoadingUi"
                 :progressLoading="progressBar"
                 :images="flows.images"
+                type="flow_image"
             ></cropper-images>
           </b-col>
         </b-row>

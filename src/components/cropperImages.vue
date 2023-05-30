@@ -1,66 +1,66 @@
 <template>
   <div class="example-wrapper">
     <label class="mb-2">{{label}}</label>
-    <div class="mb-3 d-flex align-items-center flex" v-if="imageUrl && !multi">
-      <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
-           :style="{ 'background-image': 'url(' + imageUrl + ')' }"></div>
-      <div class="d-flex justify-content-between w-100 mx-3 position-relative">
-        <section class="w-75">
-          <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{nameOfImage}}</span>
-        </section>
-        <section>
+      <div v-if="finalImage && uploadWithForm" class="img-fluid position-relative avatar-120 rounded finalImage position-relative overflow-hidden text-white d-flex justify-content-center align-items-center" :style="{ 'background-image': 'url(' + showImage + ')' }">
+          <div class="position-absolute icon-edit">
           <span class="cursor-pointer text-bold font-size-12" @click="$refs.file.click()">
               <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
-              Change</span>
-        </section>
+              <i class="las la-pen" />
+          </span>
+          </div>
       </div>
-    </div>
-    <div v-if="images">
-      <div class="mb-3 d-flex align-items-center"  v-for="(image, key) in images" :key="key">
-        <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
-             :style="{ 'background-image': 'url(' + image.image + ')' }"></div>
-        <div class="d-flex justify-content-between w-100 mx-3 position-relative">
-          <section class="w-75">
-            <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{image.name}}</span>
-          </section>
-          <section>
-            <span class="cursor-pointer text-bold text-danger font-size-12" @click="removeImage(image.id)" v-if="multi">Remove</span>
-          </section>
+      <div class="mb-3" v-if="imageUrl && !multi && !uploadWithForm">
+        <div v-if="showImage && progressLoading !== 100" class="img-fluid avatar-120 rounded finalImage position-relative overflow-hidden text-white d-flex justify-content-center align-items-center" :style="{ 'background-image': 'url(' + showImage + ')' }">
+            <div class="orange-overlay position-absolute w-100 h-100 top-0 left-0">
+            </div>
+            <h1 class="loadingText">{{ progressLoading }} %</h1>
         </div>
+        <div v-else class="img-fluid position-relative avatar-120 rounded-lg finalImage overflow-hidden" :style="{ 'background-image': 'url(' + imageUrl + ')' }">
+          <div class="position-absolute icon-edit">
+          <span class="cursor-pointer text-bold font-size-12" @click="$refs.file.click()">
+              <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
+              <i class="las la-pen" />
+          </span>
+          </div>
       </div>
     </div>
-    <div class="mb-3 d-flex align-items-center" v-if="finalImage && !removeLoadingUi">
-      <div class="img-fluid avatar-70 w-20 h-20 rounded finalImage"
-           :style="{ 'background-image': 'url(' + showImage + ')' }"></div>
-      <div class="d-flex justify-content-between w-100 mx-3 position-relative">
-        <section class="w-75">
-          <span class="text-dark font-weight-bold" style="overflow-wrap: break-word;">{{image.name}}</span>
-        </section>
-        <section>
-          <span v-if="progressLoading == 100">
-            <span class="cursor-pointer text-bold text-danger font-size-12" v-if="multi">Remove</span>
-            <span class="cursor-pointer text-bold font-size-12" v-else @click="$refs.file.click()">
-              <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
-              Change</span>
-          </span>
-          <span v-if="!showProgress">
+      <div v-if="imageUrl && !multi && uploadWithForm" class="img-fluid position-relative avatar-120 rounded-lg finalImage overflow-hidden" :style="{ 'background-image': 'url(' + showImage + ')' }">
+          <div class="position-absolute icon-edit">
             <span class="cursor-pointer text-bold font-size-12" @click="$refs.file.click()">
-              <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
-              Change</span>
-          </span>
-          <span class="cursor-pointer text-bold ml-3" v-else>
-            <span v-if="showProgress">
-              Uploading {{progressLoading}}%
-              </span>
-          </span>
-        </section>
-        <section v-if="showProgress" class="position-absolute w-100" style="bottom: -9px;padding-left: 15px;">
-          <b-progress :value="progressLoading" :max="100" animated
-                      variant="primary" style="height: 0.25rem !important;"></b-progress>
-        </section>
+                <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
+                <i class="las la-pen" />
+            </span>
+          </div>
       </div>
+
+      <div v-if="images" class="d-flex gap-2 flex-wrap">
+          <draggable v-model="images" @change="sortImage">
+              <transition-group class="d-flex gap-2 flex-wrap">
+                  <div class="mb-3"  v-for="(image, key) in images" :key="key">
+                      <div class="img-fluid position-relative avatar-120 rounded-lg finalImage overflow-hidden" :style="{ 'background-image': 'url(' + image.image + ')' }">
+                          <div class="position-absolute top-0 left-0 w-100 h-100 bg-drag d-flex justify-content-center align-items-center">
+                              <i class="las la-arrows-alt text-warning"></i>
+                          </div>
+                          <div class="position-absolute icon-delete"  @click="removeImage(image.id); showLoading = image.id" v-if="multi">
+                          <span class="cursor-pointer text-bold" v-if="showLoading !== image.id">
+                           <i class="las la-trash"></i>
+                          </span>
+                          <spinner-loading v-else :text="''" />
+                          </div>
+                      </div>
+                  </div>
+              </transition-group>
+          </draggable>
+        <div v-if="showImage && progressLoading !== 100" class="img-fluid avatar-120 rounded finalImage position-relative overflow-hidden text-white d-flex justify-content-center align-items-center" :style="{ 'background-image': 'url(' + showImage + ')' }">
+            <div class="orange-overlay position-absolute w-100 h-100 top-0 left-0">
+            </div>
+            <h1 class="loadingText">{{ progressLoading }} %</h1>
+        </div>
     </div>
-    <div v-if="!(!multi && (image.src || imageUrl))"
+      <div v-if="loadingSort" class="mb-3 text-primary">
+          Please Waith ...
+      </div>
+      <div v-if="!(!multi && (image.src || imageUrl))"
         class="button-wrapper mb-3 d-flex flex-column justify-content-center align-items-center p-4">
       <b-button variant="warning text-white rounded-0 px-4" @click="$refs.file.click()">
         <input type="file" v-show="false" ref="file" @change="loadImage($event)" accept="image/*">
@@ -70,6 +70,7 @@
       </p>
       <p>Image size limit: {{ limit }} MB</p>
     </div>
+
     <b-card v-show="showPopup" class="w-100 m-auto card" id="uploadImageCropper">
         <div class="actions d-flex justify-content-between align-items-center mb-3">
           <div class="left d-flex gap-2">
@@ -119,28 +120,14 @@
         </div>
       </b-card>
   </div>
-<!--  <cropper
-      v-if="img"
-      :src="img"
-      :stencil-size="{
-        width: 280,
-        height: 280
-      }"
-      :stencil-props="{
-        handlers: {},
-        movable: false,
-        resizable: false,
-        aspectRatio: 1,
-      }"
-      image-restriction="stencil"
-      @change="change"
-  />-->
 </template>
 <script>
 
 import 'vue-advanced-cropper/dist/style.css'
 import { Cropper } from 'vue-advanced-cropper'
 import { core } from '@/config/pluginInit'
+import draggable from 'vuedraggable'
+import mainService from '@/services/main'
 
 // This function is used to detect the actual image type,
 function getMimeType (file, fallback = null) {
@@ -166,15 +153,16 @@ function getMimeType (file, fallback = null) {
 }
 export default {
   components: {
-    Cropper
+    Cropper,
+    draggable
   },
   props: {
+    type: {
+      default: 'gallery'
+    },
     progressLoading: {
-      type: Number,
-      default: 0
     },
     ratio: {
-      type: String
     },
     resizeImage: {
       default: {
@@ -182,32 +170,27 @@ export default {
       }
     },
     label: {
-      type: String,
-      default: ''
     },
     multi: {
-      type: Boolean,
       default: true
     },
     showProgress: {
-      type: Boolean,
       default: true
     },
     nameOfImage: {
-      type: String,
       default: ''
     },
     imageUrl: {
-      type: String,
       default: ''
     },
     images: {
-      type: Array,
       required: false
     },
     removeLoadingUi: {
-      type: Boolean,
       required: false
+    },
+    uploadWithForm: {
+      default: false
     },
     limit: {
       default: 1
@@ -215,6 +198,7 @@ export default {
   },
   data () {
     return {
+      loadingSort: false,
       showPopup: false,
       image: {
         src: null,
@@ -223,10 +207,19 @@ export default {
       },
       showImage: '',
       finalImage: '',
-      newName: ''
+      newName: '',
+      showLoading: null
     }
   },
   methods: {
+    sortImage (data) {
+      this.loadingSort = true
+      mainService.changeSort({ id: data.moved.element.id, type: this.type, sort: data.moved.newIndex + 1 }).then(res => {
+        core.showSnackbar('success', res.data.message)
+      }).finally(() => {
+        this.loadingSort = false
+      })
+    },
     reset () {
       this.image = {
         src: null,
@@ -338,5 +331,45 @@ export default {
   &:hover {
     background: rgba(254, 158, 18, 0.55);
   }
+}
+.icon-edit, .icon-delete {
+  background: #fe9e12;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  top: 0;
+  left: 0;
+  box-shadow: 0px 0px 2px 0px #9d150b;
+}
+.icon-delete {
+  right: 0;
+  font-size: 22px;
+  background: #f14336 !important;
+}
+.icon-edit i {
+  font-size: 16px !important;
+}
+.orange-overlay {
+  background: linear-gradient(to right, rgba(47, 218, 193, 0.60) 0%, rgba(47, 154, 232, 0.60) 100%);
+}
+.loadingText {
+  margin: 0;
+  padding: 0;
+  font-size: 35px;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+}
+.finalImage:hover .bg-drag {
+  opacity: 1;
+  transition: 0.3s ease-in-out;
+}
+.bg-drag {
+  opacity: 0;
+  cursor: move;
+  background-color: #3f414db3 !important;
 }
 </style>

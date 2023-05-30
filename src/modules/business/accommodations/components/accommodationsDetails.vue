@@ -237,6 +237,7 @@
                 :removeLoadingUi="removeLoadingUi"
                 :progressLoading="progressBar"
                 :images="accommodations.images"
+                type="accommodation_image"
             ></cropper-images>
           </b-col>
         </b-row>

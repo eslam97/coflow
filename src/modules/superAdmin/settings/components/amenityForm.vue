@@ -21,6 +21,7 @@
                 :showProgress="false"
                 :multi="false"
                 :imageUrl="iconImage"
+                :uploadWithForm="true"
             />
           </b-col>
         </b-row>

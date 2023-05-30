@@ -120,6 +120,7 @@
                     :progressLoading="loadingGallery"
                     :removeLoadingUi="removeLoadingUi"
                     :images="allImages"
+                    type="product_image"
                 ></cropper-images>
               </b-col>
             </b-row>

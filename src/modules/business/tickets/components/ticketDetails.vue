@@ -146,6 +146,7 @@
                           :removeLoadingUi="removeLoadingUi"
                           :progressLoading="progressBar"
                           :images="ticket.images"
+                          type="ticket_image"
                   ></cropper-images>
               </b-col>
           </b-row>

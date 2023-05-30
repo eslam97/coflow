@@ -31,7 +31,7 @@
             />
           </b-col>
           <b-col md="12" class="mb-3">
-            <main-select labelTitle='Admin' :validate="'required'"
+            <main-select labelTitle='Role' :validate="'required'"
                          :name="`Admin`" placeholder="Choose" :options="allRoles"
                          label="name"
                          :reduce="data => data.id"
@@ -39,14 +39,14 @@
           </b-col>
           <b-col md="12" class="mb-5">
             <cropper-images
-                :ratio= "1/1"
-                label="Upload Logo"
-                nameOfImage="image.jpg"
-                @cropper-save="savelogoImage"
-                :progressLoading="loadingLogo"
-                :showProgress="false"
-                :multi="false"
-                :imageUrl="logoImage"
+                    label="Upload Cover"
+                    nameOfImage="image.jpg"
+                    @cropper-save="savelogoImage"
+                    :progressLoading="loadingLogo"
+                    :showProgress="false"
+                    :multi="false"
+                    :imageUrl="logoImage"
+                    :uploadWithForm="true"
             />
           </b-col>
         </b-row>

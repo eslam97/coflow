@@ -285,6 +285,7 @@
                 :removeLoadingUi="removeLoadingUi"
                 :progressLoading="progressBar"
                 :images="courses.images"
+                type="course_image"
             ></cropper-images>
           </b-col>
         </b-row>

@@ -14,7 +14,6 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint'
   },
-  
   "globals": {
     "Waypoint": true
   },

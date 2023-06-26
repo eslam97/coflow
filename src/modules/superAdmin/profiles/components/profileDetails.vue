@@ -681,7 +681,9 @@ export default {
     getAllReservationLinkWithoutYoutube () {
       var newLinksArr = [...this.profile.links]
       const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
-      newLinksArr.splice(ind, 1)
+      if (ind > -1) {
+        newLinksArr.splice(ind, 1)
+      }
       return newLinksArr
     }
   },

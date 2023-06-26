@@ -666,7 +666,9 @@ export default {
     getAllReservationLinkWithoutYoutube () {
       var newLinksArr = [...this.info.links]
       const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
-      newLinksArr.splice(ind, 1)
+      if (ind > -1) {
+        newLinksArr.splice(ind, 1)
+      }
       return newLinksArr
     }
   },
@@ -900,7 +902,7 @@ export default {
     saveChanges () {
       // eslint-disable-next-line no-prototype-builtins
       if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
-        this.reservation_contact.link = this.phones
+        this.reservation_contact.link = this.phones[0].number
       }
       // eslint-disable-next-line
       if ((this.logoImage || (this.loadingLogo == 100)) && (this.coverImage || (this.loadingCover == 100))) {

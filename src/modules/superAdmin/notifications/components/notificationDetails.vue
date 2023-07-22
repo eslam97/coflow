@@ -91,6 +91,7 @@
                              placeholder="Nationality"
                              :options="allNationalities"
                              label="name"
+                             multiple
                              :reduce="data=> data.name"
                              v-model="notification.nationality">
                 </main-select>

@@ -12,5 +12,8 @@ export default {
   },
   changeProfileCanLogin (id, payload) {
     return Api().post(`can-login/${id}`, payload)
+  },
+  editProfileNote (id, payload) {
+    return Api().post(`edit-notes/${id}`, payload)
   }
 }

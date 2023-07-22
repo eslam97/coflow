@@ -17,7 +17,7 @@
     </main-modal>
     <main-modal id="commentsModal" size="lg">
     <template v-slot:header>
-      <h4 class="font-weight-bold"><span class="text-warning" >Notes: </span></h4>
+      <h4 class="font-weight-bold"><span class="text-warning" >Notes: {{noteUser.name}}</span></h4>
     </template>
     <template v-slot:body>
       <div>
@@ -43,7 +43,7 @@
               <b-button
                   class="button-orange-modal"
                   type="submit"
-                  v-if="!requestLoading"
+                  v-if="!loadingNote"
               >
                 <i class="las la-plus"></i>
               </b-button>
@@ -258,7 +258,8 @@ export default {
               color: 'secondary',
               text: 'Comment',
               showIf: () => this.hasPer('profile.delete'),
-              actionName: 'addComment'
+              actionName: 'addComment',
+              actionParams: ['id', 'name']
             },
             {
               icon: 'las la-bell',
@@ -272,6 +273,7 @@ export default {
         }
       ],
       note: '',
+      loadingNote: false,
       profileDetails: false,
       typeOfModal: 'add',
       requestLoading: false,
@@ -321,7 +323,8 @@ export default {
       allGovernorates: [],
       allAreas: [],
       selectedId: '',
-      loadingNotify: false
+      loadingNotify: false,
+      noteUser: ''
     }
   },
   methods: {
@@ -378,11 +381,19 @@ export default {
         this.$bvModal.show('profileDetalilsModal')
       })
     },
-    addComment () {
+    addComment (obj) {
+      this.noteUser = obj
       this.$bvModal.show('commentsModal')
     },
     saveNote () {
-      this.$bvModal.hide('commentsModal')
+      this.loadingNote = true
+      profilesServices.editProfileNote(this.noteUser.id, { note: this.note }).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('commentsModal')
+        this.note = ''
+      }).finally(() => {
+        this.loadingNote = false
+      })
     },
     sendNotification (obj) {
       this.selectedId = obj.id

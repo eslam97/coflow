@@ -69,7 +69,11 @@
             <b-row>
                 <b-col md="12">
                     <main-select labelTitle='Reservation Link' :validate="'required'"
-                                 :name="`reservation_contact`"  placeholder="Choose" :options="getAllReservationLinkWithoutYoutube"
+                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube,
+                                  {
+                                  selectSocial: 'Contact Number',
+                                  link: 'contact_number'
+                                 }]"
                                  label="selectSocial"
                                  :reduce="data=> data"
                                  v-model="reservation_contact"></main-select>
@@ -263,7 +267,7 @@ export default {
       // loading Steps
       loadingFacilityLocation: false,
       allLinks: JSON.parse(localStorage.getItem('allLinks')),
-      reservation_contact: ''
+      reservation_contact: {}
     }
   },
   watch: {
@@ -292,7 +296,7 @@ export default {
     saveFacilityLocation () {
       // eslint-disable-next-line no-prototype-builtins
       if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
-        this.reservation_contact.link = this.phones[0].number
+        this.reservation_contact.link = this.phones
       }
       this.loadingFacilityLocation = true
       if (this.location_type === 'address based') {

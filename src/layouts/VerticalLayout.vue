@@ -22,7 +22,6 @@
     <!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
     <div class="wrapper">
         <b-sidebar id="sidebar-1" bg-variant="white" right backdrop no-header-close @change="toggleBodyScrollbar">
-            {{all}}
             <div v-if="getNotifications.length > 0">
                 <ul class="notification-list p-0">
                     <li v-for="(item, index) in getNotifications" :key="index" class="border-bottom py-2 px-3">
@@ -64,38 +63,9 @@
             <li class="nav-item px-0 mr-3 list-actions cursor-pointer" @click="openBugPopup">
               <i class="las la-bug"></i>
             </li>
-            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" v-b-toggle.sidebar-1>
+            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" v-b-toggle.sidebar-1 @click="newNotification = false">
                 <i class="las la-bell"></i>
-<!--              <a href="#" class="search-toggle px-2 iq-waves-effect font-size-22">-->
-<!--                <lottie :option="require('../assets/images/small/lottie-bell')" id="lottie-beil" />-->
                 <span class="bg-danger dots" v-if="newNotification"></span>
-<!--              </a>-->
-<!--              <div class="iq-sub-dropdown">-->
-<!--                <div class="iq-card shadow-none m-0">-->
-<!--                  <div class="iq-card-body p-0 ">-->
-<!--                    <div class="bg-warning p-3">-->
-<!--                      <h5 class="mb-0 text-white">{{ $t('nav.allNotifications') }}<small class="badge  badge-light float-right pt-1">{{ notification_unread }}</small></h5>-->
-<!--                    </div>-->
-<!--                    <div class="allNotifications" id="infinite-list">-->
-<!--                      <span v-if="getNotifications.length > 0">-->
-<!--                      <a href="#" class="iq-sub-card" v-for="(item, index) in getNotifications" :key="index" :class="item.read == 0 ? 'unmark' : 'unmark'">-->
-<!--                      <div class="media align-items-center">-->
-<!--&lt;!&ndash;                        <div class="">-->
-<!--                          <img class="avatar-40 rounded" :src="item.image" alt="img">-->
-<!--                        </div>&ndash;&gt;-->
-<!--                        <div class="media-body ml-3 position-relative">-->
-<!--                          <h6 class="mb-0 "> <i v-if="item.read == 0" class="ri-checkbox-blank-circle-fill text-warning position-absolute unread"></i>{{ item.title }}</h6>-->
-<!--                          <small class="float-right font-size-12">{{ item.published }}</small>-->
-<!--                          <p class="mb-0">{{ item.body ? item.body.substring(0,40) + '...' : 'NO body' }}</p>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </a>-->
-<!--                    </span>-->
-
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
             </li>
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">

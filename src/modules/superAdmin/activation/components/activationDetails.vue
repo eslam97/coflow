@@ -197,10 +197,7 @@
               </b-col>
                 <b-col md="12">
                     <main-select labelTitle='Reservation Link' :validate="'required'"
-                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube, {
-                              selectSocial: 'Contact Number',
-                              link: 'contact_number'
-                            }]"
+                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
                                  label="selectSocial"
                                  :reduce="data=> data"
                                  v-model="info.reservation_contact"></main-select>
@@ -669,6 +666,12 @@ export default {
       if (ind > -1) {
         newLinksArr.splice(ind, 1)
       }
+      if (this.reservation_contact.selectSocial !== 'Contact Number') {
+        newLinksArr.push({
+          selectSocial: 'Contact Number',
+          link: 'contact_number'
+        })
+      }
       return newLinksArr
     }
   },
@@ -902,7 +905,7 @@ export default {
     saveChanges () {
       // eslint-disable-next-line no-prototype-builtins
       if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
-        this.reservation_contact.link = this.phones[0].number
+        this.reservation_contact.link = this.phones
       }
       // eslint-disable-next-line
       if ((this.logoImage || (this.loadingLogo == 100)) && (this.coverImage || (this.loadingCover == 100))) {

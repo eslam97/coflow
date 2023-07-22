@@ -20,22 +20,6 @@ export default () => {
       localStorage.removeItem('permissions')
       router.push('/business')
     }
-    // eslint-disable-next-line
-    /*
-    if (error.response.data.message == 'system_shutdown' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'not_allow_ip_address' || error.response.data.message == 'Unauthenticated.') {
-      // eslint-disable-next-line eqeqeq
-      if (error.response.data.message == 'system_shutdown') {
-        this.$router.push('/pages/maintenance')
-      } else {
-        router.push('/auth/sign-in1')
-        localStorage.removeItem('access_token')
-        localStorage.setItem('errorData', 'you are not in maxevia!')
-        localStorage.setItem('errorPhone', 'not_allow_ip_address!')
-      }
-
-      // eslint-disable-next-line eqeqeq
-    }
-*/
     if (error.response.data.errors) {
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of Object.entries(error.response.data.errors)) {

@@ -92,13 +92,13 @@
             <h3 class="text-danger">{{ allData.flows }}</h3>
           </div>
         </b-col>
-        <b-col md="2" cols="12" class="mb-5">
-          <div class="text-center">
-            <img :src="require('@/assets/images/businessLanding/tailored/Products.png')" />
-            <h4 class="text-white font-weight-bold my-3">Products</h4>
-            <h3 class="text-secondary">{{ allData.products }}</h3>
-          </div>
-        </b-col>
+<!--        <b-col md="2" cols="12" class="mb-5">-->
+<!--          <div class="text-center">-->
+<!--            <img :src="require('@/assets/images/businessLanding/tailored/Products.png')" />-->
+<!--            <h4 class="text-white font-weight-bold my-3">Products</h4>-->
+<!--            <h3 class="text-secondary">{{ allData.products }}</h3>-->
+<!--          </div>-->
+<!--        </b-col>-->
       </b-row>
     </b-container>
   </div>

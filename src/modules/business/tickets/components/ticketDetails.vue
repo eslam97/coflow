@@ -309,7 +309,8 @@ export default {
         conditions: this.ticketDetails.conditions,
         status: this.ticketDetails.status,
         images: this.ticketDetails.images,
-        duration_list_id: this.ticketDetails.duration
+        duration_list_id: this.ticketDetails.duration_list_id,
+        duration: this.ticketDetails.duration
       }
       if (this.ticket.price_euro) {
         this.foreignerPrice = 'Euro'

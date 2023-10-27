@@ -165,7 +165,8 @@ export default {
         accommodation: 'accommodations',
         activity: 'activities',
         course: 'courses',
-        product: 'products'
+        product: 'products',
+        ticket: 'tickets'
       },
       serviceAnalysis: {},
       serviceFilterByDate: moment(new Date()).format('MMM YYYY'),
@@ -315,6 +316,8 @@ export default {
     }
   },
   created () {
+    console.log(this.routeNameMap)
+    console.log(this.type)
     dashboardServices.getAllItems(this.routeNameMap[this.type]).then((res) => {
       this.itemsList = res.data.data.data
       this.itemId = this.itemsList[0].id

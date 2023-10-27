@@ -42,7 +42,7 @@
       </div>
       <div class="hero h-100 bg-primary d-flex align-items-center blue_section">
         <img :src="require('@/assets/images/mobilaAppLanding/Header-Logo.png')" alt="Header-Logo" class="circleLogo">
-        <img :src="require('@/assets/images/mobilaAppLanding/phone.png')" alt="mobileApp" class="mobileImage">
+        <img :src="require('@/assets/images/mobilaAppLanding/mobile.png')" alt="mobileApp" class="mobileImage">
       </div>
     </div>
 
@@ -308,8 +308,8 @@ export default {
   position: absolute;
 }
 .mobileImage {
-  width: 80%;
-  left: -20%;
+  width: 50%;
+  left: -10%;
 }
 .circleLogo {
   width: 100%;
@@ -332,9 +332,9 @@ export default {
     overflow: hidden;
   }
   .mobileImage {
-    width: 50%;
-    left: 48vw;
-    bottom: -25px;
+    width: 35%;
+    left: 50vw;
+    bottom: -15px;
   }
   .circleLogo {
     width: 80%;

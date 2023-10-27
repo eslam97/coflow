@@ -21,6 +21,7 @@
     </template>
     <template v-slot:body>
       <div>
+        <p><span class="font-weight-bold text-black">comment:</span> {{noteUser.notes? noteUser.notes : '----'}}</p>
         <ValidationObserver v-slot="{ handleSubmit }">
           <b-form @submit.prevent="handleSubmit(saveNote)">
             <b-form-group
@@ -259,7 +260,7 @@ export default {
               text: 'Comment',
               showIf: () => this.hasPer('profile.delete'),
               actionName: 'addComment',
-              actionParams: ['id', 'name']
+              actionParams: ['id', 'name', 'notes']
             },
             {
               icon: 'las la-bell',
@@ -387,7 +388,7 @@ export default {
     },
     saveNote () {
       this.loadingNote = true
-      profilesServices.editProfileNote(this.noteUser.id, { note: this.note }).then(res => {
+      profilesServices.editProfileNote(this.noteUser.id, { notes: this.note }).then(res => {
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('commentsModal')
         this.note = ''

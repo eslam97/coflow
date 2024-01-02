@@ -74,7 +74,7 @@
       </template>
       <b-row>
         <b-col class="pl-4" md="2">
-          <div class="py-3 px-2 d-flex justify-content-around flex-column h-100">
+          <div class="py-3 px-2 d-flex flex-column h-100">
             <div class="d-flex justify-content-between mb-4 mt-2" v-if="analysisByDate != null">
               <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.last.month ? analysisByDate.last.month  : '' }}</h5>
             </div>

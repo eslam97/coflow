@@ -217,7 +217,7 @@
                             }]"
                            label="selectSocial"
                            :reduce="data=> data"
-                           v-model="profile.reservation_contact"></main-select>
+                           v-model="reservation_contact"></main-select>
             </b-col>
           </b-row>
 <!--          <b-row>
@@ -570,8 +570,8 @@ export default {
   },
   data () {
     return {
+      reservation_contact: '',
       profile: {
-        reservation_contact: '',
         email: '',
         password: '',
         contact: [
@@ -795,7 +795,7 @@ export default {
     },
     fillData () {
       if (this.profileDetails) {
-        this.profile.reservation_contact = this.profileDetails.reservation_contact
+        this.reservation_contact = this.profileDetails.reservation_contact
         this.profile.email = this.profileDetails.email
         this.profile.password = this.profileDetails.password_text
         this.profile.contact = this.profileDetails.contacts
@@ -906,9 +906,10 @@ export default {
     // save change
     saveProfile () {
       // eslint-disable-next-line no-prototype-builtins
-      if (this.profile.reservation_contact.hasOwnProperty('selectSocial') && this.profile.reservation_contact.selectSocial === 'Contact Number') {
-        this.profile.reservation_contact.link = this.profile.phones
+      if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
+        this.reservation_contact.link = this.profile.phones
       }
+      this.profile.reservation_contact = [this.reservation_contact]
       this.profile.location.forEach(item => {
         if (!item.availability_type) {
           item.availability_type = 'open'

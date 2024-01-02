@@ -13,7 +13,7 @@
         </b-card-header>
         <b-collapse :id="`accordion-${item.id}`" visible accordion="my-accordion" role="tabpanel">
           <b-card-body>
-            <b-card-text>{{ item.answer }}</b-card-text>
+            <b-card-text class="text-capitalize">{{ item.answer }}</b-card-text>
           </b-card-body>
         </b-collapse>
       </b-card>

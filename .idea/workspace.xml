@@ -6,12 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/modal/deleteModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modal/deleteModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/table/cellActions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/cellActions.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/Components/faqPopup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Components/faqPopup.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/activities/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/activities/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/courses/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/courses/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/VerticalLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/VerticalLayout.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/business/dashboard/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/dashboard/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/flows/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/flows/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/easyToUse.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/easyToUse.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +143,8 @@
       <workItem from="1668990269895" duration="25178000" />
       <workItem from="1698414519633" duration="11035000" />
       <workItem from="1699386024489" duration="692000" />
-      <workItem from="1704233818096" duration="1486000" />
+      <workItem from="1704233818096" duration="2191000" />
+      <workItem from="1704296209482" duration="7394000" />
     </task>
     <servers />
   </component>
@@ -169,6 +176,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue</url>
+          <line>138</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

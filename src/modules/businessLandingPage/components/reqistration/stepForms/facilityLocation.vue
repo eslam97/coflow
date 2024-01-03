@@ -69,11 +69,7 @@
             <b-row>
                 <b-col md="12">
                     <main-select labelTitle='Reservation Link' :validate="'required'"
-                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube,
-                                  {
-                                  selectSocial: 'Contact Number',
-                                  link: 'contact_number'
-                                 }]"
+                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
                                  label="selectSocial"
                                  :reduce="data=> data"
                                  v-model="reservation_contact"></main-select>

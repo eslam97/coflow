@@ -28,9 +28,8 @@
       <div class="white-section">
         <b-container>
           <div class="d-flex align-items-start flex-column">
-            <h1 class="header_hero">Adventure Sports & <br>Spiritual Activities</h1>
-            <p class="p_hero font-weight-bold-500">Connect with the version of yourself you love <br>today, for a better tomorrow, after & forever.
-            </p>
+            <h1 class="header_hero">Adventure Sports & <br>Wellness Activities</h1>
+            <p class="p_hero font-weight-bold-500"> Connect with the version of yourself that makes <br/>  you feel alive today, for a better tomorrow.</p>
             <b-row class="mobile-section ">
               <b-col md="5" cols="12"><a href="https://play.google.com/store/apps/details?id=com.redgits.coflow" target="_blank">
                 <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android"></a></b-col>

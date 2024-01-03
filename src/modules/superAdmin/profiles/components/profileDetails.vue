@@ -417,7 +417,7 @@
                   class="position-relative"
               >
               <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0"
-                    @click="deleteRemoteContact(key)">Delete
+                    @click="deleteContact(key)">Delete
               </span>
                 <b-input-group>
                   <validation-provider
@@ -570,7 +570,7 @@ export default {
   },
   data () {
     return {
-      reservation_contact: '',
+      reservation_contact: {},
       profile: {
         email: '',
         password: '',
@@ -795,7 +795,7 @@ export default {
     },
     fillData () {
       if (this.profileDetails) {
-        this.reservation_contact = this.profileDetails.reservation_contact
+        this.reservation_contact = this.profileDetails.reservation_contact[0]
         this.profile.email = this.profileDetails.email
         this.profile.password = this.profileDetails.password_text
         this.profile.contact = this.profileDetails.contacts
@@ -905,11 +905,14 @@ export default {
     }, */
     // save change
     saveProfile () {
+      console.log('this.reservation_contact.hasOwnProperty(\'selectSocial\')')
       // eslint-disable-next-line no-prototype-builtins
       if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
         this.reservation_contact.link = this.profile.phones
+        // this.profile.reservation_contact = [this.reservation_contact]
       }
       this.profile.reservation_contact = [this.reservation_contact]
+      console.log(this.profile.reservation_contact)
       this.profile.location.forEach(item => {
         if (!item.availability_type) {
           item.availability_type = 'open'

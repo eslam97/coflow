@@ -74,8 +74,8 @@
       </template>
       <b-row>
         <b-col class="pl-4" md="2">
-          <div class="py-3 px-2 d-flex flex-column h-100">
-            <div class="d-flex justify-content-between mb-4 mt-2" v-if="analysisByDate != null">
+          <div class="py-3 px-2 d-flex mt-2 flex-column h-100">
+            <div class="d-flex justify-content-between mt-2" style="margin-bottom: 39px !important;" v-if="analysisByDate != null">
               <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.last.month ? analysisByDate.last.month  : '' }}</h5>
             </div>
             <div>
@@ -93,24 +93,24 @@
               </div>
             </div>
 <!--            <div class="statisticsLowOrHight">-->
-<!--              <h6 class="text-black-50 mb-3 text-center font-size-12 font-weight-bold">TOTAL CHANGE</h6>-->
+<!--              <h6 class="text-black-50 mb-3 font-size-12 font-weight-bold text-center ">TOTAL CHANGE</h6>-->
 <!--              <div class="d-flex justify-content-between">-->
 <!--                <div class="d-flex align-items-center flex-column">-->
 <!--                  <span>V</span>-->
 <!--                  <span class="text-info font-weight-bold">-->
-<!--                    {{ monthStatsCalculation('last_last', 'last', 'views') }}-->
+<!--                    {{ monthStatsCalculation('last', 'current', 'views') }}-->
 <!--                  </span>-->
 <!--                </div>-->
 <!--                <div class="d-flex align-items-center flex-column">-->
 <!--                  <span>S</span>-->
 <!--                  <span class="text-light-green font-weight-bold">-->
-<!--                    {{ monthStatsCalculation('last_last', 'last', 'saves') }}-->
+<!--                    {{ monthStatsCalculation('last', 'current', 'saves') }}-->
 <!--                  </span>-->
 <!--                </div>-->
 <!--                <div class="d-flex align-items-center flex-column">-->
 <!--                  <span>T</span>-->
 <!--                  <span class="text-warning font-weight-bold">-->
-<!--                    {{ monthStatsCalculation('last_last', 'last', 'tracks') }}-->
+<!--                    {{ monthStatsCalculation('last', 'current', 'tracks') }}-->
 <!--                  </span>-->
 <!--                </div>-->
 <!--              </div>-->

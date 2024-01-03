@@ -200,7 +200,7 @@
                                  :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
                                  label="selectSocial"
                                  :reduce="data=> data"
-                                 v-model="info.reservation_contact"></main-select>
+                                 v-model="reservation_contact"></main-select>
                 </b-col>
             </b-row>
             <b-row>
@@ -543,6 +543,7 @@ export default {
   },
   data () {
     return {
+      reservation_contact: {},
       service_types: '',
       progressLogo: 0,
       progressCover: 0,
@@ -571,7 +572,6 @@ export default {
           }
         ]
       },
-      reservation_contact: {},
       based: {
         country_id: '',
         city_id: '',
@@ -702,7 +702,7 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.logoImage = ''
+        this.logoImage = data.imageInfo.src
       })
     },
     saveCoverImage (data) {
@@ -721,7 +721,7 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.coverImage = ''
+        this.coverImage = data.imageInfo.src
       })
     },
     saveGalleryImage (data) {
@@ -935,7 +935,8 @@ export default {
               ...operation,
               phones: this.phones,
               location_type: this.location_type,
-              service_types: this.service_types
+              service_types: this.service_types,
+              reservation_contact: [this.reservation_contact]
             }
           } else {
             newObj = {
@@ -947,7 +948,8 @@ export default {
               ...operation,
               phones: this.phones,
               location_type: this.location_type,
-              service_types: this.service_types
+              service_types: this.service_types,
+              reservation_contact: [this.reservation_contact]
             }
           }
           this.$emit('activation-provider', newObj)

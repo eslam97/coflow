@@ -17,11 +17,11 @@
           controls
           indicators
       >
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/5.png')"></b-carousel-slide>
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/4.png')"></b-carousel-slide>
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/3.png')"></b-carousel-slide>
-        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/2.png')"></b-carousel-slide>
         <b-carousel-slide :img-src="require('@/assets/images/businessLanding/1.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/2.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/3.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/4.png')"></b-carousel-slide>
+        <b-carousel-slide :img-src="require('@/assets/images/businessLanding/5.png')"></b-carousel-slide>
       </b-carousel>
           </div>
         </b-col>

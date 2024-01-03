@@ -230,7 +230,7 @@ export default {
       readNotification: '',
       requestLoading: false,
       report: {},
-      newNotification: true
+      newNotification: false
     }
   },
   components: {

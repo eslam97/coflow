@@ -360,7 +360,7 @@ export default {
       console.log(id)
       console.log(data)
       this.requestLoading = true
-      profilesServices.editProfile(id, { ...data, reservation_contact: [data.reservation_contact], _method: 'put' }).then(res => {
+      profilesServices.editProfile(id, { ...data, _method: 'put' }).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('profileDetalilsModal')

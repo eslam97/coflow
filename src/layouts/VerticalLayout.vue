@@ -229,7 +229,8 @@ export default {
       currentPage: 2,
       readNotification: '',
       requestLoading: false,
-      report: {}
+      report: {},
+      newNotification: false
     }
   },
   components: {

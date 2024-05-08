@@ -78,6 +78,7 @@
           <b-col md="6" class="mb-3">
             <main-select labelTitle='Nationality' :validate="''"
                          :name="'nationality'"
+                         multiple
                          placeholder="Choose"
                          :options="allCountries"
                          label="name"

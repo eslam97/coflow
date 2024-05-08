@@ -217,7 +217,7 @@ export default {
         actionHeader: 'Clear',
         titleHeader: 'Slot',
         textContent: `${this.scheduleDetailsFront.flow.name} in ${this.scheduleDetailsFront.day} `,
-        question: 'Are you want to delete all the slots in the schedule?',
+        question: 'Are you sure you want to delete this slot from the schedule?',
         textDeleteButton: 'YES, Clear',
         textCancelButton: 'NO, CANCEL',
         icon: 'las la-trash-alt',
@@ -232,7 +232,7 @@ export default {
       EventBus.$emit('openDeleteModal', {
         actionHeader: 'Delete',
         titleHeader: 'Schedule',
-        textContent: 'Are you want to delete all the slots in the schedule?',
+        textContent: 'Are you sure you want to delete all slots in the schedule?',
         question: '',
         textDeleteButton: 'YES, Delete',
         textCancelButton: 'NO, CANCEL',

@@ -73,9 +73,9 @@
         </div>
       </template>
       <b-row>
-        <b-col md="2">
-          <div class="py-3 px-2 d-flex justify-content-around flex-column h-100">
-            <div class="d-flex justify-content-between mb-4 mt-2" v-if="analysisByDate != null">
+        <b-col class="pl-4" md="2">
+          <div class="py-3 px-2 d-flex mt-2 flex-column h-100">
+            <div class="d-flex justify-content-between mt-2" style="margin-bottom: 39px !important;" v-if="analysisByDate != null">
               <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.last.month ? analysisByDate.last.month  : '' }}</h5>
             </div>
             <div>
@@ -92,29 +92,29 @@
                 <h4 class="text-warning font-weight-bold">{{ analysisByDate.last.tracks }}</h4>
               </div>
             </div>
-            <div class="statisticsLowOrHight">
-              <h6 class="text-black-50 mb-3 text-center font-size-12 font-weight-bold">TOTAL CHANGE</h6>
-              <div class="d-flex justify-content-between">
-                <div class="d-flex align-items-center flex-column">
-                  <span>V</span>
-                  <span class="text-info font-weight-bold">
-                    {{ monthStatsCalculation('last_last', 'last', 'views') }}
-                  </span>
-                </div>
-                <div class="d-flex align-items-center flex-column">
-                  <span>S</span>
-                  <span class="text-light-green font-weight-bold">
-                    {{ monthStatsCalculation('last_last', 'last', 'saves') }}
-                  </span>
-                </div>
-                <div class="d-flex align-items-center flex-column">
-                  <span>T</span>
-                  <span class="text-warning font-weight-bold">
-                    {{ monthStatsCalculation('last_last', 'last', 'tracks') }}
-                  </span>
-                </div>
-              </div>
-            </div>
+<!--            <div class="statisticsLowOrHight">-->
+<!--              <h6 class="text-black-50 mb-3 font-size-12 font-weight-bold text-center ">TOTAL CHANGE</h6>-->
+<!--              <div class="d-flex justify-content-between">-->
+<!--                <div class="d-flex align-items-center flex-column">-->
+<!--                  <span>V</span>-->
+<!--                  <span class="text-info font-weight-bold">-->
+<!--                    {{ monthStatsCalculation('last', 'current', 'views') }}-->
+<!--                  </span>-->
+<!--                </div>-->
+<!--                <div class="d-flex align-items-center flex-column">-->
+<!--                  <span>S</span>-->
+<!--                  <span class="text-light-green font-weight-bold">-->
+<!--                    {{ monthStatsCalculation('last', 'current', 'saves') }}-->
+<!--                  </span>-->
+<!--                </div>-->
+<!--                <div class="d-flex align-items-center flex-column">-->
+<!--                  <span>T</span>-->
+<!--                  <span class="text-warning font-weight-bold">-->
+<!--                    {{ monthStatsCalculation('last', 'current', 'tracks') }}-->
+<!--                  </span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
         </b-col>
         <b-col md="8" class="border-right border-left" v-if="monthDaysOptions.xaxis.categories.length > 0">
@@ -131,7 +131,7 @@
         <b-col v-else md="8" class="text-center py-5">
           <h4 class="py-5 mt-2">No user analysis for {{ filterByDate }}</h4>
         </b-col>
-        <b-col md="2">
+        <b-col class="pr-4" md="2">
           <div class="py-3 px-2 d-flex justify-content-around flex-column h-100">
             <div class="d-flex justify-content-between mb-4 mt-2" v-if="analysisByDate != null">
               <h5 class="text-black-50 font-weight-bold">{{ analysisByDate.current.month }}</h5>
@@ -223,6 +223,7 @@
         </b-row>
       </b-card-body>
     </b-card>
+    {{ type }}
     <service-analysis class="mt-4" v-for="(type, key) in serviceTypes" :key="key" :type="type"/>
   </div>
 </template>
@@ -442,7 +443,8 @@ export default {
         FLOW: ['flow'],
         PRO: ['activity', 'course'],
         SHOP: ['product'],
-        CAMP: ['accommodation']
+        CAMP: ['accommodation'],
+        GO: ['ticket']
       },
       serviceTypes: [],
 

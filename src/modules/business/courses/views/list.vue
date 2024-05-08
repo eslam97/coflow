@@ -122,7 +122,7 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'Courses',
+              titleHeader: 'Course',
               textContent: 'name',
               url: 'courses'
             }

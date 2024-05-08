@@ -96,7 +96,7 @@ export default {
           url: action.url ? action.url : '',
           rowId: this.dataItem.id,
           question: action.question ? action.question : `Are You Sure You Want Delete This ${action.titleHeader}?`,
-          textDeleteButton: action.textDeleteButton ? action.textDeleteButton : `YES, ${action.actionHeader}`,
+          textDeleteButton: action.textDeleteButton ? action.textDeleteButton : `YES, ${action.actionHeader.toUpperCase()}`,
           textCancelButton: action.textCancelButton ? action.textCancelButton : 'NO, CANCEL',
           icon: action.iconClass ? action.iconClass : 'las la-trash-alt',
           type: action.type ? action.type : 'delete',

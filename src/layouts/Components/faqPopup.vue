@@ -95,5 +95,7 @@ export default {
 .card-body p {
   line-height: 1.7;
 }
-
+.header-faq {
+  text-transform: unset !important;
+}
 </style>

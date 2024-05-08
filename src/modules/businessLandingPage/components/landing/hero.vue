@@ -13,7 +13,7 @@
       </b-col>
       <b-col md="6">
         <div class="pr-md-5">
-          <img :src="require('@/assets/images/businessLanding/header-right1.png')" class="w-100">
+          <img :src="require('@/assets/images/businessLanding/DASHBOARD.png')" class="w-100">
         </div>
       </b-col>
     </b-row>

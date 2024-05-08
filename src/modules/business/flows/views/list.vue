@@ -109,7 +109,7 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'Flows',
+              titleHeader: 'Flow',
               textContent: 'name',
               url: 'flows'
             }

@@ -28,9 +28,8 @@
       <div class="white-section">
         <b-container>
           <div class="d-flex align-items-start flex-column">
-            <h1 class="header_hero">Adventure Sports & <br>Spiritual Activities</h1>
-            <p class="p_hero font-weight-bold-500">Connect with the version of yourself you love <br>today, for a better tomorrow, after & forever.
-            </p>
+            <h1 class="header_hero">Adventure Sports & <br>Wellness Activities</h1>
+            <p class="p_hero font-weight-bold-500"> Connect with the version of yourself that makes <br/>  you feel alive today, for a better tomorrow.</p>
             <b-row class="mobile-section ">
               <b-col md="5" cols="12"><a href="https://play.google.com/store/apps/details?id=com.redgits.coflow" target="_blank">
                 <img :src="require('@/assets/images/mobilaAppLanding/Google_play-badge.png')" alt="android" class="android"></a></b-col>
@@ -42,7 +41,7 @@
       </div>
       <div class="hero h-100 bg-primary d-flex align-items-center blue_section">
         <img :src="require('@/assets/images/mobilaAppLanding/Header-Logo.png')" alt="Header-Logo" class="circleLogo">
-        <img :src="require('@/assets/images/mobilaAppLanding/phone.png')" alt="mobileApp" class="mobileImage">
+        <img :src="require('@/assets/images/mobilaAppLanding/mobile.png')" alt="mobileApp" class="mobileImage">
       </div>
     </div>
 
@@ -308,8 +307,8 @@ export default {
   position: absolute;
 }
 .mobileImage {
-  width: 80%;
-  left: -20%;
+  width: 50%;
+  left: -10%;
 }
 .circleLogo {
   width: 100%;
@@ -332,9 +331,9 @@ export default {
     overflow: hidden;
   }
   .mobileImage {
-    width: 50%;
-    left: 48vw;
-    bottom: -25px;
+    width: 35%;
+    left: 50vw;
+    bottom: -15px;
   }
   .circleLogo {
     width: 80%;

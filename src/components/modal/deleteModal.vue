@@ -11,17 +11,17 @@
       <i class="las la-times closePopupIcon" @click="close()"></i>
     </template>
     <template #default="{ close }">
-      <h2 class="font-weight-bold text-danger text-center pt-3">{{ actionHeader }}</h2>
+      <h2 class="font-weight-bold text-danger text-center pt-3 text-uppercase" style="text-transform: uppercase">{{ actionHeader }}</h2>
       <p class="text-black font-weight-bold text-center font-size-22 mb-0">{{ textContent }}</p>
       <P class="text-center">{{question}}</P>
       <div class="d-flex justify-content-center mt-3 pb-4">
         <span class="w-40 p-2">
-          <b-button v-if="type == 'delete'" @click="confirm" variant="danger" class="popupButton w-100">
-            <span class="mr-2">{{textDeleteButton}}</span>
+          <b-button v-if="type == 'delete'" @click="confirm" variant="danger" class="popupButton w-100 text-uppercase">
+            <span class="mr-2 text-uppercase" >{{textDeleteButton}}</span>
             <i :class="icon"></i>
           </b-button>
            <b-button v-else @click="takeAction" variant="danger" class="popupButton w-100">
-            <span class="mr-2">{{textDeleteButton}}</span>
+            <span class="mr-2 text-uppercase">{{textDeleteButton}}</span>
             <i :class="icon"></i>
           </b-button>
         </span>
@@ -125,5 +125,8 @@ export default {
 }
 .w-40 {
   width: 40%;
+}
+.text-uppercase {
+  text-transform: uppercase !important;
 }
 </style>

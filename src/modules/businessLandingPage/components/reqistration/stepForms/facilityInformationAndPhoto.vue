@@ -315,7 +315,7 @@ export default {
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.logoFlag = true
-        this.logoImage = ''
+        this.logoImage = data.imageInfo.src
       })
     },
     saveCoverImage (data) {
@@ -335,7 +335,7 @@ export default {
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
         this.coverFlag = true
-        this.coverImage = ''
+        this.coverImage = data.imageInfo.src
       })
     },
     saveGalleryImage (data) {

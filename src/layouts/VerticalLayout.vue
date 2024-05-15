@@ -56,26 +56,52 @@
       <DefaultNavBar :ifSearch='ifSearch' title="Dashboard" :homeURL="{ name: 'dashboard.home-2' }"
                      :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
         <template slot="responsiveRight">
-          <ul class="navbar-nav ml-auto navbar-list">
-            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" @click="openFaqPopup">
-              <i class="las la-question-circle" alt="FAQ"></i>
+          <ul class="navbar-nav navbar-list">
+            <li class="nav-item dashboard-title w-100">
+              <h1>Premium Dashboard</h1>
+              <p>Active</p>
             </li>
-            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" @click="openBugPopup">
-              <i class="las la-bug"></i>
+            <li class="nav-item">
+              <span class="track-notifications">Track Notifications</span>
+              <div class="on-off">
+                <span>ON</span>
+                <span></span>
+              </div>
             </li>
-            <li class="nav-item px-0 mr-3 list-actions cursor-pointer" v-b-toggle.sidebar-1 @click="newNotification = false">
+            <li class="nav-item nav-item-actions">
+              <span class="list-actions cursor-pointer" @click="openFaqPopup">
+                <i class="las la-question-circle" alt="FAQ"></i>
+              </span>
+              <span class="list-actions cursor-pointer" @click="openBugPopup">
+                <i class="las la-bug"></i>
+              </span>
+              <span class="list-actions cursor-pointer" v-b-toggle.sidebar-1 @click="newNotification = false">
                 <i class="las la-bell"></i>
                 <span class="bg-danger dots" v-if="newNotification"></span>
+              </span>
+            </li>
+            <li class="nav-item nav-rating">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.64136 2.0599C7.78809 1.76264 8.21199 1.76264 8.35872 2.0599L9.96706 5.31822C10.0253 5.43616 10.1378 5.51794 10.2679 5.53697L13.8652 6.06277C14.1932 6.1107 14.3239 6.51384 14.0864 6.7451L11.4841 9.27979C11.3897 9.37169 11.3467 9.50414 11.3689 9.63395L11.983 13.2143C12.0391 13.5411 11.696 13.7903 11.4026 13.636L8.18622 11.9445C8.06967 11.8832 7.93041 11.8832 7.81386 11.9445L4.59749 13.636C4.30404 13.7903 3.96102 13.5411 4.01707 13.2143L4.63114 9.63395C4.65341 9.50414 4.61034 9.37169 4.51599 9.27979L1.91365 6.7451C1.67621 6.51384 1.80692 6.1107 2.13489 6.06277L5.73219 5.53697C5.86233 5.51794 5.9748 5.43616 6.03302 5.31822L7.64136 2.0599Z" fill="#FD9E11"/>
+              </svg>
+              <span>3.5 (20)</span>
             </li>
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
-                <img :src="userData.logo ? userData.logo : require('@/assets/images/user/default-user-image.png')"
-                     class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
+                <img :src="userData.logo ? userData.logo : require('@/assets/images/user/default-user-image.png')" class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
+                <div class="caption">
+                  <h6 class="mb-1 line-height text-primary">{{ userData.name }}</h6>
+                  <p class="user-status">
+                    <span></span>
+                    <span>Visible</span>
+                  </p>
+                  <!-- <span class="font-size-12 text-success">{{ userData.service_types }}</span> -->
+                </div>
               </a>
             </li>
           </ul>
         </template>
-        <template slot="right">
+        <!-- <template slot="right">
           <ul class="navbar-list">
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pr-1 pt-2">
@@ -86,7 +112,7 @@
               </a>
             </li>
           </ul>
-        </template>
+        </template> -->
       </DefaultNavBar>
       <!-- TOP Nav Bar END -->
       <div id="content-page" class="content-page">
@@ -470,7 +496,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 @import url("../assets/css/custom.css");
 @import url("../assets/css/PriceSlider.css");
 
@@ -546,5 +572,95 @@ z-index: 10 !important;
 }
 .w-20px{
     width: 20px;
+}
+
+.navbar-list {
+  margin-inline-start: 260px !important;
+  width: 100%;
+  li {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-inline-end: 1px solid #E3E4E8;
+
+    &.dashboard-title {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 4px;
+      h1 {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      p {
+        margin: 0;
+        font-size: 12px;
+        color: var(--co-green)
+      }
+    }
+    &.nav-item-actions {
+      display: flex;
+      gap: 10px;
+    }
+    &.nav-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      span {
+        color: #000;
+        width: max-content;
+        line-height: 1.4;
+        border-bottom: 1px solid #000;
+      }
+    }
+
+    .track-notifications {
+      width: max-content;
+      margin-inline-end: 6px;
+    }
+    .on-off {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 4px;
+      border: 1px solid var(--co-orange);
+      color: var(--co-orange);
+      padding: 4px;
+      border-radius: 20px;
+
+      span {
+        line-height: 1;
+      }
+      span:nth-child(2) {
+        display: block;
+        background-color: var(--co-orange);
+        width: 16px;
+        height: 16px;
+        border-radius: 100%;
+      }
+    }
+    .search-toggle {
+      gap: 8px;
+      .caption {
+        min-width: 160px;
+      }
+      .user-status  {
+        color: var(--co-green);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        span:nth-child(1) {
+          display: block;
+          background-color: var(--co-green);
+          width: 10px;
+          height: 10px;
+          border-radius: 100%;
+        }
+        span:nth-child(2) {
+          font-size: 12px;
+        }
+      }
+    }
+  }
 }
 </style>

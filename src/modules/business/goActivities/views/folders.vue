@@ -1,52 +1,28 @@
 <template>
   <b-container fluid>
-    <!--  Add and Edit Modal  -->
-    <main-modal id="activitiesDetailsModal" size="xl">
-      <template v-slot:header>
-        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Ticket</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Ticket</h4>
-      </template>
-      <template v-slot:body>
-        <ticket-details @addTicket="addTicket"
-                        @editTicket="editTicket"
-                        :requestLoading="requestLoading"
-                        :ticketDetails="ticketDetails"
-                        :typeOfModal="typeOfModal"/>
-      </template>
-    </main-modal>
-    <!--  View Modal  -->
-    <main-modal id="ticketDetailsViewModal" size="xl">
-      <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Ticket</h4>
-      </template>
-      <template v-slot:borderHeader>
-        <p class="p-4 px-5 borderHeaderModal">
-          {{ticketDetails.name}}
-        </p>
-      </template>
-      <template v-slot:body>
-        <ticket-view :ticketDetails="ticketDetails"/>
-      </template>
-    </main-modal>
     <b-row>
       <div v-if="arrangeMode" class="position-absolute arrange-overlay">
         <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
-          item</p></div>
+          item</p>
+      </div>
+
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
-        <h3>Activities</h3>
+        <h3>
+          <router-link :to="{ name: 'goActivities' }" class="btn bg-white add_button" >
+            <i class="fa fa-chevron-left"></i>
+          </router-link>
+          Folders
+        </h3>
         <div class="d-flex justify-content-between gap-20">
           <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'goActivitiesFolders' }" class="btn bg-white add_button" >
-            Folders
-            <i class="far fa-folder ml-3"></i>
-          </router-link>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-          Add Ticket<i class="las la-plus ml-3"></i></b-button>
+          Add Folder<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
+
       <b-col lg="12">
         <main-table
             :fields="columns"
@@ -64,8 +40,6 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import ticketDetails from '@/modules/business/goActivities/components/ticketDetails.vue'
-import ticketView from '@/modules/business/goActivities/components/ticketView'
 import ticketServices from '@/modules/business/goActivities/services/goActivities.services.js'
 export default {
   data () {
@@ -74,38 +48,13 @@ export default {
       requestLoading: false,
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        { label: 'Activity Name', key: 'name', class: 'text-left' },
-        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
-        // { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        // { label: 'Ticket Name', key: 'name', class: 'text-left' },
-        // { label: 'Details', key: 'details', class: 'text-left' },
-        // { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        // { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        /*   { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
-        {
-          label: 'Change Status',
-          key: 'change_status',
-          type: 'switch',
-          tableType: 'ticket',
-          idKey: 'ticket_id',
-          class: 'text-left'
-        },
+        { label: 'Folder Name', key: 'name', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',
           class: 'text-left',
           type: 'actions',
           actions: [
-            {
-              icon: 'las la-eye',
-              color: 'success-light',
-              text: 'View',
-              actionName: 'showTicket',
-              actionParams: 'fullObj'
-            },
             {
               icon: 'las la-pen',
               color: 'info',
@@ -131,10 +80,6 @@ export default {
       ticketId: '',
       arrangeMode: false
     }
-  },
-  components: {
-    ticketDetails,
-    ticketView
   },
   methods: {
     sortChanged (key) {

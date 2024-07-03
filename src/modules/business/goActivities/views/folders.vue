@@ -1,5 +1,15 @@
 <template>
   <b-container fluid>
+    <main-modal id="folderDetailsModal" size="xl">
+      <template v-slot:header>
+        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Folder</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Folder</h4>
+      </template>
+      <template v-slot:body>
+        <p>zzzzzz</p>
+      </template>
+    </main-modal>
+
     <b-row>
       <div v-if="arrangeMode" class="position-absolute arrange-overlay">
         <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
@@ -40,7 +50,6 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import ticketServices from '@/modules/business/goActivities/services/goActivities.services.js'
 export default {
   data () {
     return {
@@ -59,7 +68,7 @@ export default {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
-              actionName: 'showTicketToEdit',
+              actionName: 'showFolderToEdit',
               actionParams: 'fullObj'
             },
             {
@@ -68,7 +77,7 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'Ticket',
+              titleHeader: 'Folder',
               textContent: 'name',
               url: 'tickets'
             }
@@ -76,8 +85,8 @@ export default {
         }
       ],
       typeOfModal: 'add',
-      ticketDetails: {},
-      ticketId: '',
+      folderDetails: {},
+      folderId: '',
       arrangeMode: false
     }
   },
@@ -86,52 +95,23 @@ export default {
       console.log(key)
     },
     openPopup () {
-      this.ticketId = ''
+      this.folderId = ''
       this.typeOfModal = 'add'
-      this.ticketDetails = false
-      this.$bvModal.show('activitiesDetailsModal')
+      this.folderDetails = false
+      this.$bvModal.show('folderDetailsModal')
     },
-    addTicket (ticket) {
-      this.requestLoading = true
-      this.reloadTable = false
-      ticketServices.addNewTicket(ticket).then(res => {
-        this.reloadTable = true
-        core.showSnackbar('success', res.data.message)
-        this.$bvModal.hide('activitiesDetailsModal')
-      }).finally(() => {
-        this.requestLoading = false
-      })
-    },
-    editTicket (ticket) {
-      this.requestLoading = true
-      this.reloadTable = false
-      ticketServices.editTicket(this.ticketId, ticket).then(res => {
-        this.reloadTable = true
-        core.showSnackbar('success', res.data.message)
-        this.$bvModal.hide('activitiesDetailsModal')
-      }).finally(() => {
-        this.requestLoading = false
-      })
-    },
-    showDetails (obj) {
-      this.typeOfModal = 'view'
-      this.ticketDetails = obj
-      this.$bvModal.show('ticketDetailsViewModal')
-    },
-    showTicketToEdit (obj) {
-      this.ticketId = obj.id
+    showFolderToEdit (obj) {
+      this.folderId = obj.id
       this.typeOfModal = 'edit'
-      this.ticketDetails = obj
-      this.$bvModal.show('activitiesDetailsModal')
+      this.folderDetails = obj
+      this.$bvModal.show('folderDetailsModal')
     }
   },
   created () {
-    this.$root.$on('showTicket', this.showDetails)
-    this.$root.$on('showTicketToEdit', this.showTicketToEdit)
+    this.$root.$on('showFolderToEdit', this.showFolderToEdit)
   },
   beforeDestroy () {
-    this.$root.$off('showTicket')
-    this.$root.$off('showTicketToEdit')
+    this.$root.$off('showFolderToEdit')
   },
   mounted () {
     core.index()

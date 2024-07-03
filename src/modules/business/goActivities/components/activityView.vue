@@ -8,7 +8,7 @@
                       <p>Details</p>
                   </b-col>
                   <b-col md="12" class="infoValue">
-                      <p class="text-black font-weight-bold-600">{{ticketDetails.details}}</p>
+                      <p class="text-black font-weight-bold-600">{{activityDetails.details}}</p>
                   </b-col>
               </b-row>
               <b-row class="pl-3 mb-2">
@@ -19,41 +19,41 @@
                       <p>Discounted price</p>
                   </b-col>
                   <b-col md="4" class="infoValue">
-                      <p class="text-black font-weight-bold-600">EGP {{ticketDetails.price_egp}}</p>
+                      <p class="text-black font-weight-bold-600">EGP {{activityDetails.price_egp}}</p>
                   </b-col>
                   <b-col md="8" class="infoValue">
-                      <p class="text-black font-weight-bold-600"><span v-if="ticketDetails.discount_price_egp">EGP {{ticketDetails.discount_price_egp}}</span>
+                      <p class="text-black font-weight-bold-600"><span v-if="activityDetails.discount_price_egp">EGP {{activityDetails.discount_price_egp}}</span>
                           <span v-else>N/A</span></p>
                   </b-col>
               </b-row>
-              <b-row class="pl-3 mb-2" v-if="ticketDetails.price_euro">
+              <b-row class="pl-3 mb-2" v-if="activityDetails.price_euro">
                   <b-col md="6" class="infoKey">
                       <p>Foreigner Price</p>
-                      <p class="text-black font-weight-bold-400">€ {{ticketDetails.price_euro}}</p>
+                      <p class="text-black font-weight-bold-400">€ {{activityDetails.price_euro}}</p>
                   </b-col>
                   <b-col md="6" class="infoKey">
                       <p>Discounted Price</p>
-                      <p class="text-black font-weight-bold-400"><span v-if="ticketDetails.discount_price_euro">€ {{ticketDetails.discount_price_euro}}</span>
+                      <p class="text-black font-weight-bold-400"><span v-if="activityDetails.discount_price_euro">€ {{activityDetails.discount_price_euro}}</span>
                           <span v-else>N/A</span></p>
                   </b-col>
               </b-row>
-              <b-row class="pl-3 mb-2" v-if="ticketDetails.price_dollar">
+              <b-row class="pl-3 mb-2" v-if="activityDetails.price_dollar">
                   <b-col md="6" class="infoKey">
                       <p>Foreigner Price</p>
-                      <p class="text-black font-weight-bold-600">$ {{ticketDetails.price_dollar}}</p>
+                      <p class="text-black font-weight-bold-600">$ {{activityDetails.price_dollar}}</p>
                   </b-col>
                   <b-col md="6" class="infoKey">
                       <p>Discounted Price</p>
-                      <p class="text-black font-weight-bold-600"><span v-if="ticketDetails.discount_price_dollar">$ {{ticketDetails.discount_price_dollar}}</span>
+                      <p class="text-black font-weight-bold-600"><span v-if="activityDetails.discount_price_dollar">$ {{activityDetails.discount_price_dollar}}</span>
                           <span v-else>N/A</span></p>
                   </b-col>
               </b-row>
-              <b-row class="pl-3 mb-2" v-if="ticketDetails.duration">
+              <b-row class="pl-3 mb-2" v-if="activityDetails.duration">
                   <b-col md="12" class="infoKey">
                       <p>Duration</p>
                   </b-col>
                   <b-col md="12" class="infoValue">
-                      <p class="text-black font-weight-bold-600">{{ticketDetails.duration}} {{ticketDetails.duration_list.name}}</p>
+                      <p class="text-black font-weight-bold-600">{{activityDetails.duration}} {{activityDetails.duration_list.name}}</p>
                   </b-col>
               </b-row>
               <b-row class="pl-3 mb-2">
@@ -61,13 +61,13 @@
                       <p>Conditions</p>
                   </b-col>
                   <b-col md="12" class="infoValue">
-                      <p class="text-black font-weight-bold-600">{{ticketDetails.conditions}}</p>
+                      <p class="text-black font-weight-bold-600">{{activityDetails.conditions}}</p>
                   </b-col>
               </b-row>
           </b-col>
           <b-col lg="6" class="py-5" order-lg="2" order="1">
               <h5 class="mb-4 font-size-14">TICKET PHOTO</h5>
-              <slider-thumbs :images="ticketDetails.images"/>
+              <slider-thumbs :images="activityDetails.images"/>
           </b-col>
       </b-row>
   </div>
@@ -76,7 +76,7 @@
 <script>
 export default {
   props: {
-    ticketDetails: {
+    activityDetails: {
       type: Object
     }
   }

@@ -114,7 +114,7 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'Accommodations',
+              titleHeader: 'Accommodation',
               textContent: 'name',
               url: 'accommodations'
             }

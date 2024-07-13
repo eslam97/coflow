@@ -7,11 +7,9 @@
           <template v-if="item.userType === 'both'">
             <i v-if="item.is_heading && hideListMenuTitle" class="ri-subtract-line" />
             <span v-if="item.is_heading && hideListMenuTitle">{{ $t(item.name) }}</span>
-            <router-link :to="item.link" v-if="!item.is_heading"
-                         :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
+            <router-link :to="item.link" v-if="!item.is_heading" :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
               <i :class="item.icon" v-if="item.is_icon_class"/>
-              <template v-else v-html="item.icon">
-              </template>
+              <i v-else v-html="item.icon"></i>
               <span>{{ $t(item.name) }}</span>
               <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
               <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
@@ -21,11 +19,9 @@
           <template v-else-if="item.permission">
             <i v-if="item.is_heading && hideListMenuTitle" class="ri-subtract-line" />
             <span v-if="item.is_heading && hideListMenuTitle">{{ $t(item.name) }}</span>
-            <router-link :to="item.link" v-if="!item.is_heading && hasPer(item.permission)"
-                         :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
+            <router-link :to="item.link" v-if="!item.is_heading && hasPer(item.permission)" :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
               <i :class="item.icon" v-if="item.is_icon_class"/>
-              <template v-else v-html="item.icon">
-              </template>
+              <i v-else v-html="item.icon"></i>
               <span>{{ $t(item.name) }}</span>
               <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
               <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
@@ -35,12 +31,9 @@
           <template v-else-if="item.serviceTypes">
             <i v-if="item.is_heading && hideListMenuTitle" class="ri-subtract-line" />
             <span v-if="item.is_heading && hideListMenuTitle">{{ $t(item.name) }}</span>
-            <router-link :to="item.link"
-                         v-if="(!item.is_heading && hasServiceType(item.serviceTypes))||(!item.is_heading &&  item.serviceTypes === 'all')"
-                         :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
+            <router-link :to="item.link" v-if="(!item.is_heading && hasServiceType(item.serviceTypes))||(!item.is_heading &&  item.serviceTypes === 'all')" :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
               <i :class="item.icon" v-if="item.is_icon_class"/>
-              <template v-else v-html="item.icon">
-              </template>
+              <i v-else v-html="item.icon"></i>
               <span>{{ $t(item.name) }}</span>
               <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
               <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />

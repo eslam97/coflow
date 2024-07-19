@@ -97,7 +97,9 @@
               <ul class="p-0">
                 <li v-for="(arr, key) in $_.get(data.item, field.key).slice(0,4)" :key="key">
                   <span v-if="key==3">...</span>
-                  <span v-else v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
+                  <template v-else>
+                    <span v-for="(ind, key1) in field.array_keys" :key="key1">{{ arr[ind] }} </span>
+                  </template>
                 </li>
               </ul>
             </span>

@@ -1,17 +1,17 @@
 <template>
   <div>
     <validationObserver v-slot="{ handleSubmit }">
-      <b-form @submit.prevent="handleSubmit(addTicket)">
+      <b-form @submit.prevent="handleSubmit(addActivity)">
         <b-row>
             <b-col lg="6">
             <b-row>
               <b-col md="6" class="mb-3">
                 <input-form
-                    v-model="ticket.name"
-                    placeholder="Ticket Name"
+                    v-model="activity.name"
+                    placeholder="Activity Name"
                     :validate="'required|max:30'"
-                    name="Ticket name"
-                    :label="'Ticket Name'"
+                    name="Activity name"
+                    :label="'Activity Name'"
                     :limit="30"
                 />
               </b-col>
@@ -20,7 +20,7 @@
                   <b-input-group id="duration-group">
                       <b-form-input
                               :label="'Duration'"
-                              v-model="ticket.duration"
+                              v-model="activity.duration"
                               :placeholder="'duration'"
                               :validate="'required'"
                               name="duration"
@@ -32,7 +32,7 @@
                           >
                               <b-dropdown-item v-for="(i, keyType) in allDurationList"
                                                :key="keyType"
-                                               @click="ticket.duration_list_id = i.id;
+                                               @click="activity.duration_list_id = i.id;
                                          type = i.name">
                                   {{i.name}}
                               </b-dropdown-item>
@@ -52,7 +52,7 @@
                   <b-form-group :label="'Price'"
                   ><b-input-group append="EGP">
                     <b-form-input
-                        v-model="ticket.price_egp"
+                        v-model="activity.price_egp"
                         placeholder="000.00"
                         :class="[{ 'is-invalid': errors.length > 0 }]"/>
                   </b-input-group>
@@ -70,7 +70,7 @@
                   Discounted Price
                 </b-form-checkbox>
               </b-col>
-<!--              between: (0, ticket.price_egp)-->
+<!--              between: (0, activity.price_egp)-->
               <b-col md="4" class="mb-3">
                 <validation-provider
                     #default="{ errors }"
@@ -81,13 +81,13 @@
                   <b-form-group :label="'Discounted Price'"
                   ><b-input-group append="EGP">
                     <b-form-input
-                        v-model="ticket.discount_price_egp"
+                        v-model="activity.discount_price_egp"
                         placeholder="000.00"
                         :disabled="!selectedEGP"
                         :class="[{ 'is-invalid': errors.length > 0}]"
                     /></b-input-group>
-                    <small class="text-danger" v-if="!ticket.discount_price_egp">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(ticket.discount_price_egp) > Number(ticket.price_egp)">
+                    <small class="text-danger" v-if="!activity.discount_price_egp">{{ errors[0] }}</small>
+                    <small class="text-danger" v-if="Number(activity.discount_price_egp) > Number(activity.price_egp)">
                       More than price
                     </small>
                   </b-form-group>
@@ -102,17 +102,17 @@
                     >
                         <b-form-group label="Conditions">
                             <b-form-textarea
-                                    @focus="ticket.conditions = ticket.conditions === '' ? '• ' : ticket.conditions"
-                                    @keyup.enter="ticket.conditions += '• '"
-                                    v-model="ticket.conditions"
+                                    @focus="activity.conditions = activity.conditions === '' ? '• ' : activity.conditions"
+                                    @keyup.enter="activity.conditions += '• '"
+                                    v-model="activity.conditions"
                                     placeholder="Write your conditions in bullet points"
                                     rows="2"
                                     :class="[{ 'is-invalid': errors.length > 0 }]"
                             />
                             <div class="d-flex justify-content-between">
                                 <small class="text-danger">{{ errors[0] }}</small>
-                                <!--                      <small :class="[{ 'text-danger': ticket.conditions.length > 88 }]">
-                                                        {{ (88 > ticket.conditions.length) ? 88 - ticket.conditions.length : 0 }} characters</small>-->
+                                <!--                      <small :class="[{ 'text-danger': activity.conditions.length > 88 }]">
+                                                        {{ (88 > activity.conditions.length) ? 88 - activity.conditions.length : 0 }} characters</small>-->
                             </div>
                         </b-form-group>
                     </validation-provider>
@@ -128,7 +128,7 @@
                 >
                     <b-form-group label="Description">
                         <b-form-textarea
-                                v-model="ticket.details"
+                                v-model="activity.details"
                                 placeholder="Write a brief description"
                                 rows="4"
                                 :class="[{ 'is-invalid': errors.length > 0 }]"
@@ -145,8 +145,8 @@
                           @remove-image="removeGalleryImage"
                           :removeLoadingUi="removeLoadingUi"
                           :progressLoading="progressBar"
-                          :images="ticket.images"
-                          type="ticket_image"
+                          :images="activity.images"
+                          type="activity_image"
                   ></cropper-images>
               </b-col>
           </b-row>
@@ -190,13 +190,13 @@ export default {
       type: String,
       default: 'add'
     },
-    ticketDetails: {
+    activityDetails: {
       type: Object
     }
   },
   data () {
     return {
-      ticket: {
+      activity: {
         name: '',
         details: '',
         price_egp: '',
@@ -227,11 +227,11 @@ export default {
       this.requestLoading = true
       const formData = new FormData()
       formData.append('image', file.image)
-      formData.append('type', 'ticket')
-      formData.append('status', this.ticketDetails ? 'exist' : 'new')
+      formData.append('type', 'activity')
+      formData.append('status', this.activityDetails ? 'exist' : 'new')
       formData.append('name', file.imageInfo.name)
-      if (this.ticketDetails) {
-        formData.append('ticket_id', this.ticketDetails.id)
+      if (this.activityDetails) {
+        formData.append('activity_id', this.activityDetails.id)
       }
       const options = {
         onUploadProgress: (progressEvent) => {
@@ -243,52 +243,52 @@ export default {
       }
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.ticket.images.push(res.data.data)
+        this.activity.images.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })
     },
     removeGalleryImage (id) {
-      mainService.removeImage(id, 'ticket').then(res => {
+      mainService.removeImage(id, 'activity').then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.ticket.images.findIndex(image => image.id === id)
-        this.ticket.images.splice(ind, 1)
+        const ind = this.activity.images.findIndex(image => image.id === id)
+        this.activity.images.splice(ind, 1)
       })
     },
-    addTicket () {
+    addActivity () {
       // if foreigner price is empty send 0 to server
-      this.ticket.price_euro = this.ticket.price_euro ? this.ticket.price_euro : 0
-      this.ticket.price_dollar = this.ticket.price_dollar ? this.ticket.price_dollar : 0
+      this.activity.price_euro = this.activity.price_euro ? this.activity.price_euro : 0
+      this.activity.price_dollar = this.activity.price_dollar ? this.activity.price_dollar : 0
       // if discount isn't checked, discounted field should be emptied
-      this.ticket.discount_price_egp = this.selectedEGP ? this.ticket.discount_price_egp : ''
-      this.ticket.discount_price_euro = this.selectedEUR ? this.ticket.discount_price_euro : ''
-      this.ticket.discount_price_dollar = this.selectedDollar ? this.ticket.discount_price_dollar : ''
+      this.activity.discount_price_egp = this.selectedEGP ? this.activity.discount_price_egp : ''
+      this.activity.discount_price_euro = this.selectedEUR ? this.activity.discount_price_euro : ''
+      this.activity.discount_price_dollar = this.selectedDollar ? this.activity.discount_price_dollar : ''
       // empty non selected currency
       if (this.foreignerPrice === 'None') {
-        this.ticket.price_euro = 0
-        this.ticket.discount_price_euro = 0
-        this.ticket.price_dollar = 0
-        this.ticket.discount_price_dollar = 0
+        this.activity.price_euro = 0
+        this.activity.discount_price_euro = 0
+        this.activity.price_dollar = 0
+        this.activity.discount_price_dollar = 0
       } else if (this.foreignerPrice === 'Euro') {
-        this.ticket.price_dollar = 0
-        this.ticket.discount_price_dollar = 0
+        this.activity.price_dollar = 0
+        this.activity.discount_price_dollar = 0
       } else if (this.foreignerPrice === 'Dollar') {
-        this.ticket.price_euro = 0
-        this.ticket.discount_price_euro = 0
+        this.activity.price_euro = 0
+        this.activity.discount_price_euro = 0
       }
       if (this.typeOfModal === 'add') {
-        this.$emit('addTicket', {
-          ...this.ticket,
-          images: this.ticket.images.map(data => data.id)
+        this.$emit('addActivity', {
+          ...this.activity,
+          images: this.activity.images.map(data => data.id)
         })
       } else {
-        this.$emit('editTicket', { ...this.ticket, _method: 'put', images: this.ticket.images.map(data => data.id) })
+        this.$emit('editActivity', { ...this.activity, _method: 'put', images: this.activity.images.map(data => data.id) })
       }
     },
     getDurationList () {
       settingsService.getDurationList().then(res => {
         this.allDurationList = res.data.data
-        this.type = this.allDurationList.find((item) => item.id === this.ticketDetails.duration_list_id).name
+        this.type = this.allDurationList.find((item) => item.id === this.activityDetails.duration_list_id).name
       })
     }
   },
@@ -296,35 +296,35 @@ export default {
   computed: {},
   created () {
     this.getDurationList()
-    if (this.ticketDetails) {
-      this.ticket = {
-        name: this.ticketDetails.name,
-        details: this.ticketDetails.details,
-        price_egp: this.ticketDetails.price_egp,
-        price_euro: this.ticketDetails.price_euro ? this.ticketDetails.price_euro : '',
-        price_dollar: this.ticketDetails.price_dollar ? this.ticketDetails.price_dollar : '',
-        discount_price_egp: this.ticketDetails.discount_price_egp || '',
-        discount_price_euro: this.ticketDetails.discount_price_euro || '',
-        discount_price_dollar: this.ticketDetails.discount_price_dollar || '',
-        conditions: this.ticketDetails.conditions,
-        status: this.ticketDetails.status,
-        images: this.ticketDetails.images,
-        duration_list_id: this.ticketDetails.duration_list_id,
-        duration: this.ticketDetails.duration
+    if (this.activityDetails) {
+      this.activity = {
+        name: this.activityDetails.name,
+        details: this.activityDetails.details,
+        price_egp: this.activityDetails.price_egp,
+        price_euro: this.activityDetails.price_euro ? this.activityDetails.price_euro : '',
+        price_dollar: this.activityDetails.price_dollar ? this.activityDetails.price_dollar : '',
+        discount_price_egp: this.activityDetails.discount_price_egp || '',
+        discount_price_euro: this.activityDetails.discount_price_euro || '',
+        discount_price_dollar: this.activityDetails.discount_price_dollar || '',
+        conditions: this.activityDetails.conditions,
+        status: this.activityDetails.status,
+        images: this.activityDetails.images,
+        duration_list_id: this.activityDetails.duration_list_id,
+        duration: this.activityDetails.duration
       }
-      if (this.ticket.price_euro) {
+      if (this.activity.price_euro) {
         this.foreignerPrice = 'Euro'
       }
-      if (this.ticket.price_dollar) {
+      if (this.activity.price_dollar) {
         this.foreignerPrice = 'Dollar'
       }
-      if (this.ticketDetails.discount_price_egp) {
+      if (this.activityDetails.discount_price_egp) {
         this.selectedEGP = true
       }
-      if (this.ticketDetails.discount_price_euro) {
+      if (this.activityDetails.discount_price_euro) {
         this.selectedEUR = true
       }
-      if (this.ticketDetails.discount_price_dollar) {
+      if (this.activityDetails.discount_price_dollar) {
         this.selectedDollar = true
       }
     }

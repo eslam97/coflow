@@ -1,13 +1,13 @@
 import Api from '@/axios'
 
 export default {
-  addNewTicket (payload) {
+  addNewActivity (payload) {
     return Api().post('tickets', payload)
   },
-  getTicketDetails (id) {
+  getActivityDetails (id) {
     return Api().get(`tickets/${id}`)
   },
-  editTicket (id, payload) {
+  editActivity (id, payload) {
     return Api().post(`tickets/${id}`, payload)
   }
 }

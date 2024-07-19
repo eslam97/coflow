@@ -3,29 +3,29 @@
     <!--  Add and Edit Modal  -->
     <main-modal id="activitiesDetailsModal" size="xl">
       <template v-slot:header>
-        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Ticket</h4>
-        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Ticket</h4>
+        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Activity</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Activity</h4>
       </template>
       <template v-slot:body>
-        <ticket-details @addTicket="addTicket"
-                        @editTicket="editTicket"
+        <activity-details @addActivity="addActivity"
+                        @editActivity="editActivity"
                         :requestLoading="requestLoading"
-                        :ticketDetails="ticketDetails"
+                        :activityDetails="activityDetails"
                         :typeOfModal="typeOfModal"/>
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="ticketDetailsViewModal" size="xl">
+    <main-modal id="activityDetailsViewModal" size="xl">
       <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Ticket</h4>
+        <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Activity</h4>
       </template>
       <template v-slot:borderHeader>
         <p class="p-4 px-5 borderHeaderModal">
-          {{ticketDetails.name}}
+          {{activityDetails.name}}
         </p>
       </template>
       <template v-slot:body>
-        <ticket-view :ticketDetails="ticketDetails"/>
+        <activity-view :activityDetails="activityDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -44,7 +44,7 @@
             <i class="far fa-folder ml-3"></i>
           </router-link>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-          Add Ticket<i class="las la-plus ml-3"></i></b-button>
+          Add Activity<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12">
@@ -64,9 +64,9 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import ticketDetails from '@/modules/business/goActivities/components/ticketDetails.vue'
-import ticketView from '@/modules/business/goActivities/components/ticketView'
-import ticketServices from '@/modules/business/goActivities/services/goActivities.services.js'
+import activityDetails from '@/modules/business/goActivities/components/activityDetails.vue'
+import activityView from '@/modules/business/goActivities/components/activityView'
+import activityServices from '@/modules/business/goActivities/services/goActivities.services.js'
 export default {
   data () {
     return {
@@ -74,19 +74,15 @@ export default {
       requestLoading: false,
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        { label: 'Activity Name', key: 'name', class: 'text-left' },
-        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
+        { label: 'Activity Name', key: 'name', class: 'text-left text-bold' },
+        { label: 'Tag', key: 'price_egp', class: 'text-left' },
+        { label: 'Folder', key: 'discount_price_egp', class: 'text-left' },
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
-        // { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        // { label: 'Ticket Name', key: 'name', class: 'text-left' },
-        // { label: 'Details', key: 'details', class: 'text-left' },
-        // { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        // { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        /*   { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
+        { label: 'Reservations', key: 'reservations', class: 'text-left' },
+        { label: 'Rating', key: 'rate', class: 'text-left' },
         {
-          label: 'Change Status',
+          label: 'Status',
           key: 'change_status',
           type: 'switch',
           tableType: 'ticket',
@@ -103,14 +99,14 @@ export default {
               icon: 'las la-eye',
               color: 'success-light',
               text: 'View',
-              actionName: 'showTicket',
+              actionName: 'showActivity',
               actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
-              actionName: 'showTicketToEdit',
+              actionName: 'showActivityToEdit',
               actionParams: 'fullObj'
             },
             {
@@ -119,7 +115,7 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'Ticket',
+              titleHeader: 'Activity',
               textContent: 'name',
               url: 'tickets'
             }
@@ -127,29 +123,29 @@ export default {
         }
       ],
       typeOfModal: 'add',
-      ticketDetails: {},
-      ticketId: '',
+      activityDetails: {},
+      activityId: '',
       arrangeMode: false
     }
   },
   components: {
-    ticketDetails,
-    ticketView
+    activityDetails,
+    activityView
   },
   methods: {
     sortChanged (key) {
       console.log(key)
     },
     openPopup () {
-      this.ticketId = ''
+      this.activityId = ''
       this.typeOfModal = 'add'
-      this.ticketDetails = false
+      this.activityDetails = false
       this.$bvModal.show('activitiesDetailsModal')
     },
-    addTicket (ticket) {
+    addActivity (activity) {
       this.requestLoading = true
       this.reloadTable = false
-      ticketServices.addNewTicket(ticket).then(res => {
+      activityServices.addNewActivity(activity).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('activitiesDetailsModal')
@@ -157,10 +153,10 @@ export default {
         this.requestLoading = false
       })
     },
-    editTicket (ticket) {
+    editActivity (activity) {
       this.requestLoading = true
       this.reloadTable = false
-      ticketServices.editTicket(this.ticketId, ticket).then(res => {
+      activityServices.editActivity(this.activityId, activity).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('activitiesDetailsModal')
@@ -170,23 +166,23 @@ export default {
     },
     showDetails (obj) {
       this.typeOfModal = 'view'
-      this.ticketDetails = obj
-      this.$bvModal.show('ticketDetailsViewModal')
+      this.activityDetails = obj
+      this.$bvModal.show('activityDetailsViewModal')
     },
-    showTicketToEdit (obj) {
-      this.ticketId = obj.id
+    showActivityToEdit (obj) {
+      this.activityId = obj.id
       this.typeOfModal = 'edit'
-      this.ticketDetails = obj
+      this.activityDetails = obj
       this.$bvModal.show('activitiesDetailsModal')
     }
   },
   created () {
-    this.$root.$on('showTicket', this.showDetails)
-    this.$root.$on('showTicketToEdit', this.showTicketToEdit)
+    this.$root.$on('showActivity', this.showDetails)
+    this.$root.$on('showActivityToEdit', this.showActivityToEdit)
   },
   beforeDestroy () {
-    this.$root.$off('showTicket')
-    this.$root.$off('showTicketToEdit')
+    this.$root.$off('showActivity')
+    this.$root.$off('showActivityToEdit')
   },
   mounted () {
     core.index()

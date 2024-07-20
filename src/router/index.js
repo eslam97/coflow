@@ -29,7 +29,6 @@ import dashboard from '@/modules/business/dashboard/dashboard.routes'
 // import tickets from '@/modules/business/tickets/tickets.routes.js'
 import goActivities from '@/modules/business/goActivities/goActivities.routes'
 import bussinessPromotions from '@/modules/business/promotions/promotions.routes'
-import faq from '@/modules/business/faqs/faqs.routes.js'
 import products from '@/modules/business/products/products.routes'
 import flows from '@/modules/business/flows/flows.routes.js'
 import accommodations from '@/modules/business/accommodations/accommodations.routes.js'
@@ -38,7 +37,8 @@ import profile from '@/modules/business/profile/profile.routes'
 import activities from '@/modules/business/activities/activities.routes'
 import schedule from '@/modules/business/schedule/schedule.routes'
 import calendar from '@/modules/business/calendar/calendar.routes'
-
+import branches from '@/modules/business/branches/branches.routes'
+import admins from '@/modules/business/admins/admins.routes'
 /* Layouts */
 const VerticalLayout = () => import('../layouts/VerticalLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
@@ -46,7 +46,8 @@ const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
 /* Authentic View */
 const SignIn1 = () => import('../views/AuthPages/Default/SignIn1')
 const SignUp1 = () => import('../views/AuthPages/Default/SignUp1')
-const RecoverPassword1 = () => import('../views/AuthPages/Default/RecoverPassword1')
+const RecoverPassword1 = () =>
+  import('../views/AuthPages/Default/RecoverPassword1')
 const LockScreen1 = () => import('../views/AuthPages/Default/LockScreen1')
 const ConfirmMail1 = () => import('../views/AuthPages/Default/ConfirmMail1')
 /* Extra Pages */
@@ -107,7 +108,6 @@ const routes = [
   ...dashboard,
   ...goActivities,
   ...bussinessPromotions,
-  ...faq,
   ...adminFaq,
   ...feedback,
   ...products,
@@ -118,17 +118,20 @@ const routes = [
   ...activities,
   ...schedule,
   ...calendar,
+  ...branches,
+  ...admins,
   {
     path: '/welcome',
     name: 'welcome',
     component: VerticalLayout,
     meta: { auth: true },
-    children: [{
-      path: '',
-      name: 'welcome',
-      meta: { auth: true, name: 'welcome' },
-      component: welcomePage
-    }
+    children: [
+      {
+        path: '',
+        name: 'welcome',
+        meta: { auth: true, name: 'welcome' },
+        component: welcomePage
+      }
     ]
   },
   {
@@ -150,7 +153,7 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.VUE_APP_BASE_URL,
   routes,
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior: (to, from, savedPosition) => {
     return { x: 0, y: 0 }
   }
 })
@@ -164,7 +167,10 @@ router.beforeEach((to, from, next) => {
       next({ name: 'errorPage' })
     }
   } else {
-    if (securityFunctions.methods.hasServiceType(to.meta.serviceTypes) || to.meta.serviceTypes === 'all') {
+    if (
+      securityFunctions.methods.hasServiceType(to.meta.serviceTypes) ||
+      to.meta.serviceTypes === 'all'
+    ) {
       next()
     } else {
       next({ name: 'errorPage' })

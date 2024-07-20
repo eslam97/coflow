@@ -6,13 +6,13 @@ const profileList = () => import('./views/list')
 // start routes
 export default [
   {
-    path: '/profile',
-    name: 'profile',
+    path: '/facility',
+    name: 'facility',
     component: VerticalLayout,
     meta: { auth: true },
     children: [{
       path: '',
-      name: 'profile',
+      name: 'facility',
       component: profileList,
       meta: { name: 'profile', userType: 'provider', serviceTypes: 'all' }
     }]

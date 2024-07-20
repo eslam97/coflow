@@ -12,7 +12,7 @@
     </main-modal>
     <b-row>
       <b-col md="12" class="mb-2 d-flex justify-content-between align-items-center mb-4">
-        <h3>Profile</h3>
+        <h3>Facility</h3>
           <b-card v-if="!loading">
             <span class="text-dark font-weight-bold font-size-14 mr-3">
               {{ statusDetails.status === 'visible'? 'Temporarily close account' : 'Temporarily closed account' }}
@@ -42,21 +42,25 @@
       </b-col>
       <b-col md="12">
         <tab-nav :tabs="true" id="myTab-1">
-          <tab-nav-items :active="true" id="admin-tab" ariaControls="adminInfo"
-                         role="tab" :ariaSelected="true" title="Admin Information" />
-          <tab-nav-items :active="false" id="business-tab" ariaControls="businessInfo"
-                         role="tab" :ariaSelected="false" title="Business Information" />
+          <!-- <tab-nav-items :active="true" id="admin-tab" ariaControls="adminInfo"
+                         role="tab" :ariaSelected="true" title="Admin Information" /> -->
+          <tab-nav-items :active="true" id="business-tab" ariaControls="businessInfo"
+                         role="tab" :ariaSelected="false" title="Profile" liClass="tab nav-item"/>
+          <tab-nav-items :active="false" id="faq-tab" ariaControls="faq"
+                         role="tab" :ariaSelected="false" title="FAQs" liClass="tab nav-item"/>
+          <tab-nav-items :active="false" id="payment-tab" ariaControls="paymentInfo"
+                         role="tab" :ariaSelected="false" title="Payment" liClass="tab nav-item"/>
         </tab-nav>
         <tab-content id="myTabContent">
-          <tab-content-item :active="true" id="adminInfo" aria-labelled-by="admin-tab">
+          <!-- <tab-content-item :active="true" id="adminInfo" aria-labelled-by="admin-tab">
             <spinner-loading v-if=(loading) text="Loading" />
             <admin-tab v-else
                        @updateLoginCredential="updateLoginCredential"
                        @updateContactInfo="updateContactInfo"
                        :oldProfile="oldProfile"
             ></admin-tab>
-          </tab-content-item>
-          <tab-content-item :active="false" id="businessInfo" aria-labelled-by="business-tab">
+          </tab-content-item> -->
+          <tab-content-item :active="true" id="businessInfo" aria-labelled-by="business-tab">
             <spinner-loading v-if=(loading) text="Loading" />
             <business-tab v-else
                           @updateFacilityInfo="updateFacilityInfo"
@@ -64,6 +68,12 @@
                           @updateFacilityOperatingDays="updateFacilityOperatingDays"
                           :oldProfile="oldProfile"
             ></business-tab>
+          </tab-content-item>
+          <tab-content-item :active="false" id="faq" aria-labelled-by="faq-tab">
+            <faqTab />
+          </tab-content-item>
+          <tab-content-item :active="false" id="paymentInfo" aria-labelled-by="payment-tab">
+          <payment-tab></payment-tab>
           </tab-content-item>
         </tab-content>
       </b-col>
@@ -74,8 +84,10 @@
 <script>
 
 import { core } from '@/config/pluginInit'
-import adminTab from '@/modules/business/profile/components/adminTab'
+// import adminTab from '@/modules/business/profile/components/adminTab'
 import businessTab from '@/modules/business/profile/components/businessTab'
+import faqTab from '@/modules/business/faqs/views/list.vue'
+import paymentTab from '../components/paymentTab.vue'
 import tempMsgModal from '@/modules/business/profile/components/tempMsgModal'
 import profileServices from '@/modules/business/profile/services/profile.services'
 import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
@@ -95,8 +107,10 @@ export default {
   },
   components: {
     tempMsgModal,
-    adminTab,
-    businessTab
+    // adminTab,
+    businessTab,
+    faqTab,
+    paymentTab
   },
   methods: {
     changeStatus () {
@@ -178,5 +192,10 @@ export default {
 .temp-btn {
   background-color: white;
   padding: 12px 20px;
+}
+
+.tab {
+  width: 200px;
+  text-align: center;
 }
 </style>

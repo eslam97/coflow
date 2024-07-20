@@ -27,9 +27,9 @@
       <div v-if="arrangeMode" class="position-absolute arrange-overlay">
         <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
           item</p></div>
-      <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
-        <h3>FAQ's</h3>
-        <div class="d-flex justify-content-between gap-20">
+      <b-col lg="12" class="mb-2 d-flex align-items-center justify-content-end">
+        <!-- <h3>FAQ's</h3> -->
+        <div class="d-flex justify-content-between gap-20 align-self-end">
           <b-button @click="arrangeMode = !arrangeMode" variant="dark" class="add_button text-white">
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>

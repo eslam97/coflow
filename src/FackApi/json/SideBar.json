@@ -308,30 +308,44 @@
     "serviceTypes": "all"
   },
   {
-    "title": "FAQ's",
-    "name": "FAQ's",
+    "title": "Facility",
+    "name": "Facility",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "faq"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-question-circle",
-    "userType": "provider",
-    "serviceTypes": "all"
-  },
-  {
-    "title": "Profile",
-    "name": "Profile",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "profile"
+      "name": "facility"
     },
     "class_name": "",
     "is_icon_class": true,
     "icon": "las la-user",
+    "userType": "provider",
+    "serviceTypes": "all"
+  },
+  {
+    "title": "Branches",
+    "name": "Branches",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "branches"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-store-alt",
+    "userType": "provider",
+    "serviceTypes": "all"
+  },
+  {
+    "title": "Admins",
+    "name": "Admins",
+    "is_heading": false,
+    "is_active": false,
+    "link": {
+      "name": "admins"
+    },
+    "class_name": "",
+    "is_icon_class": true,
+    "icon": "las la-user-lock",
     "userType": "provider",
     "serviceTypes": "all"
   }

@@ -52,7 +52,7 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :list_url="'tickets'"
+            :items="items"
             :reloadData="reloadTable"
             :service_type="'ticket'"
             :arrangeMode="arrangeMode"
@@ -67,23 +67,26 @@ import { core } from '@/config/pluginInit'
 import activityDetails from '@/modules/business/goActivities/components/activityDetails.vue'
 import activityView from '@/modules/business/goActivities/components/activityView'
 import activityServices from '@/modules/business/goActivities/services/goActivities.services.js'
+import { goActivitiesItems } from '../services/data'
+
 export default {
   data () {
     return {
       reloadTable: false,
       requestLoading: false,
+      items: goActivitiesItems,
       columns: [
-        { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
+        { label: '#', key: 'id', class: 'text-center', type: 'sort' },
         { label: 'Activity Name', key: 'name', class: 'text-left text-bold' },
-        { label: 'Tag', key: 'price_egp', class: 'text-left' },
-        { label: 'Folder', key: 'discount_price_egp', class: 'text-left' },
-        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
+        { label: 'Tag', key: 'tag', class: 'text-left' },
+        { label: 'Folder', key: 'folder', class: 'text-left' },
+        { label: 'Duration', key: 'duration', class: 'text-left', type: 'multi-text' },
+        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
         { label: 'Reservations', key: 'reservations', class: 'text-left' },
-        { label: 'Rating', key: 'rate', class: 'text-left' },
+        { label: 'Rating', key: 'rate', class: 'text-left', type: 'rate' },
         {
           label: 'Status',
-          key: 'change_status',
+          key: 'status',
           type: 'switch',
           tableType: 'ticket',
           idKey: 'ticket_id',

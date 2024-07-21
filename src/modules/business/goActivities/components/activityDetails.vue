@@ -3,153 +3,151 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addActivity)">
         <b-row>
-            <b-col lg="6">
+          <b-col lg="6">
             <b-row>
               <b-col md="6" class="mb-3">
                 <input-form
-                    v-model="activity.name"
-                    placeholder="Activity Name"
-                    :validate="'required|max:30'"
-                    name="Activity name"
-                    :label="'Activity Name'"
-                    :limit="30"
+                  v-model="activity.name"
+                  placeholder="Activity Name"
+                  :validate="'required|max:50'"
+                  name="Activity name"
+                  :label="'Activity Name'"
+                  :limit="50"
                 />
               </b-col>
               <b-col md="6" class="mb-3">
-                  <label for="duration-group">Duration</label>
-                  <b-input-group id="duration-group">
-                      <b-form-input
-                              :label="'Duration'"
-                              v-model="activity.duration"
-                              :placeholder="'duration'"
-                              :validate="'required'"
-                              name="duration"
-                      />
-                      <template #append>
-                          <b-dropdown
-                                  :text="type ? type : 'Pick duration type'"
-                                  class="selectWithInputAppend"
-                          >
-                              <b-dropdown-item v-for="(i, keyType) in allDurationList"
-                                               :key="keyType"
-                                               @click="activity.duration_list_id = i.id;
-                                         type = i.name">
-                                  {{i.name}}
-                              </b-dropdown-item>
-                          </b-dropdown>
-                      </template>
-                  </b-input-group>
+                <label for="duration-group">Duration</label>
+                <b-input-group id="duration-group">
+                  <b-form-input
+                    :label="'Duration'"
+                    v-model="activity.duration"
+                    :placeholder="'duration'"
+                    :validate="'required'"
+                    name="duration"
+                  />
+                  <template #append>
+                    <b-dropdown
+                      :text="type ? type : 'Pick duration type'"
+                      class="selectWithInputAppend"
+                    >
+                      <b-dropdown-item
+                        v-for="(i, keyType) in allDurationList"
+                        :key="keyType"
+                        @click="activity.duration_list_id = i.id;
+                        type = i.name"
+                      >
+                          {{i.name}}
+                      </b-dropdown-item>
+                    </b-dropdown>
+                  </template>
+                </b-input-group>
               </b-col>
             </b-row>
+
             <b-row>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`EGP price`"
-                    :rules="{ required: true, regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Price'"
-                  ><b-input-group append="EGP">
-                    <b-form-input
-                        v-model="activity.price_egp"
-                        placeholder="000.00"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"/>
-                  </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-                </validation-provider>
+              <b-col md="6" class="mb-3">
+                <main-select
+                  labelTitle='Tag'
+                  :validate="'required'"
+                  :name="`Tag`"
+                  placeholder="Select Tag"
+                  class=""
+                  :options="['b1', 'b2', 'b3']"
+                  v-model="activity.tag">
+                </main-select>
               </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
-                <b-form-checkbox
-                    type="checkbox"
-                    v-model="selectedEGP"
-                    class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                    color="warning"
-                >
-                  Discounted Price
-                </b-form-checkbox>
+              <b-col md="6" class="mb-3">
+                <main-select
+                  labelTitle='Folder'
+                  :validate="'required'"
+                  :name="`Folder`"
+                  placeholder="Select Folder"
+                  class=""
+                  :options="['a1', 'a2', 'a3']"
+                  v-model="activity.folder">
+                </main-select>
               </b-col>
-<!--              between: (0, activity.price_egp)-->
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Discounted EGP price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEGP }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Discounted Price'"
-                  ><b-input-group append="EGP">
-                    <b-form-input
-                        v-model="activity.discount_price_egp"
-                        placeholder="000.00"
-                        :disabled="!selectedEGP"
-                        :class="[{ 'is-invalid': errors.length > 0}]"
-                    /></b-input-group>
-                    <small class="text-danger" v-if="!activity.discount_price_egp">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(activity.discount_price_egp) > Number(activity.price_egp)">
-                      More than price
-                    </small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-                <b-col md="12" class="mb-3">
-                    <validation-provider
-                            #default="{ errors }"
-                            :name="`Conditions`"
-                            :rules="'required'"
-                            class="flex-grow-1"
-                    >
-                        <b-form-group label="Conditions">
-                            <b-form-textarea
-                                    @focus="activity.conditions = activity.conditions === '' ? '• ' : activity.conditions"
-                                    @keyup.enter="activity.conditions += '• '"
-                                    v-model="activity.conditions"
-                                    placeholder="Write your conditions in bullet points"
-                                    rows="2"
-                                    :class="[{ 'is-invalid': errors.length > 0 }]"
-                            />
-                            <div class="d-flex justify-content-between">
-                                <small class="text-danger">{{ errors[0] }}</small>
-                                <!--                      <small :class="[{ 'text-danger': activity.conditions.length > 88 }]">
-                                                        {{ (88 > activity.conditions.length) ? 88 - activity.conditions.length : 0 }} characters</small>-->
-                            </div>
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
             </b-row>
           </b-col>
-            <b-col lg="6" class="mb-3">
-                <validation-provider
-                        #default="{ errors }"
-                        :name="`Description`"
-                        :rules="'required'"
-                        class="flex-grow-1"
-                >
-                    <b-form-group label="Description">
-                        <b-form-textarea
-                                v-model="activity.details"
-                                placeholder="Write a brief description"
-                                rows="4"
-                                :class="[{ 'is-invalid': errors.length > 0 }]"
-                        ></b-form-textarea>
-                    </b-form-group>
-                </validation-provider>
-            </b-col>
+
+          <b-col lg="6" class="mb-3">
+            <validation-provider
+              #default="{ errors }"
+              :name="`Description`"
+              :rules="'required'"
+              class="flex-grow-1"
+            >
+              <b-form-group label="Description">
+                <b-form-textarea
+                  v-model="activity.details"
+                  placeholder="Write a brief description"
+                  rows="4"
+                  :class="[{ 'is-invalid': errors.length > 0 }]"
+                ></b-form-textarea>
+              </b-form-group>
+            </validation-provider>
+          </b-col>
+
+          <b-col lg="6" class="mb-3">
+            <validation-provider
+              #default="{ errors }"
+              :name="`Conditions`"
+              :rules="'required'"
+              class="flex-grow-1"
+            >
+              <b-form-group label="Conditions">
+                <b-form-textarea
+                  @focus="activity.conditions = activity.conditions === '' ? '• ' : activity.conditions"
+                  @keyup.enter="activity.conditions += '• '"
+                  v-model="activity.conditions"
+                  placeholder="Write your conditions in bullet points"
+                  rows="2"
+                  :class="[{ 'is-invalid': errors.length > 0 }]"
+                />
+                <div class="d-flex justify-content-between">
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </div>
+              </b-form-group>
+            </validation-provider>
+          </b-col>
+
+          <b-col lg="6" class="mb-3">
+            <validation-provider
+              #default="{ errors }"
+              :name="`Requirements`"
+              :rules="'required'"
+              class="flex-grow-1"
+            >
+              <b-form-group label="Requirements">
+                <b-form-textarea
+                  @focus="activity.requirements = activity.requirements === '' ? '• ' : activity.requirements"
+                  @keyup.enter="activity.requirements += '• '"
+                  v-model="activity.requirements"
+                  placeholder="Autosize height based on content lines"
+                  rows="2"
+                  :class="[{ 'is-invalid': errors.length > 0 }]"
+                />
+                <div class="d-flex justify-content-between">
+                    <small class="text-danger">{{ errors[0] }}</small>
+                </div>
+              </b-form-group>
+            </validation-provider>
+          </b-col>
         </b-row>
-          <b-row>
-              <b-col class="mb-5">
-                  <cropper-images
-                          label="Upload Photos"
-                          @cropper-save="saveGalleryImage"
-                          @remove-image="removeGalleryImage"
-                          :removeLoadingUi="removeLoadingUi"
-                          :progressLoading="progressBar"
-                          :images="activity.images"
-                          type="activity_image"
-                  ></cropper-images>
-              </b-col>
-          </b-row>
+
+        <b-row>
+          <b-col class="mb-5">
+            <cropper-images
+              label="Upload Photos"
+              @cropper-save="saveGalleryImage"
+              @remove-image="removeGalleryImage"
+              :removeLoadingUi="removeLoadingUi"
+              :progressLoading="progressBar"
+              :images="activity.images"
+              type="activity_image"
+            ></cropper-images>
+          </b-col>
+        </b-row>
         <b-row v-if="typeOfModal != 'view'">
           <b-col md="12" class="mt-4">
             <div class="d-flex justify-content-center" v-if="typeOfModal == 'add'">
@@ -199,13 +197,14 @@ export default {
       activity: {
         name: '',
         details: '',
-        price_egp: '',
-        price_euro: '',
+        tag: '',
+        folder: '',
         price_dollar: '',
         discount_price_egp: null,
         discount_price_euro: null,
         discount_price_dollar: null,
         conditions: '',
+        requirements: '',
         images: [],
         status: 'active',
         duration: '',

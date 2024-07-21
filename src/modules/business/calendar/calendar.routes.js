@@ -13,7 +13,7 @@ export default [
       path: '',
       name: 'calendar',
       component: calendarList,
-      meta: { name: 'calendar', userType: 'provider', serviceTypes: 'Flow' }
+      meta: { name: 'calendar', userType: 'provider', serviceTypes: 'all' }
     }]
   }
 ]

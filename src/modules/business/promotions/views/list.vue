@@ -245,7 +245,7 @@ export default {
         actionHeader: 'Delete',
         titleHeader: 'Promotion',
         textContent: data.offer_title,
-        question: 'Are You Sure You Want Delete This Promotion?',
+        question: 'Are you sure you want delete this promotion?',
         textDeleteButton: 'YES, Delete',
         textCancelButton: 'NO, CANCEL',
         icon: 'las la-trash-alt',

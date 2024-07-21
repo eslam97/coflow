@@ -684,9 +684,18 @@ form legend {
   }
 }
 .ladies-only-tag {
+  position: relative;
+  height: 26px;
+}
+.ladies-only-container {
+  position: absolute;
+  top: 0;
+  right: 0;
   font-size: 12px !important;
   color: #ff7daa;
   background-color: rgba(#ff7daa, 0.1);
+  padding: 1px 8px;
+  border-radius: 12px;
 }
 
 // View modal style

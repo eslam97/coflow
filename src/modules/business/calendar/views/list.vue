@@ -44,11 +44,15 @@
         <h3>Calendar</h3>
 
         <b-card no-body class="d-flex flex-column align-items-center gap-1 p-3">
-          <h4>December, 2023 - January, 2024</h4>
+          <date-picker class="date-input" :open="dateOpen" @close="dateOpen = false" v-model="currentDate" type="week" />
+          <h4 @click="dateOpen = !dateOpen" class="cursor-pointer" >
+            <span class="mr-2">{{ getFormatedDate }}</span>
+            <i class="fa fa-angle-down"></i>
+          </h4>
           <div class="d-flex align-items-center gap-2">
-            <button class="btn border rounded-sm"><i class="fa fa-arrow-left"></i></button>
-            <h5>1 - 7</h5>
-            <button class="btn border rounded-sm"><i class="fa fa-arrow-right"></i></button>
+            <button @click="changeDate('dec')" class="btn border rounded-sm"><i class="fa fa-arrow-left"></i></button>
+            <h5>{{ `${new Date(getDays[0]).getDate()} - ${new Date(getDays[6]).getDate()}` }}</h5>
+            <button @click="changeDate('inc')" class="btn border rounded-sm"><i class="fa fa-arrow-right"></i></button>
           </div>
         </b-card>
 
@@ -84,13 +88,13 @@
       <b-col lg="12" v-if="allSlots.length > 0">
         <b-card class="overflow-auto text-center schedule-card">
           <b-row class="flex-nowrap m-0">
-            <b-col class="schedule-col px-0" v-for="(day, key) in days" :key="key">
+            <b-col class="schedule-col px-0" v-for="(day, key) in getDays" :key="key">
               <h6 class="py-3 calendar-header">
-                <span>{{ day.day }}</span>
-                <span>{{ day.value }}</span>
+                <span>{{ new Date(day).getDate() }}</span>
+                <span>{{ getDayName(day) }}</span>
               </h6>
               <div
-                v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
+                v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === getDayName(day) })"
                 :key="slotKey"
                 class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box calendar-slot-box"
                 :class="(slot.status === 'active' || slot.status === true)?
@@ -229,7 +233,9 @@ export default {
           value: 'saturday'
         }
       ],
-      scheduleDetailsFront: {}
+      scheduleDetailsFront: {},
+      currentDate: new Date(),
+      dateOpen: false
     }
   },
   components: {
@@ -342,6 +348,34 @@ export default {
         time[0] = +time[0] % 12 || 12
       }
       return time.join('')
+    },
+    getDayName (date) {
+      const day = new Date(date).getDay()
+
+      switch (day) {
+        case 0:
+          return 'sunday'
+        case 1:
+          return 'monday'
+        case 2:
+          return 'tuesday'
+        case 3:
+          return 'wednesday'
+        case 4:
+          return 'thursday'
+        case 5:
+          return 'friday'
+        case 6:
+          return 'saturday'
+        default:
+          return true
+      }
+    },
+    changeDate (type = 'inc') {
+      // type: (inc | dec)
+      const date = new Date(this.currentDate)
+      type === 'inc' ? date.setDate(date.getDate() + 7) : date.setDate(date.getDate() - 7)
+      this.currentDate = date
     }
   },
   created () {
@@ -357,6 +391,48 @@ export default {
   },
   mounted () {
     core.index()
+  },
+  computed: {
+    getDays () {
+      // Get the day of the week (0-6) where 0 is Sunday
+      const dayOfWeek = this.currentDate?.getDay()
+
+      // Calculate the start and end dates
+      const startOfWeek = new Date(this.currentDate)
+      startOfWeek.setDate(this.currentDate?.getDate() - dayOfWeek)
+
+      // Create a list of 7 days
+      const weekDays = []
+      for (let i = 0; i < 7; i++) {
+        const day = new Date(startOfWeek)
+        day.setDate(startOfWeek.getDate() + i)
+        weekDays.push(day.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }))
+      }
+
+      return weekDays
+    },
+    getFormatedDate () {
+      const fristDate = new Date(this.getDays[0])
+      const fristMonth = fristDate.toDateString().slice(4, 7)
+      const fristYear = fristDate.getFullYear()
+
+      const endDate = new Date(this.getDays[6])
+      const endMonth = endDate.toDateString().slice(4, 7)
+      const endYear = endDate.getFullYear()
+
+      if (fristMonth === endMonth) {
+        return `${fristMonth}, ${fristYear}`
+      } else {
+        return `${fristMonth}, ${fristYear} - ${endMonth}, ${endYear}`
+      }
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.date-input {
+  visibility: hidden;
+  height: 0;
+}
+</style>

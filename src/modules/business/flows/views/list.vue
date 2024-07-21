@@ -19,7 +19,7 @@
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Flow</h4>
       </template>
-      <template v-slot:borderHeader class="flex-nowrap">
+      <template v-slot:borderHeader>
         <p class="p-4 borderHeaderModal m-0">
           <span class="px-2">{{flowsDetails.name}}</span>
           <button v-if="optionInd > -1"
@@ -44,6 +44,10 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
+          <router-link :to="{ name: 'flowsFolders' }" class="btn bg-white add_button" >
+            Folders
+            <i class="far fa-folder ml-3"></i>
+          </router-link>
           <b-button @click="openPopup" variant="warning" :disabled="arrangeMode" class="add_button text-white">
             Add Flow<i class="las la-plus ml-3"></i></b-button>
         </div>

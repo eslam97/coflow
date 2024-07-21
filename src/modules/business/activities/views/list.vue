@@ -19,7 +19,7 @@
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Activity</h4>
       </template>
-      <template v-slot:borderHeader class="flex-nowrap">
+      <template v-slot:borderHeader>
         <p class="p-4 borderHeaderModal m-0">
           {{activitiesViewData.name}}
           <button class="ml-4 p-2 pr-4 pl-4 btn radio-btn" :class="`radio-btn-cyan`" active>
@@ -42,6 +42,10 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
+          <router-link :to="{ name: 'activitiesFolders' }" class="btn bg-white add_button" >
+            Folders
+            <i class="far fa-folder ml-3"></i>
+          </router-link>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
             Add Activity<i class="las la-plus ml-3"></i></b-button>
         </div>

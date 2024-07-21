@@ -41,6 +41,7 @@
           <b-avatar
             v-if="field.type=='image'"
             :src="$_.get(data.item, field.key) ? $_.get(data.item, field.key) : require('@/assets/images/user/default-user-image.png')"
+            class="rounded-pill"
           />
 
             <div v-else-if="field.type == 'custom'">
@@ -344,7 +345,7 @@ export default {
           this.listOfData = List.data?.data
         }
       } else {
-        List = this.items
+        this.listOfData = this.items
       }
       this.loadingTable = false
       this.reloadData = false

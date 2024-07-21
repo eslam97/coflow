@@ -16,7 +16,7 @@ export default [
       component: goActivitiesList,
       meta: { name: 'Activities', userType: 'provider', serviceTypes: 'Go' }
     }, {
-      path: '/folders',
+      path: 'folders',
       name: 'goActivitiesFolders',
       component: goActivitiesFolders,
       meta: { name: 'Folders', userType: 'provider', serviceTypes: 'Go' }

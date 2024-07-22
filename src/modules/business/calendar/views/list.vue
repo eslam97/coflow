@@ -39,6 +39,14 @@
         />
       </template>
     </main-modal>
+    <main-modal id="calendarSettings" size="md">
+      <template v-slot:header>
+        <h4 class="font-weight-bold text-warning">Settings</h4>
+      </template>
+      <template v-slot:body>
+        <calendar-settings :requestLoading="requestLoading" @saveSettings="saveSettings" />
+      </template>
+    </main-modal>
 
     <section class="d-flex flex-column gap-2 mb-4">
         <h3>Calendar</h3>
@@ -67,7 +75,7 @@
           </div>
           <div>
               <div class="d-flex justify-content-md-end justify-content-center gap-20">
-                  <b-button variant="light" class="add_button text-dark" style="--iq-light:#fff">
+                  <b-button @click="openSettingsPopup" variant="light" class="add_button text-dark" style="--iq-light:#fff">
                       <span>Settings<i class="fas fa fa-cog ml-3"></i></span>
                   </b-button>
                   <b-button @click="clearSchedule" variant="dark" class="add_button text-white">
@@ -162,6 +170,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import calendarDetails from '@/modules/business/calendar/components/calendarDetails'
+import calendarSettings from '@/modules/business/calendar/components/calendarSettings'
 import calendarServices from '@/modules/business/calendar/services/calendar.sevices'
 import flowsServices from '@/modules/business/flows/services/flows.services'
 import mainService from '@/services/main'
@@ -238,10 +247,18 @@ export default {
       dateOpen: false
     }
   },
-  components: {
-    calendarDetails
-  },
+  components: { calendarDetails, calendarSettings },
   methods: {
+    openSettingsPopup () {
+      this.$bvModal.show('calendarSettings')
+    },
+    saveSettings (settings) {
+      this.requestLoading = true
+      setTimeout(() => {
+        this.$bvModal.hide('calendarSettings')
+        this.requestLoading = false
+      }, 1000)
+    },
     openPopup () {
       this.scheduleId = ''
       this.typeOfModal = 'add'

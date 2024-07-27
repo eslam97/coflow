@@ -71,7 +71,14 @@
                      `slot-box-${levels.find(l => l.value === slot.flow.level).color}` : 'slot-box-grey'"
                    @click="showScheduleToEdit(slot)">
                 <ul class="pl-0">
-                  <li v-if="(slot.ladies_only)" class="ladies-only-tag">LADIES ONLY</li>
+                  <li v-if="(slot.ladies_only)" class="ladies-only-tag">
+                    <div class="ladies-only-container">
+                      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.22226 4.04378C7.22226 4.3974 7.36274 4.73654 7.61278 4.98659C7.86283 5.23664 8.20197 5.37712 8.55559 5.37712C8.90922 5.37712 9.24835 5.23664 9.4984 4.98659C9.74845 4.73654 9.88893 4.3974 9.88893 4.04378C9.88893 3.69016 9.74845 3.35102 9.4984 3.10097C9.24835 2.85092 8.90922 2.71045 8.55559 2.71045C8.20197 2.71045 7.86283 2.85092 7.61278 3.10097C7.36274 3.35102 7.22226 3.69016 7.22226 4.04378Z" stroke="#FF7DAA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.22228 15.3772V12.7105H5.88895L7.22228 8.71049C7.22228 8.53368 7.29252 8.36411 7.41754 8.23909C7.54257 8.11406 7.71214 8.04382 7.88895 8.04382H9.22228C9.39909 8.04382 9.56866 8.11406 9.69369 8.23909C9.81871 8.36411 9.88895 8.53368 9.88895 8.71049L11.2223 12.7105H9.88895V15.3772" stroke="#FF7DAA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                  </li>
                   <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
                   <li>{{ slot.flow.name }}</li>
                   <li>{{ slot.instructor }}</li>

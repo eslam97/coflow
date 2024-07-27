@@ -13,7 +13,7 @@
           <b-col md="12" class="position-relative mb-4 border-bottom"
                  v-for="(slot, slotKey) in schedule.slots" :key="slotKey">
             <b-row class="d-flex align-items-center mb-4">
-              <b-col md="3" >
+              <b-col md="4" >
                 <main-select labelTitle='Day of the week' :validate="'required'"
                              :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
                              label="key"
@@ -21,26 +21,27 @@
                              :reduce="data => data.value"
                              v-model="slot.day"></main-select>
               </b-col>
-              <b-col md="3">
+              <b-col md="4">
                 <input-form
                     placeholder="00:00" :validate="'required'"
                     :name="`From ${slotKey + 1}`" :label="'From'"
                     v-model="slot.from" type="time"
                 />
               </b-col>
-              <b-col md="3">
+              <b-col md="4">
                 <input-form
                     placeholder="00:00" alidate="'required'"
                     :name="`To ${slotKey + 1}`" :label="'To'"
                     v-model="slot.to" type="time"
                 />
               </b-col>
-              <b-col md="3">
+              <b-col md="12">
                 <main-select labelTitle='Instructor' :validate="'required'"
                              :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
                              :options="!schedule.flow_id ? '':
                              allFlows.find((flow) => flow.id === schedule.flow_id).instructors"
                              label="first_name"
+                             :multiple="true"
                              :reduce="data => data.first_name"
                              v-model="slot.instructor"></main-select>
               </b-col>

@@ -5,61 +5,78 @@
         <b-row>
           <b-col md="12" class="mb-3">
             <main-select labelTitle='Flow' :validate="'required'"
-                         :name="`Flow`" placeholder="Pick flow" :options="allFlows"
-                         label="name" :disabled="typeOfModal === 'edit'"
-                         :reduce="data => data.id"
-                         v-model="schedule.flow_id"></main-select>
+              :name="`Flow`" placeholder="Pick flow" :options="allFlows"
+              label="name" :disabled="typeOfModal === 'edit'"
+              :reduce="data => data.id"
+              v-model="schedule.flow_id"
+            ></main-select>
           </b-col>
-          <b-col md="12" class="position-relative mb-4 border-bottom"
-                 v-for="(slot, slotKey) in schedule.slots" :key="slotKey">
+          <b-col
+            md="12"
+            class="position-relative mb-4 border-bottom"
+            v-for="(slot, slotKey) in schedule.slots" :key="slotKey"
+          >
             <b-row class="d-flex align-items-center mb-4">
-              <b-col md="3" >
+              <b-col md="4" >
                 <main-select labelTitle='Day of the week' :validate="'required'"
-                             :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
-                             label="key"
-                             :multiple="typeOfModal==='add'"
-                             :reduce="data => data.value"
-                             v-model="slot.day"></main-select>
+                  :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
+                  label="key"
+                  :multiple="typeOfModal==='add'"
+                  :reduce="data => data.value"
+                  v-model="slot.day"
+                ></main-select>
               </b-col>
-              <b-col md="3">
+              <b-col md="4">
                 <input-form
-                    placeholder="00:00" :validate="'required'"
-                    :name="`From ${slotKey + 1}`" :label="'From'"
-                    v-model="slot.from" type="time"
+                  placeholder="00:00" :validate="'required'"
+                  :name="`From ${slotKey + 1}`" :label="'From'"
+                  v-model="slot.from" type="time"
                 />
               </b-col>
-              <b-col md="3">
+              <b-col md="4">
                 <input-form
-                    placeholder="00:00" alidate="'required'"
-                    :name="`To ${slotKey + 1}`" :label="'To'"
-                    v-model="slot.to" type="time"
+                  placeholder="00:00" alidate="'required'"
+                  :name="`To ${slotKey + 1}`" :label="'To'"
+                  v-model="slot.to" type="time"
                 />
               </b-col>
-              <b-col md="3">
+              <b-col md="12">
                 <main-select labelTitle='Instructor' :validate="'required'"
-                             :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
-                             :options="!schedule.flow_id ? '':
-                             allFlows.find((flow) => flow.id === schedule.flow_id).instructors"
-                             label="first_name"
-                             :reduce="data => data.first_name"
-                             v-model="slot.instructor"></main-select>
+                  :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
+                  :options="!schedule.flow_id ? '':
+                  allFlows.find((flow) => flow.id === schedule.flow_id).instructors"
+                  label="first_name"
+                  :multiple="true"
+                  :reduce="data => data.first_name"
+                  v-model="slot.instructor"
+                ></main-select>
               </b-col>
               <b-col>
                 <b-form-checkbox type="checkbox"
-                                 value="1"
-                                 unchecked-value="0"
-                                 v-model="slot.ladies_only" label="Ladies only" :name="`Ladies only ${slotKey + 1}`"
-                                 class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0" color="warning">
+                  value="1"
+                  unchecked-value="0"
+                  v-model="slot.ladies_only"
+                  label="Ladies only"
+                  :name="`Ladies only ${slotKey + 1}`"
+                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
+                  color="warning"
+                >
                   Ladies Only Class
                 </b-form-checkbox>
               </b-col>
             </b-row>
-            <span v-if="(slotKey != 0)" class="text-danger deleteLabelButton cursor-pointer"
-                  @click="deleteSlot(slotKey)">Delete</span>
+            <span
+              v-if="(slotKey != 0)"
+              class="text-danger deleteLabelButton cursor-pointer"
+              @click="deleteSlot(slotKey)"
+            >Delete</span>
           </b-col>
           <b-col md="12" class="mb-3">
-            <span class="text-warning cursor-pointer deleteLabelButton px-3" v-if="(typeOfModal === 'add')"
-                  @click="addNewSlot">+Add another slot(s)</span>
+            <span
+              v-if="(typeOfModal === 'add')"
+              class="text-warning cursor-pointer deleteLabelButton px-3"
+              @click="addNewSlot"
+            >+Add another slot(s)</span>
           </b-col>
         </b-row>
         <b-row v-if="typeOfModal != 'view'">

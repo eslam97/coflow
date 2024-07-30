@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <div>
     <!--  End modal  -->
     <end-modal ref="endPopup"/>
 
@@ -149,14 +149,14 @@
         </b-pagination>
       </b-col>
     </b-row>
-  </b-container>
+  </div>
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import promotionsServices from '../services/promotions.services'
 import EventBus from '@/eventBus'
+import promotionsServices from '../services/promotions.services'
 import promotionDetails from '../components/promotionDetails'
-import endModal from '@/modules/business/promotions/components/endModal'
+import endModal from '../components/endModal'
 export default {
   data () {
     return {

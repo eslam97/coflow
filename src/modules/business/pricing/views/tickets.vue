@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <div>
     <!--  Add and Edit Modal  -->
     <main-modal id="ticketsDetailsModal" size="xl">
       <template v-slot:header>
@@ -56,13 +56,13 @@
         </main-table>
       </b-col>
     </b-row>
-  </b-container>
+  </div>
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import ticketDetails from '@/modules/business/tickets/components/ticketDetails.vue'
-import ticketView from '@/modules/business/tickets/components/ticketView'
-import ticketServices from '@/modules/business/tickets/services/tickets.services.js'
+import ticketServices from '../services/tickets.services.js'
+import ticketDetails from '../components/ticketDetails.vue'
+import ticketView from '../components/ticketView'
 export default {
   data () {
     return {

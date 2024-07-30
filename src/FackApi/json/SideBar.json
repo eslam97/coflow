@@ -308,12 +308,12 @@
     "serviceTypes": "all"
   },
   {
-    "title": "Promotions",
-    "name": "Promotions",
+    "title": "Pricing",
+    "name": "Pricing",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "promotions"
+      "name": "pricing"
     },
     "class_name": "",
     "is_icon_class": false,

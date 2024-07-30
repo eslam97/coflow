@@ -32,7 +32,7 @@
 
 <script>
 import Bus from '@/eventBus'
-import promotionsServices from '@/modules/business/promotions/services/promotions.services'
+import promotionsServices from '../services/promotions.services'
 import { core } from '@/config/pluginInit'
 import moment from 'moment'
 export default {

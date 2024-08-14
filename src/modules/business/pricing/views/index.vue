@@ -3,13 +3,13 @@
     <h3>Pricing</h3>
 
     <div class="my-2 d-flex justify-content-between align-items-center gap-2">
-      <router-link :to="{ name: 'pricing.tickets' }" :class="['w-100 text-center promotion_button py-2', { 'activePromotion' : $route.name =='pricing.tickets'}]">
+      <router-link :to="{ name: 'pricing.tickets' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='pricing.tickets'}]">
         Tickets
       </router-link>
-      <router-link :to="{ name: 'pricing.promotions' }" :class="['w-100 text-center promotion_button py-2', { 'activePromotion' : $route.name =='pricing.promotions'}]">
+      <router-link :to="{ name: 'pricing.promotions' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='pricing.promotions'}]">
         Promotions
       </router-link>
-      <router-link :to="{ name: 'pricing.coupons' }" :class="['w-100 text-center promotion_button py-2', { 'activePromotion' : $route.name =='pricing.coupons'}]">
+      <router-link :to="{ name: 'pricing.coupons' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='pricing.coupons'}]">
         Coupons
       </router-link>
     </div>

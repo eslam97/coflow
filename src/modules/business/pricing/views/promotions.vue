@@ -93,13 +93,13 @@
       </b-col>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <div class="w-50 pr-2">
-          <b-button :class="['w-100 promotion_button py-2', { 'activePromotion' : isSelected('current')}]"
+          <b-button :class="['w-100 promotion_button py-2', { 'active-tab' : isSelected('current')}]"
                     @click="type='current'; pagination.currentPage = 1">
             Current
           </b-button>
         </div>
         <div class="w-50 pl-2">
-          <b-button :class="['w-100 promotion_button py-2', { 'activePromotion' : isSelected('history')}]"
+          <b-button :class="['w-100 promotion_button py-2', { 'active-tab' : isSelected('history')}]"
                     @click="type='history'; pagination.currentPage = 1">
             History
           </b-button>

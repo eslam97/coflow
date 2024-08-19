@@ -54,7 +54,7 @@
       </b-col>
     </b-row>
 
-    <main-modal id="AddCustomerModal">
+    <main-modal id="AddManagementModal">
       <template v-slot:header>
         <h4 class="font-weight-bold">
           <span class="text-warning" >Add: </span> Customer
@@ -137,7 +137,7 @@ export default {
   components: { AddManagementForm },
   methods: {
     openPopup () {
-      this.$bvModal.show('AddCustomerModal')
+      this.$bvModal.show('AddManagementModal')
     },
     getAllNationalities () {
       settingsService.getAllnationalities().then(res => {
@@ -151,14 +151,14 @@ export default {
       // managementServices.addManagement(payload).then(res => {
       //   this.reloadTable = true
       //   core.showSnackbar('success', res.data.message)
-      //   this.$bvModal.hide('AddCustomerModal')
+      //   this.$bvModal.hide('AddManagementModal')
       // }).finally(() => {
       //   this.requestLoading = false
       // })
       setTimeout(() => {
         this.reloadTable = true
         core.showSnackbar('success', 'Added Successfully')
-        this.$bvModal.hide('AddCustomerModal')
+        this.$bvModal.hide('AddManagementModal')
         this.requestLoading = false
       }, 1000)
     }

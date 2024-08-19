@@ -794,6 +794,16 @@ form legend {
   gap: 16px;
 }
 
+.light-btn {
+  background-color: #fff;
+  border: 1px solid #74798C;
+  color: #181836;
+  border-radius: 4px;
+  &:disabled {
+    border-color: inherit;
+  }
+}
+
 .cursor-pointer {
   cursor: pointer;
 }

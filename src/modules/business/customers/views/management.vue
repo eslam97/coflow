@@ -5,7 +5,7 @@
         <h3>Management</h3>
 
         <div class="d-flex justify-content-between gap-20">
-          <b-button @click="openPopup" variant="light" class="btn bg-white add_button">
+          <b-button variant="light" class="btn bg-white add_button">
             Export <i class="las la-print ml-3"></i>
           </b-button>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
@@ -53,16 +53,34 @@
         />
       </b-col>
     </b-row>
+
+    <main-modal id="AddCustomerModal">
+      <template v-slot:header>
+        <h4 class="font-weight-bold">
+          <span class="text-warning" >Add: </span> Customer
+        </h4>
+      </template>
+      <template v-slot:body>
+        <AddManagementForm
+          @addManagement="addManagement"
+          :requestLoading="requestLoading"
+        />
+      </template>
+    </main-modal>
   </b-container>
 </template>
 <script>
 import { core } from '@/config/pluginInit'
 import { managementItems } from '../services/data'
+// import managementServices from '../services/management.services'
+import AddManagementForm from '../components/AddManagementForm.vue'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 
 export default {
   data () {
     return {
+      reloadTable: false,
+      requestLoading: false,
       items: managementItems,
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
@@ -116,15 +134,33 @@ export default {
       nationalityFilterOptions: []
     }
   },
-  components: {},
+  components: { AddManagementForm },
   methods: {
     openPopup () {
-      console.log('zzzzz')
+      this.$bvModal.show('AddCustomerModal')
     },
     getAllNationalities () {
       settingsService.getAllnationalities().then(res => {
         this.nationalityFilterOptions = res.data.data
       })
+    },
+    addManagement (payload) {
+      console.log('addManagement: ', payload)
+      this.requestLoading = true
+      this.reloadTable = false
+      // managementServices.addManagement(payload).then(res => {
+      //   this.reloadTable = true
+      //   core.showSnackbar('success', res.data.message)
+      //   this.$bvModal.hide('AddCustomerModal')
+      // }).finally(() => {
+      //   this.requestLoading = false
+      // })
+      setTimeout(() => {
+        this.reloadTable = true
+        core.showSnackbar('success', 'Added Successfully')
+        this.$bvModal.hide('AddCustomerModal')
+        this.requestLoading = false
+      }, 1000)
     }
   },
   created () {

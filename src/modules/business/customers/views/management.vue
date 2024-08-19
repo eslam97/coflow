@@ -58,6 +58,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import { managementItems } from '../services/data'
+import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 
 export default {
   data () {
@@ -87,14 +88,14 @@ export default {
               actionParams: 'fullObj'
             },
             {
-              icon: 'las la-pen',
-              color: 'info',
+              icon: 'las la-folder-plus',
+              color: 'warning',
               text: 'Edit',
               actionName: 'showActivityToEdit',
               actionParams: 'fullObj'
             },
             {
-              icon: 'las la-trash-alt',
+              icon: 'las la-flag',
               color: 'danger',
               text: 'Delete',
               showAlert: true,
@@ -112,20 +113,23 @@ export default {
         { key: 'Female', value: 'female' },
         { key: 'None', value: '' }
       ],
-      nationalityFilterOptions: [
-        { key: 'Male', value: 'male' },
-        { key: 'Female', value: 'female' },
-        { key: 'None', value: '' }
-      ]
+      nationalityFilterOptions: []
     }
   },
   components: {},
   methods: {
     openPopup () {
       console.log('zzzzz')
+    },
+    getAllNationalities () {
+      settingsService.getAllnationalities().then(res => {
+        this.nationalityFilterOptions = res.data.data
+      })
     }
   },
-  created () {},
+  created () {
+    this.getAllNationalities()
+  },
   mounted () {
     core.index()
   }

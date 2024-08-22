@@ -7,6 +7,15 @@ export const managementItems = [
   { id: 6, name: 'Omar Mohamed', age: 25, gender: 'Male', nationality: 'Saudi Arabia', image: 'sdadsa', tickets: 40, promotions: 4, purchases: '1000 (EGP)' },
   { id: 7, name: 'Sara Ahmed', age: 30, gender: 'Female', nationality: 'Greece', image: 'sdadsa', tickets: 50, promotions: 5, purchases: '1000 (EGP)' }
 ]
+export const managementPurchasesItems = [
+  { id: 1, date: '2023-10-21', purchase: 'Package', name: 'Ticket Name', quantity: 4, amount: '1000 (EGP)', status: 'FOD', validity: '30 Days' },
+  { id: 2, date: '--', purchase: 'Package', name: 'Ticket Name', quantity: 2, amount: '--', status: '--', validity: '30 Days' },
+  { id: 3, date: '2023-8-11', purchase: 'BuyGet', name: 'Ticket Name', quantity: 3, amount: '1000 (EGP)', status: 'DUE', validity: '14 Days ' },
+  { id: 4, date: '--', purchase: 'Ticket', name: 'Ticket Name', quantity: 4, amount: '--', status: '--', validity: '14 Days ' },
+  { id: 5, date: '--', purchase: 'Ticket', name: 'Coupon 1', quantity: 1, amount: '--', status: '--', validity: '14 Days ' },
+  { id: 6, date: '2023-4-21', purchase: 'Ticket', name: 'Ticket Name', quantity: 8, amount: '1000 (EGP)', status: 'PAID', validity: '9 Days ' },
+  { id: 7, date: '2023-1-21', purchase: 'Package', name: 'Ticket Name', quantity: 4, amount: '1000 (EGP)', status: 'DOP', validity: '7 Days ' }
+]
 
 export const purchasessItems = [
   { id: 1, admin: 'Ali Ahmed', date: '2023-10-21', customer: 'Mohamed Ahmed', action: 'Purchase', purchase: 'Package', name: 'Offer Name', amount: '1000 (EGP)', status: 'DOP' },

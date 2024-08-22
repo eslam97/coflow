@@ -1,6 +1,8 @@
 <template>
   <b-container fluid>
     <ManagementDetailsHeader />
+
+    <router-view/>
   </b-container>
 </template>
 <script>

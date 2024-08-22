@@ -2,6 +2,7 @@ const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const customers = () => import('./views/index')
 const managementlist = () => import('./views/management')
+const managementDetails = () => import('./views/managementDetails')
 const activity = () => import('./views/activity')
 const activityPurchasess = () => import('./views/activityPurchasess')
 const activityGifts = () => import('./views/activityGifts')
@@ -53,6 +54,12 @@ export default [
           ]
         }
       ]
+    },
+    {
+      path: 'management/:id?',
+      name: 'customers.managementDetails',
+      component: managementDetails,
+      meta: { name: 'managementDetails', userType: 'provider', serviceTypes: 'all' }
     }]
   }
 ]

@@ -2,7 +2,10 @@ const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const customers = () => import('./views/index')
 const managementlist = () => import('./views/management')
-const activityList = () => import('./views/activity')
+const activity = () => import('./views/activity')
+const activityPurchasess = () => import('./views/activityPurchasess')
+const activityGifts = () => import('./views/activityGifts')
+const activityCollections = () => import('./views/activityCollections')
 
 export default [
   {
@@ -25,8 +28,29 @@ export default [
         {
           path: 'activity',
           name: 'customers.activity',
-          component: activityList,
-          meta: { name: 'activity', userType: 'provider', serviceTypes: 'all' }
+          component: activity,
+          redirect: { name: 'customers.purchasess' },
+          meta: { name: 'activity', userType: 'provider', serviceTypes: 'all' },
+          children: [
+            {
+              path: 'purchasess',
+              name: 'customers.purchasess',
+              component: activityPurchasess,
+              meta: { name: 'purchasess', userType: 'provider', serviceTypes: 'all' }
+            },
+            {
+              path: 'gifts',
+              name: 'customers.gifts',
+              component: activityGifts,
+              meta: { name: 'gifts', userType: 'provider', serviceTypes: 'all' }
+            },
+            {
+              path: 'collections',
+              name: 'customers.collections',
+              component: activityCollections,
+              meta: { name: 'collections', userType: 'provider', serviceTypes: 'all' }
+            }
+          ]
         }
       ]
     }]

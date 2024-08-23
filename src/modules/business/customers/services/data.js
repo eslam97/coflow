@@ -16,6 +16,20 @@ export const managementPurchasesItems = [
   { id: 6, date: '2023-4-21', purchase: 'Ticket', name: 'Ticket Name', quantity: 8, amount: '1000 (EGP)', status: 'PAID', validity: '9 Days ' },
   { id: 7, date: '2023-1-21', purchase: 'Package', name: 'Ticket Name', quantity: 4, amount: '1000 (EGP)', status: 'DOP', validity: '7 Days ' }
 ]
+export const managementGiftsItems = [
+  { id: 1, date: '2023-10-21', gift: 'Ticket', name: 'Ticket Name', quantity: 4, validity: '30 Days' },
+  { id: 2, date: '2023-9-21', gift: 'Ticket', name: 'Coupon 1 - 10%', quantity: 2, validity: '2 Days' },
+  { id: 3, date: '2023-8-11', gift: 'Coupon', name: 'Ticket Name', quantity: 3, validity: '14 Days' }
+]
+export const managementHistoryItems = [
+  { id: 1, admin: 'Ali Ahmed', date: '2023-10-21', action: 'Purchase', item: 'Ticket', name: 'Ticket Name' },
+  { id: 2, admin: 'Ahmed Amr', date: '2023-9-21', action: 'Gift', item: 'Coupon', name: 'Coupon 1 - 10%' },
+  { id: 3, admin: 'Amr Ali', date: '2023-8-11', action: 'Collection', item: 'Ticket', name: 'Ticket Name' },
+  { id: 4, admin: 'Customer', date: '2023-7-10', action: 'Refund', item: 'Package', name: 'Offer Name' },
+  { id: 5, admin: 'Customer', date: '2023-5-10', action: 'Expiration', item: 'Buy&Get', name: 'Offer Name' },
+  { id: 6, admin: 'Amgd Ali', date: '2023-4-21', action: 'Reservation', item: 'Activity', name: 'Activity Slot Name' },
+  { id: 7, admin: 'Omar Ahmed', date: '2023-1-21', action: 'Reservation', item: 'Flow', name: 'FIT FLOW' }
+]
 
 export const purchasessItems = [
   { id: 1, admin: 'Ali Ahmed', date: '2023-10-21', customer: 'Mohamed Ahmed', action: 'Purchase', purchase: 'Package', name: 'Offer Name', amount: '1000 (EGP)', status: 'DOP' },

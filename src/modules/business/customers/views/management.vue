@@ -102,8 +102,9 @@ export default {
               icon: 'las la-eye',
               color: 'success-light',
               text: 'View',
-              actionName: 'showActivity',
-              actionParams: 'fullObj'
+              ifNavigate: true,
+              routeName: 'customers.managementDetails',
+              routeParams: ['id']
             },
             {
               icon: 'las la-folder-plus',

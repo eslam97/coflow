@@ -2,6 +2,11 @@ const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const customers = () => import('./views/index')
 const managementlist = () => import('./views/management')
+const managementDetails = () => import('./views/managementDetails')
+const managementDetailsPurchases = () => import('./views/managementDetailsPurchases')
+const managementDetailsGifts = () => import('./views/managementDetailsGifts')
+const managementDetailsHistory = () => import('./views/managementDetailsHistory')
+
 const activity = () => import('./views/activity')
 const activityPurchasess = () => import('./views/activityPurchasess')
 const activityGifts = () => import('./views/activityGifts')
@@ -51,6 +56,33 @@ export default [
               meta: { name: 'collections', userType: 'provider', serviceTypes: 'all' }
             }
           ]
+        }
+      ]
+    },
+    {
+      path: 'management',
+      name: 'customers.managementDetails',
+      component: managementDetails,
+      redirect: { name: 'customers.managementDetailsPurchases' },
+      meta: { name: 'managementDetails', userType: 'provider', serviceTypes: 'all' },
+      children: [
+        {
+          path: 'purchases/:id?',
+          name: 'customers.managementDetailsPurchases',
+          component: managementDetailsPurchases,
+          meta: { name: 'purchases', userType: 'provider', serviceTypes: 'all' }
+        },
+        {
+          path: 'gifts/:id?',
+          name: 'customers.managementDetailsGifts',
+          component: managementDetailsGifts,
+          meta: { name: 'gifts', userType: 'provider', serviceTypes: 'all' }
+        },
+        {
+          path: 'history/:id?',
+          name: 'customers.managementDetailsHistory',
+          component: managementDetailsHistory,
+          meta: { name: 'history', userType: 'provider', serviceTypes: 'all' }
         }
       ]
     }]

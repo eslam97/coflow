@@ -23,7 +23,10 @@
         </h4>
       </template>
       <template v-slot:body>
-        zzzzzzzzzz
+        <AddManagementPurchasesForm
+          @addPurchase="addPurchase"
+          :requestLoading="requestLoading"
+        />
       </template>
     </main-modal>
   </div>
@@ -31,10 +34,13 @@
 <script>
 import { core } from '@/config/pluginInit'
 import { managementPurchasesItems } from '../services/data'
+import AddManagementPurchasesForm from '../components/AddManagementPurchasesForm.vue'
 
 export default {
   data () {
     return {
+      reloadTable: false,
+      requestLoading: false,
       items: managementPurchasesItems,
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
@@ -80,10 +86,21 @@ export default {
       ]
     }
   },
-  components: {},
+  components: { AddManagementPurchasesForm },
   methods: {
     openPopup () {
       this.$bvModal.show('AddPurchaseModal')
+    },
+    addPurchase (payload) {
+      console.log('addPurchase: ', payload)
+      this.requestLoading = true
+      this.reloadTable = false
+      setTimeout(() => {
+        this.reloadTable = true
+        core.showSnackbar('success', 'Added Successfully')
+        this.$bvModal.hide('AddPurchaseModal')
+        this.requestLoading = false
+      }, 1000)
     }
   },
   created () {},

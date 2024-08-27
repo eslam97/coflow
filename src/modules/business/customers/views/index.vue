@@ -6,7 +6,7 @@
       <router-link :to="{ name: 'customers.management' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='customers.management'}]">
         Management
       </router-link>
-      <router-link :to="{ name: 'customers.activity' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='customers.activity'}]">
+      <router-link :to="{ name: 'customers.activity' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='customers.purchasess' || $route.name =='customers.gifts' || $route.name =='customers.collections'}]">
         Activity
       </router-link>
     </div>

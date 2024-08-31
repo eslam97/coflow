@@ -4,7 +4,7 @@ import { core } from '@/config/pluginInit'
 import router from './router/index'
 export default () => {
   const apiClient = axios.create({
-    baseURL: 'https://cashflow.redgits.com/CoFlow/apiProvider/',
+    baseURL: 'https://back.coflow.co/Coflow/apiWeb/apiProvider/',
     headers: {
       Authorization: `Bearer ${
         localStorage.getItem('userToken')

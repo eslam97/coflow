@@ -22,5 +22,8 @@ export default {
   },
   changeSort (payload) {
     return Api().post('update-sort', payload)
+  },
+  getListCountries (payload) {
+    return Api().post('countries', payload)
   }
 }

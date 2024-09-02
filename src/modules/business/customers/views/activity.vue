@@ -30,73 +30,10 @@
 
 <script>
 import { core } from '@/config/pluginInit'
-import { purchasessItems } from '../services/data'
 
 export default {
   data () {
-    return {
-      items: purchasessItems,
-      columns: [
-        { label: '#', key: 'id', class: 'text-center', type: 'sort' },
-        { label: 'Admin', key: 'admin', class: 'text-left' },
-        { label: 'Date', key: 'date', class: 'text-left text-bold' },
-        { label: 'Customer', key: 'customer', class: 'text-left' },
-        { label: 'Action', key: 'action', class: 'text-left' },
-        { label: 'Purchase', key: 'purchase', class: 'text-left' },
-        { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Amount', key: 'amount', class: 'text-left', type: 'sort' },
-        { label: 'Status', key: 'status', class: 'text-left' },
-        {
-          label: 'Actions',
-          key: 'actions',
-          class: 'text-left',
-          type: 'actions',
-          actions: [
-            {
-              icon: 'las la-eye',
-              color: 'success-light',
-              text: 'View',
-              actionName: 'showActivity',
-              actionParams: 'fullObj'
-            },
-            {
-              icon: 'las la-folder-plus',
-              color: 'warning',
-              text: 'Edit',
-              actionName: 'showActivityToEdit',
-              actionParams: 'fullObj'
-            },
-            {
-              icon: 'las la-flag',
-              color: 'danger',
-              text: 'Delete',
-              showAlert: true,
-              actionHeader: 'Delete',
-              titleHeader: 'Activity',
-              textContent: 'name',
-              url: 'tickets'
-            }
-          ]
-        }
-      ],
-      filter: { name: '', date: '', action: '', purchase: '', status: '' },
-      actionFilterOptions: [
-        { key: 'Purchase', value: 'Purchase' },
-        { key: 'Refund', value: 'Refund' },
-        { key: 'Expiration', value: 'Expiration' }
-      ],
-      purchaseFilterOptions: [
-        { key: 'Package', value: 'Package' },
-        { key: 'BuyGet', value: 'BuyGet' },
-        { key: 'Ticket', value: 'Ticket' }
-      ],
-      statusFilterOptions: [
-        { key: 'DOP', value: 'DOP' },
-        { key: 'PAID', value: 'PAID' },
-        { key: 'DUE', value: 'DUE' },
-        { key: 'FOP', value: 'FOP' }
-      ]
-    }
+    return {}
   },
   components: {},
   methods: {},

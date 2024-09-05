@@ -32,7 +32,7 @@
     <main-modal id="ViewPurchaseModal">
       <template v-slot:header>
         <h4 class="font-weight-bold">
-          <span class="text-success" >View: </span> Purchase
+          <span class="text-success-light" >View: </span> Purchase
         </h4>
       </template>
       <template v-slot:body>
@@ -60,7 +60,10 @@
         </h4>
       </template>
       <template v-slot:body>
-        <ManagementPurchasesCollect />
+        <ManagementPurchasesCollect
+          @collectPurchase="collectPurchase"
+          :requestLoading="requestLoading"
+        />
       </template>
     </main-modal>
     <main-modal id="RefundPurchaseModal">
@@ -70,7 +73,10 @@
         </h4>
       </template>
       <template v-slot:body>
-        <ManagementPurchasesRefund />
+        <ManagementPurchasesRefund
+          @refundPurchase="refundPurchase"
+          :requestLoading="requestLoading"
+        />
       </template>
     </main-modal>
     <main-modal id="CancelPurchaseModal">
@@ -80,7 +86,10 @@
         </h4>
       </template>
       <template v-slot:body>
-        <ManagementPurchasesCancel />
+        <ManagementPurchasesCancel
+          @cancelPurchase="cancelPurchase"
+          :requestLoading="requestLoading"
+        />
       </template>
     </main-modal>
   </div>
@@ -189,6 +198,39 @@ export default {
         this.reloadTable = true
         core.showSnackbar('success', 'Successfull')
         this.$bvModal.hide('EditPurchaseModal')
+        this.requestLoading = false
+      }, 1000)
+    },
+    collectPurchase () {
+      console.log('collectPurchase: ')
+      this.requestLoading = true
+      this.reloadTable = false
+      setTimeout(() => {
+        this.reloadTable = true
+        core.showSnackbar('success', 'Successfull')
+        this.$bvModal.hide('CollectPurchaseModal')
+        this.requestLoading = false
+      }, 1000)
+    },
+    refundPurchase () {
+      console.log('refundPurchase: ')
+      this.requestLoading = true
+      this.reloadTable = false
+      setTimeout(() => {
+        this.reloadTable = true
+        core.showSnackbar('success', 'Successfull')
+        this.$bvModal.hide('RefundPurchaseModal')
+        this.requestLoading = false
+      }, 1000)
+    },
+    cancelPurchase () {
+      console.log('cancelPurchase: ')
+      this.requestLoading = true
+      this.reloadTable = false
+      setTimeout(() => {
+        this.reloadTable = true
+        core.showSnackbar('success', 'Successfull')
+        this.$bvModal.hide('CancelPurchaseModal')
         this.requestLoading = false
       }, 1000)
     },

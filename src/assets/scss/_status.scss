@@ -25,6 +25,7 @@ $status: ( // Primary status
         "attendance": $blue,
         "Attendance": $blue,
         "creativity":$blue,
+        "dop":$blue,
 
 
   // Colored status
@@ -84,6 +85,9 @@ $status: ( // Primary status
         'submit':$success,
         'submit_student':$success,
         'accepted':$success,
+        'fod':$success,
+        'fop':$success,
+        'paid':$success,
 
 
 
@@ -152,6 +156,7 @@ $status: ( // Primary status
         'not_accepted':$danger,
         'not_accept':$danger,
         "banned":$danger,
+        "due":$danger,
 
 );
 

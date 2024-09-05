@@ -405,6 +405,7 @@ form legend {
     transform: translate(10px, 0);
   }
 }
+.button-modal,
 .button-orange-modal,
 .button-blue-modal {
   display: flex;
@@ -417,6 +418,8 @@ form legend {
   border-radius: 50%;
   box-shadow: 0 4px 10px 0 rgb(0 0 0 / 30%);
   border-color: transparent;
+}
+.button-orange-modal {
   background: var(--iq-warning) !important;
 }
 .button-blue-modal {

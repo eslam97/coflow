@@ -136,7 +136,7 @@ export default {
   },
   methods: {
     addPurchase () {
-      this.$emit('addPurchase', { phoneNumber: this.phoneNumber })
+      this.$emit('addPurchase', this.purchase)
     }
   },
   watch: {},

@@ -14,14 +14,14 @@
       </div>
     </div>
 
-    <div class="my-3 d-flex justify-content-between align-items-center gap-2">
-      <router-link :to="{ name: 'facility.profile' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='facility.profile'}]">
+    <div class="facility-tabs my-3">
+      <router-link :to="{ name: 'facility.profile' }" :class="['text-center py-2', { 'active-facility-tab' : $route.name =='facility.profile'}]">
         Profile
       </router-link>
-      <router-link :to="{ name: 'facility.faqs' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='facility.faqs'}]">
+      <router-link :to="{ name: 'facility.faqs' }" :class="['text-center py-2', { 'active-facility-tab' : $route.name =='facility.faqs'}]">
         FAQs
       </router-link>
-      <router-link :to="{ name: 'facility.payments' }" :class="['w-100 text-center promotion_button py-2', { 'active-tab' : $route.name =='facility.payments'}]">
+      <router-link :to="{ name: 'facility.payments' }" :class="['text-center py-2', { 'active-facility-tab' : $route.name =='facility.payments'}]">
         Payments
       </router-link>
     </div>
@@ -58,5 +58,19 @@ export default {
   gap: 6px;
   background-color: #fff;
   padding: 0.5rem 1rem;
+}
+.facility-tabs {
+  display: flex;
+  a {
+    padding: 0.5rem 5rem;
+    &:hover {
+      color: var(--iq-primary);
+    }
+    &.active-facility-tab {
+      border-bottom: 2px solid #FE9E12;
+      color: var(--iq-primary);
+      font-weight: 700;
+    }
+  }
 }
 </style>

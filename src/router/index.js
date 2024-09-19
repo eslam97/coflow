@@ -28,7 +28,6 @@ import charts from '@/views/Charts/charts.routes'
 import dashboard from '@/modules/business/dashboard/dashboard.routes'
 // import tickets from '@/modules/business/tickets/tickets.routes.js'
 import pricing from '@/modules/business/pricing/pricing.routes'
-import facility from '@/modules/business/facility/facility.routes'
 import businessCustomers from '@/modules/business/customers/customers.routes'
 import goActivities from '@/modules/business/goActivities/goActivities.routes'
 // import bussinessPromotions from '@/modules/business/promotions/promotions.routes'
@@ -110,7 +109,6 @@ const routes = [
   ...charts,
   ...dashboard,
   ...pricing,
-  ...facility,
   ...businessCustomers,
   ...goActivities,
   ...adminFaq,

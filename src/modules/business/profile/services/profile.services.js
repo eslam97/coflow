@@ -8,10 +8,10 @@ export default {
     return Api().post('update-status', payload)
   },
   addImage (payload) {
-    return Api().post('provider-image', payload)
+    return Api().post('new-media', payload)
   },
   removeImage (id) {
-    return Api().get(`remove-provider-image/${id}`)
+    return Api().get(`remove-media/${id}`)
   },
   changePassword (payload) {
     return Api().post('change-password', payload)

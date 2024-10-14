@@ -12,7 +12,7 @@
                 :label="'Facility Email Address'"
             />
           </b-col>
-          <b-col md="8" class="mb-3">
+          <b-col md="4" class="mb-3">
             <input-form
                 v-model="businessRequest.name"
                 placeholder="Ex: The Yoga Studio"
@@ -24,7 +24,17 @@
           </b-col>
           <b-col md="4" class="mb-3">
             <input-form
-                v-model="businessRequest.contact.job"
+              v-model="businessRequest.title"
+              placeholder="Ex: Title"
+              :validate="'required|max:20'"
+              name="Title"
+              :label="'title'"
+              :limit="20"
+            />
+          </b-col>
+          <b-col md="4" class="mb-3">
+            <input-form
+                v-model="businessRequest.contact.title"
                 placeholder="Ex: Owner"
                 :validate="'required'"
                 name="Contact’s Role or Job"
@@ -69,18 +79,18 @@
                 >
                   <b-form-input
                       id="mm"
-                      v-model="item.link"
+                      v-model="item.url"
                       :class="[{ 'is-invalid': errors.length > 0 }]"
                       :placeholder="''"
-                      :disabled="!item.selectSocial"
+                      :disabled="!item.name"
                   />
                 </validation-provider>
                 <template #prepend>
                   <b-dropdown
-                      :text="item.selectSocial ? item.selectSocial : 'Choose'"
+                      :text="item.name ? item.name : 'Choose'"
                       class="selectWithInput"
                   >
-                    <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink" @click="item.selectSocial = i">
+                    <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink" @click="item.name = i">
                       {{i}}
                     </b-dropdown-item>
                   </b-dropdown>
@@ -127,15 +137,16 @@ export default {
       businessRequest: {
         email: '',
         name: '',
+        title: '',
         contact: {
           name: '',
-          job: '',
+          title: '',
           phone: ''
         },
         links: [
           {
-            selectSocial: '',
-            link: ''
+            name: '',
+            url: ''
           }
         ]
       }
@@ -144,8 +155,8 @@ export default {
   methods: {
     addNewLink () {
       this.businessRequest.links.push({
-        selectSocial: '',
-        link: ''
+        name: '',
+        url: ''
       })
     },
     deleteLink (key) {
@@ -164,8 +175,8 @@ export default {
     filterLinks () {
       var newLinksArr = [...this.allLinks]
       this.businessRequest.links.forEach(e => {
-        if (newLinksArr.includes(e.selectSocial)) {
-          var socialIndex = newLinksArr.findIndex(social => social === e.selectSocial)
+        if (newLinksArr.includes(e.name)) {
+          var socialIndex = newLinksArr.findIndex(social => social === e.name)
           console.log(socialIndex)
           newLinksArr.splice(socialIndex, 1)
         }

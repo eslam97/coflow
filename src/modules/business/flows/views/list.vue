@@ -57,7 +57,7 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :list_url="'flows'"
+            :list_url="'services'"
             :service_type="'flow'"
             :reloadData="reloadTable"
             :arrangeMode="arrangeMode"

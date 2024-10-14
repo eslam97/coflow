@@ -21,7 +21,7 @@
               </b-col>
               <b-col md="4" class="mb-3" >
                 <input-form
-                    v-model="info.job"
+                    v-model="info.title"
                     placeholder="Ex: Owner"
                     :validate="'required'"
                     :name="`Role or Job ${key + 1}`"
@@ -36,17 +36,36 @@
                     :name="`Phone Number ${key + 1}`"
                     :label="'Phone Number'"
                 />
-                <span class="text-danger deleteLabelButtonAdmin cursor-pointer" v-if="key != 0"
+                <!-- <span class="text-danger deleteLabelButtonAdmin cursor-pointer" v-if="key != 0"
                       @click="deleteGeneralAdminInformation(key)">Delete Contact
-              </span>
+              </span> -->
+              </b-col>
+              <b-col md="8" class="mb-3 position-relative" >
+                <input-form
+                    v-model="info.email"
+                    placeholder="Ex: user@coflow.com"
+                    :validate="'required'"
+                    :name="`Email ${key + 1}`"
+                    :label="'Email'"
+                />
+              </b-col>
+              <b-col md="4" class="mb-3 position-relative" >
+                <input-form
+                    v-model="info.password"
+                    type="password"
+                    placeholder="********"
+                    :validate="'required'"
+                    :name="`Password ${key + 1}`"
+                    :label="'Password'"
+                />
               </b-col>
             </b-row>
-            <b-row>
+            <!-- <b-row>
               <b-col md="12">
               <span class="text-warning cursor-pointer" @click="addNewGeneralAdminInformation">+ Add another
                 Contact</span>
               </b-col>
-            </b-row>
+            </b-row> -->
             <b-row>
               <b-col md="12" class="mt-3 d-flex justify-content-end">
                 <spinner-loading class="container_button_blue" text="Saving" v-if="loadingGeneralAdminInformation"/>
@@ -75,8 +94,10 @@ export default {
       adminInformation: [
         {
           name: '',
-          job: '',
-          phone: ''
+          email: '',
+          phone: '',
+          password: '',
+          title: ''
         }
       ]
     }
@@ -90,8 +111,10 @@ export default {
     addNewGeneralAdminInformation () {
       this.adminInformation.push({
         name: '',
-        job: '',
-        phone: ''
+        email: '',
+        phone: '',
+        password: '',
+        title: ''
       })
     },
     deleteGeneralAdminInformation (key) {
@@ -99,7 +122,7 @@ export default {
     },
     saveGeneralAdminInformation () {
       this.loadingGeneralAdminInformation = true
-      registrationServices.saveStepAdmin({ contact: this.adminInformation }).then(res => {
+      registrationServices.saveStepAdmin(this.adminInformation[0]).then(res => {
         core.showSnackbar('success', res.data.message)
         this.$store.commit('formSteps/setActiveStepForm', 2)
         localStorage.setItem('formStep', 2)

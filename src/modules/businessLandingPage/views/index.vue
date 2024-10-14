@@ -93,10 +93,10 @@ export default {
       registrationService.login(payload).then(res => {
         core.showSnackbar('success', 'Welcome ' + res.data.data.name)
         localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-        localStorage.setItem('permissions', JSON.stringify(res.data.data.permissions.map(item => item.name)))
-        if (res.data.data.status === 'accepted' || res.data.data.status === 'active lead') {
+        // localStorage.setItem('permissions', JSON.stringify(res.data.data.facility.permissions.map(item => item.name)))
+        if (res.data.data.facility.status === 'accepted' || res.data.data.facility.status === 'active lead') {
           this.$router.push({ name: 'profileInfo' })
-          switch (res.data.data.profile_step) {
+          switch (res.data.data.facility.profile_step) {
             case 'admin':
               this.$store.commit('formSteps/setActiveStepForm', 1)
               localStorage.setItem('formStep', 1)
@@ -123,12 +123,12 @@ export default {
               localStorage.setItem('formStep', 'completed')
               break
           }
-        } else if (res.data.data.status === 'pending activation') {
+        } else if (res.data.data.facility.status === 'pending activation') {
           this.$store.commit('formSteps/setActiveStepForm', 'completed')
           this.$router.push({ name: 'profileComplete' })
           localStorage.setItem('formStep', 'completed')
         } else {
-          if (res.data.data.type === 'admin') {
+          if (res.data.data.facility.type === 'admin') {
             this.$router.push({ name: 'leads' })
           } else this.$router.push({ name: 'dashboard' })
         }

@@ -8,10 +8,10 @@ export default {
     return Api().post('step-facility', payload)
   },
   uploadProviderImage (payload, config) {
-    return Api().post('provider-image', payload, config)
+    return Api().post('new-media', payload, config)
   },
   removeProviderImage (id) {
-    return Api().get(`remove-provider-image/${id}`)
+    return Api().get(`remove-media/${id}`)
   },
   saveStepLocationBased (payload) {
     return Api().post('step-location-based', payload)

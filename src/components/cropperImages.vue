@@ -32,12 +32,11 @@
             </span>
           </div>
       </div>
-
       <div v-if="images" class="d-flex gap-2 flex-wrap">
           <draggable v-model="images" @change="sortImage">
               <transition-group class="d-flex gap-2 flex-wrap">
                   <div class="mb-3"  v-for="(image, key) in images" :key="key">
-                      <div class="img-fluid position-relative avatar-120 rounded-lg finalImage overflow-hidden" :style="{ 'background-image': 'url(' + image.image + ')' }">
+                      <div class="img-fluid position-relative avatar-120 rounded-lg finalImage overflow-hidden" :style="{ 'background-image': 'url(' + image.file || image.image + ')' }">
                           <div class="position-absolute top-0 left-0 w-100 h-100 bg-drag d-flex justify-content-center align-items-center">
                               <i class="las la-arrows-alt text-warning"></i>
                           </div>

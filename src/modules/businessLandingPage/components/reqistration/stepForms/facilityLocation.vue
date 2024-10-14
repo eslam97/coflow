@@ -67,10 +67,11 @@
             </b-col>
           </b-row>
             <b-row>
+              <!-- {{ getAllReservationLinkWithoutYoutube }} -->
                 <b-col md="12">
                     <main-select labelTitle='Reservation Link' :validate="'required'"
                                  :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
-                                 label="selectSocial"
+                                 label="name"
                                  :reduce="data=> data"
                                  v-model="reservation_contact"></main-select>
                 </b-col>
@@ -274,7 +275,7 @@ export default {
   computed: {
     getAllReservationLinkWithoutYoutube () {
       var newLinksArr = [...this.allLinks]
-      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      const ind = newLinksArr.findIndex(data => data.name === 'Youtube')
       if (ind > -1) {
         newLinksArr.splice(ind, 1)
       }

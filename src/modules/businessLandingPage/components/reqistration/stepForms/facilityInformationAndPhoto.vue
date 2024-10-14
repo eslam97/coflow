@@ -10,22 +10,14 @@
         <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveFacilityInformation($event))">
           <b-row>
-            <b-col md="2" class="mb-3">
+            <b-col md="3" class="mb-3">
               <main-select labelTitle='Activity Line' :validate="'required'"
-                           @change="getChangeActivityTypesDependOnActivityLine()"
                            :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
                            label="name"
                            :reduce="data=> data.id"
                            v-model="info.activity_line_id"></main-select>
             </b-col>
-            <b-col class="mb-3" md="2">
-              <main-select labelTitle='Activity Type' :validate="'required'"
-                           :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
-                           label="name"
-                           :reduce="data=> data.id"
-                           v-model="info.activity_type_id"></main-select>
-            </b-col>
-            <b-col class="mb-3" md="2">
+            <b-col class="mb-3" md="3">
               <input-form
                   placeholder="Ex: 2022"
                   :validate="`required|numeric|between:10,${new Date().getFullYear()}`"
@@ -61,19 +53,25 @@
                            :multiple="true"
                            :name="`languages`" placeholder="Search" :options="allLanguages"
                            label="name"
-                           :reduce="data=> data.name"
+                           :reduce="data=> data.id"
                            v-model="info.languages"></main-select>
             </b-col>
           </b-row>
           <b-row>
             <b-col class="mb-3" md="12">
-              <main-select labelTitle='Facility Tags' :validate="'required'"
+              <main-select labelTitle='Choose Tags' :validate="'required'"
+              :multiple="true"
+              :name="`tags`" placeholder="Search" :options="allTags"
+              label="name"
+              :reduce="data=> data.id"
+              v-model="info.tags"></main-select>
+              <!-- <main-select labelTitle='Facility Tags' :validate="'required'"
                            :taggable="true"
                            multiple v-model="info.tags"
                            :name="`tags`" placeholder="Write Tags"
                            :numberOfSelect=3
                            >
-              </main-select>
+              </main-select> -->
             </b-col>
           </b-row>
           <b-row>
@@ -119,26 +117,26 @@
                 <b-input-group>
                   <validation-provider
                       #default="{ errors }"
-                      :name="`URL Link ${key + 1}`"
+                      :name="`URL url ${key + 1}`"
                       :rules="'required'"
                       class="flex-grow-1"
                   >
                     <b-form-input
                         id="mm"
                         :validate="'required'"
-                        v-model="item.link"
+                        v-model="item.url"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="''"
-                        :disabled="!item.selectSocial"
+                        :disabled="!item.name"
                     />
                   </validation-provider>
                   <template #prepend>
                     <b-dropdown
-                        :text="item.selectSocial ? item.selectSocial : 'Choose'"
+                        :text="item.name ? item.name : 'Choose'"
                         class="selectWithInput"
                     >
                       <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
-                                       @click="item.selectSocial = i.name">
+                                       @click="item.name = i.name">
                         {{i.name}}
                       </b-dropdown-item>
                     </b-dropdown>
@@ -224,7 +222,7 @@ export default {
       test: true,
       info: {
         activity_line_id: '',
-        activity_type_id: '',
+        // activity_type_id: '',
         year: '',
         name: '',
         title: '',
@@ -234,11 +232,29 @@ export default {
         amenities: [],
         links: [
           {
-            selectSocial: '',
-            link: ''
+            name: '',
+            url: ''
           }
         ]
       },
+      allTags: [
+        {
+          id: 1,
+          name: 'tag1'
+        },
+        {
+          id: 2,
+          name: 'tag2'
+        },
+        {
+          id: 3,
+          name: 'tag3'
+        },
+        {
+          id: 4,
+          name: 'tag4'
+        }
+      ],
       providerId: JSON.parse(localStorage.getItem('userInfo')).id,
       progressCover: 0,
       fileInfo: {},
@@ -261,13 +277,6 @@ export default {
     }
   },
   methods: {
-    getChangeActivityTypesDependOnActivityLine () {
-      this.allActivityTypes = []
-      this.info.activity_type_id = ''
-      settingsService.getActivityTypesDependOnActivityLine(this.info.activity_line_id).then(res => {
-        this.allActivityTypes = res.data.data
-      })
-    },
     saveFacilityInformation (e) {
       if (this.coverFlag && this.logoFlag && this.allImages.length > 0) {
         this.loadingFacilityInformation = true
@@ -276,7 +285,7 @@ export default {
           this.$store.commit('formSteps/setActiveStepForm', 3)
           localStorage.setItem('allLinks', JSON.stringify([...this.info.links,
             {
-              selectSocial: 'Contact Number',
+              name: 'Contact Number',
               link: ''
             }]))
           localStorage.setItem('formStep', 3)
@@ -340,10 +349,11 @@ export default {
     },
     saveGalleryImage (data) {
       this.removeLoadingUi = false
+      const allImages = []
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
-      formData.append('type', 'gallery')
+      formData.append('type', 'image')
       formData.append('provider_id', this.providerId)
       const options = {
         onUploadProgress: (progressEvent) => {
@@ -354,9 +364,10 @@ export default {
       }
       registrationServices.uploadProviderImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.allImages.push(res.data.data)
+        allImages.push(res.data.data)
         this.removeLoadingUi = true
       })
+      this.allImages = allImages
     },
     removeGalleryImage (id) {
       registrationServices.removeProviderImage(id).then(res => {
@@ -367,7 +378,7 @@ export default {
     },
     addNewLink () {
       this.info.links.push({
-        selectSocial: '',
+        name: '',
         link: ''
       })
     },
@@ -413,7 +424,7 @@ export default {
       var newLinksArr = [...this.allLinks]
       this.info.links.forEach(e => {
         newLinksArr.forEach(arr => {
-          if (arr.name === e.selectSocial) {
+          if (arr.name === e.name) {
             var socialIndex = newLinksArr.findIndex(item => item === arr)
             newLinksArr.splice(socialIndex, 1)
           }
@@ -444,7 +455,7 @@ export default {
       this.allImages = this.providerInfo.images
       this.info = {
         activity_line_id: this.providerInfo.activity_line_id,
-        activity_type_id: this.providerInfo.activity_type_id,
+        // activity_type_id: this.providerInfo.activity_type_id,
         year: this.providerInfo.year,
         name: this.providerInfo.name,
         title: this.providerInfo.title,

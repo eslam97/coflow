@@ -78,7 +78,7 @@ export default {
         { label: 'Purchase', key: 'purchase', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Amount', key: 'amount', class: 'text-left', type: 'sort' },
-        { label: 'Status', key: 'status', class: 'text-left' },
+        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         {
           label: 'Actions',
           key: 'actions',

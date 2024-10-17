@@ -104,5 +104,10 @@ export default {
   },
   addAmenity (payload) {
     return Api().post('amenities', payload)
+  },
+
+  // Services
+  getAllServices () {
+    return Api().get('services')
   }
 }

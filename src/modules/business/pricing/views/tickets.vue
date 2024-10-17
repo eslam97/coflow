@@ -7,31 +7,33 @@
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Ticket</h4>
       </template>
       <template v-slot:body>
-        <ticket-details @addTicket="addTicket"
-                        @editTicket="editTicket"
-                        :requestLoading="requestLoading"
-                        :ticketDetails="ticketDetails"
-                        :typeOfModal="typeOfModal"/>
+        <ticket-details
+          @createTicket="createTicket"
+          @updateTicket="updateTicket"
+          :requestLoading="requestLoading"
+          :ticketDetails="ticketDetails"
+          :typeOfModal="typeOfModal"
+        />
       </template>
     </main-modal>
+
     <!--  View Modal  -->
     <main-modal id="ticketDetailsViewModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Ticket</h4>
       </template>
       <template v-slot:borderHeader>
-        <p class="p-4 px-5 borderHeaderModal">
-          {{ticketDetails.name}}
-        </p>
+        <p class="p-4 px-5 borderHeaderModal">{{ ticketDetails.name }}</p>
       </template>
       <template v-slot:body>
         <ticket-view :ticketDetails="ticketDetails"/>
       </template>
     </main-modal>
+
     <b-row>
       <div v-if="arrangeMode" class="position-absolute arrange-overlay">
-        <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected
-          item</p></div>
+        <p class="position-absolute arrange-text text-warning">You are in arrange mode now, specify the order of the selected item</p>
+      </div>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>Tickets</h3>
         <div class="d-flex justify-content-between gap-20">
@@ -45,13 +47,13 @@
       </b-col>
       <b-col lg="12">
         <main-table
-            :fields="columns"
-            class="mb-0 table-borderless"
-            @sortChanged="sortChanged"
-            :list_url="'tickets'"
-            :reloadData="reloadTable"
-            :service_type="'ticket'"
-            :arrangeMode="arrangeMode"
+          :fields="columns"
+          class="mb-0 table-borderless"
+          @sortChanged="sortChanged"
+          :list_url="'tickets'"
+          :reloadData="reloadTable"
+          :service_type="'ticket'"
+          :arrangeMode="arrangeMode"
         >
         </main-table>
       </b-col>
@@ -71,16 +73,10 @@ export default {
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
         { label: 'Ticket Name', key: 'name', class: 'text-left' },
-        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
-        // { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        // { label: 'Ticket Name', key: 'name', class: 'text-left' },
-        // { label: 'Details', key: 'details', class: 'text-left' },
-        // { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        // { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        /*   { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
+        { label: 'Price', key: 'price', class: 'text-left' },
+        { label: 'Discounted Price', key: 'discount_price', class: 'text-left' },
+        { label: 'Currency', key: 'currency', class: 'text-left' },
+        { label: 'Purchases', key: 'purchases', class: 'text-left' },
         {
           label: 'Change Status',
           key: 'change_status',
@@ -142,10 +138,10 @@ export default {
       this.ticketDetails = false
       this.$bvModal.show('ticketsDetailsModal')
     },
-    addTicket (ticket) {
+    createTicket (ticket) {
       this.requestLoading = true
       this.reloadTable = false
-      ticketServices.addNewTicket(ticket).then(res => {
+      ticketServices.createTicket(ticket).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('ticketsDetailsModal')
@@ -153,10 +149,10 @@ export default {
         this.requestLoading = false
       })
     },
-    editTicket (ticket) {
+    updateTicket (ticket) {
       this.requestLoading = true
       this.reloadTable = false
-      ticketServices.editTicket(this.ticketId, ticket).then(res => {
+      ticketServices.updateTicket(this.ticketId, ticket).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('ticketsDetailsModal')

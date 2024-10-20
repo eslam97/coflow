@@ -304,8 +304,8 @@ export default {
     },
     getSchedule () {
       this.requestLoading = true
-      calendarServices.getAllSlots().then(res => {
-        this.allSlots = res.data.data.data
+      calendarServices.getAllSlots({ from: this.getDays[0], to: this.getDays[6] }).then(res => {
+        this.allSlots = res?.data?.data || []
         this.requestLoading = false
       })
     },
@@ -397,7 +397,7 @@ export default {
   },
   created () {
     this.getSchedule()
-    this.getAllFlows()
+    // this.getAllFlows()
     EventBus.$on('reloadTableAfterDelete', ifReload => {
       this.$bvModal.hide('scheduleDetailsModal')
       this.getSchedule()
@@ -442,6 +442,11 @@ export default {
       } else {
         return `${fristMonth}, ${fristYear} - ${endMonth}, ${endYear}`
       }
+    }
+  },
+  watch: {
+    currentDate () {
+      this.getSchedule()
     }
   }
 }

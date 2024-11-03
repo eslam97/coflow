@@ -14,6 +14,6 @@ export default {
   },
 
   editBranch: (id, payload) => {
-    return Api().post(`branhces/${id}`, payload)
+    return Api().post(`branches/${id}`, payload)
   }
 }

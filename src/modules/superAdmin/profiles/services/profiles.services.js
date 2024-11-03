@@ -2,13 +2,13 @@ import Api from '@/axios'
 
 export default {
   getActivationDetails (id) {
-    return Api().get(`providers/${id}`)
+    return Api().get(`facilities/${id}`)
   },
   addNewProfile (payload) {
-    return Api().post('providers', payload)
+    return Api().post('facilities', payload)
   },
   editProfile (id, payload) {
-    return Api().post(`providers/${id}`, payload)
+    return Api().post(`facilities/${id}`, payload)
   },
   changeProfileCanLogin (id, payload) {
     return Api().post(`can-login/${id}`, payload)

@@ -164,7 +164,7 @@
         <main-table
             :fields="columns"
             class="mb-0 table-borderless"
-            :list_url="'providers'"
+            :list_url="'facilities'"
             :reloadData="reloadTable"
             @sortChanged="sortChanged"
             :custom-filter="filter"
@@ -187,8 +187,8 @@ export default {
       columns: [
         '#',
         { label: 'Facility Name', key: 'name', class: 'text-left' },
-        { label: 'Account Type', key: 'service_types', class: 'text-left' },
-        { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
+        { label: 'Account Type', key: 'facility_type', class: 'text-left' },
+        // { label: 'Profile Type', key: 'profile_type', class: 'text-left' },
         { label: 'Governorate', key: 'city.name', class: 'text-left' },
         { label: 'Area', key: 'area.name', class: 'text-left' },
         { label: 'Year', key: 'year', class: 'text-left', sortable: true },

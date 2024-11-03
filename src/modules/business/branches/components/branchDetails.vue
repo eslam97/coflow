@@ -1,7 +1,7 @@
 <template>
   <div>
-    <validationObserver v-slot="{}">
-      <b-form>
+    <validationObserver v-slot="{ handleSubmit }">
+      <b-form @submit.prevent="handleSubmit(addBranch)">
         <b-row class="">
           <b-col lg="6" class="">
             <input-form
@@ -97,6 +97,8 @@
 <script>
 import profileServices from '@/modules/business/profile/services/profile.services'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+import branchesServices from '../services/branches.services'
+import { core } from '@/config/pluginInit'
 
 export default {
   data () {
@@ -104,7 +106,7 @@ export default {
       branch: {
         name: '',
         email: '',
-        title: '',
+        title: 'test',
         year: ''
       },
       typeOfModal: 'add',
@@ -126,6 +128,12 @@ export default {
     getAllActivityLine () {
       settingsService.getAllActivityLine().then(res => {
         this.allActivityLines = res.data.data
+      })
+    },
+    addBranch () {
+      branchesServices.addNewBranch(this.branch).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$emit('finished')
       })
     }
   },

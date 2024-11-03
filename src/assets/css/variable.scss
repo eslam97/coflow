@@ -33,3 +33,10 @@
     --co-green: #028810;
     --co-orange: #FE9E12;
 }
+.text-co-orange {
+    color: var(--co-orange) !important;
+}
+
+.bg-co-orange {
+    background-color: var(--co-orange) !important;
+}

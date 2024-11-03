@@ -8,13 +8,13 @@
               :name="`Flow`" placeholder="Pick flow" :options="allFlows"
               label="name" :disabled="typeOfModal === 'edit'"
               :reduce="data => data.id"
-              v-model="schedule.flow_id"
+              v-model="calendar.flow_id"
             ></main-select>
           </b-col>
           <b-col
             md="12"
             class="position-relative mb-4 border-bottom"
-            v-for="(slot, slotKey) in schedule.slots" :key="slotKey"
+            v-for="(slot, slotKey) in calendar.slots" :key="slotKey"
           >
             <b-row class="d-flex align-items-center mb-4">
               <b-col md="4" >
@@ -43,8 +43,8 @@
               <b-col md="12">
                 <main-select labelTitle='Instructor' :validate="'required'"
                   :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
-                  :options="!schedule.flow_id ? '':
-                  allFlows.find((flow) => flow.id === schedule.flow_id).instructors"
+                  :options="!calendar.flow_id ? '':
+                  allFlows.find((flow) => flow.id === calendar.flow_id).instructors"
                   label="first_name"
                   :multiple="true"
                   :reduce="data => data.first_name"
@@ -116,7 +116,7 @@ export default {
       type: String,
       default: 'add'
     },
-    scheduleDetails: {
+    calendarDetails: {
       type: Object
     },
     allFlows: {
@@ -125,7 +125,7 @@ export default {
   },
   data () {
     return {
-      schedule: {
+      calendar: {
         slots: [{
           id: '',
           day: [],
@@ -168,22 +168,22 @@ export default {
   methods: {
     addSlots () {
       if (this.typeOfModal === 'add') {
-        this.$emit('addSlots', this.schedule)
+        this.$emit('addSlots', this.calendar)
       } else {
-        this.schedule.slots[0].status = this.scheduleDetails.status
-        this.schedule.slots[0].from = this.schedule.slots[0].from.slice(0, 5)
-        this.schedule.slots[0].to = this.schedule.slots[0].to.slice(0, 5)
-        this.schedule.slots[0].ladies_only = +this.schedule.slots[0].ladies_only
+        this.calendar.slots[0].status = this.calendarDetails.status
+        this.calendar.slots[0].from = this.calendar.slots[0].from.slice(0, 5)
+        this.calendar.slots[0].to = this.calendar.slots[0].to.slice(0, 5)
+        this.calendar.slots[0].ladies_only = +this.calendar.slots[0].ladies_only
         const obj = {
-          flow_id: this.schedule.flow_id,
-          ...this.schedule.slots[0],
+          flow_id: this.calendar.flow_id,
+          ...this.calendar.slots[0],
           _method: 'put'
         }
-        this.$emit('editSlot', this.schedule.slots[0].id, obj)
+        this.$emit('editSlot', this.calendar.slots[0].id, obj)
       }
     },
     addNewSlot () {
-      this.schedule.slots.push({
+      this.calendar.slots.push({
         days: [],
         from: '',
         to: '',
@@ -192,27 +192,27 @@ export default {
       })
     },
     deleteSlot (ind) {
-      this.schedule.slots.splice(ind, 1)
+      this.calendar.slots.splice(ind, 1)
     }
   },
   created () {
-    if (this.scheduleDetails) {
-      this.schedule = {
+    if (this.calendarDetails) {
+      this.calendar = {
         slots: [{
-          id: this.scheduleDetails.slotId,
-          day: this.scheduleDetails.day,
-          from: this.scheduleDetails.from,
-          to: this.scheduleDetails.to,
-          instructor: this.scheduleDetails.instructor,
-          ladies_only: +this.scheduleDetails.ladies_only,
-          status: this.scheduleDetails.status
+          id: this.calendarDetails.slotId,
+          day: this.calendarDetails.day,
+          from: this.calendarDetails.from,
+          to: this.calendarDetails.to,
+          instructor: this.calendarDetails.instructor,
+          ladies_only: +this.calendarDetails.ladies_only,
+          status: this.calendarDetails.status
         }],
         status: 'active',
-        flow_id: this.scheduleDetails.flow_id,
-        flow_name: this.scheduleDetails.flow.name
+        flow_id: this.calendarDetails.flow_id,
+        flow_name: this.calendarDetails.flow.name
       }
     }
-    console.log(this.schedule)
+    console.log(this.calendar)
   }
 
 }

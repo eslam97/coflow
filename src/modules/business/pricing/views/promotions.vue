@@ -94,21 +94,29 @@
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <div class="w-50 pr-2">
           <b-button :class="['w-100 promotion_button py-2', { 'active-tab' : isSelected('current')}]"
-                    @click="type='current'; pagination.currentPage = 1">
+                    @click="activeTab='current'">
             Current
           </b-button>
         </div>
         <div class="w-50 pl-2">
           <b-button :class="['w-100 promotion_button py-2', { 'active-tab' : isSelected('history')}]"
-                    @click="type='history'; pagination.currentPage = 1">
+                    @click="activeTab='history'">
             History
           </b-button>
         </div>
       </b-col>
       <b-col lg="12">
-        <b-table :busy="loadingTable" show-empty responsive :items="data" :fields="columns" class="mb-0 table-borderless"
-                 sort-icon-left
-                  primary-key="name" id="my-table" :tbody-transition-props="transProps">
+        <b-table
+          :busy="loadingTable"
+          show-empty
+          responsive
+          :items="activeTab=='current' ? (data.current.data || []) : (data.history.data || [])"
+          :fields="columns"
+          class="mb-0 table-borderless"
+          sort-icon-left
+          primary-key="name"
+          id="my-table"
+          :tbody-transition-props="transProps">
           <template #table-busy>
             <div class="text-center text-danger my-2">
               <b-spinner
@@ -124,7 +132,7 @@
             <p class="m-0 p-0 text-offer" v-else>{{ data.item.discount_price_egp }}%</p>
           </template>
           <template v-slot:cell(actions)="data">
-            <b-button variant="danger" v-if="type === 'current'" @click="end(data.item)" class="w-100 rounded-0">End</b-button>
+            <b-button variant="danger" v-if="activeTab === 'current'" @click="end(data.item)" class="w-100 rounded-0">End</b-button>
             <span v-else class="d-flex justify-content-around">
               <b-button variant="info"  @click="reEnd(data.item.id)" class="w-40 rounded-0">
               Re-Add</b-button>
@@ -133,20 +141,6 @@
             </span>
           </template>
         </b-table>
-        <b-pagination
-            v-if="pagination.total > pagination.per_page"
-            v-model="pagination.currentPage"
-            :total-rows="pagination.total"
-            :per-page="pagination.per_page"
-            first-number
-            last-number
-            class="mb-3 mt-1 mt-sm-0"
-            prev-class="prev-item"
-            next-class="next-item"
-            align="right"
-            @input="getAllData"
-        >
-        </b-pagination>
       </b-col>
     </b-row>
   </div>
@@ -167,24 +161,20 @@ export default {
         name: 'flip-list'
       },
       allData: [],
-      pagination: {
-        currentPage: 1,
-        per_page: 10,
-        total: 6
-      },
       columns: [
-        { label: 'Promotion Type', key: 'promotion_type', class: 'text-left text-capitalize' },
-        { label: 'Offer', key: 'offer', class: 'text-left', type: 'offer' },
+        { label: 'Offer name', key: 'name', class: 'text-left', type: 'offer' },
+        { label: 'Type', key: 'type', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
-        { label: 'Offer Title', key: 'offer_title', class: 'text-left' },
-        { label: 'Likes', key: 'likes', class: 'text-left' },
         { label: 'Views', key: 'views', class: 'text-left' },
+        { label: 'Likes', key: 'likes', class: 'text-left' },
+        { label: 'Limit', key: 'payment_limit', class: 'text-left' },
+        { label: 'Purchases', key: 'purchases', class: 'text-left' },
         { label: 'Actions', key: 'actions', class: 'text-left' }
       ],
       typeOfModal: 'add',
       data: [],
-      type: 'current',
+      activeTab: 'current',
       loadingTable: false,
       rowId: '',
       editPromotions: {
@@ -209,26 +199,17 @@ export default {
     promotionDetails,
     endModal
   },
-  watch: {
-    type () {
-      this.getAllData()
-    }
-  },
   methods: {
     isSelected (data) {
-      if (this.type === data) {
+      if (this.activeTab === data) {
         return true
       }
     },
     getAllData () {
       this.loadingTable = true
-      promotionsServices.getAllPromotions(this.pagination.currentPage, this.type).then(res => {
-        this.data = res.data.data.data
-        this.pagination = {
-          currentPage: res.data.data.current_page,
-          per_page: res.data.data.per_page,
-          total: res.data.data.total
-        }
+      promotionsServices.getAllPromotions().then(res => {
+        this.data = res.data.data
+        console.log('res.data.data:', res.data.data)
       }).finally(() => {
         this.loadingTable = false
       })

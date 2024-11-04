@@ -45,14 +45,14 @@
             />
           </b-col>
 
-          <b-col>
+          <b-col md="12">
             <b-form-group label="Customer Reservations" v-slot="{ ariaDescribedby }">
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_show_reservations" :aria-describedby="ariaDescribedby" name="calendar_show_reservations" value="visible">Visible</b-form-radio>
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_show_reservations" :aria-describedby="ariaDescribedby" name="calendar_show_reservations" value="private">Private</b-form-radio>
             </b-form-group>
           </b-col>
 
-          <b-col>
+          <b-col md="12">
             <b-form-group label="Calendar Visibility" v-slot="{ ariaDescribedby }">
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="public">Public</b-form-radio>
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="customers">Customers</b-form-radio>

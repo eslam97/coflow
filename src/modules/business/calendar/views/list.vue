@@ -253,11 +253,21 @@ export default {
       this.$bvModal.show('calendarSettings')
     },
     saveSettings (settings) {
+      // this.requestLoading = true
+      // console.log('settings:', settings)
+      // setTimeout(() => {
+      //   this.$bvModal.hide('calendarSettings')
+      //   this.requestLoading = false
+      // }, 1000)
+
       this.requestLoading = true
-      setTimeout(() => {
+      calendarServices.updateSettings(settings).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getCalendar()
         this.$bvModal.hide('calendarSettings')
+      }).finally(() => {
         this.requestLoading = false
-      }, 1000)
+      })
     },
     openPopup () {
       this.calendarId = ''

@@ -6,8 +6,8 @@
           <b-col md="8">
             <input-form
               label="Slot Capacity"
-              name="slotCapacity"
-              v-model="settings.slotCapacity"
+              name="calendar_capacity"
+              v-model="settings.calendar_capacity"
               placeholder="5"
               :validate="'required|max:50'"
               :limit="50"
@@ -17,7 +17,6 @@
             <input-form
               label="Customers"
               name="customers"
-              v-model="settings.customers"
               placeholder="customers"
               :validate="'max:50'"
               :limit="50"
@@ -28,8 +27,8 @@
           <b-col md="8">
             <input-form
               label="Customer Cancellation"
-              name="customerCancellation"
-              v-model="settings.customerCancellation"
+              name="calendar_cancellation"
+              v-model="settings.calendar_cancellation"
               placeholder="2"
               :validate="'required|max:50'"
               :limit="50"
@@ -39,7 +38,6 @@
             <input-form
               label="Hour (s)"
               name="hours"
-              v-model="settings.hours"
               placeholder="Hour (s)"
               :validate="'max:50'"
               :limit="50"
@@ -49,8 +47,16 @@
 
           <b-col>
             <b-form-group label="Customer Reservations" v-slot="{ ariaDescribedby }">
-              <b-form-radio class="custom-radio-color-checked" v-model="settings.customerReservations" :aria-describedby="ariaDescribedby" name="customerReservations" value="Visible">Visible</b-form-radio>
-              <b-form-radio class="custom-radio-color-checked" v-model="settings.customerReservations" :aria-describedby="ariaDescribedby" name="customerReservations" value="Private">Private</b-form-radio>
+              <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_show_reservations" :aria-describedby="ariaDescribedby" name="calendar_show_reservations" value="visible">Visible</b-form-radio>
+              <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_show_reservations" :aria-describedby="ariaDescribedby" name="calendar_show_reservations" value="private">Private</b-form-radio>
+            </b-form-group>
+          </b-col>
+
+          <b-col>
+            <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+              <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="public">Public</b-form-radio>
+              <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="customers">Customers</b-form-radio>
+              <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="private">Private</b-form-radio>
             </b-form-group>
           </b-col>
 
@@ -77,11 +83,12 @@ export default {
   data () {
     return {
       settings: {
-        slotCapacity: '',
-        customers: '',
-        customerCancellation: '',
-        hours: '',
-        customerReservations: 'Visible'
+        calendar_capacity: '',
+        // customers: '',
+        calendar_cancellation: '',
+        // hours: '',
+        calendar_show_reservations: 'visible',
+        calendar_status: 'public'
       }
     }
   },

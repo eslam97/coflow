@@ -39,7 +39,7 @@
           </svg>
           <div>
             <span>Total Tickets</span>
-            <span class="number">50</span>
+            <span class="number">{{ info.total_tickets }}</span>
           </div>
         </div>
         <div class="statistics-item">
@@ -51,7 +51,7 @@
           </svg>
           <div>
             <span>Total Promotions</span>
-            <span class="number">50</span>
+            <span class="number">{{ info.total_promotions }}</span>
           </div>
         </div>
         <div class="statistics-item">
@@ -89,7 +89,7 @@
           </svg>
           <div>
             <span>Likes</span>
-            <span class="number">50</span>
+            <span class="number">{{ info.total_likes}}</span>
           </div>
         </div>
       </div>
@@ -111,7 +111,11 @@
 <script>
 
 export default {
-  props: {},
+  props: {
+    info: {
+      type: Object
+    }
+  },
   data () {
     return {}
   },

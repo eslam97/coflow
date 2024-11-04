@@ -16,8 +16,12 @@ export default {
   },
   clearCalendar (payload) {
     return Api().post('calender-clear', payload)
-  }
+  },
   // getCalendarDetails (id) {
   //   return Api().get(`calendars/${id}`)
   // },
+
+  getAllServicesLimit () {
+    return Api().get('services?limit=1000')
+  }
 }

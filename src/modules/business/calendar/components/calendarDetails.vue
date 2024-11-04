@@ -4,11 +4,16 @@
       <b-form @submit.prevent="handleSubmit(addSlots)">
         <b-row>
           <b-col md="12" class="mb-3">
-            <main-select labelTitle='Flow' :validate="'required'"
-              :name="`Flow`" placeholder="Pick flow" :options="allFlows"
-              label="name" :disabled="typeOfModal === 'edit'"
+            <main-select
+              labelTitle='Flow'
+              :validate="'required'"
+              :name="`Flow`"
+              placeholder="Pick flow"
+              :options="allServices"
+              label="name"
+              :disabled="typeOfModal === 'edit'"
               :reduce="data => data.id"
-              v-model="calendar.flow_id"
+              v-model="calendar.service_id"
             ></main-select>
           </b-col>
           <b-col
@@ -18,10 +23,13 @@
           >
             <b-row class="d-flex align-items-center mb-4">
               <b-col md="4" >
-                <main-select labelTitle='Day of the week' :validate="'required'"
-                  :name="`Day ${slotKey + 1}`"  placeholder="Choose" :options="allDays"
+                <main-select
+                  labelTitle='Day of the week'
+                  :validate="'required'"
+                  :name="`Day ${slotKey + 1}`"
+                  placeholder="Choose"
+                  :options="allDays"
                   label="key"
-                  :multiple="typeOfModal==='add'"
                   :reduce="data => data.value"
                   v-model="slot.day"
                 ></main-select>
@@ -43,11 +51,11 @@
               <b-col md="12">
                 <main-select labelTitle='Instructor' :validate="'required'"
                   :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
-                  :options="!calendar.flow_id ? '':
-                  allFlows.find((flow) => flow.id === calendar.flow_id).instructors"
+                  :options="!calendar.service_id ? '':
+                  allServices.find((flow) => flow.id === calendar.service_id).instructors"
                   label="first_name"
                   :multiple="true"
-                  :reduce="data => data.first_name"
+                  :reduce="data => data.id"
                   v-model="slot.instructor"
                 ></main-select>
               </b-col>
@@ -71,13 +79,13 @@
               @click="deleteSlot(slotKey)"
             >Delete</span>
           </b-col>
-          <b-col md="12" class="mb-3">
+          <!-- <b-col md="12" class="mb-3">
             <span
               v-if="(typeOfModal === 'add')"
               class="text-warning cursor-pointer deleteLabelButton px-3"
               @click="addNewSlot"
             >+Add another slot(s)</span>
-          </b-col>
+          </b-col> -->
         </b-row>
         <b-row v-if="typeOfModal != 'view'">
           <b-col md="12" class="mt-4">
@@ -119,7 +127,7 @@ export default {
     calendarDetails: {
       type: Object
     },
-    allFlows: {
+    allServices: {
       type: Object
     }
   },
@@ -136,32 +144,17 @@ export default {
           status: ''
         }],
         status: 'active',
-        flow_id: '',
+        service_id: '',
         flow_name: ''
       },
       allDays: [
-        {
-          key: 'Saturday',
-          value: 'saturday'
-        }, {
-          key: 'Sunday',
-          value: 'sunday'
-        }, {
-          key: 'Monday',
-          value: 'monday'
-        }, {
-          key: 'Tuesday',
-          value: 'tuesday'
-        }, {
-          key: 'Wednesday',
-          value: 'wednesday'
-        }, {
-          key: 'Thursday',
-          value: 'thursday'
-        }, {
-          key: 'Friday',
-          value: 'friday'
-        }
+        { key: 'Saturday', value: 6 },
+        { key: 'Sunday', value: 0 },
+        { key: 'Monday', value: 1 },
+        { key: 'Tuesday', value: 2 },
+        { key: 'Wednesday', value: 3 },
+        { key: 'Thursday', value: 4 },
+        { key: 'Friday', value: 5 }
       ]
     }
   },
@@ -175,7 +168,7 @@ export default {
         this.calendar.slots[0].to = this.calendar.slots[0].to.slice(0, 5)
         this.calendar.slots[0].ladies_only = +this.calendar.slots[0].ladies_only
         const obj = {
-          flow_id: this.calendar.flow_id,
+          service_id: this.calendar.service_id,
           ...this.calendar.slots[0],
           _method: 'put'
         }
@@ -208,7 +201,7 @@ export default {
           status: this.calendarDetails.status
         }],
         status: 'active',
-        flow_id: this.calendarDetails.flow_id,
+        service_id: this.calendarDetails.service_id,
         flow_name: this.calendarDetails.flow.name
       }
     }

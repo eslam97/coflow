@@ -34,7 +34,7 @@
           @editSlot="editSlot"
           :requestLoading="requestLoading"
           :calendarDetails="calendarDetails"
-          :allFlows="allFlows"
+          :allServices="allServices"
           :typeOfModal="typeOfModal"
         />
       </template>
@@ -192,7 +192,6 @@ import { core } from '@/config/pluginInit'
 import calendarDetails from '@/modules/business/calendar/components/calendarDetails'
 import calendarSettings from '@/modules/business/calendar/components/calendarSettings'
 import calendarServices from '@/modules/business/calendar/services/calendar.sevices'
-import flowsServices from '@/modules/business/flows/services/flows.services'
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
 
@@ -203,7 +202,7 @@ export default {
       typeOfModal: 'add',
       calendarDetails: {},
       calendarId: '',
-      allFlows: [],
+      allServices: [],
       allSlots: [],
       levels: [
         {
@@ -291,7 +290,20 @@ export default {
     },
     addSlots (calendar) {
       this.requestLoading = true
-      calendarServices.setNewSlot(calendar).then(res => {
+      const payload = {
+        slots: [
+          {
+            service_id: calendar.service_id,
+            date: this.getDays[calendar.slots[0].day],
+            from: calendar.slots[0].from,
+            to: calendar.slots[0].to,
+            instructors: calendar.slots[0].instructor,
+            ladies_only: calendar.slots[0].ladies_only
+          }
+        ]
+      }
+
+      calendarServices.setNewSlot(payload).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getCalendar()
         this.$bvModal.hide('calendarDetailsModal')
@@ -319,10 +331,10 @@ export default {
         this.$bvModal.show('calendarDetailsModal')
       })
     },
-    getAllFlows () {
+    getAllServices () {
       this.requestLoading = true
-      flowsServices.getAllFlowsLimit().then(res => {
-        this.allFlows = res.data.data.data
+      calendarServices.getAllServicesLimit().then(res => {
+        this.allServices = res.data.data.data
         this.requestLoading = false
       })
     },
@@ -424,7 +436,7 @@ export default {
   },
   created () {
     this.getCalendar()
-    this.getAllFlows()
+    this.getAllServices()
     EventBus.$on('reloadTableAfterDelete', ifReload => {
       this.$bvModal.hide('calendarDetailsModal')
       this.getCalendar()

@@ -53,7 +53,7 @@
           </b-col>
 
           <b-col>
-            <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+            <b-form-group label="Calendar Visibility" v-slot="{ ariaDescribedby }">
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="public">Public</b-form-radio>
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="customers">Customers</b-form-radio>
               <b-form-radio class="custom-radio-color-checked" v-model="settings.calendar_status" :aria-describedby="ariaDescribedby" name="calendar_status" value="private">Private</b-form-radio>

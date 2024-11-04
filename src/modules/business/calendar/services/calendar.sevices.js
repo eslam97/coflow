@@ -13,6 +13,9 @@ export default {
 
   updateSettings (payload) {
     return Api().post('calender-setting', payload)
+  },
+  clearCalendar (payload) {
+    return Api().post('calender-clear', payload)
   }
   // getCalendarDetails (id) {
   //   return Api().get(`calendars/${id}`)

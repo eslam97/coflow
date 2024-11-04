@@ -1,8 +1,8 @@
 import Api from '@/axios'
 
 export default {
-  getAllPromotions (page, type) {
-    return Api().get(`promotions?page=${page}&type=${type}`)
+  getAllPromotions () {
+    return Api().get('promotions')
   },
   addPromotion (payload) {
     return Api().post('promotions', payload)

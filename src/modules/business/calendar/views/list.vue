@@ -34,7 +34,7 @@
           @editSlot="editSlot"
           :requestLoading="requestLoading"
           :calendarDetails="calendarDetails"
-          :allFlows="allFlows"
+          :allServices="allServices"
           :typeOfModal="typeOfModal"
         />
       </template>
@@ -45,6 +45,27 @@
       </template>
       <template v-slot:body>
         <calendar-settings :requestLoading="requestLoading" @saveSettings="saveSettings" />
+      </template>
+    </main-modal>
+    <main-modal id="clearCalendar" size="md">
+      <template v-slot:header>
+        <h4 class="font-weight-bold text-danger">Clear Calendar</h4>
+      </template>
+      <template v-slot:body>
+        <p class="text-black font-weight-bold text-center font-size-22">Are you sure you want to delete all slots in the calendar?</p>
+
+        <div class="d-flex justify-content-center mt-3 pb-4">
+          <span class="w-40 p-2">
+            <b-button @click="clearCalendar" variant="danger" class="popupButton w-100 text-uppercase">
+              <span class="mr-2 text-uppercase" >Yes</span>
+              <i class="las la-trash-alt"></i>
+            </b-button>
+          </span>
+          <span class="w-40 p-2">
+            <b-button variant="white" class="popupButton w-100" @click="closeClearCalendar">
+              <span>No</span></b-button>
+          </span>
+        </div>
       </template>
     </main-modal>
 
@@ -78,7 +99,7 @@
                   <b-button @click="openSettingsPopup" variant="light" class="add_button text-dark" style="--iq-light:#fff">
                       <span>Settings<i class="fas fa fa-cog ml-3"></i></span>
                   </b-button>
-                  <b-button @click="clearCalendar" variant="dark" class="add_button text-white">
+                  <b-button @click="openClearCalendar" variant="dark" class="add_button text-white">
                       <span>Clear Calendar<i class="fas fa-trash-alt ml-3"></i></span>
                   </b-button>
                   <b-button variant="light" class="add_button text-dark" style="--iq-light:#fff">
@@ -171,7 +192,6 @@ import { core } from '@/config/pluginInit'
 import calendarDetails from '@/modules/business/calendar/components/calendarDetails'
 import calendarSettings from '@/modules/business/calendar/components/calendarSettings'
 import calendarServices from '@/modules/business/calendar/services/calendar.sevices'
-import flowsServices from '@/modules/business/flows/services/flows.services'
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
 
@@ -182,7 +202,7 @@ export default {
       typeOfModal: 'add',
       calendarDetails: {},
       calendarId: '',
-      allFlows: [],
+      allServices: [],
       allSlots: [],
       levels: [
         {
@@ -254,10 +274,13 @@ export default {
     },
     saveSettings (settings) {
       this.requestLoading = true
-      setTimeout(() => {
+      calendarServices.updateSettings(settings).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getCalendar()
         this.$bvModal.hide('calendarSettings')
+      }).finally(() => {
         this.requestLoading = false
-      }, 1000)
+      })
     },
     openPopup () {
       this.calendarId = ''
@@ -267,7 +290,20 @@ export default {
     },
     addSlots (calendar) {
       this.requestLoading = true
-      calendarServices.setNewSlot(calendar).then(res => {
+      const payload = {
+        slots: [
+          {
+            service_id: calendar.service_id,
+            date: this.getDays[calendar.slots[0].day],
+            from: calendar.slots[0].from,
+            to: calendar.slots[0].to,
+            instructors: calendar.slots[0].instructor,
+            ladies_only: calendar.slots[0].ladies_only
+          }
+        ]
+      }
+
+      calendarServices.setNewSlot(payload).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getCalendar()
         this.$bvModal.hide('calendarDetailsModal')
@@ -295,10 +331,10 @@ export default {
         this.$bvModal.show('calendarDetailsModal')
       })
     },
-    getAllFlows () {
+    getAllServices () {
       this.requestLoading = true
-      flowsServices.getAllFlowsLimit().then(res => {
-        this.allFlows = res.data.data.data
+      calendarServices.getAllServicesLimit().then(res => {
+        this.allServices = res.data.data.data
         this.requestLoading = false
       })
     },
@@ -325,21 +361,21 @@ export default {
         rowId: this.calendarDetailsFront.id
       })
     },
+    openClearCalendar () {
+      this.$bvModal.show('clearCalendar')
+    },
+    closeClearCalendar () {
+      this.$bvModal.hide('clearCalendar')
+    },
     clearCalendar () {
-      EventBus.$emit('openDeleteModal', {
-        actionHeader: 'Delete',
-        titleHeader: 'Calendar',
-        textContent: 'Are you sure you want to delete all slots in the calendar?',
-        question: '',
-        textDeleteButton: 'YES, Delete',
-        textCancelButton: 'NO, CANCEL',
-        icon: 'las la-trash-alt',
-        type: 'delete',
-        actionOnAlert: '',
-        text: 'Delete',
-        url: 'destroy-all-calendar',
-        method: 'get',
-        rowId: this.calendarDetailsFront.id
+      this.requestLoading = true
+      const payload = { from: this.getDays[0], to: this.getDays[6] }
+      calendarServices.clearCalendar(payload).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getCalendar()
+        this.$bvModal.hide('clearCalendar')
+      }).finally(() => {
+        this.requestLoading = false
       })
     },
     changeStatus (id, status) {
@@ -400,7 +436,7 @@ export default {
   },
   created () {
     this.getCalendar()
-    this.getAllFlows()
+    this.getAllServices()
     EventBus.$on('reloadTableAfterDelete', ifReload => {
       this.$bvModal.hide('calendarDetailsModal')
       this.getCalendar()
@@ -459,5 +495,17 @@ export default {
 .date-input {
   visibility: hidden;
   height: 0;
+}
+.popupButton{
+  border-radius: 4px !important;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+  font-weight: bolder;
+  padding: 15px !important;
+}
+.popupButton span{
+  font-weight: bold;
+}
+.w-40 {
+  width: 40%;
 }
 </style>

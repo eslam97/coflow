@@ -1,9 +1,9 @@
 <template>
   <b-container fluid>
-    <main-modal id="calendarDetailsModal" size="lg">
+    <main-modal id="calendarAddEditModal" size="lg">
       <template v-slot:header>
-        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'">
-          <span class="text-warning">Add: </span> Flow Slots</h4>
+        <h4 class="font-weight-bold" v-if="detailsStatus == true"><span class="text-success-light">Details: </span> Flow Slots</h4>
+        <h4 class="font-weight-bold" v-else-if="typeOfModal == 'add'"><span class="text-warning">Add: </span> Flow Slots</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info">Edit: </span> Slot</h4>
       </template>
       <template v-slot:actions v-if="typeOfModal == 'edit'">
@@ -112,8 +112,17 @@
         </div>
     </section>
 
-    <b-row>
-      <spinner-loading v-if="requestLoading"></spinner-loading>
+    <b-row class="calendar">
+      <b-col v-if="requestLoading" lg="12">
+        <!-- <spinner-loading></spinner-loading> -->
+        <div class="w-100 d-flex justify-content-center align-items-center">
+          <b-spinner
+            type="grow"
+            label="Loading..."
+            variant="primary"
+          />
+        </div>
+      </b-col>
       <b-col lg="12" v-if="allSlots.length > 0">
         <b-card class="overflow-auto text-center schedule-card">
           <b-row class="flex-nowrap m-0">
@@ -127,11 +136,51 @@
                 :key="slotKey"
                 class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box calendar-slot-box"
                 :class="(slot.service.status === 'active' || slot.service.status === true) ? `slot-box-${getColor(slot)}` : 'slot-box-grey'"
-                @click="showCalendarToEdit(slot)"
               >
                 <div class="slot-box-content">
-                  <ul class="">
-                    <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
+                  <ul class="my-ul">
+                    <li class="d-flex justify-content-between gap-1">
+                      <span>
+                        {{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}
+                      </span>
+
+                      <b-dropdown class="actions-dropdown">
+                        <template #button-content>
+                          <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10.8573 10.8334C11.3175 10.8334 11.6906 10.4603 11.6906 10C11.6906 9.53978 11.3175 9.16669 10.8573 9.16669C10.397 9.16669 10.0239 9.53978 10.0239 10C10.0239 10.4603 10.397 10.8334 10.8573 10.8334Z" stroke="#19182A" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.8573 4.99998C11.3175 4.99998 11.6906 4.62688 11.6906 4.16665C11.6906 3.70641 11.3175 3.33331 10.8573 3.33331C10.397 3.33331 10.0239 3.70641 10.0239 4.16665C10.0239 4.62688 10.397 4.99998 10.8573 4.99998Z" stroke="#19182A" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.8573 16.6667C11.3175 16.6667 11.6906 16.2936 11.6906 15.8333C11.6906 15.3731 11.3175 15 10.8573 15C10.397 15 10.0239 15.3731 10.0239 15.8333C10.0239 16.2936 10.397 16.6667 10.8573 16.6667Z" stroke="#19182A" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </template>
+                        <b-dropdown-item-button @click="() => showCalendarDetailsModal(slot)">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M0.833252 9.99998C0.833252 9.99998 4.16659 3.33331 9.99992 3.33331C15.8333 3.33331 19.1666 9.99998 19.1666 9.99998C19.1666 9.99998 15.8333 16.6666 9.99992 16.6666C4.16659 16.6666 0.833252 9.99998 0.833252 9.99998Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </b-dropdown-item-button>
+                        <b-dropdown-item-button @click="() => showCalendarToEdit(slot)">
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <g clip-path="url(#clip0_494_310217)">
+                          <path d="M14.1667 2.49999C14.3856 2.28112 14.6455 2.1075 14.9314 1.98905C15.2174 1.8706 15.5239 1.80963 15.8334 1.80963C16.1429 1.80963 16.4494 1.8706 16.7354 1.98905C17.0214 2.1075 17.2812 2.28112 17.5001 2.49999C17.719 2.71886 17.8926 2.97869 18.011 3.26466C18.1295 3.55063 18.1904 3.85713 18.1904 4.16665C18.1904 4.47618 18.1295 4.78268 18.011 5.06865C17.8926 5.35461 17.719 5.61445 17.5001 5.83332L6.25008 17.0833L1.66675 18.3333L2.91675 13.75L14.1667 2.49999Z" stroke="#2F9BE8" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                          </g>
+                          <defs>
+                          <clipPath id="clip0_494_310217">
+                          <rect width="20" height="20" fill="white"/>
+                          </clipPath>
+                          </defs>
+                          </svg>
+                        </b-dropdown-item-button>
+                        <b-dropdown-item-button @click="() => deleteSlot(slot)">
+                          <!-- <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M15 5L5 15" stroke="#DA302B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M5 5L15 15" stroke="#DA302B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg> -->
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M2.5 5.00002H4.16667M4.16667 5.00002H17.5M4.16667 5.00002V16.6667C4.16667 17.1087 4.34226 17.5326 4.65482 17.8452C4.96738 18.1578 5.39131 18.3334 5.83333 18.3334H14.1667C14.6087 18.3334 15.0326 18.1578 15.3452 17.8452C15.6577 17.5326 15.8333 17.1087 15.8333 16.6667V5.00002H4.16667ZM6.66667 5.00002V3.33335C6.66667 2.89133 6.84226 2.4674 7.15482 2.15484C7.46738 1.84228 7.89131 1.66669 8.33333 1.66669H11.6667C12.1087 1.66669 12.5326 1.84228 12.8452 2.15484C13.1577 2.4674 13.3333 2.89133 13.3333 3.33335V5.00002M8.33333 9.16669V14.1667M11.6667 9.16669V14.1667" stroke="#DA302B" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </b-dropdown-item-button>
+                      </b-dropdown>
+                    </li>
                     <li class="font-size-18">{{ slot.service.name }}</li>
                     <li class="d-flex align-items-center gap-1">
                       <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,20 +191,23 @@
                         <path d="M14.0703 12.6955H12.157C12.0539 12.6955 11.9626 12.6298 11.9303 12.532L11.6912 11.8147C11.6666 11.7417 11.679 11.6614 11.724 11.5992C11.7689 11.5368 11.8411 11.5 11.9181 11.5H14.3102C14.3869 11.5 14.4591 11.5368 14.5043 11.5995C14.5493 11.6619 14.5615 11.742 14.5371 11.8147L14.2975 12.532C14.2647 12.6298 14.1734 12.6955 14.0703 12.6955ZM12.3294 12.2173H13.8982L13.978 11.9782H12.2498L12.3294 12.2173ZM12.1567 14.3688C12.0955 14.3688 12.0343 14.3454 11.9877 14.2988L11.7483 14.0594C11.6548 13.9659 11.6548 13.8148 11.7483 13.7213C11.8418 13.6278 11.993 13.6278 12.0864 13.7213L12.3258 13.9607C12.4193 14.0542 12.4193 14.2053 12.3258 14.2988C12.2792 14.3454 12.218 14.3688 12.1567 14.3688Z" fill="currentColor"/>
                         <path d="M12.1567 14.3689C12.0955 14.3689 12.0343 14.3455 11.9877 14.2989C11.8942 14.2054 11.8942 14.0542 11.9877 13.9608L12.4657 13.4828C12.5592 13.3893 12.7103 13.3893 12.8038 13.4828C12.8973 13.5763 12.8973 13.7274 12.8038 13.8209L12.3258 14.2989C12.2792 14.3455 12.218 14.3689 12.1567 14.3689ZM14.3099 14.13H13.3544C13.2222 14.13 13.1153 14.0232 13.1153 13.8909C13.1153 13.7587 13.2222 13.6518 13.3544 13.6518H14.3099C14.4422 13.6518 14.549 13.7587 14.549 13.8909C14.549 14.0232 14.4422 14.13 14.3099 14.13ZM12.1567 15.805C12.0955 15.805 12.0343 15.7816 11.9877 15.735L11.7483 15.4956C11.6548 15.4021 11.6548 15.251 11.7483 15.1575C11.8418 15.064 11.993 15.064 12.0864 15.1575L12.3258 15.3968C12.4193 15.4903 12.4193 15.6415 12.3258 15.735C12.2792 15.7816 12.218 15.805 12.1567 15.805Z" fill="currentColor"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9876 15.7348C12.0342 15.7815 12.0954 15.8049 12.1567 15.8049C12.2179 15.8049 12.2791 15.7815 12.3257 15.7348L12.8037 15.2569C12.8972 15.1634 12.8972 15.0122 12.8037 14.9188C12.7102 14.8253 12.5591 14.8253 12.4656 14.9188L11.9876 15.3967C11.8941 15.4902 11.8941 15.6413 11.9876 15.7348ZM13.3544 15.566H14.3098C14.4421 15.566 14.5489 15.4591 14.5489 15.3269C14.5489 15.1947 14.4421 15.0878 14.3098 15.0878H13.3544C13.2221 15.0878 13.1152 15.1947 13.1152 15.3269C13.1152 15.4591 13.2221 15.566 13.3544 15.566Z" fill="currentColor"/>
-                        </svg>
+                      </svg>
 
-                      <span>{{ slot.instructor }}</span>
+                      <span v-if="slot.instructors && slot.instructors.length > 0">{{ slot.instructors.slice(0, 1).map(obj => obj.first_name).join(", ") + (slot.instructors.length > 2 ? '...' : '') }}</span>
                     </li>
                     <li class="d-flex justify-content-between gap-1">
-                      <span class="d-flex align-items-center">
+                      <span v-if="slot.has_waitlist" class="d-flex align-items-center">
                         <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M6.57153 9.5C8.50453 9.5 10.0715 7.933 10.0715 6C10.0715 4.067 8.50453 2.5 6.57153 2.5C4.63854 2.5 3.07153 4.067 3.07153 6C3.07153 7.933 4.63854 9.5 6.57153 9.5Z" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M6.57153 4.5V6L7.32153 6.75" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M8.82652 8.67501L8.65152 10.59C8.629 10.8393 8.51377 11.0711 8.32862 11.2396C8.14347 11.4081 7.90186 11.501 7.65152 11.5H5.48652C5.23619 11.501 4.99458 11.4081 4.80943 11.2396C4.62427 11.0711 4.50905 10.8393 4.48652 10.59L4.31152 8.67501M4.31652 3.32501L4.49152 1.41001C4.51398 1.16155 4.62849 0.93045 4.81258 0.762085C4.99667 0.593719 5.23705 0.500243 5.48652 0.500008H7.66152C7.91186 0.498992 8.15347 0.591907 8.33862 0.760395C8.52377 0.928882 8.639 1.16069 8.66152 1.41001L8.83652 3.32501" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span class="text-decoration-underline">10 Waitting</span>
+                        <span class="text-decoration-underline">{{Number(slot.waiting)}} Waitting</span>
                       </span>
-                      <span class="bg-white py-1 px-2 rounded-pill">AL</span>
+                      <span>
+                        <span v-if="slot.ladies_only" class="bg-white py-1 px-2 rounded-pill text-ladies mr-2">LO</span>
+                        <span class="bg-white py-1 px-2 rounded-pill">{{ slot.service.level.name.slice(0, 2).toUpperCase() }}</span>
+                      </span>
                     </li>
 
                     <li>
@@ -201,6 +253,7 @@ export default {
       requestLoading: false,
       typeOfModal: 'add',
       calendarDetails: {},
+      detailsStatus: false,
       calendarId: '',
       allServices: [],
       allSlots: [],
@@ -286,7 +339,8 @@ export default {
       this.calendarId = ''
       this.typeOfModal = 'add'
       this.calendarDetails = false
-      this.$bvModal.show('calendarDetailsModal')
+      this.detailsStatus = false
+      this.$bvModal.show('calendarAddEditModal')
     },
     addSlots (calendar) {
       this.requestLoading = true
@@ -306,7 +360,7 @@ export default {
       calendarServices.setNewSlot(payload).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getCalendar()
-        this.$bvModal.hide('calendarDetailsModal')
+        this.$bvModal.hide('calendarAddEditModal')
       }).finally(() => {
         this.requestLoading = false
       })
@@ -316,7 +370,7 @@ export default {
       calendarServices.editCalendar(slotId, calendar).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getCalendar()
-        this.$bvModal.hide('calendarDetailsModal')
+        this.$bvModal.hide('calendarAddEditModal')
       }).finally(() => {
         this.requestLoading = false
       })
@@ -324,11 +378,25 @@ export default {
     showCalendarToEdit (obj) {
       this.typeOfModal = 'edit'
       this.calendarDetailsFront = obj
+      this.calendarId = obj.id
+      this.detailsStatus = false
       calendarServices.getCalendarDetails(obj.id).then(res => {
         this.calendarDetails = res.data.data
         this.calendarDetails.status_traker = this.calendarDetails.status === 'active'
         this.calendarDetails.slotId = obj.id
-        this.$bvModal.show('calendarDetailsModal')
+        this.$bvModal.show('calendarAddEditModal')
+      })
+    },
+    showCalendarDetailsModal (obj) {
+      this.typeOfModal = ''
+      this.calendarDetailsFront = obj
+      this.calendarId = obj.id
+      this.detailsStatus = true
+      calendarServices.getCalendarDetails(obj.id).then(res => {
+        this.calendarDetails = res.data.data
+        this.calendarDetails.status_traker = this.calendarDetails.status === 'active'
+        this.calendarDetails.slotId = obj.id
+        this.$bvModal.show('calendarAddEditModal')
       })
     },
     getAllServices () {
@@ -431,14 +499,14 @@ export default {
       this.currentDate = date
     },
     getColor (slot) {
-      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.value === slot.service.level.name.toLowerCase()).color : 'greyzzzzz'
+      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.value === slot.service.level.name.toLowerCase()).color : 'blue'
     }
   },
   created () {
     this.getCalendar()
     this.getAllServices()
     EventBus.$on('reloadTableAfterDelete', ifReload => {
-      this.$bvModal.hide('calendarDetailsModal')
+      this.$bvModal.hide('calendarAddEditModal')
       this.getCalendar()
       core.showSnackbar('success', 'Data deleted successfully')
     })

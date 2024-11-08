@@ -70,7 +70,7 @@
                    :class="(slot.status === 'active' || slot.status === true)?
                      `slot-box-${levels.find(l => l.value === slot.flow.level).color}` : 'slot-box-grey'"
                    @click="showScheduleToEdit(slot)">
-                <ul class="pl-0">
+                <ul class="my-ul pl-0">
                   <li v-if="(slot.ladies_only)" class="ladies-only-tag">
                     <div class="ladies-only-container">
                       <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">

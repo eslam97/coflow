@@ -807,10 +807,30 @@ form legend {
   }
 }
 
+.text-ladies {
+  color: #F91C96;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
 
 .mx-datepicker-range {
   width: 100%;
+}
+
+.calendar {
+  .actions-dropdown {
+    .dropdown-toggle {
+      background: transparent;
+      border: none;
+      padding: 0;
+      &::after {
+        display: none;
+      }
+    }
+    .dropdown-menu {
+      min-width: auto;
+    }
+  }
 }

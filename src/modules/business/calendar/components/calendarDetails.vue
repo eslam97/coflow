@@ -63,20 +63,7 @@
                 <template v-if="typeOfModal === 'edit'">
                   <label for="capacity">Capacity</label>
 
-                  <div class="capacity-container">
-                    <button @click.prevent="() => slot.capacity = slot.capacity == 0 ? 0 : slot.capacity - 1">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M3.33325 8H12.6666" stroke="#181935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </button>
-                    <input type="number" name="capacity" id="capacity" v-model="slot.capacity">
-                    <button @click.prevent="() => slot.capacity = slot.capacity + 1">
-                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8 3.3335V12.6668" stroke="#181935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M3.33325 8H12.6666" stroke="#181935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </button>
-                  </div>
+                  <input-counter id="capacity" name="capacity" v-model="slot.capacity" />
                 </template>
 
                 <b-form-checkbox type="checkbox"

@@ -819,6 +819,11 @@ form legend {
   width: 100%;
 }
 
+.custom-radio-inline div {
+  display: flex;
+  gap: 1rem;
+}
+
 .calendar {
   .actions-dropdown {
     .dropdown-toggle {

@@ -3,12 +3,12 @@
     <!--  End modal  -->
     <end-modal ref="endPopup"/>
 
-    <main-modal id="promotionDetails" size="lg">
+    <main-modal id="PromotionForm" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'"><span class="text-warning" >Add: </span> Promotion</h4>
       </template>
       <template v-slot:body>
-        <promotion-details @savePromotion="savePromotion" :requestLoading="requestLoading"/>
+        <PromotionForm @savePromotion="savePromotion" :requestLoading="requestLoading" :allCoupons="allCoupons" :allTickets="allTickets" />
       </template>
     </main-modal>
     <main-modal id="promotionEdit" size="lg">
@@ -87,7 +87,7 @@
              class="mb-4 d-flex justify-content-between align-items-center">
         <h3>Promotions</h3>
         <div>
-          <b-button variant="warning" v-b-modal:promotionDetails class="add_button text-white">Add
+          <b-button variant="warning" v-b-modal:PromotionForm class="add_button text-white">Add
             Promotion<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
@@ -107,10 +107,11 @@
       </b-col>
       <b-col lg="12">
         <main-table
-            :fields="columns"
-            class="mb-0 table-borderless"
-            :items="activeTab=='current' ? (data.current.data || []) : (data.history.data || [])"
-            :reloadData="reloadTable"
+          :key="activeTab"
+          :fields="columns"
+          class="mb-0 table-borderless"
+          :items="activeTab=='current' ? (data.current.data || []) : (data.history.data || [])"
+          :reloadData="reloadTable"
         >
         </main-table>
       </b-col>
@@ -121,7 +122,9 @@
 import { core } from '@/config/pluginInit'
 import EventBus from '@/eventBus'
 import promotionsServices from '../services/promotions.services'
-import promotionDetails from '../components/promotionDetails'
+import couponsServices from '@/modules/business/pricing/services/coupons.services'
+import ticketsServices from '@/modules/business/pricing/services/tickets.services'
+import PromotionForm from '../components/PromotionForm'
 import endModal from '../components/endModal'
 export default {
   data () {
@@ -132,9 +135,11 @@ export default {
         // Transition name
         name: 'flip-list'
       },
+      allCoupons: [],
+      allTickets: [],
       allData: [],
       columns: [
-        { label: 'Offer name', key: 'name', class: 'text-left', type: 'offer' },
+        { label: 'Offer name', key: 'name', class: 'text-left' },
         { label: 'Type', key: 'type', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
@@ -193,7 +198,7 @@ export default {
     }
   },
   components: {
-    promotionDetails,
+    PromotionForm,
     endModal
   },
   methods: {
@@ -206,9 +211,9 @@ export default {
       this.loadingTable = true
       promotionsServices.getAllPromotions().then(res => {
         this.data = res.data.data
-        console.log('res.data.data:', res.data.data)
       }).finally(() => {
         this.loadingTable = false
+        this.reloadTable = true
       })
     },
     end (data) {
@@ -253,8 +258,23 @@ export default {
       promotionsServices.addPromotion(data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getAllData()
-        this.$bvModal.hide('promotionDetails')
+        this.$bvModal.hide('PromotionForm')
       }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+
+    getAllCouponsLimit () {
+      this.requestLoading = true
+      couponsServices.getAllCouponsLimit().then(res => {
+        this.allCoupons = res.data.data.data
+        this.requestLoading = false
+      })
+    },
+    getAllTicketsLimit () {
+      this.requestLoading = true
+      ticketsServices.getAllTicketsLimit().then(res => {
+        this.allTickets = res.data.data.data
         this.requestLoading = false
       })
     }
@@ -264,6 +284,8 @@ export default {
     EventBus.$on('reloadTableAfterDelete', ifReload => { this.getAllData() })
   },
   created () {
+    this.getAllCouponsLimit()
+    this.getAllTicketsLimit()
     this.getAllData()
   }
 }

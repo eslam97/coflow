@@ -10,7 +10,7 @@ export default {
   setNewSlot (payload) {
     return Api().post('calendars', payload)
   },
-  editSlot (id, payload) {
+  editCalendar (id, payload) {
     return Api().post(`calendars/${id}`, payload)
   },
 
@@ -19,6 +19,9 @@ export default {
   },
   clearCalendar (payload) {
     return Api().post('calender-clear', payload)
+  },
+  loadSchedule (payload) {
+    return Api().post('calender-loadSchedule', payload)
   },
 
   getAllServicesLimit () {

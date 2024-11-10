@@ -56,10 +56,29 @@
                   label="first_name"
                   :multiple="true"
                   :reduce="data => data.id"
-                  v-model="slot.instructor"
+                  v-model="slot.instructors"
                 ></main-select>
               </b-col>
-              <b-col>
+              <b-col class="d-flex justify-content-between align-items-center">
+                <template v-if="typeOfModal === 'edit'">
+                  <label for="capacity">Capacity</label>
+
+                  <div class="capacity-container">
+                    <button @click.prevent="() => slot.capacity = slot.capacity == 0 ? 0 : slot.capacity - 1">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3.33325 8H12.6666" stroke="#181935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                    <input type="number" name="capacity" id="capacity" v-model="slot.capacity">
+                    <button @click.prevent="() => slot.capacity = slot.capacity + 1">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 3.3335V12.6668" stroke="#181935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M3.33325 8H12.6666" stroke="#181935" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  </div>
+                </template>
+
                 <b-form-checkbox type="checkbox"
                   value="1"
                   unchecked-value="0"
@@ -116,36 +135,27 @@
 
 export default {
   props: {
-    requestLoading: {
-      type: Boolean,
-      default: false
-    },
-    typeOfModal: {
-      type: String,
-      default: 'add'
-    },
-    calendarDetails: {
-      type: Object
-    },
-    allServices: {
-      type: Object
-    }
+    requestLoading: { type: Boolean, default: false },
+    detailsStatus: { type: Boolean, default: false },
+    typeOfModal: { type: String, default: 'add' },
+    calendarDetails: { type: Object },
+    allServices: { type: Object },
+    allDates: { type: Array, default: () => [] }
   },
   data () {
     return {
       calendar: {
         slots: [{
           id: '',
-          day: [],
+          day: '',
           from: '',
           to: '',
-          instructor: '',
+          instructors: [],
           ladies_only: +false,
           status: ''
         }],
         status: 'active',
-        service_id: '',
-        flow_name: ''
+        service_id: ''
       },
       allDays: [
         { key: 'Saturday', value: 6 },
@@ -163,16 +173,16 @@ export default {
       if (this.typeOfModal === 'add') {
         this.$emit('addSlots', this.calendar)
       } else {
-        this.calendar.slots[0].status = this.calendarDetails.status
-        this.calendar.slots[0].from = this.calendar.slots[0].from.slice(0, 5)
-        this.calendar.slots[0].to = this.calendar.slots[0].to.slice(0, 5)
-        this.calendar.slots[0].ladies_only = +this.calendar.slots[0].ladies_only
-        const obj = {
-          service_id: this.calendar.service_id,
-          ...this.calendar.slots[0],
-          _method: 'put'
+        const payload = {
+          date: this.allDates[this.calendar.slots[0].day],
+          from: this.calendar.slots[0].from.slice(0, 5),
+          to: this.calendar.slots[0].to.slice(0, 5),
+          instructors: this.calendar.slots[0].instructors,
+          ladies_only: this.calendar.slots[0].ladies_only,
+          capacity: this.calendar.slots[0].capacity,
+          _method: 'patch'
         }
-        this.$emit('editSlot', this.calendar.slots[0].id, obj)
+        this.$emit('editSlot', this.calendar.slots[0].id, payload)
       }
     },
     addNewSlot () {
@@ -180,7 +190,7 @@ export default {
         days: [],
         from: '',
         to: '',
-        instructor: '',
+        instructors: [],
         ladies_only: +false
       })
     },
@@ -192,21 +202,50 @@ export default {
     if (this.calendarDetails) {
       this.calendar = {
         slots: [{
-          id: this.calendarDetails.slotId,
-          day: this.calendarDetails.day,
+          id: this.calendarDetails.id,
+          day: new Date(this.calendarDetails.date).getDay(),
           from: this.calendarDetails.from,
           to: this.calendarDetails.to,
-          instructor: this.calendarDetails.instructor,
+          instructors: this.calendarDetails.instructors.map((i) => i.id),
           ladies_only: +this.calendarDetails.ladies_only,
+          capacity: +this.calendarDetails.capacity,
           status: this.calendarDetails.status
         }],
         status: 'active',
-        service_id: this.calendarDetails.service_id,
-        flow_name: this.calendarDetails.flow.name
+        service_id: this.calendarDetails.service?.id || null
       }
     }
-    console.log(this.calendar)
   }
 
 }
 </script>
+
+<style lang="scss" scoped>
+.capacity-container {
+  button {
+    background: var(--co-orange);
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    &:first-of-type {
+      border-radius: 4px 0 0 4px;
+    }
+  }
+  input {
+    min-width: 40px;
+    max-width: 60px;
+    height: 40px;
+    border: 1px solid #FFE4BE;
+    text-align: center;
+    font-weight: 700;
+
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+</style>

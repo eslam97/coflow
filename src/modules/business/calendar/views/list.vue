@@ -348,20 +348,7 @@ export default {
     },
     addSlots (calendar) {
       this.requestLoading = true
-      const payload = {
-        slots: [
-          {
-            service_id: calendar.service_id,
-            date: this.getDays[calendar.slots[0].day],
-            from: calendar.slots[0].from,
-            to: calendar.slots[0].to,
-            instructors: calendar.slots[0].instructors,
-            ladies_only: calendar.slots[0].ladies_only
-          }
-        ]
-      }
-
-      calendarServices.setNewSlot(payload).then(res => {
+      calendarServices.setNewSlot(calendar).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getCalendar()
         this.$bvModal.hide('calendarAddEditModal')

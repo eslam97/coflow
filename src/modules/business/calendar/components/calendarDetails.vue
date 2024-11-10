@@ -171,7 +171,19 @@ export default {
   methods: {
     addSlots () {
       if (this.typeOfModal === 'add') {
-        this.$emit('addSlots', this.calendar)
+        const payload = {
+          slots: [
+            {
+              service_id: this.calendar.service_id,
+              date: this.getDays[this.calendar.slots[0].day],
+              from: this.calendar.slots[0].from,
+              to: this.calendar.slots[0].to,
+              instructors: this.calendar.slots[0].instructors,
+              ladies_only: this.calendar.slots[0].ladies_only
+            }
+          ]
+        }
+        this.$emit('addSlots', payload)
       } else {
         const payload = {
           date: this.allDates[this.calendar.slots[0].day],

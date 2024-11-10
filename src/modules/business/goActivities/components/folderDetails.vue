@@ -49,7 +49,7 @@ export default {
   },
   data () {
     return {
-      folder: { name: '' }
+      folder: { id: '', name: '' }
     }
   },
   components: {},
@@ -67,6 +67,7 @@ export default {
   created () {
     if (this.folderDetails) {
       this.folder = {
+        id: this.folderDetails.id,
         name: this.folderDetails.name
       }
     }

@@ -175,7 +175,7 @@ export default {
           slots: [
             {
               service_id: this.calendar.service_id,
-              date: this.getDays[this.calendar.slots[0].day],
+              date: this.allDates[this.calendar.slots[0].day],
               from: this.calendar.slots[0].from,
               to: this.calendar.slots[0].to,
               instructors: this.calendar.slots[0].instructors,

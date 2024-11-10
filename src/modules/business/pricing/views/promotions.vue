@@ -3,92 +3,29 @@
     <!--  End modal  -->
     <end-modal ref="endPopup"/>
 
-    <main-modal id="PromotionForm" size="lg">
+    <main-modal id="PromotionModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'"><span class="text-warning" >Add: </span> Promotion</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Promotion</h4>
       </template>
       <template v-slot:body>
-        <PromotionForm @savePromotion="savePromotion" :requestLoading="requestLoading" :allCoupons="allCoupons" :allTickets="allTickets" />
+        <PromotionForm
+          :requestLoading="requestLoading"
+          :typeOfModal="typeOfModal"
+          :promotionDetails="promotionDetails"
+          @savePromotion="savePromotion"
+          :allCoupons="allCoupons"
+          :allTickets="allTickets"
+        />
       </template>
     </main-modal>
-    <main-modal id="promotionEdit" size="lg">
-      <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-info" >Edit: </span> Promotion</h4>
-      </template>
-      <template v-slot:body>
-        <ValidationObserver v-slot="{ handleSubmit }">
-          <b-form @submit.prevent="handleSubmit(editPromotion)">
-            <b-row>
-              <b-col md="6" class="mb-3">
-                <b-form-group
-                    label="start date"
-                    label-for="start date"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      name="start_date"
-                      :rules="'required'"
-                  >
-                    <flat-pickr
-                        :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
-                        v-model="editPromotions.start_date"
-                        placeholder="start date"
-                        name="start"
-                        :config="{
-                          minDate: 'today'
-                        }"
-                    />
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-              <b-col md="6" class="mb-3">
-                <b-form-group
-                    label="end date"
-                    label-for="end date"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      name="end_date"
-                      :rules="'required'"
-                  >
-                    <flat-pickr
-                        name="end"
-                        :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
-                        v-model="editPromotions.end_date"
-                        :config="{
-                          minDate: 'today'
-                        }"
-                        placeholder="end date"
-                    />
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col md="12" class="mt-4">
-                <div class="d-flex justify-content-center">
-                  <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
-                    <i class="las la-pen"></i>
-                  </b-button>
-                  <b-button class="button-blue-modal" v-else>
-                    <spinner-loading ></spinner-loading>
-                  </b-button>
-                </div>
-              </b-col>
-            </b-row>
-          </b-form>
-        </ValidationObserver>
-      </template>
-    </main-modal>
+
     <b-row>
       <b-col lg="12"
              class="mb-4 d-flex justify-content-between align-items-center">
         <h3>Promotions</h3>
         <div>
-          <b-button variant="warning" v-b-modal:PromotionForm class="add_button text-white">Add
-            Promotion<i class="las la-plus ml-3"></i></b-button>
+          <b-button variant="warning" @click="showPromotionAddModal" class="add_button text-white">Add Promotion<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
@@ -158,7 +95,7 @@ export default {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
-              actionName: 'reEnd',
+              actionName: 'showPromotionEditModal',
               actionParams: 'fullObj'
             },
             {
@@ -202,6 +139,19 @@ export default {
     endModal
   },
   methods: {
+    showPromotionAddModal () {
+      this.typeOfModal = 'add'
+      this.promotionDetails = {}
+      this.$bvModal.show('PromotionModal')
+    },
+    showPromotionEditModal (obj) {
+      this.typeOfModal = 'edit'
+      promotionsServices.getPromotionDetails(obj.id).then(res => {
+        this.promotionDetails = res.data.data
+        this.$bvModal.show('PromotionModal')
+      })
+    },
+
     isSelected (data) {
       if (this.activeTab === data) {
         return true
@@ -258,7 +208,7 @@ export default {
       promotionsServices.addPromotion(data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getAllData()
-        this.$bvModal.hide('PromotionForm')
+        this.$bvModal.hide('PromotionModal')
       }).finally(() => {
         this.requestLoading = false
       })
@@ -287,6 +237,10 @@ export default {
     this.getAllCouponsLimit()
     this.getAllTicketsLimit()
     this.getAllData()
+    this.$root.$on('showPromotionEditModal', this.showPromotionEditModal)
+  },
+  beforeDestroy () {
+    this.$root.$off('showPromotionEditModal')
   }
 }
 </script>

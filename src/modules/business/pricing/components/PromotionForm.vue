@@ -281,6 +281,8 @@ import flatPickr from 'vue-flatpickr-component'
 export default {
   props: {
     requestLoading: { type: Boolean, default: false },
+    typeOfModal: { type: String, default: 'add' },
+    promotionDetails: { type: Object, default: () => {} },
     allCoupons: { type: Array, default: () => [] },
     allTickets: { type: Array, default: () => [] }
   },
@@ -350,19 +352,28 @@ export default {
       this.info.unlimited = this.info.unlimited === true ? 1 : 0
       this.info.payment_unlimited = this.info.payment_unlimited === true ? 1 : 0
 
-      if (this.info.type === 'discount') {
-        obj = { ...this.info, ...this.discount }
-      } else if (this.info.type === 'package') {
-        obj = { ...this.info, ...this.prices }
-      } else {
-        obj = { ...this.info, ...this.prices, ...this.buyGet }
+      if (this.typeOfModal === 'add') {
+        if (this.info.type === 'discount') {
+          obj = { ...this.info, ...this.discount }
+        } else if (this.info.type === 'package') {
+          obj = { ...this.info, ...this.prices }
+        } else {
+          obj = { ...this.info, ...this.prices, ...this.buyGet }
+        }
+        this.$emit('savePromotion', obj)
+      } else if (this.typeOfModal === 'edit') {
+        obj = { ...this.info }
+
+        this.$emit('savePromotion', obj)
       }
-      this.$emit('savePromotion', obj)
     }
   },
   computed: {
   },
   created () {
+    if (this.promotionDetails) {
+      // this.info = {}
+    }
   }
 }
 </script>

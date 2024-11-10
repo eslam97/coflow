@@ -139,7 +139,7 @@ export default {
     detailsStatus: { type: Boolean, default: false },
     typeOfModal: { type: String, default: 'add' },
     calendarDetails: { type: Object },
-    allServices: { type: Object },
+    allServices: { type: Array },
     allDates: { type: Array, default: () => [] }
   },
   data () {

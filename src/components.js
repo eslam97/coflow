@@ -18,6 +18,8 @@ import serviceAnalysis from '@/components/core/analysis/serviceAnalysis'
 import mainModal from '@/components/modal/mainModal'
 // form Elements
 import inputForm from '@/components/formElements/InputForm'
+import inputCounter from '@/components/formElements/InputCounter'
+import inputSwitch from '@/components/formElements/InputSwitch'
 import mainSelect from '@/components/formElements/VSelect'
 import flatPickr from 'vue-flatpickr-component'
 import SliderThumbs from '@/components/core/slider/sliderThumbs'
@@ -37,6 +39,8 @@ Vue.component('mainTable', mainTable)
 Vue.component('deletePopup', deletePopup)
 Vue.component('main-modal', mainModal)
 Vue.component('input-form', inputForm)
+Vue.component('input-counter', inputCounter)
+Vue.component('input-switch', inputSwitch)
 Vue.component('main-select', mainSelect)
 Vue.component('model-button', RoundedModalButton)
 Vue.component('cropper-images', cropperImages)

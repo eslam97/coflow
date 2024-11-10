@@ -6,7 +6,13 @@
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Folder</h4>
       </template>
       <template v-slot:body>
-        <p>zzzzzz</p>
+        <folder-details
+          @addFolder="addFolder"
+          @editFolder="editFolder"
+          :requestLoading="requestLoading"
+          :typeOfModal="typeOfModal"
+          :folderDetails="folderDetails"
+        />
       </template>
     </main-modal>
 
@@ -35,13 +41,13 @@
 
       <b-col lg="12">
         <main-table
-            :fields="columns"
-            class="mb-0 table-borderless"
-            @sortChanged="sortChanged"
-            :list_url="'tickets'"
-            :reloadData="reloadTable"
-            :service_type="'ticket'"
-            :arrangeMode="arrangeMode"
+          :fields="columns"
+          class="mb-0 table-borderless"
+          @sortChanged="sortChanged"
+          :list_url="'folders'"
+          :reloadData="reloadTable"
+          :service_type="'ticket'"
+          :arrangeMode="arrangeMode"
         >
         </main-table>
       </b-col>
@@ -50,7 +56,11 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
+import folderDetails from '@/modules/business/goActivities/components/folderDetails.vue'
+import foldersServices from '@/modules/business/goActivities/services/folders.services'
+
 export default {
+  components: { folderDetails },
   data () {
     return {
       reloadTable: false,
@@ -105,6 +115,29 @@ export default {
       this.typeOfModal = 'edit'
       this.folderDetails = obj
       this.$bvModal.show('folderDetailsModal')
+    },
+
+    addFolder (data) {
+      this.requestLoading = true
+      foldersServices.addFolder(data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('folderDetailsModal')
+        this.reloadTable = true
+        setTimeout(() => { this.reloadTable = false }, 1000)
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    editFolder (data) {
+      this.requestLoading = true
+      foldersServices.editFolder(data.id, data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('folderDetailsModal')
+        this.reloadTable = true
+        setTimeout(() => { this.reloadTable = false }, 1000)
+      }).finally(() => {
+        this.requestLoading = false
+      })
     }
   },
   created () {

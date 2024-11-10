@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <main-modal id="folderDetailsModal" size="xl">
+    <main-modal id="folderDetailsModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Folder</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Folder</h4>
@@ -96,7 +96,6 @@ export default {
       ],
       typeOfModal: 'add',
       folderDetails: {},
-      folderId: '',
       arrangeMode: false
     }
   },
@@ -105,13 +104,11 @@ export default {
       console.log(key)
     },
     openPopup () {
-      this.folderId = ''
       this.typeOfModal = 'add'
       this.folderDetails = false
       this.$bvModal.show('folderDetailsModal')
     },
     showFolderToEdit (obj) {
-      this.folderId = obj.id
       this.typeOfModal = 'edit'
       this.folderDetails = obj
       this.$bvModal.show('folderDetailsModal')

@@ -262,11 +262,9 @@
         <b-row>
           <b-col md="12" class="mt-4">
             <div class="d-flex justify-content-center">
-              <b-button class="button-orange-modal" type="submit" v-if="!requestLoading">
-                <i class="las la-plus"></i>
-              </b-button>
-              <b-button class="button-orange-modal" v-else>
-                <spinner-loading ></spinner-loading>
+              <b-button :class="`button-${typeOfModal == 'add' ? 'orange' : 'blue'}-modal`" type="submit">
+                <i v-if="!requestLoading" :class="`las la-${typeOfModal == 'add' ? 'plus' : 'pen'}`"></i>
+                <spinner-loading v-else></spinner-loading>
               </b-button>
             </div>
           </b-col>
@@ -307,6 +305,7 @@ export default {
         { text: 'Ticket', value: 'ticket' }
       ],
       info: {
+        id: null,
         type: 'discount',
         offer_title: '',
         start_date: '',
@@ -329,15 +328,6 @@ export default {
         discount_price: '',
         currency: 'EGP'
       },
-      packages: {
-        package: '',
-        package_price_egp: '',
-        price_euro: '',
-        price_dollar: '',
-        discount_price_egp: '',
-        discount_price_dollar: '',
-        discount_price_euro: ''
-      },
       buyGet: {
         buy_get_type: '',
         gift: '',
@@ -352,28 +342,62 @@ export default {
       this.info.unlimited = this.info.unlimited === true ? 1 : 0
       this.info.payment_unlimited = this.info.payment_unlimited === true ? 1 : 0
 
-      if (this.typeOfModal === 'add') {
-        if (this.info.type === 'discount') {
-          obj = { ...this.info, ...this.discount }
-        } else if (this.info.type === 'package') {
-          obj = { ...this.info, ...this.prices }
-        } else {
-          obj = { ...this.info, ...this.prices, ...this.buyGet }
-        }
-        this.$emit('savePromotion', obj)
-      } else if (this.typeOfModal === 'edit') {
-        obj = { ...this.info }
+      if (this.info.type === 'discount') {
+        obj = { ...this.info, ...this.discount }
+      } else if (this.info.type === 'package') {
+        obj = { ...this.info, ...this.prices }
+      } else {
+        obj = { ...this.info, ...this.prices, ...this.buyGet }
+      }
 
-        this.$emit('savePromotion', obj)
+      if (this.typeOfModal === 'add') {
+        this.$emit('addPromotion', { ...obj })
+      } else if (this.typeOfModal === 'edit') {
+        this.$emit('editPromotion', { ...obj, _method: 'patch' })
+      }
+    },
+    fillData () {
+      if (Object.keys(this.promotionDetails).length !== 0) {
+        this.info = {
+          id: this.promotionDetails.id,
+          type: this.promotionDetails.type,
+          offer_title: this.promotionDetails.name,
+          start_date: this.promotionDetails.start_date,
+          end_date: this.promotionDetails.end_date,
+          description: this.promotionDetails.description,
+          conditions: this.promotionDetails.conditions,
+          requirements: this.promotionDetails.requirements,
+          unlimited: this.promotionDetails.unlimited,
+          payment_unlimited: this.promotionDetails.payment_unlimited,
+          validity_days: this.promotionDetails.validity_days,
+          payment_limit: this.promotionDetails.payment_limit
+        }
+        this.discount = {
+          discount_ratio: this.promotionDetails.discount_ratio,
+          discount_for: this.promotionDetails.discount_for
+        }
+        this.prices = {
+          price: this.promotionDetails.price,
+          has_discount: this.promotionDetails.has_discount,
+          discount_price: this.promotionDetails.discount_price,
+          currency: this.promotionDetails.currency
+        }
+        this.buyGet = {
+          buy_get_type: this.promotionDetails.buy_get_type,
+          gift: this.promotionDetails.gift,
+          get_tickets: this.promotionDetails.tickets || [],
+          get_coupons: []
+        }
       }
     }
   },
-  computed: {
+  watch: {
+    promotionDetails () {
+      this.fillData()
+    }
   },
   created () {
-    if (this.promotionDetails) {
-      // this.info = {}
-    }
+    this.fillData()
   }
 }
 </script>

@@ -13,7 +13,8 @@
           :requestLoading="requestLoading"
           :typeOfModal="typeOfModal"
           :promotionDetails="promotionDetails"
-          @savePromotion="savePromotion"
+          @addPromotion="addPromotion"
+          @editPromotion="editPromotion"
           :allCoupons="allCoupons"
           :allTickets="allTickets"
         />
@@ -193,19 +194,29 @@ export default {
       this.rowId = id
       this.$bvModal.show('promotionEdit')
     },
-    editPromotion () {
+    // editPromotion () {
+    //   this.requestLoading = true
+    //   promotionsServices.editPromotion(this.rowId, this.editPromotions).then(res => {
+    //     core.showSnackbar('success', res.data.message)
+    //     this.getAllData()
+    //     this.$bvModal.hide('promotionEdit')
+    //   }).finally(() => {
+    //     this.requestLoading = false
+    //   })
+    // },
+    addPromotion (data) {
       this.requestLoading = true
-      promotionsServices.editPromotion(this.rowId, this.editPromotions).then(res => {
+      promotionsServices.addPromotion(data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getAllData()
-        this.$bvModal.hide('promotionEdit')
+        this.$bvModal.hide('PromotionModal')
       }).finally(() => {
         this.requestLoading = false
       })
     },
-    savePromotion (data) {
+    editPromotion (data) {
       this.requestLoading = true
-      promotionsServices.addPromotion(data).then(res => {
+      promotionsServices.editPromotion(data.id, data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getAllData()
         this.$bvModal.hide('PromotionModal')

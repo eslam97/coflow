@@ -4,10 +4,13 @@ export default {
   getAllSlots (payload) {
     return Api().get(`calendars?from=${payload.from}&to=${payload.to}`)
   },
+  getCalendarDetails (id) {
+    return Api().get(`calendars/${id}`)
+  },
   setNewSlot (payload) {
     return Api().post('calendars', payload)
   },
-  editSlot (id, payload) {
+  editCalendar (id, payload) {
     return Api().post(`calendars/${id}`, payload)
   },
 
@@ -17,9 +20,9 @@ export default {
   clearCalendar (payload) {
     return Api().post('calender-clear', payload)
   },
-  // getCalendarDetails (id) {
-  //   return Api().get(`calendars/${id}`)
-  // },
+  loadSchedule (payload) {
+    return Api().post('calender-loadSchedule', payload)
+  },
 
   getAllServicesLimit () {
     return Api().get('services?limit=1000')

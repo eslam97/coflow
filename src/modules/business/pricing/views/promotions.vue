@@ -3,92 +3,30 @@
     <!--  End modal  -->
     <end-modal ref="endPopup"/>
 
-    <main-modal id="promotionDetails" size="lg">
+    <main-modal id="PromotionModal" size="lg">
       <template v-slot:header>
         <h4 class="font-weight-bold" v-if="typeOfModal == 'add'"><span class="text-warning" >Add: </span> Promotion</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Promotion</h4>
       </template>
       <template v-slot:body>
-        <promotion-details @savePromotion="savePromotion" :requestLoading="requestLoading"/>
+        <PromotionForm
+          :requestLoading="requestLoading"
+          :typeOfModal="typeOfModal"
+          :promotionDetails="promotionDetails"
+          @addPromotion="addPromotion"
+          @editPromotion="editPromotion"
+          :allCoupons="allCoupons"
+          :allTickets="allTickets"
+        />
       </template>
     </main-modal>
-    <main-modal id="promotionEdit" size="lg">
-      <template v-slot:header>
-        <h4 class="font-weight-bold"><span class="text-info" >Edit: </span> Promotion</h4>
-      </template>
-      <template v-slot:body>
-        <ValidationObserver v-slot="{ handleSubmit }">
-          <b-form @submit.prevent="handleSubmit(editPromotion)">
-            <b-row>
-              <b-col md="6" class="mb-3">
-                <b-form-group
-                    label="start date"
-                    label-for="start date"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      name="start_date"
-                      :rules="'required'"
-                  >
-                    <flat-pickr
-                        :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
-                        v-model="editPromotions.start_date"
-                        placeholder="start date"
-                        name="start"
-                        :config="{
-                          minDate: 'today'
-                        }"
-                    />
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-              <b-col md="6" class="mb-3">
-                <b-form-group
-                    label="end date"
-                    label-for="end date"
-                >
-                  <validation-provider
-                      #default="{ errors }"
-                      name="end_date"
-                      :rules="'required'"
-                  >
-                    <flat-pickr
-                        name="end"
-                        :class="['form-control bg-white' , { 'is-invalid': errors.length > 0 }]"
-                        v-model="editPromotions.end_date"
-                        :config="{
-                          minDate: 'today'
-                        }"
-                        placeholder="end date"
-                    />
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </validation-provider>
-                </b-form-group>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col md="12" class="mt-4">
-                <div class="d-flex justify-content-center">
-                  <b-button class="button-blue-modal" type="submit" v-if="!requestLoading">
-                    <i class="las la-pen"></i>
-                  </b-button>
-                  <b-button class="button-blue-modal" v-else>
-                    <spinner-loading ></spinner-loading>
-                  </b-button>
-                </div>
-              </b-col>
-            </b-row>
-          </b-form>
-        </ValidationObserver>
-      </template>
-    </main-modal>
+
     <b-row>
       <b-col lg="12"
              class="mb-4 d-flex justify-content-between align-items-center">
         <h3>Promotions</h3>
         <div>
-          <b-button variant="warning" v-b-modal:promotionDetails class="add_button text-white">Add
-            Promotion<i class="las la-plus ml-3"></i></b-button>
+          <b-button variant="warning" @click="showPromotionAddModal" class="add_button text-white">Add Promotion<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
@@ -107,10 +45,11 @@
       </b-col>
       <b-col lg="12">
         <main-table
-            :fields="columns"
-            class="mb-0 table-borderless"
-            :items="activeTab=='current' ? (data.current.data || []) : (data.history.data || [])"
-            :reloadData="reloadTable"
+          :key="activeTab"
+          :fields="columns"
+          class="mb-0 table-borderless"
+          :items="activeTab=='current' ? (data.current.data || []) : (data.history.data || [])"
+          :reloadData="reloadTable"
         >
         </main-table>
       </b-col>
@@ -121,7 +60,9 @@
 import { core } from '@/config/pluginInit'
 import EventBus from '@/eventBus'
 import promotionsServices from '../services/promotions.services'
-import promotionDetails from '../components/promotionDetails'
+import couponsServices from '@/modules/business/pricing/services/coupons.services'
+import ticketsServices from '@/modules/business/pricing/services/tickets.services'
+import PromotionForm from '../components/PromotionForm'
 import endModal from '../components/endModal'
 export default {
   data () {
@@ -132,9 +73,11 @@ export default {
         // Transition name
         name: 'flip-list'
       },
+      allCoupons: [],
+      allTickets: [],
       allData: [],
       columns: [
-        { label: 'Offer name', key: 'name', class: 'text-left', type: 'offer' },
+        { label: 'Offer name', key: 'name', class: 'text-left' },
         { label: 'Type', key: 'type', class: 'text-left' },
         { label: 'Start Date', key: 'start_date', class: 'text-left' },
         { label: 'End Date', key: 'end_date', class: 'text-left' },
@@ -153,7 +96,7 @@ export default {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
-              actionName: 'reEnd',
+              actionName: 'showPromotionEditModal',
               actionParams: 'fullObj'
             },
             {
@@ -193,10 +136,23 @@ export default {
     }
   },
   components: {
-    promotionDetails,
+    PromotionForm,
     endModal
   },
   methods: {
+    showPromotionAddModal () {
+      this.typeOfModal = 'add'
+      this.promotionDetails = {}
+      this.$bvModal.show('PromotionModal')
+    },
+    showPromotionEditModal (obj) {
+      this.typeOfModal = 'edit'
+      promotionsServices.getPromotionDetails(obj.id).then(res => {
+        this.promotionDetails = res.data.data
+        this.$bvModal.show('PromotionModal')
+      })
+    },
+
     isSelected (data) {
       if (this.activeTab === data) {
         return true
@@ -206,9 +162,9 @@ export default {
       this.loadingTable = true
       promotionsServices.getAllPromotions().then(res => {
         this.data = res.data.data
-        console.log('res.data.data:', res.data.data)
       }).finally(() => {
         this.loadingTable = false
+        this.reloadTable = true
       })
     },
     end (data) {
@@ -238,23 +194,48 @@ export default {
       this.rowId = id
       this.$bvModal.show('promotionEdit')
     },
-    editPromotion () {
-      this.requestLoading = true
-      promotionsServices.editPromotion(this.rowId, this.editPromotions).then(res => {
-        core.showSnackbar('success', res.data.message)
-        this.getAllData()
-        this.$bvModal.hide('promotionEdit')
-      }).finally(() => {
-        this.requestLoading = false
-      })
-    },
-    savePromotion (data) {
+    // editPromotion () {
+    //   this.requestLoading = true
+    //   promotionsServices.editPromotion(this.rowId, this.editPromotions).then(res => {
+    //     core.showSnackbar('success', res.data.message)
+    //     this.getAllData()
+    //     this.$bvModal.hide('promotionEdit')
+    //   }).finally(() => {
+    //     this.requestLoading = false
+    //   })
+    // },
+    addPromotion (data) {
       this.requestLoading = true
       promotionsServices.addPromotion(data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getAllData()
-        this.$bvModal.hide('promotionDetails')
+        this.$bvModal.hide('PromotionModal')
       }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    editPromotion (data) {
+      this.requestLoading = true
+      promotionsServices.editPromotion(data.id, data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getAllData()
+        this.$bvModal.hide('PromotionModal')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+
+    getAllCouponsLimit () {
+      this.requestLoading = true
+      couponsServices.getAllCouponsLimit().then(res => {
+        this.allCoupons = res.data.data.data
+        this.requestLoading = false
+      })
+    },
+    getAllTicketsLimit () {
+      this.requestLoading = true
+      ticketsServices.getAllTicketsLimit().then(res => {
+        this.allTickets = res.data.data.data
         this.requestLoading = false
       })
     }
@@ -264,7 +245,13 @@ export default {
     EventBus.$on('reloadTableAfterDelete', ifReload => { this.getAllData() })
   },
   created () {
+    this.getAllCouponsLimit()
+    this.getAllTicketsLimit()
     this.getAllData()
+    this.$root.$on('showPromotionEditModal', this.showPromotionEditModal)
+  },
+  beforeDestroy () {
+    this.$root.$off('showPromotionEditModal')
   }
 }
 </script>

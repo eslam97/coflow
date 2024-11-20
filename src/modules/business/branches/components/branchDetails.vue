@@ -3,7 +3,7 @@
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addBranch)">
         <b-row class="">
-          <b-col lg="6" class="">
+          <b-col lg="4" class="">
             <input-form
               placeholder="Branch Name"
               :validate="'required|max:50'"
@@ -13,7 +13,7 @@
               v-model="branch.name"
             />
           </b-col>
-          <b-col lg="6">
+          <b-col lg="4">
             <input-form
               placeholder="Facility Email"
               :validate="'required|max:50'"
@@ -21,6 +21,16 @@
               :label="'Facility Email'"
               :limit="50"
               v-model="branch.email"
+            />
+          </b-col>
+          <b-col lg="4">
+            <input-form
+              placeholder="title"
+              :validate="'required|max:50'"
+              name="title"
+              :label="'title'"
+              :limit="50"
+              v-model="branch.title"
             />
           </b-col>
         </b-row>

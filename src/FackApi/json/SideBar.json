@@ -238,34 +238,6 @@
     "serviceTypes": "Pro"
   },
   {
-    "title": "Products",
-    "name": "Products",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "productList"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-shopping-bag",
-    "userType": "provider",
-    "serviceTypes": "Shop"
-  },
-  {
-    "title": "Accommodations",
-    "name": "Accommodations",
-    "is_heading": false,
-    "is_active": false,
-    "link": {
-      "name": "accommodations"
-    },
-    "class_name": "",
-    "is_icon_class": true,
-    "icon": "las la-procedures",
-    "userType": "provider",
-    "serviceTypes": "Camp"
-  },
-  {
     "title": "Flows",
     "name": "Flows",
     "is_heading": false,

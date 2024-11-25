@@ -8,7 +8,7 @@
                          :name="`Flow`" placeholder="Pick flow" :options="allFlows"
                          label="name" :disabled="typeOfModal === 'edit'"
                          :reduce="data => data.id"
-                         v-model="schedule.flow_id"></main-select>
+                         v-model="schedule.service_id"></main-select>
           </b-col>
           <b-col md="12" class="position-relative mb-4 border-bottom"
                  v-for="(slot, slotKey) in schedule.slots" :key="slotKey">
@@ -36,14 +36,14 @@
                 />
               </b-col>
               <b-col md="12">
-                <main-select labelTitle='Instructor' :validate="'required'"
-                             :name="`Instructor ${slotKey + 1}`"  placeholder="Pick instructor"
-                             :options="!schedule.flow_id ? '':
-                             allFlows.find((flow) => flow.id === schedule.flow_id).instructors"
+                <main-select labelTitle='instructors' :validate="'required'"
+                             :name="`instructors ${slotKey + 1}`"  placeholder="Pick instructors"
+                             :options="!schedule.service_id ? '':
+                             allFlows.find((flow) => flow.id === schedule.service_id).instructors"
                              label="first_name"
                              :multiple="true"
-                             :reduce="data => data.first_name"
-                             v-model="slot.instructor"></main-select>
+                             :reduce="data => data.id"
+                             v-model="slot.instructors"></main-select>
               </b-col>
               <b-col>
                 <b-form-checkbox type="checkbox"
@@ -115,12 +115,12 @@ export default {
           day: [],
           from: '',
           to: '',
-          instructor: '',
+          instructors: '',
           ladies_only: +false,
           status: ''
         }],
         status: 'active',
-        flow_id: '',
+        service_id: '',
         flow_name: ''
       },
       allDays: [
@@ -159,7 +159,7 @@ export default {
         this.schedule.slots[0].to = this.schedule.slots[0].to.slice(0, 5)
         this.schedule.slots[0].ladies_only = +this.schedule.slots[0].ladies_only
         const obj = {
-          flow_id: this.schedule.flow_id,
+          service_id: this.schedule.service_id,
           ...this.schedule.slots[0],
           _method: 'put'
         }
@@ -171,7 +171,7 @@ export default {
         days: [],
         from: '',
         to: '',
-        instructor: '',
+        instructors: '',
         ladies_only: +false
       })
     },
@@ -187,12 +187,12 @@ export default {
           day: this.scheduleDetails.day,
           from: this.scheduleDetails.from,
           to: this.scheduleDetails.to,
-          instructor: this.scheduleDetails.instructor,
+          instructors: this.scheduleDetails.instructors,
           ladies_only: +this.scheduleDetails.ladies_only,
           status: this.scheduleDetails.status
         }],
         status: 'active',
-        flow_id: this.scheduleDetails.flow_id,
+        service_id: this.scheduleDetails.service_id,
         flow_name: this.scheduleDetails.flow.name
       }
     }

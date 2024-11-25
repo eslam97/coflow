@@ -197,28 +197,30 @@
   {
     "title": "Products",
     "name": "Products",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "productList"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-shopping-bag"
+    "icon": "las la-shopping-bag",
+    "userType": "provider",
+    "serviceTypes": "Shop"
   },
   {
     "title": "Accommodations",
     "name": "Accommodations",
-    "permission": "dashboard",
     "is_heading": false,
     "is_active": false,
     "link": {
-      "name": "welcomeSetting"
+      "name": "accommodations"
     },
     "class_name": "",
     "is_icon_class": true,
-    "icon": "las la-procedures"
+    "icon": "las la-procedures",
+    "userType": "provider",
+    "serviceTypes": "Camp"
   },
   {
     "title": "Flows",

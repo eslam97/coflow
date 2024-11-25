@@ -3,7 +3,7 @@
       <div v-if="activationDetails">
         <b-alert show variant="warning" class="d-flex justify-content-around">
           <span><span class="text-bold">Email : </span> {{activationDetails.email}}</span>
-          <span><span class="text-bold">Password : </span> {{activationDetails.password_text}}</span>
+          <span><span class="text-bold">Password : </span> {{activationDetails.admin.password_txt}}</span>
           <span><span class="text-bold">Date : </span>
             {{activationDetails.accept_reject_date || activationDetails.activation_date}}</span>
         </b-alert>
@@ -14,7 +14,9 @@
             <div class="border-bottom mb-2">
               <h5 class="pb-2">General Admin Information: Contacts</h5>
             </div>
-            <b-row v-for="(info, key) in adminInformation" :key="key">
+            <!-- {{ activationDetails.name }} -->
+            <!-- {{ adminInformation }} -->
+            <b-row>
               <b-col md="4" class="mb-3" >
                 <input-form
                     v-model="info.name"
@@ -58,21 +60,21 @@
               <h5 class="pb-2">Facility Information & Photos</h5>
             </div>
             <b-row>
-              <b-col md="2" class="mb-3">
+              <b-col md="3" class="mb-3">
                 <main-select labelTitle='Activity Line' :validate="'required'"
                              :name="`activity_line_id`" placeholder="Choose" :options="allActivityLines"
                              label="name"
                              :reduce="data=> data.id"
                              v-model="info.activity_line_id"></main-select>
               </b-col>
-              <b-col class="mb-3" md="2">
+              <!-- <b-col class="mb-3" md="2">
                 <main-select labelTitle='Activity Type' :validate="'required'"
                              :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
                              label="name"
                              :reduce="data=> data.id"
                              v-model="info.activity_type_id"></main-select>
-              </b-col>
-              <b-col class="mb-3" md="2">
+              </b-col> -->
+              <b-col class="mb-3" md="3">
                 <input-form
                     placeholder="Ex: 2022"
                     :validate="`required|numeric|digits:4|between:1900,${new Date().getFullYear()}`"
@@ -594,8 +596,8 @@ export default {
       ],
       phones: [
         {
-          type: '',
-          number: ''
+          name: '',
+          phone: ''
         }
       ],
       location_type: 'address based',
@@ -768,8 +770,8 @@ export default {
     },
     addNewContactNumber () {
       this.phones.push({
-        type: '',
-        number: ''
+        name: '',
+        phone: ''
       })
     },
     addNewzone () {
@@ -829,11 +831,11 @@ export default {
         this.allActivityLines = res.data.data
       })
     },
-    getAllActivityType () {
-      settingsService.getAllActivityType().then(res => {
-        this.allActivityTypes = res.data.data
-      })
-    },
+    // getAllActivityType () {
+    //   settingsService.getAllActivityType().then(res => {
+    //     this.allActivityTypes = res.data.data
+    //   })
+    // },
     getAllLanguages () {
       settingsService.getAllLanguages().then(res => {
         this.allLanguages = res.data.data
@@ -851,11 +853,11 @@ export default {
     },
     fillData () {
       if (this.activationDetails) {
-        console.log('this.activationDetails', this.activationDetails)
+        // console.log('this.activationDetails', this.activationDetails)
         this.providerId = this.activationDetails.id
         this.adminInformation = this.activationDetails.contacts
         this.info.activity_line_id = this.activationDetails.activity_line_id
-        this.info.activity_type_id = this.activationDetails.activity_type_id
+        // this.info.activity_type_id = this.activationDetails.activity_type_id
         this.info.year = this.activationDetails.year
         this.info.name = this.activationDetails.name
         this.info.title = this.activationDetails.title
@@ -864,7 +866,7 @@ export default {
         this.info.amenities = this.activationDetails.amenities.map(item => item.id)
         this.info.links = this.activationDetails.links
         this.reservation_contact = this.activationDetails.reservation_contact[0]
-        this.info.tags = this.activationDetails.tags
+        this.info.tags = this.activationDetails.tags.map(item => item.id)
         this.service_types = this.activationDetails.service_types
         this.logoImage = this.activationDetails.logo
         this.coverImage = this.activationDetails.cover
@@ -966,7 +968,7 @@ export default {
   },
   created () {
     this.getAllActivityLine()
-    this.getAllActivityType()
+    // this.getAllActivityType()
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()

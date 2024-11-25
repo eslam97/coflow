@@ -41,10 +41,10 @@
           <div><h3>Schedule</h3></div>
           <div>
               <ul class="levels-list m-0 p-0 justify-content-center">
-                  <li class="p-1" v-for="(level, key) in levels" :key="key">
-                      <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
-                      <span class="font-size-12">{{ level.text }}</span>
-                  </li>
+                <li class="p-1" v-for="(level, key) in levels" :key="key">
+                  <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
+                  <span class="font-size-12">{{ level.text }}</span>
+              </li>
               </ul>
           </div>
           <div>
@@ -67,8 +67,7 @@
               <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                    :key="slotKey"
                    class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                   :class="(slot.status === 'active' || slot.status === true)?
-                     `slot-box-${levels.find(l => l.value === slot.flow.level).color}` : 'slot-box-grey'"
+                   :class="(slot.service.status === 'active' || slot.service.status === true) ? `slot-box-${getColor(slot)}` : 'slot-box-grey'"
                    @click="showScheduleToEdit(slot)">
                 <ul class="my-ul pl-0">
                   <li v-if="(slot.ladies_only)" class="ladies-only-tag">
@@ -80,8 +79,8 @@
                     </div>
                   </li>
                   <li>{{ formatTime(slot.from) }} - {{ formatTime(slot.to) }}</li>
-                  <li>{{ slot.flow.name }}</li>
-                  <li>{{ slot.instructor }}</li>
+                  <li>{{ slot.service.name }}</li>
+                  <li>{{ slot.instructors[0].first_name || ' ' }}</li>
                 </ul>
               </div>
             </b-col>
@@ -99,7 +98,7 @@
 import { core } from '@/config/pluginInit'
 import scheduleDetails from '@/modules/business/schedule/components/scheduleDetails'
 import scheduleServices from '@/modules/business/schedule/services/schedule.sevices'
-import flowsServices from '@/modules/business/flows/services/flows.services'
+import calendarServices from '@/modules/business/calendar/services/calendar.sevices'
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
 
@@ -169,6 +168,9 @@ export default {
     scheduleDetails
   },
   methods: {
+    getColor (slot) {
+      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.value === slot.service.level.name.toLowerCase()).color : 'blue'
+    },
     openPopup () {
       this.scheduleId = ''
       this.typeOfModal = 'add'
@@ -207,7 +209,7 @@ export default {
     },
     getAllFlows () {
       this.requestLoading = true
-      flowsServices.getAllFlowsLimit().then(res => {
+      calendarServices.getAllServicesLimit().then(res => {
         this.allFlows = res.data.data.data
         this.requestLoading = false
       })
@@ -247,9 +249,8 @@ export default {
         type: 'delete',
         actionOnAlert: '',
         text: 'Delete',
-        url: 'destroy-all-schedule',
-        method: 'get',
-        rowId: this.scheduleDetailsFront.id
+        url: 'clear-schedules',
+        method: 'get'
       })
     },
     changeStatus (id, status) {

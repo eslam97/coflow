@@ -63,12 +63,12 @@
                 </span>
             </b-col>
           </b-row>
-          <b-row>
+          <!-- <b-row>
             <b-col md="12" class="mb-4">
                 <span class="text-warning cursor-pointer" @click="addNewGeneralAdminInformation">+ Add another
                   Contact</span>
             </b-col>
-          </b-row>
+          </b-row> -->
         </div>
         <div>
           <b-row>
@@ -78,13 +78,6 @@
                            label="name"
                            :reduce="data=> data.id"
                            v-model="profile.activity_line_id"></main-select>
-            </b-col>
-            <b-col class="mb-3" md="3">
-              <main-select labelTitle='Activity Type' :validate="'required'"
-                           :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
-                           label="name"
-                           :reduce="data=> data.id"
-                           v-model="profile.activity_type_id"></main-select>
             </b-col>
             <b-col class="mb-3" md="2">
               <input-form
@@ -129,12 +122,19 @@
           <b-row>
             <b-col class="mb-3" md="12">
               <main-select labelTitle='Facility Tags' :validate="'required'"
+              :multiple="true"
+              :name="`tags`" placeholder="Search" :options="allTags"
+              label="name"
+              :reduce="data=> data.id"
+              :numberOfSelect=3
+              v-model="profile.tags"></main-select>
+              <!-- <main-select labelTitle='Facility Tags' :validate="'required'"
                            :taggable="true"
-                           multiple v-model="profile.tags"
+                            multiple v-model="profile.tags"
                            :name="`tags`" placeholder="Write Tags"
                            :numberOfSelect=3
               >
-              </main-select>
+              </main-select> -->
             </b-col>
           </b-row>
           <b-row>
@@ -186,19 +186,19 @@
                   >
                     <b-form-input
                         id="mm"
-                        v-model="item.link"
+                        v-model="item.url"
                         :class="[{ 'is-invalid': errors.length > 0 }]"
                         :placeholder="'Ex: https://www.google.com'"
-                        :disabled="!item.selectSocial"
+                        :disabled="!item.name"
                     />
                   </validation-provider>
                   <template #prepend>
                     <b-dropdown
-                        :text="item.selectSocial ? item.selectSocial : 'Choose'"
+                        :text="item.name ? item.name : 'Choose'"
                         class="selectWithInput"
                     >
                       <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
-                                       @click="item.selectSocial = i.name">
+                                       @click="item.name = i.name">
                         {{i.name}}
                       </b-dropdown-item>
                     </b-dropdown>
@@ -211,51 +211,15 @@
             </b-col>
             <b-col md="12">
               <main-select labelTitle='Reservation Link' :validate="'required'"
-                           :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube, {
-                              selectSocial: 'Contact Number',
-                              link: 'contact_number'
-                            }]"
-                           label="selectSocial"
-                           :reduce="data=> data"
-                           v-model="reservation_contact"></main-select>
+                  :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube, {
+                    name: 'Contact Number',
+                    url: 'contact_number'
+                  }]"
+                  label="name"
+                  :reduce="data=> data"
+                  v-model="reservation_contact"></main-select>
             </b-col>
           </b-row>
-<!--          <b-row>
-            <b-col md="12" class="mb-5">
-              <cropper-images
-                  label="Upload Logo"
-                  nameOfImage="logo.jpg"
-                  @cropper-save="savelogoImage"
-                  :progressLoading="loadingLogo"
-                  :multi="false"
-                  :imageUrl="logoImage"
-              />
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="12" class="mb-5">
-              <cropper-images
-                  label="Upload Cover"
-                  nameOfImage="cover.jpg"
-                  @cropper-save="saveCoverImage"
-                  :progressLoading="loadingCover"
-                  :multi="false"
-                  :imageUrl="coverImage"
-              ></cropper-images>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col md="12" class="mb-5">
-              <cropper-images
-                  label="Upload Facility Photos"
-                  @cropper-save="saveGalleryImage"
-                  @remove-image="removeGalleryImage"
-                  :progressLoading="loadingGallery"
-                  :removeLoadingUi="removeLoadingUi"
-                  :images="images"
-              ></cropper-images>
-            </b-col>
-          </b-row>-->
         </div>
         <div>
           <b-row class="mb-5">
@@ -359,7 +323,7 @@
               </b-col>
             </b-row>
           </div>
-          <div v-else>
+          <!-- <div v-else>
             <b-row class="mb-5">
               <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in profile.location"
                      :key="locationKey">
@@ -408,7 +372,7 @@
                 <span class="text-warning cursor-pointer" @click="addNewzone">+ Add new zone</span>
               </b-col>
             </b-row>
-          </div>
+          </div> -->
           <b-row>
             <b-col  md="6" class="mb-1" v-for="(item, key) in profile.phones" :key="key">
               <b-form-group
@@ -571,6 +535,24 @@ export default {
   data () {
     return {
       reservation_contact: {},
+      allTags: [
+        {
+          id: 1,
+          name: 'tag1'
+        },
+        {
+          id: 2,
+          name: 'tag2'
+        },
+        {
+          id: 3,
+          name: 'tag3'
+        },
+        {
+          id: 4,
+          name: 'tag4'
+        }
+      ],
       profile: {
         email: '',
         password: '',
@@ -582,7 +564,7 @@ export default {
           }
         ],
         activity_line_id: '',
-        activity_type_id: '',
+        // activity_type_id: '',
         year: '',
         name: '',
         title: '',
@@ -590,8 +572,8 @@ export default {
         tags: [],
         links: [
           {
-            selectSocial: '',
-            link: ''
+            name: '',
+            url: ''
           }
         ],
         bio: '',
@@ -670,7 +652,7 @@ export default {
       var newLinksArr = [...this.allLinks]
       this.profile.links.forEach(e => {
         newLinksArr.forEach(arr => {
-          if (arr.name === e.selectSocial) {
+          if (arr.name === e.name) {
             var socialIndex = newLinksArr.findIndex(item => item === arr)
             newLinksArr.splice(socialIndex, 1)
           }
@@ -680,7 +662,7 @@ export default {
     },
     getAllReservationLinkWithoutYoutube () {
       var newLinksArr = [...this.profile.links]
-      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      const ind = newLinksArr.findIndex(data => data.name === 'Youtube')
       if (ind > -1) {
         newLinksArr.splice(ind, 1)
       }
@@ -700,8 +682,8 @@ export default {
     },
     addNewLink () {
       this.profile.links.push({
-        selectSocial: '',
-        link: ''
+        name: '',
+        url: ''
       })
     },
     deleteLink (key) {
@@ -773,11 +755,11 @@ export default {
         this.allActivityLines = res.data.data
       })
     },
-    getAllActivityType (lineId) {
-      settingsService.getActivityTypesDependOnActivityLine(lineId).then(res => {
-        this.allActivityTypes = res.data.data
-      })
-    },
+    // getAllActivityType (lineId) {
+    //   settingsService.getActivityTypesDependOnActivityLine(lineId).then(res => {
+    //     this.allActivityTypes = res.data.data
+    //   })
+    // },
     getAllLanguages () {
       settingsService.getAllLanguages().then(res => {
         this.allLanguages = res.data.data
@@ -797,18 +779,19 @@ export default {
       if (this.profileDetails) {
         this.reservation_contact = this.profileDetails.reservation_contact[0]
         this.profile.email = this.profileDetails.email
-        this.profile.password = this.profileDetails.password_text
+        this.profile.password = this.profileDetails.admin.password_txt
         this.profile.contact = this.profileDetails.contacts
         this.profile.activity_line_id = this.profileDetails.activity_line_id
-        this.profile.activity_type_id = this.profileDetails.activity_type_id
+        // this.profile.activity_type_id = this.profileDetails.activity_type_id
+        console.log('this.profileDetails.tags -> ', this.profileDetails.tags)
         this.profile.year = this.profileDetails.year
-        this.profile.name = this.profileDetails.name
+        this.profile.name = this.profileDetails.admin.name
         this.profile.title = this.profileDetails.title
         this.profile.languages = this.profileDetails.languages
-        this.profile.tags = this.profileDetails.tags
+        this.profile.tags = this.profileDetails.tags.map(data => data.id)
         this.profile.links = this.profileDetails.links
         this.profile.bio = this.profileDetails.bio
-        this.profile.service_types = this.profileDetails.service_types
+        this.profile.service_types = this.profileDetails.facility_type
         this.profile.amenities = this.profileDetails.amenities.map(data => data.id)
         this.profile.phones = this.profileDetails.phones
         if (this.profileDetails.operation_type === '24 hours') {
@@ -905,9 +888,8 @@ export default {
     }, */
     // save change
     saveProfile () {
-      console.log('this.reservation_contact.hasOwnProperty(\'selectSocial\')')
       // eslint-disable-next-line no-prototype-builtins
-      if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
+      if (this.reservation_contact.hasOwnProperty('name') && this.reservation_contact.name === 'Contact Number') {
         this.reservation_contact.link = this.profile.phones
         // this.profile.reservation_contact = [this.reservation_contact]
       }
@@ -933,9 +915,9 @@ export default {
   mounted () {
   },
   watch: {
-    'profile.activity_line_id' (value) {
-      this.getAllActivityType(value)
-    }
+    // 'profile.activity_line_id' (value) {
+    //   this.getAllActivityType(value)
+    // }
   },
   created () {
     this.getAllActivityLine()

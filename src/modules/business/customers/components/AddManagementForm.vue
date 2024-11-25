@@ -2,7 +2,7 @@
   <div>
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addManagement)">
-        <div class="d-flex justify-content-between align-items-center gap-2">
+        <div class="d-flex justify-content-between gap-2">
           <input-form
             class="mb-0 w-100"
             v-model="phoneNumber"
@@ -10,8 +10,10 @@
             placeholder="Enter Phone Number"
             :validate="'required|numeric'"
           />
-
-          <b-button variant="light" class="btn light-btn" @click="showResult = true" :disabled="!phoneNumber">Search</b-button>
+          <b-button v-if="!searchLoading" variant="iq-bg-primary" class="btn light-btn py-2" @click="searchCustomer" :disabled="searchLoading">Search</b-button>
+          <b-button v-else variant="iq-bg-primary" class="btn light-btn py-2" :disabled="true">
+            <spinner-loading  text="" />
+          </b-button>
         </div>
 
         <div v-if="showResult" class="result-data">
@@ -43,6 +45,7 @@
   </div>
 </template>
 <script>
+import managementServices from '../services/management.services'
 
 export default {
   props: {
@@ -54,10 +57,19 @@ export default {
   data () {
     return {
       showResult: false,
+      searchLoading: false,
       phoneNumber: ''
     }
   },
   methods: {
+    searchCustomer () {
+      this.searchLoading = true
+      managementServices.searchCustomer(this.phoneNumber).then(res => {
+        this.showResult = true
+      }).finally(() => {
+        this.searchLoading = false
+      })
+    },
     addManagement () {
       this.$emit('addManagement', { phoneNumber: this.phoneNumber })
     }

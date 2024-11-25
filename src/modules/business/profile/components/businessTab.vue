@@ -996,7 +996,8 @@ export default {
       loadingLogo: 0,
       loadingCover: 0,
       loadingGallery: 0,
-      removeLoadingUi: false
+      removeLoadingUi: false,
+      allTeams: []
     }
   },
   computed: {

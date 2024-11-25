@@ -1,9 +1,9 @@
 <template>
   <div>
-    <validationObserver v-slot="{}">
-      <b-form>
+    <validationObserver v-slot="{ handleSubmit }">
+      <b-form @submit.prevent="handleSubmit(addBranch)">
         <b-row class="">
-          <b-col lg="6" class="">
+          <b-col lg="4" class="">
             <input-form
               placeholder="Branch Name"
               :validate="'required|max:50'"
@@ -13,7 +13,7 @@
               v-model="branch.name"
             />
           </b-col>
-          <b-col lg="6">
+          <b-col lg="4">
             <input-form
               placeholder="Facility Email"
               :validate="'required|max:50'"
@@ -21,6 +21,16 @@
               :label="'Facility Email'"
               :limit="50"
               v-model="branch.email"
+            />
+          </b-col>
+          <b-col lg="4">
+            <input-form
+              placeholder="title"
+              :validate="'required|max:50'"
+              name="title"
+              :label="'title'"
+              :limit="50"
+              v-model="branch.title"
             />
           </b-col>
         </b-row>
@@ -97,6 +107,8 @@
 <script>
 import profileServices from '@/modules/business/profile/services/profile.services'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+import branchesServices from '../services/branches.services'
+import { core } from '@/config/pluginInit'
 
 export default {
   data () {
@@ -104,7 +116,7 @@ export default {
       branch: {
         name: '',
         email: '',
-        title: '',
+        title: 'test',
         year: ''
       },
       typeOfModal: 'add',
@@ -126,6 +138,12 @@ export default {
     getAllActivityLine () {
       settingsService.getAllActivityLine().then(res => {
         this.allActivityLines = res.data.data
+      })
+    },
+    addBranch () {
+      branchesServices.addNewBranch(this.branch).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$emit('finished')
       })
     }
   },

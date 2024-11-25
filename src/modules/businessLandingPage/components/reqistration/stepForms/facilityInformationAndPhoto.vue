@@ -3,6 +3,7 @@
     <div class="border-bottom my-5">
       <b-container>
         <h4 class="py-4">Facility Information & Photos</h4>
+        {{ providerInfo }}
       </b-container>
     </div>
     <b-container>
@@ -259,7 +260,7 @@ export default {
       progressCover: 0,
       fileInfo: {},
       allActivityLines: [],
-      allActivityTypes: [],
+      // allActivityTypes: [],
       allLanguages: [],
       allLinks: [],
       allAmenities: [],
@@ -440,31 +441,24 @@ export default {
   },
   created () {
     this.getAllActivityLine()
-    /*    this.getAllActivityType() */
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
     if (this.providerInfo) {
-      settingsService.getActivityTypesDependOnActivityLine(this.providerInfo.activity_line_id).then(res => {
-        this.allActivityTypes = res.data.data
-      })
-      // console.log(this.providerInfo.activity_type_id)
-      this.logoImage = this.providerInfo.logo
-      this.coverImage = this.providerInfo.cover
-      console.log('this.providerInfo.images', this.providerInfo.images)
-      this.allImages = this.providerInfo.images
-      this.info = {
-        activity_line_id: this.providerInfo.activity_line_id,
-        // activity_type_id: this.providerInfo.activity_type_id,
-        year: this.providerInfo.year,
-        name: this.providerInfo.name,
-        title: this.providerInfo.title,
-        languages: this.providerInfo.languages,
-        bio: this.providerInfo.bio,
-        tags: this.providerInfo.tags,
-        amenities: this.providerInfo.amenities.map(ameny => ameny.id),
-        links: this.providerInfo.links
-      }
+      this.logoImage = this.providerInfo.facility.logo
+      // this.coverImage = this.providerInfo.facility.cover
+      // this.allImages = this.providerInfo.facility.images
+      // this.info = {
+      this.info.bio = this.providerInfo.facility.bio
+      this.info.activity_line_id = 1
+      this.info.year = this.providerInfo.facility.year
+      this.info.name = this.providerInfo.facility.name
+      this.info.title = this.providerInfo.facility.title
+      this.info.languages = this.providerInfo.facility.languages
+      this.info.tags = this.providerInfo.facility.tags.map(tag => tag.id)
+      this.info.amenities = this.providerInfo.facility.amenities.map(amenity => amenity.id)
+      // this.info.links = this.providerInfo.facility.links
+      // }
       if (this.logoImage) {
         this.loadingLogo = 100
         this.logoFlag = true

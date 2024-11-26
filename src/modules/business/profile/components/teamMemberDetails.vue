@@ -1,16 +1,16 @@
 <template>
   <div>
-    <validationObserver v-slot="{}">
-      <b-form>
+    <validationObserver v-slot="{ handleSubmit }">
+      <b-form @submit.prevent="handleSubmit(saveTeamMember)">
         <b-row class="">
           <b-col lg="6" class="">
             <input-form
               placeholder="Full Name"
               :validate="'required|max:50'"
-              name="Full Name"
+              name="name"
               :label="'Full Name'"
               :limit="50"
-              v-model="member.fullName"
+              v-model="member.name"
             />
           </b-col>
           <b-col lg="6">
@@ -48,10 +48,18 @@
 
         <b-row>
           <b-col md="12">
-            <cropper-images
+            <!-- <cropper-images
                 label="Member Photo"
                 :images="member.image"
                 type="member_image"
+            ></cropper-images> -->
+            <cropper-images
+                label="Member Photo"
+                nameOfImage="image.jpg"
+                @cropper-save="saveImage"
+                :multi="false"
+                :show-progress="false"
+                :uploadWithForm="true"
             ></cropper-images>
           </b-col>
         </b-row>
@@ -96,23 +104,53 @@
 </template>
 
 <script>
+const formData = new FormData()
 export default {
+  props: {
+    requestLoading: { type: Boolean, default: false },
+    typeOfModal: { type: String, default: 'add' },
+    memberDetails: { type: Object, default: () => {} }
+  },
   data () {
     return {
       member: {
-        fullName: '',
+        id: '',
+        name: '',
         title: '',
-        bio: '',
-        image: ''
-      },
-      typeOfModal: 'add',
-      requestLoading: false,
-      facilityName: '',
-      allActivityLines: [],
-      activityLine: { id: '', name: '' }
+        bio: ''
+        // image: ''
+      }
     }
   },
   methods: {
+    saveTeamMember () {
+      if (this.typeOfModal === 'add') {
+        formData.append('name', this.member.name)
+        formData.append('title', this.member.title)
+        formData.append('bio', this.member.bio)
+        this.$emit('addTeamMember', formData)
+      } else {
+        formData.append('name', this.member.name)
+        formData.append('title', this.member.title)
+        formData.append('bio', this.member.bio)
+        formData.append('_method', 'put')
+        this.$emit('editTeamMember', { id: this.member.id, formData: formData })
+      }
+    },
+    saveImage (data) {
+      formData.append('image', data.image)
+    }
+  },
+  created () {
+    if (this.memberDetails) {
+      this.member = {
+        id: this.memberDetails.id,
+        name: this.memberDetails.name,
+        title: this.memberDetails.title,
+        bio: this.memberDetails.bio
+        // image: this.memberDetails.image
+      }
+    }
   }
 }
 </script>

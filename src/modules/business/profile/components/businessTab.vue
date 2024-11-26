@@ -2,7 +2,7 @@
   <div>
     <!--  Photos edit modal  -->
     <main-modal id="modal-image" size="lg">
-      <template v-slot:header class="p2">
+      <template v-slot:header>
         <h4 class="font-weight-bold">
           <span class="text-info">View: </span>Photo
         </h4>
@@ -12,7 +12,7 @@
       </template>
     </main-modal>
     <main-modal id="photosView" size="lg">
-      <template v-slot:header class="p2">
+      <template v-slot:header>
         <h4 class="font-weight-bold">
           <span class="text-info">Edit: </span>{{ photoToEdit.type }}
         </h4>
@@ -22,7 +22,7 @@
       </template>
     </main-modal>
     <main-modal id="addPhoto" size="lg">
-      <template v-slot:header class="p2">
+      <template v-slot:header>
         <h4 class="font-weight-bold">
           <span class="text-info">Manage: </span>Photos
         </h4>
@@ -71,16 +71,22 @@
         </b-row>
       </template>
     </main-modal>
-    <main-modal id="addTeamMember" size="lg">
-      <template v-slot:header class="p2">
-        <h4 class="font-weight-bold">
-          <span class="text-warning">Add: </span>Team Member
-        </h4>
+    <main-modal id="teamMemberDetails" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Team Member</h4>
+        <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Team Member</h4>
       </template>
       <template v-slot:body>
-        <teamMemberDetails />
+        <teamMemberDetails
+          @addTeamMember="addTeamMember"
+          @editTeamMember="editTeamMember"
+          :requestLoading="requestLoading"
+          :memberDetails="teamMember"
+          :typeOfModal="typeOfModal"
+        />
       </template>
     </main-modal>
+
     <spinner-loading v-if="loading" text="Loading" />
     <div v-else>
       <b-row>
@@ -90,16 +96,13 @@
               <b-card class="mb-5">
                 <b-card-header class="mb-4 py-2">
                   <p class="font-size-12">
-                    <span class="text-dark font-weight-bold font-size-18 mr-3"
-                      >Facility Information & Details</span
-                    >
-                    Use this section to update your business and facility
-                    information
+                    <span class="text-dark font-weight-bold font-size-18 mr-3">Facility Information & Details</span>
+                    Use this section to update your business and facility information
                   </p>
                 </b-card-header>
                 <b-card-body>
                   <b-row md="12">
-                    <b-col md="2" class="mb-3">
+                    <b-col class="mb-3" md="2">
                       <main-select
                         labelTitle="Activity Line"
                         :validate="'required'"
@@ -113,19 +116,6 @@
                       ></main-select>
                     </b-col>
                     <b-col class="mb-3" md="2">
-                      <main-select
-                        labelTitle="Activity Type"
-                        :validate="'required'"
-                        :name="`activity_type_id`"
-                        placeholder="Choose"
-                        :options="allActivityTypes"
-                        label="name"
-                        disabled
-                        :reduce="(data) => data.id"
-                        v-model="info.activity_type_id"
-                      ></main-select>
-                    </b-col>
-                    <b-col class="mb-3" md="2">
                       <input-form
                         placeholder="Ex: 2022"
                         :validate="'required|numeric'"
@@ -135,7 +125,7 @@
                         v-model="info.year"
                       />
                     </b-col>
-                    <b-col class="mb-3" md="6">
+                    <b-col class="mb-3" md="4">
                       <input-form
                         placeholder="Ex: Diving"
                         :validate="'required|max:20'"
@@ -146,9 +136,7 @@
                         :limit="20"
                       />
                     </b-col>
-                  </b-row>
-                  <b-row>
-                    <b-col class="mb-3" md="6">
+                    <b-col class="mb-3" md="4">
                       <input-form
                         placeholder="Ex: The Yoga Studio"
                         :validate="'required|max:35'"
@@ -158,20 +146,8 @@
                         :limit="35"
                       />
                     </b-col>
-                    <b-col class="mb-3" md="6">
-                      <main-select
-                        labelTitle="Team Languages"
-                        :validate="'required'"
-                        :multiple="true"
-                        :name="`languages`"
-                        placeholder="Search"
-                        :options="allLanguages"
-                        label="name"
-                        :reduce="(data) => data.name"
-                        v-model="info.languages"
-                      ></main-select>
-                    </b-col>
                   </b-row>
+
                   <b-row>
                     <b-col class="mb-3" md="12">
                       <main-select
@@ -187,6 +163,21 @@
                       </main-select>
                     </b-col>
                   </b-row>
+                  <b-row>
+                    <b-col class="mb-3" md="12">
+                      <main-select
+                        labelTitle="Team Languages"
+                        :validate="'required'"
+                        :multiple="true"
+                        :name="`languages`"
+                        placeholder="Search"
+                        :options="allLanguages"
+                        label="name"
+                        v-model="info.languages"
+                      ></main-select>
+                    </b-col>
+                  </b-row>
+
                   <b-row>
                     <b-col class="mb-3" md="12">
                       <b-form-group
@@ -259,23 +250,21 @@
                           >
                             <b-form-input
                               id="mm"
-                              v-model="item.link"
+                              v-model="item.url"
                               :class="[{ 'is-invalid': errors.length > 0 }]"
                               :placeholder="''"
-                              :disabled="!item.selectSocial"
+                              :disabled="!item.name"
                             />
                           </validation-provider>
                           <template #prepend>
                             <b-dropdown
-                              :text="
-                                item.selectSocial ? item.selectSocial : 'Choose'
-                              "
+                              :text="item.name ? item.name : 'Choose'"
                               class="selectWithInput"
                             >
                               <b-dropdown-item
                                 v-for="(i, keyLink) in filterLinks"
                                 :key="keyLink"
-                                @click="item.selectSocial = i.name"
+                                @click="item.name = i.name"
                               >
                                 {{ i.name }}
                               </b-dropdown-item>
@@ -602,7 +591,7 @@
                         :name="`reservation_contact`"
                         placeholder="Choose"
                         :options="[...getAllReservationLinkWithoutYoutube]"
-                        label="selectSocial"
+                        label="name"
                         :reduce="(data) => data"
                         v-model="reservation_contact"
                       ></main-select>
@@ -737,46 +726,51 @@
             </b-form>
           </validationObserver>
 
-            <b-card class="mb-5">
-              <b-card-header class="mb-1 py-2">
-                <p class="font-size-12">
-                  <span class="text-dark font-weight-bold font-size-18 mr-3">
-                    Team
+          <b-card class="mb-5">
+            <b-card-header class="mb-1 py-2">
+              <p class="font-size-12">
+                <span class="text-dark font-weight-bold font-size-18 mr-3">
+                  Team
+                </span>
+                (Optional)
+              </p>
+            </b-card-header>
+            <b-card-body>
+              <div class="d-flex justify-content-start align-items-center gap-16">
+                <div v-for="i in oldProfile.teams" :key="i.id" class="d-flex flex-column justify-content-center align-items-center gap-20 px-4 pb-3" style="max-width:210px">
+                  <span class="team-avatar-image">
+                    <!-- <img v-if="i.image" class="w-100" :src="i.image" alt="image">
+                    <ProfileIcon v-else /> -->
+                    <ProfileIcon />
                   </span>
-                  (Optional)
-                </p>
-              </b-card-header>
-              <b-card-body>
-                <div class="d-flex justify-content-start align-items-center gap-16">
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-20 px-4 pb-3">
-                    <span class="team-avatar-image">
-                      <!-- <img class="w-100" src="" alt=""> -->
-                      <ProfileIcon />
-                    </span>
 
-                    <div class="text-center">
-                      <h6 class="text-dark font-weight-bold">Name</h6>
-                      <p>Title</p>
+                  <div class="text-center">
+                    <h6 class="text-dark font-weight-bold line-clamp-2">{{ i.name }}</h6>
+                    <p class="line-clamp-2">{{ i.title }}</p>
 
-                      <div class="d-flex justify-content-between gap-2">
-                        <EditMemberIcon class="cursor-pointer"/>
-                        <DeleteIcon class="cursor-pointer"/>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="d-flex flex-column justify-content-center align-items-center gap-20 px-4 pb-3">
-                    <span class="team-avatar-image cursor-pointer" @click="openAddTeamMember">
-                      <PlusIcon />
-                    </span>
-
-                    <div class="text-center">
-                      <h6 class="text-dark font-weight-bold">Team Member</h6>
+                    <div class="d-flex justify-content-center gap-2">
+                      <span class="cursor-pointer" @click="openEditTeamMember(i)">
+                        <EditMemberIcon />
+                      </span>
+                      <span class="cursor-pointer" @click="deleteTeamMember(i)">
+                        <DeleteIcon />
+                      </span>
                     </div>
                   </div>
                 </div>
-              </b-card-body>
-            </b-card>
+
+                <div class="d-flex flex-column justify-content-center align-items-center gap-20 px-4 pb-3">
+                  <span class="team-avatar-image cursor-pointer" @click="openAddTeamMember">
+                    <PlusIcon />
+                  </span>
+
+                  <div class="text-center">
+                    <h6 class="text-dark font-weight-bold">Team Member</h6>
+                  </div>
+                </div>
+              </div>
+            </b-card-body>
+          </b-card>
         </b-col>
 
         <b-col md="3">
@@ -857,6 +851,7 @@
 
 <script>
 import registrationServices from '@/modules/businessLandingPage/services/registration.services'
+import profileService from '../services/profile.services'
 import { core } from '@/config/pluginInit'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 import mainService from '@/services/main'
@@ -866,6 +861,7 @@ import ProfileIcon from './icons/profileIcon.vue'
 import EditMemberIcon from './icons/editMemberIcon.vue'
 import DeleteIcon from './icons/deleteIcon.vue'
 import PlusIcon from './icons/plusIcon.vue'
+import EventBus from '@/eventBus'
 
 export default {
   props: {
@@ -888,7 +884,6 @@ export default {
       loading: '',
       info: {
         activity_line_id: '',
-        activity_type_id: '',
         year: '',
         name: '',
         title: '',
@@ -898,8 +893,8 @@ export default {
         amenities: [],
         links: [
           {
-            selectSocial: '',
-            link: ''
+            name: '',
+            url: ''
           }
         ]
       },
@@ -983,7 +978,6 @@ export default {
         }
       ],
       allActivityLines: [],
-      allActivityTypes: [],
       allLanguages: [],
       allLinks: [],
       allAmenities: [],
@@ -997,7 +991,15 @@ export default {
       loadingCover: 0,
       loadingGallery: 0,
       removeLoadingUi: false,
-      allTeams: []
+      requestLoading: false,
+      typeOfModal: 'add',
+      teamMember: {
+        id: '',
+        name: '',
+        title: '',
+        bio: '',
+        image: ''
+      }
     }
   },
   computed: {
@@ -1005,7 +1007,7 @@ export default {
       var newLinksArr = [...this.allLinks]
       this.info.links.forEach((e) => {
         newLinksArr.forEach((arr) => {
-          if (arr.name === e.selectSocial) {
+          if (arr.name === e.name) {
             var socialIndex = newLinksArr.findIndex((item) => item === arr)
             newLinksArr.splice(socialIndex, 1)
           }
@@ -1016,15 +1018,15 @@ export default {
     getAllReservationLinkWithoutYoutube () {
       var newLinksArr = [...this.info.links]
       const ind = newLinksArr.findIndex(
-        (data) => data.selectSocial === 'Youtube'
+        (data) => data.name === 'Youtube'
       )
       if (ind > -1) {
         newLinksArr.splice(ind, 1)
       }
-      if (this.reservation_contact.selectSocial !== 'Contact Number') {
+      if (this.reservation_contact.name !== 'Contact Number') {
         newLinksArr.push({
-          selectSocial: 'Contact Number',
-          link: 'contact_number'
+          name: 'Contact Number',
+          url: 'contact_number'
         })
       }
       return newLinksArr
@@ -1134,8 +1136,8 @@ export default {
     },
     addNewLink () {
       this.info.links.push({
-        selectSocial: '',
-        link: ''
+        name: '',
+        url: ''
       })
     },
     deleteLink (key) {
@@ -1176,11 +1178,6 @@ export default {
     getAllActivityLine () {
       settingsService.getAllActivityLine().then((res) => {
         this.allActivityLines = res.data.data
-      })
-    },
-    getAllActivityType () {
-      settingsService.getAllActivityType().then((res) => {
-        this.allActivityTypes = res.data.data
       })
     },
     getAllLanguages () {
@@ -1237,7 +1234,6 @@ export default {
         this.providerId = this.oldProfile.id
         this.adminInformation = this.oldProfile.contacts
         this.info.activity_line_id = this.oldProfile.activity_line_id
-        this.info.activity_type_id = this.oldProfile.activity_type_id
         this.info.year = this.oldProfile.year
         this.info.name = this.oldProfile.name
         this.info.title = this.oldProfile.title
@@ -1305,13 +1301,14 @@ export default {
     saveChangesInfo () {
       const newObj = {
         _method: 'post',
-        ...this.info
+        ...this.info,
+        languages: this.info.languages.map(i => i.id)
       }
       this.$emit('updateFacilityInfo', newObj)
     },
     saveChangesPhone () {
       // eslint-disable-next-line no-prototype-builtins
-      if (this.reservation_contact.hasOwnProperty('selectSocial') && this.reservation_contact.selectSocial === 'Contact Number') {
+      if (this.reservation_contact.hasOwnProperty('name') && this.reservation_contact.name === 'Contact Number') {
         this.reservation_contact.link = this.phones
       }
       let location = {}
@@ -1376,14 +1373,59 @@ export default {
       this.$bvModal.show('photosView')
     },
     openAddTeamMember () {
-      this.$bvModal.show('addTeamMember')
+      this.typeOfModal = 'add'
+      this.teamMember = {}
+      this.$bvModal.show('teamMemberDetails')
+    },
+    openEditTeamMember (item) {
+      this.typeOfModal = 'edit'
+      this.teamMember = item
+      this.$bvModal.show('teamMemberDetails')
+    },
+    addTeamMember (payload) {
+      this.requestLoading = true
+      profileService.addTeamMember(payload).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('teamMemberDetails')
+        this.$emit('reload')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    editTeamMember (payload) {
+      this.requestLoading = true
+      profileService.editTeamMember(payload.id, payload.formData).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('teamMemberDetails')
+        this.$emit('reload')
+      }).finally(() => {
+        this.requestLoading = false
+      })
+    },
+    deleteTeamMember (item) {
+      EventBus.$emit('openDeleteModal', {
+        actionHeader: 'Delete',
+        titleHeader: 'Team Member',
+        textContent: item.name,
+        question: 'Are you sure you want to delete this team member?',
+        textDeleteButton: 'YES, Clear',
+        textCancelButton: 'NO, CANCEL',
+        icon: 'las la-trash-alt',
+        type: 'delete',
+        actionOnAlert: '',
+        text: 'Clear',
+        url: 'teams',
+        rowId: item.id
+      })
     }
   },
-  mounted () {},
+  mounted () {
+    core.index()
+    EventBus.$on('reloadTableAfterDelete', ifReload => { this.$emit('reload') })
+  },
   created () {
     this.getAllCountries()
     this.getAllActivityLine()
-    this.getAllActivityType()
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()

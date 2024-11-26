@@ -2,7 +2,7 @@
   <b-container fluid>
     <!--  Temporarily close modal  -->
     <main-modal id="tempCloseModal" size="md" @unsavedMsg="unsavedMsg">
-      <template v-slot:header class="p-2">
+      <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-danger">Temporarily close: </span> Account</h4>
       </template>
       <template v-slot:body>
@@ -66,6 +66,7 @@
                           @updateFacilityInfo="updateFacilityInfo"
                           @updateFacilityPhones="updateFacilityPhones"
                           @updateFacilityOperatingDays="updateFacilityOperatingDays"
+                          @reload="getOldAdminInfo"
                           :oldProfile="oldProfile"
             ></business-tab>
           </tab-content-item>

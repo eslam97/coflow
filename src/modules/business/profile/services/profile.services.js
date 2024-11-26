@@ -15,5 +15,12 @@ export default {
   },
   changePassword (payload) {
     return Api().post('change-password', payload)
+  },
+
+  addTeamMember (payload) {
+    return Api().post('teams', payload)
+  },
+  editTeamMember (id, payload) {
+    return Api().post(`teams/${id}`, payload)
   }
 }

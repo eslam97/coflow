@@ -1,36 +1,29 @@
 <template>
-    <b-container fluid>
-
-        <main-modal id="addBranchModal" size="lg">
-
-            <template v-slot:header class="p-2">
-
-            <h4 class="font-weight-bolder">
-
-              <span class="text-warning">Add: </span> Branch
-
-            </h4>
-</template>
-<template v-slot:body>
-    <branch-details @finished="getAllBranches"/>
-</template>
+  <b-container fluid>
+    <main-modal id="addBranchModal" size="lg">
+      <template v-slot:header>
+        <h4 class="font-weight-bolder"><span class="text-warning">Add: </span> Branch</h4>
+      </template>
+      <template v-slot:body>
+          <branch-details @finished="getAllBranches"/>
+      </template>
     </main-modal>
     <b-row>
       <b-col md="12" class="mb-4">
         <h3>Branches</h3>
       </b-col>
     </b-row>
-    <b-row class="d-flex mb-5">
-      <b-col md="3" v-for="(branch, key) in allBranches" :key="key">
+    <b-row class="branches-container">
+      <b-col md="3" v-for="(branch, key) in allBranches" :key="key" class="mb-4">
         <!-- {{  allBranches  }} -->
         <b-card class="p-2 branch-card" no-body>
           <div class="p-0 mb-5 position-relative card-img-top">
             <img
-              src="https://s3-alpha-sig.figma.com/img/e54e/7574/86e471e8b7375a58a789fe733ba921e5?Expires=1730073600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=B53zs0QmAAU9v63XOXxsvWUjG-2C6xdIoLtuht-9oLvVrzqtsKJmqFMvdeF1TNs5SRv55c34jgdPRbDlEPPOAuVg3xOZADdNL72EzFK8esuQDsxTe1JCcJiJEZYLdn~JbomvDqgg0z7IgD1zsNrBUq7JaqvX-UWOVmzhOBAh4Zpqj~7rI9EVPIGv5KAx2cRl5zupf3IvqvUtk47UAK3CzqV6BmKfoIjYGLHV6I02-tUqRDjjH4hyIPU07nhy3scgOiXTN45L7Kkcr10oXDm1lfbFVhFUQ5bE2j9ZjpThVnwGmKJFcc4jXrW1XKRO6ELyCA2QGjUzFBjFHIS-GhGn5Q__"
+              :src="branch.cover || defaultCover"
               class="img-fluid w-100 cursor-pointer"
             />
             <img
-              :style="`background-image: url(${branch.logo})`"
+              :style="`background-image: url(${branch.logo || defaultLogo})`"
               class="card-profile-img img-fluid"
             />
           </div>
@@ -40,7 +33,7 @@
               <h4 class="font-weight-bold">{{  branch.name  }}
               </h4>
               <div class="rating"> <StarIcon />
-               <span>{{  branch.rate  }} ({{branch.reviews_count}})</span></div>
+              <span>{{  branch.rate  }} ({{branch.reviews_count}})</span></div>
             </div>
 
             <p class="text-co-orange font-weight-medium m-0"><span class="bg-co-orange rounded" style="width: 8px;height: 8px; border-radius: 50%;display: inline-block;"></span> {{branch.status}}</p>
@@ -64,7 +57,7 @@
         </b-card>
       </b-col>
 
-      <b-col md="3">
+      <b-col md="3" class="mb-4">
         <div class="add-branch h-100 d-flex flex-column justify-content-center align-items-center" @click="addBranch">
           <span class="icon">
             <PlusIcon />
@@ -99,6 +92,8 @@ export default {
       images: [],
       logoImage: '',
       coverImage: '',
+      defaultLogo: '',
+      defaultCover: '',
       id: ''
     }
   },
@@ -115,6 +110,8 @@ export default {
   },
   created () {
     this.getAllBranches()
+    this.defaultLogo = JSON.parse(localStorage.getItem('userInfo')).facility.logo
+    this.defaultCover = JSON.parse(localStorage.getItem('userInfo')).facility.cover
   },
   mounted () {
     core.index()

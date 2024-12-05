@@ -56,29 +56,30 @@
     <main-table
       :fields="columns"
       class="mb-0 table-borderless"
-      :items="items"
+      :list_url="'purchases'"
+      :reloadData="reloadTable"
     />
   </div>
 </template>
 
 <script>
 import { core } from '@/config/pluginInit'
-import { purchasessItems } from '../services/data'
 
 export default {
   data () {
     return {
-      items: purchasessItems,
+      reloadTable: false,
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
         { label: 'Admin', key: 'admin', class: 'text-left' },
-        { label: 'Date', key: 'date', class: 'text-left text-bold' },
-        { label: 'Customer', key: 'customer', class: 'text-left' },
-        { label: 'Action', key: 'action', class: 'text-left' },
-        { label: 'Purchase', key: 'purchase', class: 'text-left' },
+        { label: 'Date', key: 'created_at', class: 'text-left text-bold' },
+        { label: 'Customer', key: 'user.name', class: 'text-left' },
+        { label: 'Action', key: 'type', class: 'text-left' },
+        { label: 'Purchase', key: 'user.purchases', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
-        { label: 'Amount', key: 'amount', class: 'text-left', type: 'sort' },
+        { label: 'Amount', key: 'total_price', class: 'text-left', type: 'sort' },
         { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
+        { label: 'Validity', key: 'expire_date', class: 'text-left', type: 'validity' },
         {
           label: 'Actions',
           key: 'actions',

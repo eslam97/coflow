@@ -164,6 +164,11 @@
             {{ calculateAge($_.get(data.item, field.key)) }}
           </div>
 
+          <!--    Calculate validity      -->
+          <div v-else-if="field.type == 'validity'">
+            {{ dateDifference('', $_.get(data.item, field.key)) || '---' }}
+          </div>
+
           <!-- handle Text -->
           <p
             v-else
@@ -217,6 +222,7 @@ import mainstatus from './status'
 import mainService from '@/services/main'
 import cellActions from './cellActions'
 import changeStatus from './changeStatus'
+import { dateDifference } from '@/Helpers/helper'
 import { core } from '@/config/pluginInit'
 export default {
   components: {
@@ -304,6 +310,7 @@ export default {
     this.getListData()
   },
   methods: {
+    dateDifference,
     async getListData () {
       this.listOfData = []
       this.total = 0

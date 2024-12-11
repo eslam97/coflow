@@ -174,7 +174,7 @@
             v-else
             class="text-nowrap m-0"
           >
-            <span v-if="$_.get(data.item, field.key)">
+            <span v-if="$_.get(data.item, field.key) || $_.get(data.item, field.key) == 0">
               {{ $_.get(data.item, field.key).length > limitOfChar ? $_.get(data.item, field.key).substring(0,limitOfChar) + '...' : $_.get(data.item, field.key) }}
             </span>
             <span v-else>

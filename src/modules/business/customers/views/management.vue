@@ -49,7 +49,7 @@
         <main-table
           :fields="columns"
           class="mb-0 table-borderless"
-          :items="items"
+          :list_url="'customers'"
         />
       </b-col>
     </b-row>
@@ -71,7 +71,6 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import { managementItems } from '../services/data'
 // import managementServices from '../services/management.services'
 import AddManagementForm from '../components/AddManagementForm.vue'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
@@ -81,16 +80,15 @@ export default {
     return {
       reloadTable: false,
       requestLoading: false,
-      items: managementItems,
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
         { label: 'Photo', key: 'image', class: 'text-left', type: 'image' },
         { label: 'Name', key: 'name', class: 'text-left text-bold' },
-        { label: 'Age', key: 'age', class: 'text-left' },
+        { label: 'Age', key: 'birthdate', class: 'text-left' },
         { label: 'Gender', key: 'gender', class: 'text-left' },
         { label: 'Nationality', key: 'nationality', class: 'text-left' },
-        { label: 'Tickets', key: 'tickets', class: 'text-left' },
-        { label: 'Promotions', key: 'promotions', class: 'text-left' },
+        { label: 'Tickets', key: 'total_tickets', class: 'text-left' },
+        { label: 'Promotions', key: 'total_promotions', class: 'text-left' },
         { label: 'Purchases', key: 'purchases', class: 'text-left' },
         {
           label: 'Actions',

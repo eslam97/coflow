@@ -13,7 +13,7 @@
     <main-table
       :fields="columns"
       class="mb-0 table-borderless"
-      :items="items"
+      :list_url="'gifts'"
     />
 
     <main-modal id="AddGiftModal">
@@ -23,7 +23,7 @@
         </h4>
       </template>
       <template v-slot:body>
-        zzzzzzzzzz
+        <ManagementGiftForm @addGift="addNewGift" :requestLoading="requestLoading"/>
       </template>
     </main-modal>
   </div>
@@ -31,6 +31,8 @@
 <script>
 import { core } from '@/config/pluginInit'
 import { managementGiftsItems } from '../services/data'
+import ManagementGiftForm from '../components/ManagementGiftForm.vue'
+import managementServices from '../services/management.services'
 
 export default {
   data () {
@@ -38,7 +40,7 @@ export default {
       items: managementGiftsItems,
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
-        { label: 'Date', key: 'date', class: 'text-left text-bold', type: 'sort' },
+        { label: 'Date', key: 'created_at', class: 'text-left text-bold', type: 'date' },
         { label: 'Gift', key: 'gift', class: 'text-left' },
         { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Quantity', key: 'quantity', class: 'text-left' },
@@ -75,13 +77,29 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      requestLoading: false,
+      reloadTable: false
     }
   },
-  components: {},
+  components: {
+    ManagementGiftForm
+  },
   methods: {
     openPopup () {
       this.$bvModal.show('AddGiftModal')
+    },
+    addNewGift (payload) {
+      this.requestLoading = true
+      this.reloadTable = false
+      managementServices.addNewGift(payload).then((res) => {
+        this.reloadTable = true
+        core.showSnackbar('success', res.data.message)
+        this.$bvModal.hide('AddGiftModal')
+        this.requestLoading = false
+      }).finally(() => {
+        this.requestLoading = false
+      })
     }
   },
   created () {},

@@ -49,7 +49,7 @@
         <main-table
           :fields="columns"
           class="mb-0 table-borderless"
-          :items="items"
+          :list_url="'customers'"
         />
       </b-col>
     </b-row>
@@ -72,7 +72,7 @@
 <script>
 import { core } from '@/config/pluginInit'
 import { managementItems } from '../services/data'
-// import managementServices from '../services/management.services'
+import managementServices from '../services/management.services'
 import AddManagementForm from '../components/AddManagementForm.vue'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 
@@ -89,8 +89,8 @@ export default {
         { label: 'Age', key: 'age', class: 'text-left' },
         { label: 'Gender', key: 'gender', class: 'text-left' },
         { label: 'Nationality', key: 'nationality', class: 'text-left' },
-        { label: 'Tickets', key: 'tickets', class: 'text-left' },
-        { label: 'Promotions', key: 'promotions', class: 'text-left' },
+        { label: 'Tickets', key: 'total_tickets', class: 'text-left' },
+        { label: 'Promotions', key: 'total_promotions', class: 'text-left' },
         { label: 'Purchases', key: 'purchases', class: 'text-left' },
         {
           label: 'Actions',
@@ -146,22 +146,15 @@ export default {
       })
     },
     addManagement (payload) {
-      console.log('addManagement: ', payload)
       this.requestLoading = true
       this.reloadTable = false
-      // managementServices.addManagement(payload).then(res => {
-      //   this.reloadTable = true
-      //   core.showSnackbar('success', res.data.message)
-      //   this.$bvModal.hide('AddManagementModal')
-      // }).finally(() => {
-      //   this.requestLoading = false
-      // })
-      setTimeout(() => {
+      managementServices.addManagement(payload).then(res => {
         this.reloadTable = true
-        core.showSnackbar('success', 'Added Successfully')
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('AddManagementModal')
+      }).finally(() => {
         this.requestLoading = false
-      }, 1000)
+      })
     }
   },
   created () {

@@ -43,7 +43,7 @@
                   <b-form-input
                     id="validity_days"
                     v-model="ticket.validity_days"
-                    placeholder="Placeholder"
+                    placeholder="EX: 20"
                     :class="[{ 'is-invalid': errors.length > 0}]"
                   />
                 </b-input-group>
@@ -63,7 +63,7 @@
                 <b-input-group>
                   <b-form-input
                     v-model="ticket.price"
-                    placeholder="Placeholder"
+                    placeholder="Ex:200"
                     :class="[{ 'is-invalid': errors.length > 0 }]"
                   />
                   <b-input-group-append>
@@ -112,7 +112,7 @@
             </validation-provider>
           </b-col>
 
-          <b-col md="12">
+          <b-col md="6">
             <main-select
               labelTitle="Access"
               :validate="'required'"
@@ -124,6 +124,41 @@
               :reduce="(data) => data.id"
               v-model="ticket.services"
             ></main-select>
+          </b-col>
+          <b-col md="6">
+            <legend>Add-Ons (Optional)</legend>
+            <div class="m-0">
+              <div class="d-flex gap-2 position-relative" v-for="(addon, keyAddon) in ticket.addons" :key="keyAddon">
+                <input-form
+                  v-model="addon.name"
+                  placeholder="Enter Add-On Name"
+                  :validate="'max:50'"
+                  name="Ticket name"
+                  :limit="50"
+              />
+                <validation-provider
+                #default="{ errors }"
+                :name="`Discount Price`"
+                :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
+                class="flex-grow-1"
+              >
+                <b-form-group>
+                  <b-input-group :append="ticket.currency">
+                    <b-form-input
+                      v-model="addon.price"
+                      placeholder="0000"
+                      :class="[{ 'is-invalid': errors.length > 0}]"
+                    />
+                  </b-input-group>
+                </b-form-group>
+                </validation-provider>
+                <span class="text-danger deleteLabelButton cursor-pointer" style="top:-20px" v-if="keyAddon != 0" @click="deleteAddon(keyAddon)">Delete
+                </span>
+              </div>
+              <p class="d-flex justify-content-end m-0">
+                <span class="text-warning cursor-pointer" @click="addNewAddon">+ Add new Add-On</span>
+              </p>
+            </div>
           </b-col>
 
           <b-col md="6">
@@ -226,7 +261,10 @@ export default {
         currency: 'EGP',
         conditions: '',
         requirements: '',
-        addons: [],
+        addons: [{
+          name: '',
+          price: ''
+        }],
         services: []
       },
       removeLoadingUi: false,
@@ -236,11 +274,21 @@ export default {
     }
   },
   methods: {
+    deleteAddon (key) {
+      this.ticket.addons.splice(key, 1)
+    },
+    addNewAddon () {
+      this.ticket.addons.push({
+        name: '',
+        price: ''
+      })
+    },
     submitForm () {
+      var addons = this.ticket.addons.filter(addon => addon.name && addon.price)
       if (this.typeOfModal === 'add') {
-        this.$emit('createTicket', { ...this.ticket })
+        this.$emit('createTicket', { ...this.ticket, addons })
       } else {
-        this.$emit('updateTicket', { ...this.ticket, _method: 'patch' })
+        this.$emit('updateTicket', { ...this.ticket, addons, _method: 'patch' })
       }
     },
     getAllServices () {

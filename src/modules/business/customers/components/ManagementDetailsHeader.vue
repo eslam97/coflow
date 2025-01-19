@@ -5,26 +5,26 @@
         <router-link :to="{ name: 'customers.management' }" class="btn bg-white add_button" >
           <i class="fa fa-chevron-left"></i>
         </router-link>
-        Manage: <span class="name">Ahmed Mohamed</span>
+        Manage: <span class="name">{{info.name}}</span>
       </h3>
       <div class="d-flex justify-content-between gap-1">
-        Date Joined: <span class="date">23/09/2023</span>
+        Date Joined: <span class="date">{{info.created_at}}</span>
       </div>
     </div>
 
     <iq-card>
       <div class="personal-information">
-        <img src="https://sholaemmanuel.com/wp-content/uploads/2024/06/photo-1535713875002-d1d0cf377fde.jpg" alt="">
+        <img :src="info.image" alt="">
         <div class="w-100 py-3">
           <h4>Personal Information</h4>
           <b-row class="mb-2 pb-2 border-bottom">
-            <b-col md="4">Date of Birth: <span>23/02/1997</span></b-col>
-            <b-col md="4">Gender: <span>Male</span></b-col>
-            <b-col md="4">Nationality: <span>Egypt</span></b-col>
+            <b-col md="4">Date of Birth: <span>{{info.birthdate}}</span></b-col>
+            <b-col md="4">Gender: <span>{{info.gender}}</span></b-col>
+            <b-col md="4">Nationality: <span>{{info.nationality}}</span></b-col>
           </b-row>
           <b-row>
-            <b-col md="4">Mobile Number: <span>01234567890</span></b-col>
-            <b-col md="4">Email: <span>Ahmed@gmail.com</span></b-col>
+            <b-col md="4">Mobile Number: <span>{{info.phone}}</span></b-col>
+            <b-col md="4">Email: <span>{{info.email}}</span></b-col>
           </b-row>
         </div>
       </div>
@@ -65,7 +65,7 @@
           </svg>
           <div>
             <span>Total Gifts</span>
-            <span class="number">50</span>
+            <span class="number">{{ info.total_gifts }}</span>
           </div>
         </div>
         <div class="statistics-item">
@@ -78,7 +78,7 @@
           </svg>
           <div>
             <span>Purchases (EGP)</span>
-            <span class="number">50</span>
+            <span class="number">{{ info.total_purchases }}</span>
           </div>
         </div>
         <div class="statistics-item">

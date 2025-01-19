@@ -33,6 +33,12 @@
         :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
         :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
         >
+        <template #option="data">
+          <slot name="data" :data="data"></slot>
+        </template>
+         <template #selected-option="data">
+          <slot name="selected-option" :data="data"></slot>
+          </template>
           <template #open-indicator="{ attributes }" v-if="!taggable">
             <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
           </template>

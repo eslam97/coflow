@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <h5 class="mb-2">Monthly Package</h5>
+    <h5 class="mb-2">{{ info.name }}</h5>
 
     <p>Purchased on : 2023-10-21</p>
 
@@ -17,6 +17,10 @@ export default {
     requestLoading: {
       type: Boolean,
       default: false
+    },
+    info: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {

@@ -6,11 +6,27 @@
           <b-col md="12">
             <span>Purchase</span>
             <main-select
+              @input="selectData"
               v-model="purchase.purchase"
               :options="purchaseOptions"
-              label="key"
               placeholder="--Select--"
-            />
+            >
+            <template #data="{data}">
+              <span class="d-flex gap-2 m-0 p-0 justify-content-between">
+                <span>{{ data.name }}</span>
+                <span class="d-flex gap-1">
+                  <span v-if="data.discount_price">({{  data.discount_price }}{{ data.currency }})</span>
+                  <span :class="`${data.discount_price ? 'text-decoration-line-through' : ''}`">({{  data.price }}{{ data.currency }})</span>
+                </span>
+              </span>
+            </template>
+            <template #selected-option="{data}">
+              <span>
+                {{ data.name }} - <span v-if="data.discount_price">({{  data.discount_price }}{{ data.currency }})  </span>
+                <span :class="`${data.discount_price ? 'text-decoration-line-through' : ''}`">({{  data.price }}{{ data.currency }})</span>
+              </span>
+            </template>
+            </main-select>
           </b-col>
 
           <b-col md="12" class="quantity">
@@ -41,6 +57,7 @@
               placeholder="--Select--"
             />
           </b-col>
+
           <b-col md="12">
             <span>Coupon (optional)</span>
             <main-select
@@ -52,16 +69,17 @@
             />
           </b-col>
         </b-row>
-
+        <!-- {{ purchaseOptions }} -->
         <div v-if="purchase.purchase">
-          <h3>Purchase Invoice</h3>
+          <h4>Purchase Invoice</h4>
           <div class="purchase-invoice">
             <div v-if="purchase.purchase" class="item">
               <span>
                 <span class="number">{{ quantity }}</span>
                 {{ purchase.purchase.name }}
               </span>
-              <span class="number">+{{ purchase.quantity * purchase.purchase.price }} EGP</span>
+              <!-- {{ purchase.purchase.discount_price }} -->
+              <span class="number">+{{ purchase.quantity * purchase.purchase.discount_price ? purchase.purchase.discount_price :purchase.purchase.price }} EGP</span>
             </div>
             <template v-if="purchase.addOns">
               <div v-for="(item, index) in purchase.addOns" :key="index" class="item">
@@ -101,7 +119,8 @@
   </div>
 </template>
 <script>
-
+import ticketsServices from '@/modules/business/pricing/services/tickets.services'
+import promotionsServices from '@/modules/business/pricing/services/promotions.services'
 export default {
   props: {
     requestLoading: {
@@ -114,18 +133,18 @@ export default {
       purchase: {
         purchase: '',
         quantity: 1,
-        addOns: '',
-        coupon: ''
+        addOns: [],
+        coupon: '',
+        user_id: this.$route.params.id,
+        promotion_id: '',
+        coupon_id: '',
+        ticket_id: ''
       },
-      purchaseOptions: [
-        { value: 1, key: 'Silver Ticket (400EGP)', name: 'Silver Ticket', price: 400 },
-        { value: 2, key: 'GOLD Ticket (500EGP)', name: 'GOLD Ticket', price: 500 },
-        { value: 3, key: 'Platinum Ticket (600EGP)', name: 'Platinum Ticket', price: 600 }
-      ],
+      purchaseOptions: [],
       addOnsOptions: [
-        { value: 1, key: 'Name1 (20EGP)', name: 'Name1', price: 20 },
-        { value: 2, key: 'Name2 (40EGP)', name: 'Name2', price: 40 },
-        { value: 3, key: 'Name3 (50EGP)', name: 'Name3', price: 50 }
+        // { value: 1, key: 'Name1 (20EGP)', name: 'Name1', price: 20 },
+        // { value: 2, key: 'Name2 (40EGP)', name: 'Name2', price: 40 },
+        // { value: 3, key: 'Name3 (50EGP)', name: 'Name3', price: 50 }
       ],
       couponOptions: [
         { value: 1, key: 'Coupon 1 - 10%', coupon: 10 },
@@ -135,18 +154,53 @@ export default {
     }
   },
   methods: {
+    selectData (data) {
+      // console.log('daaaaata -> ', data)
+      this.purchase.ticket_id = data.id
+    },
+    getAllTicketsLimit () {
+      this.requestLoading = true
+      ticketsServices.getAllTicketsLimit().then(res => {
+        this.purchaseOptions.push(...res.data.data.data)
+      })
+    },
+    getAllPromotions () {
+      this.requestLoading = true
+      promotionsServices.getAllPromotions().then(res => {
+        console.log('res.data.current.data => ', res.data.data.current.data)
+        this.purchaseOptions.push(...res.data.data.current.data)
+      })
+    },
+
+    getPurchaseOptions () {
+      this.purchaseOptions = []
+      this.getAllTicketsLimit()
+      // this.getAllPromotions()
+    },
     addPurchase () {
       this.$emit('addPurchase', this.purchase)
     }
   },
-  watch: {},
+  watch: {
+    'purchase.purchase': (val) => {
+      console.log('val -> ', val.id)
+      this.purchase.ticket_id = val.id
+      this.addOnsOptions = val.addons || []
+    }
+  },
   computed: {
     quantity () {
       return this.purchase.quantity > 1 ? `${this.purchase.quantity}x ` : ''
     },
     totalAmount () {
       let total = 0
-      if (this.purchase.purchase) total += this.purchase.purchase.price * this.purchase.quantity
+      if (this.purchase.purchase) {
+        if (this.purchase.purchase.discount_price) {
+          total += this.purchase.purchase.discount_price * this.purchase.quantity
+        } else {
+          total += this.purchase.purchase.price * this.purchase.quantity
+        }
+      }
       if (this.purchase.addOns) {
         total += this.purchase.addOns.reduce((accumulator, currentValue) => {
           return accumulator + (currentValue.price * this.purchase.quantity)
@@ -160,51 +214,10 @@ export default {
     }
   },
   created () {
+    this.getPurchaseOptions()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.quantity {
-  display: flex;
-  justify-content: space-between;
-  color: #181836;
-  .btns {
-    border: 1px solid #E3E4E8;
-    border-radius: 6px;
-    overflow: hidden;
-    button {
-      background-color: #F4B860;
-      border: none;
-      padding: 6px 12px;
-    }
-    span {
-      padding: 6px 12px;
-    }
-  }
-}
-.purchase-invoice {
-  background-color: #F0F0F0;
-  border-radius: 16px;
-  padding: 16px;
-  .item {
-    display: flex;
-    justify-content: space-between;
-    &.total {
-      border-top: 1px solid #e0e0e0;
-      padding-top: 4px;
-      margin-top: 4px;
-    }
-
-    span {
-      color: #181935;
-    }
-    .coupon-text {
-      color: #74798C;
-    }
-    .number {
-      color: #FE9E12;
-    }
-  }
-}
 </style>

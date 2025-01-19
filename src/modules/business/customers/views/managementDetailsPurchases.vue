@@ -13,8 +13,13 @@
     <main-table
       :fields="columns"
       class="mb-0 table-borderless"
-      :items="items"
-    />
+      :list_url="'purchases'"
+      :reloadData="reloadTable"
+    >
+    <template v-slot:created_at="data">
+      {{data.data.created_at ? data.data.created_at.substr(0,10) : '--'}}
+    </template>
+    </main-table>
 
     <main-modal id="AddPurchaseModal">
       <template v-slot:header>
@@ -29,6 +34,7 @@
         />
       </template>
     </main-modal>
+
     <main-modal id="ViewPurchaseModal">
       <template v-slot:header>
         <h4 class="font-weight-bold">
@@ -36,9 +42,10 @@
         </h4>
       </template>
       <template v-slot:body>
-        <ManagementPurchasesView />
+        <ManagementPurchasesView :details="purchaseDetails" />
       </template>
     </main-modal>
+
     <main-modal id="EditPurchaseModal">
       <template v-slot:header>
         <h4 class="font-weight-bold">
@@ -62,10 +69,12 @@
       <template v-slot:body>
         <ManagementPurchasesCollect
           @collectPurchase="collectPurchase"
+          :info="purchaseDetails"
           :requestLoading="requestLoading"
         />
       </template>
     </main-modal>
+
     <main-modal id="RefundPurchaseModal">
       <template v-slot:header>
         <h4 class="font-weight-bold">
@@ -76,9 +85,11 @@
         <ManagementPurchasesRefund
           @refundPurchase="refundPurchase"
           :requestLoading="requestLoading"
+          :info="purchaseDetails"
         />
       </template>
     </main-modal>
+
     <main-modal id="CancelPurchaseModal">
       <template v-slot:header>
         <h4 class="font-weight-bold">
@@ -89,6 +100,7 @@
         <ManagementPurchasesCancel
           @cancelPurchase="cancelPurchase"
           :requestLoading="requestLoading"
+          :info="purchaseDetails"
         />
       </template>
     </main-modal>
@@ -103,7 +115,7 @@ import ManagementPurchasesEdit from '../components/ManagementPurchasesEdit.vue'
 import ManagementPurchasesCollect from '../components/ManagementPurchasesCollect.vue'
 import ManagementPurchasesRefund from '../components/ManagementPurchasesRefund.vue'
 import ManagementPurchasesCancel from '../components/ManagementPurchasesCancel.vue'
-
+import managementServices from '../services/management.services'
 export default {
   data () {
     return {
@@ -112,14 +124,15 @@ export default {
       purchaseDetails: {},
       items: managementPurchasesItems,
       columns: [
-        { label: '#', key: 'id', class: 'text-center', type: 'sort' },
-        { label: 'Date', key: 'date', class: 'text-left text-bold', type: 'sort' },
+        '#',
+        { label: 'Date', key: 'created_at', class: 'text-left', type: 'custom' },
+        // { label: 'Created By', key: 'created_by.email', class: 'text-left' },
         { label: 'Purchase', key: 'purchase', class: 'text-left' },
-        { label: 'Name', key: 'name', class: 'text-left' },
+        { label: 'Name', key: 'name', class: 'text-left text-bold' },
         { label: 'Quantity', key: 'quantity', class: 'text-left' },
-        { label: 'Amount', key: 'amount', class: 'text-left', type: 'sort' },
-        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
-        { label: 'Validity', key: 'validity', class: 'text-left' },
+        { label: 'Amount', key: 'total_price', class: 'text-left' },
+        { label: 'Status', key: 'payment_method.name', class: 'text-left', type: 'status' },
+        { label: 'Validity', key: 'expire_date', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',
@@ -135,7 +148,6 @@ export default {
               actionParams: 'fullObj'
             },
             {
-              showIf: (data) => (data.status === 'DUE' || data.status === 'DOP'),
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
@@ -150,7 +162,7 @@ export default {
               actionParams: 'fullObj'
             },
             {
-              showIf: (data) => (data.status === 'FOP' || data.status === 'PAID' || data.status === 'DOP'),
+              showIf: (data) => !data.refund,
               icon: 'las la-undo-alt',
               color: 'danger',
               text: 'Refund',
@@ -158,7 +170,7 @@ export default {
               actionParams: 'fullObj'
             },
             {
-              showIf: (data) => (data.status === 'DUE'),
+              // showIf: (data) => (data.status === 'DUE'),
               icon: 'las la-times',
               color: 'danger',
               text: 'Cancel',
@@ -183,12 +195,14 @@ export default {
       console.log('addPurchase: ', payload)
       this.requestLoading = true
       this.reloadTable = false
-      setTimeout(() => {
+      managementServices.addNewPurchase(payload).then((res) => {
         this.reloadTable = true
-        core.showSnackbar('success', 'Added Successfully')
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('AddPurchaseModal')
         this.requestLoading = false
-      }, 1000)
+      }).finally(() => {
+        this.requestLoading = false
+      })
     },
     editPurchase () {
       console.log('editPurchase: ')
@@ -201,38 +215,41 @@ export default {
         this.requestLoading = false
       }, 1000)
     },
-    collectPurchase () {
-      console.log('collectPurchase: ')
+    collectPurchase (data) {
       this.requestLoading = true
       this.reloadTable = false
-      setTimeout(() => {
+      managementServices.collectPurchase(this.purchaseDetails.id, data).then((res) => {
         this.reloadTable = true
-        core.showSnackbar('success', 'Successfull')
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('CollectPurchaseModal')
         this.requestLoading = false
-      }, 1000)
+      }).finally(() => {
+        this.requestLoading = false
+      })
     },
-    refundPurchase () {
-      console.log('refundPurchase: ')
-      this.requestLoading = true
+    refundPurchase (amount) {
       this.reloadTable = false
-      setTimeout(() => {
+      this.requestLoading = true
+      managementServices.refundPurchase(this.purchaseDetails.id, amount).then((res) => {
         this.reloadTable = true
-        core.showSnackbar('success', 'Successfull')
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('RefundPurchaseModal')
         this.requestLoading = false
-      }, 1000)
+      }).finally(() => {
+        this.requestLoading = false
+      })
     },
     cancelPurchase () {
-      console.log('cancelPurchase: ')
-      this.requestLoading = true
       this.reloadTable = false
-      setTimeout(() => {
+      this.requestLoading = true
+      managementServices.cancelPurchase(this.purchaseDetails.id).then((res) => {
         this.reloadTable = true
-        core.showSnackbar('success', 'Successfull')
+        core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('CancelPurchaseModal')
         this.requestLoading = false
-      }, 1000)
+      }).finally(() => {
+        this.requestLoading = false
+      })
     },
 
     showAddPurchaseModal () {

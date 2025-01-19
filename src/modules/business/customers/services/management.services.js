@@ -9,5 +9,20 @@ export default {
   },
   getCustomerDetails (customerId) {
     return Api().get(`customers/${customerId}`)
+  },
+  addNewPurchase (payload) {
+    return Api().post('newPurchase', payload)
+  },
+  addNewGift (payload) {
+    return Api().post('newGift', payload)
+  },
+  collectPurchase (id, serviceId) {
+    return Api().get(`collect/${id}?service_id=${serviceId}`)
+  },
+  refundPurchase (id, amount) {
+    return Api().get(`refund/${id}?amount=${amount}`)
+  },
+  cancelPurchase (id) {
+    return Api().get(`cancel/${id}`)
   }
 }

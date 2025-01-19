@@ -850,3 +850,46 @@ form legend {
 .line-clamp-3 {
   -webkit-line-clamp: 3;
 }
+
+.quantity {
+  display: flex;
+  justify-content: space-between;
+  color: #181836;
+  .btns {
+    border: 1px solid #E3E4E8;
+    border-radius: 6px;
+    overflow: hidden;
+    button {
+      background-color: #F4B860;
+      border: none;
+      padding: 6px 12px;
+    }
+    span {
+      padding: 6px 12px;
+    }
+  }
+}
+.purchase-invoice {
+  background-color: #F0F0F0;
+  border-radius: 16px;
+  padding: 16px;
+  .item {
+    display: flex;
+    justify-content: space-between;
+    &.total {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 4px;
+      margin-top: 4px;
+    }
+
+    span {
+      color: #181935;
+    }
+    .coupon-text {
+      color: #74798C;
+    }
+    .number {
+      color: #FE9E12;
+    }
+  }
+}

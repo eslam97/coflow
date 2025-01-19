@@ -25,5 +25,8 @@ export default {
   },
   getListCountries (payload) {
     return Api().post('countries', payload)
+  },
+  getAllServices () {
+    return Api().get('services')
   }
 }

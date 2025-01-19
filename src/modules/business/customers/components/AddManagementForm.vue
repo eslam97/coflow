@@ -16,19 +16,21 @@
           </b-button>
         </div>
 
-        <div v-if="showResult" class="result-data">
-          <div class="user-data">
-            <img src="@/assets/images/user/default-user-image.png" alt="Img">
-            <h4>Ahmed Mohamed</h4>
+        <div v-if="showResult">
+          <div v-if="userData" class="result-data">
+            <div class="user-data">
+              <img :src="userData.image || '@/assets/images/user/default-user-image.png'" alt="Img">
+              <h4>{{userData.name}}</h4>
+            </div>
+            <div class="personal-data">
+              <p>Birthdate: <span>{{userData.birthdate}}</span></p>
+              <p>Gender: <span>{{userData.gender}}</span></p>
+              <p>Nationality: <span>{{userData.nationality}}</span></p>
+            </div>
           </div>
-          <div class="personal-data">
-            <p>Age: <span>23</span></p>
-            <p>Gender: <span>Male</span></p>
-            <p>Nationality: <span>Egypt</span></p>
-          </div>
+          <div v-else class="text-center mt-4"> User Not Found</div>
         </div>
-
-        <b-row>
+        <b-row v-if="userData && !userData.in_facility && showResult">
           <b-col md="12" class="mt-4">
             <div class="d-flex justify-content-center">
               <b-button class="button-orange-modal" type="submit" v-if="!requestLoading" :disabled="!showResult">
@@ -58,7 +60,8 @@ export default {
     return {
       showResult: false,
       searchLoading: false,
-      phoneNumber: ''
+      phoneNumber: '',
+      userData: null
     }
   },
   methods: {
@@ -66,12 +69,13 @@ export default {
       this.searchLoading = true
       managementServices.searchCustomer(this.phoneNumber).then(res => {
         this.showResult = true
+        this.userData = res.data.data
       }).finally(() => {
         this.searchLoading = false
       })
     },
     addManagement () {
-      this.$emit('addManagement', { phoneNumber: this.phoneNumber })
+      this.$emit('addManagement', { user_id: this.userData.id })
     }
   },
   watch: {},

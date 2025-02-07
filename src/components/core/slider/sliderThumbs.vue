@@ -7,7 +7,7 @@
                :key="key">
             <div class="swiper-slide-container w-100">
               <img
-                  :src="image.image"
+                  :src="image.file"
                   class="img-fluid w-100 mx-auto iq-border-radius-5"
                   :alt="image.name"
               />
@@ -22,7 +22,7 @@
         <div class="swiper-slide-container" >
           <img
               :alt="image.name"
-              :src="image.image"
+              :src="image.file"
               class="img-fluid w-100 mx-auto iq-border-radius-5"
           />
         </div>

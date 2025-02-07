@@ -84,13 +84,21 @@
             >
               <b-form-group label="Description">
                 <b-form-textarea
-                  v-model="activity.details"
+                  v-model="activity.description"
                   placeholder="Write a brief description"
                   rows="4"
                   :class="[{ 'is-invalid': errors.length > 0 }]"
                 ></b-form-textarea>
               </b-form-group>
             </validation-provider>
+          </b-col>
+
+          <b-col lg="12">
+            <facility-location @locations="data => activity.locations = data" :allLocations="activity.locations" @facility_location="data => activity.facility_location = data"/>
+          </b-col>
+
+          <b-col lg="12">
+            <instructor @instructors="data => activity.instructors = data" :allInstructors="activity.instructors"/>
           </b-col>
 
           <b-col lg="6" class="mb-3">
@@ -148,7 +156,7 @@
               @remove-image="removeGalleryImage"
               :removeLoadingUi="removeLoadingUi"
               :progressLoading="progressBar"
-              :images="activity.medias"
+              :images="activity.images"
               type="activity_image"
             ></cropper-images>
           </b-col>
@@ -178,13 +186,16 @@
   </div>
 </template>
 <script>
+import Instructor from '@/components/instructor'
 import { folderMixin } from '@/mixins/folders'
 import mainService from '@/services/main'
 import { core } from '@/config/pluginInit'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 import commonServices from '@/modules/business/commonServices'
+import facilityLocation from '@/components/facilityLocation.vue'
 export default {
   mixins: [folderMixin],
+  components: { facilityLocation, Instructor },
   props: {
     requestLoading: {
       type: Boolean,
@@ -201,21 +212,23 @@ export default {
   data () {
     return {
       activity: {
+        instructors: [{
+          first_name: '',
+          last_name: ''
+        }],
         type: 'activity',
         name: '',
-        details: '',
+        description: '',
         tag_id: '',
         facility_folder_id: '',
         conditions: '',
         requirements: '',
         medias: [],
         status: 'active',
-        duration_list_id: ''
+        locations: [{ name: '', link: '' }],
+        duration_list_id: '',
+        facility_location: false
       },
-      foreignerPrice: 'None',
-      selectedEGP: false,
-      selectedEUR: false,
-      selectedDollar: false,
       removeLoadingUi: false,
       progressBar: 0,
       type: '',
@@ -261,10 +274,10 @@ export default {
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', {
           ...this.activity,
-          medias: this.activity.medias.map(data => data.id)
+          medias: this.activity.images.map(data => data.id)
         })
       } else {
-        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.medias.map(data => data.id) })
+        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.images.map(data => data.id) })
       }
     },
     getDurationList () {

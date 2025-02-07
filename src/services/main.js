@@ -7,7 +7,7 @@ export default {
     })
   },
   addImage (payload, config) {
-    return Api().post('add-image', payload, config)
+    return Api().post('new-media', payload, config)
   },
   removeImage (id, type) {
     return Api().get(`remove-image/${id}/${type}`)

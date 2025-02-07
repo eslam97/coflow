@@ -24,9 +24,9 @@
 
       <b-col lg="12" class="mb-2 d-flex justify-content-between align-items-center">
         <h3>
-          <router-link :to="{ name: 'flows' }" class="btn bg-white add_button" >
+          <div @click="$router.go(-1)" class="btn bg-white add_button" >
             <i class="fa fa-chevron-left"></i>
-          </router-link>
+          </div>
           Folders
         </h3>
         <div class="d-flex justify-content-between gap-20">
@@ -56,8 +56,8 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import folderDetails from '@/modules/business/goActivities/components/folderDetails.vue'
-import foldersServices from '@/modules/business/goActivities/services/folders.services'
+import folderDetails from '../components/folderDetails'
+import foldersServices from '../services/folders.services'
 
 export default {
   components: { folderDetails },

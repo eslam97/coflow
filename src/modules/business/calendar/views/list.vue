@@ -91,8 +91,8 @@
           <div>
               <ul class="levels-list m-0 p-0 justify-content-center">
                   <li class="p-1" v-for="(level, key) in levels" :key="key">
-                      <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
-                      <span class="font-size-12">{{ level.text }}</span>
+                      <i class="fas fa-circle ml-3 mr-2" :style="{color : level.color}"></i>
+                      <span class="font-size-12 text-uppercase">{{ level.name }}</span>
                   </li>
               </ul>
           </div>
@@ -250,7 +250,7 @@ import calendarSettings from '@/modules/business/calendar/components/calendarSet
 import calendarServices from '@/modules/business/calendar/services/calendar.sevices'
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
-
+import settingsServices from '@/modules/superAdmin/settings/services/settings.services'
 export default {
   data () {
     return {
@@ -261,33 +261,7 @@ export default {
       calendarId: '',
       allServices: [],
       allSlots: [],
-      levels: [
-        {
-          text: 'ALL LEVELS',
-          value: 'all',
-          color: 'blue'
-        },
-        {
-          text: 'BEGINNER',
-          value: 'beginner',
-          color: 'cyan'
-        },
-        {
-          text: 'INTERMEDIATE',
-          value: 'intermediate',
-          color: 'orange'
-        },
-        {
-          text: 'ADVANCED',
-          value: 'advanced',
-          color: 'red'
-        },
-        {
-          text: 'LADIES ONLY',
-          value: 'ladies',
-          color: 'pink'
-        }
-      ],
+      levels: [],
       days: [
         {
           key: 'SUN',
@@ -471,6 +445,15 @@ export default {
       }
       return time.join('')
     },
+    getAllLevel () {
+      settingsServices.getAllLevels().then(response => {
+        this.levels = [...response.data.data, {
+          name: 'LADIES ONLY',
+          color: 'pink'
+        }
+        ]
+      })
+    },
     getDayName (date) {
       const day = new Date(date).getDay()
 
@@ -504,6 +487,7 @@ export default {
     }
   },
   created () {
+    this.getAllLevel()
     this.getCalendar()
     this.getAllServices()
     EventBus.$on('reloadTableAfterDelete', ifReload => {

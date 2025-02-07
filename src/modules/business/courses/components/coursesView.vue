@@ -12,42 +12,6 @@
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-2">
-          <b-col md="6" col="6" class="infoKey">
-            <p>Price EGP</p>
-            <p class="text-black font-weight-bold-600">EGP {{coursesDetails.price_egp}}</p>
-          </b-col>
-          <b-col md="6" col="6" class="infoKey">
-            <p>Discounted price</p>
-            <p class="text-black font-weight-bold-600"><span v-if="coursesDetails.discount_price_egp">EGP
-              {{coursesDetails.discount_price_egp}}</span>
-              <span v-else>N/A</span></p>
-          </b-col>
-        </b-row>
-        <b-row class="pl-3 mb-2" v-if="coursesDetails.price_euro">
-          <b-col md="6" col="6" class="infoKey">
-            <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold-600">€ {{coursesDetails.price_euro}}</p>
-          </b-col>
-          <b-col md="6" col="6" class="infoKey">
-            <p>Discounted Price</p>
-            <p class="text-black font-weight-bold-600">
-              <span v-if="coursesDetails.discount_price_euro">€ {{coursesDetails.discount_price_euro}}</span>
-              <span v-else>N/A</span></p>
-          </b-col>
-        </b-row>
-        <b-row class="pl-3 mb-2" v-if="coursesDetails.price_dollar">
-          <b-col md="6" col="6" class="infoKey">
-            <p>Foreigner Price</p>
-            <p class="text-black font-weight-bold-600">$ {{coursesDetails.price_dollar}}</p>
-          </b-col>
-          <b-col md="6" col="6" class="infoKey">
-            <p>Discounted Price</p>
-            <p class="text-black font-weight-bold-600">
-              <span v-if="coursesDetails.discount_price_dollar">$ {{coursesDetails.discount_price_dollar}}</span>
-              <span v-else>N/A</span></p>
-          </b-col>
-        </b-row>
-        <b-row class="pl-3 mb-2">
           <b-col md="12" class="infoKey">
             <p>Requirements</p>
           </b-col>
@@ -67,8 +31,9 @@
           <b-col md="12" class="infoKey">
             <p>Locations</p>
           </b-col>
-          <b-col md="4" class="infoValue" v-for="(location, key) in coursesDetails.location" :key="key">
-            <p class="text-black font-weight-bold-600">{{ location }}</p>
+          <!-- {{ coursesDetails }} -->
+          <b-col md="4" class="infoValue" v-for="(location, key) in coursesDetails.locations" :key="key">
+            <a :href="location.link" class="text-black font-weight-bold-600">{{ location.name }}</a>
           </b-col>
         </b-row>
       </b-col>

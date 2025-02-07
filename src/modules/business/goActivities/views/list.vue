@@ -39,7 +39,7 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'goActivitiesFolders' }" class="btn bg-white add_button" >
+          <router-link :to="{ name: 'folders' }" class="btn bg-white add_button" >
             Folders
             <i class="far fa-folder ml-3"></i>
           </router-link>
@@ -52,11 +52,15 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :items="items"
             :reloadData="reloadTable"
             :service_type="'ticket'"
             :arrangeMode="arrangeMode"
+            :custom-filter="{type: 'activity'}"
+            :list_url="'services'"
         >
+        <!-- <template #likes="data">
+          {{ data.data }}
+        </template> -->
         </main-table>
       </b-col>
     </b-row>
@@ -66,32 +70,23 @@
 import { core } from '@/config/pluginInit'
 import activityDetails from '@/modules/business/goActivities/components/activityDetails.vue'
 import activityView from '@/modules/business/goActivities/components/activityView'
-import activityServices from '@/modules/business/goActivities/services/goActivities.services.js'
-import { goActivitiesItems } from '../services/data'
-
+import commonServices from '../../commonServices'
 export default {
   data () {
     return {
       reloadTable: false,
       requestLoading: false,
-      items: goActivitiesItems,
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
         { label: 'Activity Name', key: 'name', class: 'text-left text-bold' },
-        { label: 'Tag', key: 'tag', class: 'text-left' },
-        { label: 'Folder', key: 'folder', class: 'text-left' },
-        { label: 'Duration', key: 'duration', class: 'text-left', type: 'multi-text' },
+        { label: 'Tag', key: 'tag.name', class: 'text-left' },
+        { label: 'Folder', key: 'folder.name', class: 'text-left' },
+        { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
         { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
         { label: 'Reservations', key: 'reservations', class: 'text-left' },
+        // { label: 'Likes', key: 'likes', class: 'text-left', type: 'custom' },
         { label: 'Rating', key: 'rate', class: 'text-left', type: 'rate' },
-        {
-          label: 'Status',
-          key: 'status',
-          type: 'switch',
-          tableType: 'ticket',
-          idKey: 'ticket_id',
-          class: 'text-left'
-        },
+        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         {
           label: 'Actions',
           key: 'actions',
@@ -148,7 +143,7 @@ export default {
     addActivity (activity) {
       this.requestLoading = true
       this.reloadTable = false
-      activityServices.addNewActivity(activity).then(res => {
+      commonServices.addNewServices(activity).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('activitiesDetailsModal')
@@ -159,7 +154,7 @@ export default {
     editActivity (activity) {
       this.requestLoading = true
       this.reloadTable = false
-      activityServices.editActivity(this.activityId, activity).then(res => {
+      commonServices.editService(this.activityId, activity).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('activitiesDetailsModal')

@@ -24,11 +24,6 @@
           <button class="ml-4 p-2 btn radio-btn" :class="`radio-btn-cyan`" active>
             {{ coursesDetails.duration }} {{ coursesDetails.duration_list.name }}
           </button>
-          <button v-if="optionInd > -1"
-                  class="ml-4 p-2 btn radio-btn" active
-                  :class="`radio-btn-${options[optionInd].color} radio-btn-selected-${options[optionInd].color}`">
-            {{ options[optionInd].text }}
-          </button>
         </p>
       </template>
       <template v-slot:body>
@@ -55,10 +50,11 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :list_url="'courses'"
+            :list_url="'services'"
             :reloadData="reloadTable"
             :service_type="'course'"
             :arrangeMode="arrangeMode"
+            :custom-filter="{type: 'course'}"
             limit-of-char="15"
         >
         </main-table>
@@ -70,7 +66,10 @@
 import { core } from '@/config/pluginInit'
 import coursesDetails from '@/modules/business/courses/components/coursesDetails'
 import coursesView from '@/modules/business/courses/components/coursesView'
-import coursesServices from '@/modules/business/courses/services/courses.services.js'
+// import coursesServices from '@/modules/business/courses/services/courses.services.js'
+import settingsServices from '@/modules/superAdmin/settings/services/settings.services'
+import commonServices from '../../commonServices'
+
 export default {
   data () {
     return {
@@ -79,15 +78,14 @@ export default {
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
         { label: 'Courses Name', key: 'name', class: 'text-left' },
-        { label: 'Level', key: 'level_ex', class: 'text-left' },
-        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        /* { label: 'Description', key: 'description', class: 'text-left' }, */
+        { label: 'Tag', key: 'tag.name', class: 'text-left' },
+        { label: 'Folder', key: 'folder.name', class: 'text-left' },
+        { label: 'Instructors', key: 'instructors', class: 'text-left', array_keys: ['first_name', 'last_name'], type: 'array' },
+        { label: 'Level', key: 'level.name', class: 'text-left' },
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        /* { label: 'Requirements', key: 'requirements', class: 'text-left' }, */
-        /* { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
-        // { label: 'Location', key: 'location', class: 'text-left', type: 'array' },
-        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
+        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
+        { label: 'Reservations', key: 'reservations', class: 'text-left' },
+        { label: 'Likes', key: 'likes', class: 'text-left' },
         {
           label: 'Status',
           key: 'change_status',
@@ -124,17 +122,12 @@ export default {
               actionHeader: 'Delete',
               titleHeader: 'Course',
               textContent: 'name',
-              url: 'courses'
+              url: 'services'
             }
           ]
         }
       ],
-      options: [
-        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
-        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
-        { text: 'ADVANCED', value: 'advanced', color: 'red' }
-      ],
+      levels: [],
       optionInd: '',
       typeOfModal: 'add',
       coursesDetails: {},
@@ -147,6 +140,11 @@ export default {
     coursesView
   },
   methods: {
+    getAllLevel () {
+      settingsServices.getAllLevels().then(response => {
+        this.levels = response.data.data
+      })
+    },
     sortChanged (key) {
       console.log(key)
     },
@@ -159,7 +157,7 @@ export default {
     addCourses (courses) {
       this.requestLoading = true
       this.reloadTable = false
-      coursesServices.addNewCourses(courses).then(res => {
+      commonServices.addNewServices(courses).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('coursesDetailsModal')
@@ -170,7 +168,7 @@ export default {
     editCourses (courses) {
       this.requestLoading = true
       this.reloadTable = false
-      coursesServices.editCourses(this.coursesId, courses).then(res => {
+      commonServices.editService(this.coursesId, courses).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('coursesDetailsModal')
@@ -181,7 +179,7 @@ export default {
     showDetails (obj) {
       this.coursesId = ''
       this.typeOfModal = 'view'
-      this.optionInd = this.options.findIndex(ele => ele.value === obj.level)
+      this.optionInd = this.levels.findIndex(ele => ele.value === obj.level)
       this.coursesDetails = obj
       setTimeout(() => this.$bvModal.show('coursesDetailsViewModal'), 0)
     },

@@ -1,3 +1,4 @@
+
 // Layout
 const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
@@ -14,7 +15,9 @@ const languages = () => import('./views/languages')
 const countries = () => import('./views/countries')
 const cities = () => import('./views/cities')
 const areas = () => import('./views/areas')
-
+const paymentMethods = () => import('./views/paymentMethods')
+const level = () => import('./views/level')
+const tags = () => import('./views/tag')
 // start Routes
 export default [
   {
@@ -99,6 +102,24 @@ export default [
           name: 'areas',
           meta: { name: 'areas', userType: 'admin', permission: 'settings.list' },
           component: areas
+        },
+        {
+          path: 'payment-methods',
+          name: 'paymentMethods',
+          meta: { name: 'paymentMethods', userType: 'admin', permission: 'settings.list' },
+          component: paymentMethods
+        },
+        {
+          path: 'levels',
+          name: 'levels',
+          meta: { name: 'levels', userType: 'admin', permission: 'settings.list' },
+          component: level
+        },
+        {
+          path: 'tags',
+          name: 'tags',
+          meta: { name: 'tags', userType: 'admin', permission: 'settings.list' },
+          component: tags
         }
       ]
     }

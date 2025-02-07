@@ -6,14 +6,14 @@ const goActivitiesList = () => import('./views/list')
 // start routes
 export default [
   {
-    path: '/go-activities',
-    name: 'goActivities',
+    path: '/pro-activities',
+    name: 'proActivities',
     component: VerticalLayout,
     children: [{
       path: '',
-      name: 'goActivities',
+      name: 'proActivities',
       component: goActivitiesList,
-      meta: { name: 'Activities', userType: 'provider', serviceTypes: 'Go' }
+      meta: { name: 'proActivities', userType: 'provider', serviceTypes: 'Pro' }
     }
     ]
   }

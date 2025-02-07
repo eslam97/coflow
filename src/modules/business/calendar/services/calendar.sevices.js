@@ -25,6 +25,6 @@ export default {
   },
 
   getAllServicesLimit () {
-    return Api().get('services?limit=1000')
+    return Api().get('services?limit=1000&type=flow')
   }
 }

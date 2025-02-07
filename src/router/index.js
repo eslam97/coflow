@@ -25,18 +25,17 @@ import welcomePage from '@/components/welcomePage'
 import charts from '@/views/Charts/charts.routes'
 
 // Import Business
+import folders from '@/modules/business/folders/folders.routes'
 import dashboard from '@/modules/business/dashboard/dashboard.routes'
-// import tickets from '@/modules/business/tickets/tickets.routes.js'
 import pricing from '@/modules/business/pricing/pricing.routes'
 import businessCustomers from '@/modules/business/customers/customers.routes'
 import goActivities from '@/modules/business/goActivities/goActivities.routes'
-// import bussinessPromotions from '@/modules/business/promotions/promotions.routes'
+import proActivitiesRoutes from '@/modules/business/proActivities/proActivities.routes'
 import products from '@/modules/business/products/products.routes'
 import flows from '@/modules/business/flows/flows.routes.js'
 import accommodations from '@/modules/business/accommodations/accommodations.routes.js'
 import courses from '@/modules/business/courses/courses.routes.js'
 import profile from '@/modules/business/profile/profile.routes'
-import activities from '@/modules/business/activities/activities.routes'
 import schedule from '@/modules/business/schedule/schedule.routes'
 import calendar from '@/modules/business/calendar/calendar.routes'
 import branches from '@/modules/business/branches/branches.routes'
@@ -111,6 +110,7 @@ const routes = [
   ...pricing,
   ...businessCustomers,
   ...goActivities,
+  ...proActivitiesRoutes,
   ...adminFaq,
   ...feedback,
   ...products,
@@ -118,11 +118,11 @@ const routes = [
   ...accommodations,
   ...courses,
   ...profile,
-  ...activities,
   ...schedule,
   ...calendar,
   ...branches,
   ...admins,
+  ...folders,
   {
     path: '/welcome',
     name: 'welcome',

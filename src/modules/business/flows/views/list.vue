@@ -44,7 +44,7 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'flowsFolders' }" class="btn bg-white add_button" >
+          <router-link :to="{ name: 'folders' }" class="btn bg-white add_button" >
             Folders
             <i class="far fa-folder ml-3"></i>
           </router-link>
@@ -59,6 +59,7 @@
             @sortChanged="sortChanged"
             :list_url="'services'"
             :service_type="'flow'"
+            :custom-filter="{type: 'flow'}"
             :reloadData="reloadTable"
             :arrangeMode="arrangeMode"
         >
@@ -71,7 +72,8 @@
 import { core } from '@/config/pluginInit'
 import flowsDetails from '@/modules/business/flows/components/flowsDetails.vue'
 import flowsView from '@/modules/business/flows/components/flowsView.vue'
-import flowsServices from '@/modules/business/flows/services/flows.services.js'
+import commonServices from '../../commonServices'
+
 export default {
   data () {
     return {
@@ -79,14 +81,19 @@ export default {
       requestLoading: false,
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        { label: 'Flow Name', key: 'name', class: 'text-left' },
-        /* { label: 'Description', key: 'description', class: 'text-left' }, */
-        /* { label: 'Requirements', key: 'requirements', class: 'text-left' }, */
-        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Level', key: 'level_ex', class: 'text-left' },
-        { label: 'Instructors', key: 'instructors', array_keys: ['first_name', 'last_name'], type: 'array', class: 'text-left' },
-        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
+        { label: 'Tag', key: 'tag.name', class: 'text-left' },
+        { label: 'Folder', key: 'folder.name', class: 'text-left' },
+        { label: 'Instructors', key: 'instructors', class: 'text-left', array_keys: ['first_name', 'last_name'], type: 'array' },
+        { label: 'Level', key: 'level.name', class: 'text-left' },
+        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
+        {
+          label: 'Status',
+          key: 'change_status',
+          type: 'switch',
+          tableType: 'flow',
+          idKey: 'flow_id',
+          class: 'text-left'
+        },
         {
           label: 'Actions',
           key: 'actions',
@@ -115,18 +122,11 @@ export default {
               actionHeader: 'Delete',
               titleHeader: 'Flow',
               textContent: 'name',
-              url: 'flows'
+              url: 'services'
             }
           ]
         }
       ],
-      options: [
-        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
-        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
-        { text: 'ADVANCED', value: 'advanced', color: 'red' }
-      ],
-      optionInd: '',
       typeOfModal: 'add',
       flowsDetails: {},
       flowsId: '',
@@ -150,7 +150,7 @@ export default {
     addFlows (flows) {
       this.requestLoading = true
       this.reloadTable = false
-      flowsServices.addNewFlow(flows).then(res => {
+      commonServices.addNewServices(flows).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('flowsDetailsModal')
@@ -161,7 +161,7 @@ export default {
     editFlows (flows) {
       this.requestLoading = true
       this.reloadTable = false
-      flowsServices.editFlow(this.flowsId, flows).then(res => {
+      commonServices.editService(this.flowsId, flows).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('flowsDetailsModal')
@@ -171,7 +171,6 @@ export default {
     },
     showDetails (obj) {
       this.flowsId = ''
-      this.optionInd = this.options.findIndex(ele => ele.value === obj.level)
       this.typeOfModal = 'view'
       this.flowsDetails = obj
       setTimeout(() => this.$bvModal.show('flowDetailsViewModal'), 0)

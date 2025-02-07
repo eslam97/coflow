@@ -1,5 +1,5 @@
 import authServices from '../modules/businessLandingPage/services/auth.services'
-import LayoutServices from '@/layouts/services/layout.services'
+// import LayoutServices from '@/layouts/services/layout.services'
 export default {
   data () {
     return {
@@ -69,8 +69,8 @@ export default {
     this.startListeners()
   },
   created () {
-    LayoutServices.filterNotification().then(res => {
-      this.getNotifications = res.data.data.map(notification => ({ ...notification, body: notification.content }))
-    })
+    // LayoutServices.filterNotification().then(res => {
+    //   this.getNotifications = res.data.data.map(notification => ({ ...notification, body: notification.content }))
+    // })
   }
 }

@@ -25,9 +25,9 @@
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'amenities'}" exact>Amenities</router-link>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <router-link class="nav-link" :to="{name:'accommodationTypes'}" exact>Accommodation Types</router-link>
-        </li>
+        </li> -->
 <!--        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'links'}" exact>Links</router-link>
         </li>-->
@@ -42,6 +42,15 @@
         </li>
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'areas'}" exact>Areas</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name:'paymentMethods'}" exact>Payment Methods</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name:'levels'}" exact>Levels</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" :to="{name:'tags'}" exact>Tags</router-link>
         </li>
       </ul>
     </div>

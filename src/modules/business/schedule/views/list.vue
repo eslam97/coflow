@@ -40,13 +40,13 @@
       <section class="mb-4 d-flex justify-content-between align-items-center flex-wrap">
           <div><h3>Schedule</h3></div>
           <div>
-              <ul class="levels-list m-0 p-0 justify-content-center">
-                <li class="p-1" v-for="(level, key) in levels" :key="key">
-                  <i class="fas fa-circle ml-3 mr-2" :class="`circle-${level.color}`"></i>
-                  <span class="font-size-12">{{ level.text }}</span>
+            <ul class="levels-list m-0 p-0 justify-content-center">
+              <li class="p-1" v-for="(level, key) in levels" :key="key">
+                  <i class="fas fa-circle ml-3 mr-2" :style="{color : level.color}"></i>
+                  <span class="font-size-12 text-uppercase">{{ level.name }}</span>
               </li>
-              </ul>
-          </div>
+          </ul>
+      </div>
           <div>
               <div class="d-flex justify-content-md-end justify-content-center gap-20">
                   <b-button @click="clearSchedule" variant="dark" class="add_button text-white">
@@ -67,7 +67,7 @@
               <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                    :key="slotKey"
                    class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                   :class="(slot.service.status === 'active' || slot.service.status === true) ? `slot-box-${getColor(slot)}` : 'slot-box-grey'"
+                   :style="(slot.service.status === 'active' || slot.service.status === true) ? { backgroundColor: slot.service.level.color } : { backgroundColor: 'grey' }"
                    @click="showScheduleToEdit(slot)">
                 <ul class="my-ul pl-0">
                   <li v-if="(slot.ladies_only)" class="ladies-only-tag">
@@ -101,6 +101,7 @@ import scheduleServices from '@/modules/business/schedule/services/schedule.sevi
 import calendarServices from '@/modules/business/calendar/services/calendar.sevices'
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
+import settingsServices from '@/modules/superAdmin/settings/services/settings.services'
 
 export default {
   data () {
@@ -111,32 +112,7 @@ export default {
       scheduleId: '',
       allFlows: [],
       allSlots: [],
-      levels: [
-        {
-          text: 'ALL LEVELS',
-          value: 'all',
-          color: 'blue'
-        },
-        {
-          text: 'BEGINNER',
-          value: 'beginner',
-          color: 'cyan'
-        },
-        {
-          text: 'INTERMEDIATE',
-          value: 'intermediate',
-          color: 'orange'
-        },
-        {
-          text: 'ADVANCED',
-          value: 'advanced',
-          color: 'red'
-        },
-        {
-          text: 'LADIES ONLY',
-          color: 'pink'
-        }
-      ],
+      levels: [],
       days: [
         {
           key: 'SUN',
@@ -169,7 +145,7 @@ export default {
   },
   methods: {
     getColor (slot) {
-      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.value === slot.service.level.name.toLowerCase()).color : 'blue'
+      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.color === slot.service.level.name.toLowerCase()).color : 'blue'
     },
     openPopup () {
       this.scheduleId = ''
@@ -219,6 +195,15 @@ export default {
       scheduleServices.getAllSlots().then(res => {
         this.allSlots = res.data.data.data
         this.requestLoading = false
+      })
+    },
+    getAllLevel () {
+      settingsServices.getAllLevels().then(response => {
+        this.levels = [...response.data.data, {
+          name: 'LADIES ONLY',
+          color: 'pink'
+        }
+        ]
       })
     },
     deleteSlot () {
@@ -279,6 +264,7 @@ export default {
     }
   },
   created () {
+    this.getAllLevel()
     this.getSchedule()
     this.getAllFlows()
     EventBus.$on('reloadTableAfterDelete', ifReload => {

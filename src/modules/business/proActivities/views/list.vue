@@ -3,32 +3,29 @@
     <!--  Add and Edit Modal  -->
     <main-modal id="activitiesDetailsModal" size="xl">
       <template v-slot:header>
-        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning">Add: </span> Activity</h4>
+        <h4 class="font-weight-bold" v-if="typeOfModal == 'add'" ><span class="text-warning" >Add: </span> Activity</h4>
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Activity</h4>
       </template>
       <template v-slot:body>
-        <activities-details @addActivity="addActivity"
-                                @editActivity="editActivity"
-                                :requestLoading="requestLoading"
-                                :activitiesDetails="activitiesDetails"
-                                :typeOfModal="typeOfModal"/>
+        <activity-details @addActivity="addActivity"
+                        @editActivity="editActivity"
+                        :requestLoading="requestLoading"
+                        :activityDetails="activityDetails"
+                        :typeOfModal="typeOfModal"/>
       </template>
     </main-modal>
     <!--  View Modal  -->
-    <main-modal id="activitiesDetailsViewModal" size="xl" border="true">
+    <main-modal id="activityDetailsViewModal" size="xl">
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Activity</h4>
       </template>
       <template v-slot:borderHeader>
-        <p class="p-4 borderHeaderModal m-0">
-          {{activitiesViewData.name}}
-          <button class="ml-4 p-2 pr-4 pl-4 btn radio-btn" :class="`radio-btn-cyan`" active>
-            {{ activitiesViewData.duration }} {{ activitiesViewData.durationType }}
-          </button>
+        <p class="p-4 px-5 borderHeaderModal">
+          {{activityDetails.name}}
         </p>
       </template>
       <template v-slot:body>
-        <activities-view :activitiesDetails="activitiesDetails"/>
+        <activity-view :activityDetails="activityDetails"/>
       </template>
     </main-modal>
     <b-row>
@@ -42,12 +39,12 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'activitiesFolders' }" class="btn bg-white add_button" >
+          <router-link :to="{ name: 'folders' }" class="btn bg-white add_button" >
             Folders
             <i class="far fa-folder ml-3"></i>
           </router-link>
           <b-button @click="openPopup" variant="warning" class="add_button text-white">
-            Add Activity<i class="las la-plus ml-3"></i></b-button>
+          Add Activity<i class="las la-plus ml-3"></i></b-button>
         </div>
       </b-col>
       <b-col lg="12">
@@ -55,10 +52,11 @@
             :fields="columns"
             class="mb-0 table-borderless"
             @sortChanged="sortChanged"
-            :list_url="'activities'"
             :reloadData="reloadTable"
-            :service_type="'activity'"
+            :service_type="'ticket'"
             :arrangeMode="arrangeMode"
+            :custom-filter="{type: 'activity'}"
+            :list_url="'services'"
         >
         </main-table>
       </b-col>
@@ -67,31 +65,25 @@
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import activitiesDetails from '@/modules/business/activities/components/activitiesDetails.vue'
-import activitiesView from '@/modules/business/activities/components/activitiesView.vue'
-import activitiesServices from '@/modules/business/activities/services/activities.services.js'
+import activityDetails from '../components/activityDetails.vue'
+import activityView from '../components/activityView'
+import commonServices from '../../commonServices'
 export default {
   data () {
     return {
       reloadTable: false,
       requestLoading: false,
       columns: [
-        { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
-        { label: 'Activity Name', key: 'name', class: 'text-left' },
-        /* { label: 'Description', key: 'description', class: 'text-left' }, */
-        { label: 'Price', key: 'price_egp,price_euro,price_dollar', class: 'text-left', type: 'multi-currency' },
-        { label: 'Discounted Price', key: 'discount_price_egp,discount_price_euro,discount_price_dollar', class: 'text-left', type: 'multi-currency' },
-        /* { label: 'Conditions', key: 'conditions', class: 'text-left' }, */
+        { label: '#', key: 'id', class: 'text-center', type: 'sort' },
+        { label: 'Activity Name', key: 'name', class: 'text-left text-bold' },
+        { label: 'Tag', key: 'tag.name', class: 'text-left' },
+        { label: 'Folder', key: 'folder.name', class: 'text-left' },
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
-        {
-          label: 'Change Status',
-          key: 'change_status',
-          type: 'switch',
-          tableType: 'activity',
-          idKey: 'activity_id',
-          class: 'text-left'
-        },
+        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
+        { label: 'Reservations', key: 'reservations', class: 'text-left' },
+        // { label: 'Likes', key: 'likes', class: 'text-left', type: 'custom' },
+        { label: 'Rating', key: 'rate', class: 'text-left', type: 'rate' },
+        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         {
           label: 'Actions',
           key: 'actions',
@@ -102,14 +94,14 @@ export default {
               icon: 'las la-eye',
               color: 'success-light',
               text: 'View',
-              actionName: 'showActivities',
+              actionName: 'showActivity',
               actionParams: 'fullObj'
             },
             {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
-              actionName: 'showActivitiesToEdit',
+              actionName: 'showActivityToEdit',
               actionParams: 'fullObj'
             },
             {
@@ -120,36 +112,35 @@ export default {
               actionHeader: 'Delete',
               titleHeader: 'Activity',
               textContent: 'name',
-              url: 'activities'
+              url: 'tickets'
             }
           ]
         }
       ],
       typeOfModal: 'add',
-      activitiesDetails: {},
-      activitiesViewData: {},
-      activitiesId: '',
+      activityDetails: {},
+      activityId: '',
       arrangeMode: false
     }
   },
   components: {
-    activitiesDetails,
-    activitiesView
+    activityDetails,
+    activityView
   },
   methods: {
     sortChanged (key) {
       console.log(key)
     },
     openPopup () {
-      this.activitiesId = ''
+      this.activityId = ''
       this.typeOfModal = 'add'
-      this.activitiesDetails = false
+      this.activityDetails = false
       this.$bvModal.show('activitiesDetailsModal')
     },
-    addActivity (activities) {
+    addActivity (activity) {
       this.requestLoading = true
       this.reloadTable = false
-      activitiesServices.addNewActivity(activities).then(res => {
+      commonServices.addNewServices(activity).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('activitiesDetailsModal')
@@ -157,10 +148,10 @@ export default {
         this.requestLoading = false
       })
     },
-    editActivity (activities) {
+    editActivity (activity) {
       this.requestLoading = true
       this.reloadTable = false
-      activitiesServices.editActivity(this.activitiesId, activities).then(res => {
+      commonServices.editService(this.activityId, activity).then(res => {
         this.reloadTable = true
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('activitiesDetailsModal')
@@ -169,27 +160,24 @@ export default {
       })
     },
     showDetails (obj) {
-      this.activitiesViewData.name = obj.name
-      this.activitiesViewData.duration = obj.duration
-      this.activitiesViewData.durationType = obj.duration_list.name
-      this.activitiesDetails = obj
       this.typeOfModal = 'view'
-      this.$bvModal.show('activitiesDetailsViewModal')
+      this.activityDetails = obj
+      this.$bvModal.show('activityDetailsViewModal')
     },
-    showActivitiesToEdit (obj) {
+    showActivityToEdit (obj) {
+      this.activityId = obj.id
       this.typeOfModal = 'edit'
-      this.activitiesId = obj.id
-      this.activitiesDetails = obj
+      this.activityDetails = obj
       this.$bvModal.show('activitiesDetailsModal')
     }
   },
   created () {
-    this.$root.$on('showActivities', this.showDetails)
-    this.$root.$on('showActivitiesToEdit', this.showActivitiesToEdit)
+    this.$root.$on('showActivity', this.showDetails)
+    this.$root.$on('showActivityToEdit', this.showActivityToEdit)
   },
   beforeDestroy () {
-    this.$root.$off('showActivities')
-    this.$root.$off('showActivitiesToEdit')
+    this.$root.$off('showActivity')
+    this.$root.$off('showActivityToEdit')
   },
   mounted () {
     core.index()

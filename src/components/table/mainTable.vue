@@ -116,7 +116,7 @@
           <div class="min-width-image-cell width-180px" v-else-if="field.type == 'multi_image'">
             <div class="iq-media-group position-relative">
               <b-link href="#" class="iq-media" v-for="(image, counter) in $_.get(data.item, field.key).slice(0,3)" :key="counter">
-                <b-img class="avatar-40" rounded="circle" fluid :src="image.image" :alt="image.name" />
+                <b-img class="avatar-40" rounded="circle" fluid :src="image.file" :alt="image.name" />
                 <div v-if="($_.get(data.item, field.key).length > 3) && counter === 2" class="more-images text-white">{{ $_.get(data.item, field.key).length-3 }}+</div>
               </b-link>
             </div>

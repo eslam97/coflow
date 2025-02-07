@@ -109,5 +109,34 @@ export default {
   // Services
   getAllServices () {
     return Api().get('services')
+  },
+
+  // level
+  getAllLevels () {
+    return Api().get('levels')
+  },
+  addNewLevel (payload) {
+    return Api().post('levels', payload)
+  },
+  editLevel (id, payload) {
+    return Api().post(`levels/${id}`, payload)
+  },
+
+  // PaymentMethod
+  editPaymentMethod (id, payload) {
+    return Api().post(`paymentMethods/${id}`, payload)
+  },
+
+  addNewPaymentMethod (payload) {
+    return Api().post('paymentMethods', payload)
+  },
+
+  // Tags
+  addNewTag (payload) {
+    return Api().post('tags', payload)
+  },
+  editTag (id, payload) {
+    return Api().post(`tags/${id}`, payload)
   }
+
 }

@@ -4,7 +4,8 @@
       <b-form @submit.prevent="handleSubmit(addFlows)">
         <b-row>
           <b-col lg="6" class="mb-3">
-            <b-row><b-col md="12">
+            <b-row>
+              <b-col md="12">
               <input-form
                 v-model="flows.name"
                 placeholder="Write flow name"
@@ -13,120 +14,41 @@
                 :label="'Flow Name'"
                 :limit="50"
               />
-            </b-col></b-row>
-            <b-row><b-col md="12" class="mb-3">
-              <input-form
-                v-model="flows.requirements"
-                placeholder="Any required experience or equipment for the flow"
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col md="6" class="mb-3">
+              <main-select
+                labelTitle='Tag'
                 :validate="'required'"
-                name="Flow requirements"
-                :label="'Requirements'"
-                limit="2000"
-              />
-            </b-col></b-row>
-            <b-row>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`EGP price`"
-                    :rules="{ required: true, regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/ }"
-                    class="flex-grow-1"
+                :name="`Tag`"
+                placeholder="Select Tag"
+                class=""
+                label="name"
+                :options="allTags"
+                :reduce="(item) => item.id"
+                v-model="flows.tag_id">
+              </main-select>
+            </b-col>
+            <b-col md="6" class="mb-3">
+              <main-select
+                labelTitle='Folder'
+                :validate="'required'"
+                :name="`Folder`"
+                placeholder="Select Folder"
+                class=""
+                label="name"
+                v-model="flows.facility_folder_id"
+                :reduce="(item) => item.id"
+                :options="allFolders"
                 >
-                  <b-form-group :label="'Price'"
-                    ><b-input-group append="EGP">
-                        <b-form-input
-                            v-model="flows.price_egp"
-                            placeholder="000.00"
-                            :class="[{ 'is-invalid': errors.length > 0 }]"/>
-                  </b-input-group>
-                    <small class="text-danger">{{ errors[0] }}</small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-              <b-col md="4" class="mb-5 pt-4 mt-3 text-center">
-                <b-form-checkbox
-                  type="checkbox"
-                  v-model="selectedEGP"
-                  class="custom-checkbox-color-check mb-2 mr-sm-2 mb-sm-0"
-                  color="warning"
-                  >
-                    Discounted Price
-                </b-form-checkbox>
-              </b-col>
-              <b-col md="4" class="mb-3">
-                <validation-provider
-                    #default="{ errors }"
-                    :name="`Discounted EGP price`"
-                    :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: selectedEGP }"
-                    class="flex-grow-1"
-                >
-                  <b-form-group :label="'Discounted Price'"
-                    ><b-input-group append="EGP">
-                      <b-form-input
-                        v-model="flows.discount_price_egp"
-                        placeholder="000.00"
-                        :disabled="!selectedEGP"
-                        :class="[{ 'is-invalid': errors.length > 0}]"
-                      /> </b-input-group>
-                    <small class="text-danger" v-if="!flows.discount_price_egp">{{ errors[0] }}</small>
-                    <small class="text-danger" v-if="Number(flows.discount_price_egp) > Number(flows.price_egp)">
-                      More than price
-                    </small>
-                  </b-form-group>
-                </validation-provider>
-              </b-col>
-            </b-row>
-            <div class="position-relative">
-            <span class="d-flex position-absolute add_position w-100">
-              <span class="text-warning cursor-pointer ml-auto p-2" @click="addInstructor">+ Add another</span>
-            </span>
-            <div v-for="(instructor, counter) in flows.instructors"
-                :key="counter">
-              <validation-provider
-                  #default="{ errors }"
-                  :name="`Instructor`"
-                  :rules="'required'"
-                  class="flex-grow-1"
-              >
-                <b-form-group inline :label="'Instructor'" :label-for="'Instructor'">
-                  <b-form-row>
-                    <b-col md="6" class="mb-3">
-                      <b-form-input
-                        v-model="instructor.first_name"
-                        placeholder="First Name"
-                        :name="`First name ${counter+1}`"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                      />
-                    </b-col>
-                    <b-col md="6" class="mb-3">
-                      <b-form-input
-                        v-model="instructor.last_name"
-                        placeholder="Last Name"
-                        :name="`Last name ${counter+1}`"
-                        :class="[{ 'is-invalid': errors.length > 0 }]"
-                      />
-                    </b-col>
-                    <b-col><span v-if="counter != 0" class="deleteLabelButton text-danger cursor-pointer" @click="deleteInstructor(counter)">Delete</span></b-col>
-                  </b-form-row>
-                </b-form-group>
-              </validation-provider>
-            </div>
-            </div>
+              </main-select>
+            </b-col>
+          </b-row>
           </b-col>
           <b-col lg="6" class="mb-3">
-            <b-form-group label="Pick Level">
-              <div class="d-flex flex-wrap mb-2 flex-grow-1 justify-content-around">
-                <span v-for="(option, counter) in options" :key="counter">
-                  <button
-                      class="btn radio-btn"
-                      :class="`radio-btn-${option.color} ${selectLevel(option.value) ? 'radio-btn-selected-'+option.color : ''}`"
-                      @click.prevent="flows.level = option.value"
-                  >
-                      {{ option.text }}
-                  </button>
-                </span>
-              </div>
-            </b-form-group>
+            <Level @selectLevel="(event) => flows.level_id = event" :level="flows.level_id"/>
+
             <validation-provider
                 #default="{ errors }"
                 :name="`Description`"
@@ -138,13 +60,57 @@
                     v-model="flows.description"
                     :label="'Description'"
                     placeholder="Write your description about this flow…."
-                    rows="4"
+                    rows="2"
                     :class="[{ 'is-invalid': errors.length > 0 }]"
                 ></b-form-textarea>
               </b-form-group>
             </validation-provider>
           </b-col>
         </b-row>
+
+        <b-row>
+          <b-col md="12">
+            <instructor @instructors="data => flows.instructors = data" :allInstructors="flows.instructors"/>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-4">
+          <b-col md="6">
+            <validation-provider
+            #default="{ errors }"
+            :name="`Requirements`"
+            :rules="'required'"
+            class="flex-grow-1"
+        >
+          <b-form-group label="Requirements">
+            <b-form-textarea
+                v-model="flows.requirements"
+                placeholder="Any required experience or equipment for the course"
+                rows="1"
+                :class="[{ 'is-invalid': errors.length > 0 }]"
+            ></b-form-textarea>
+          </b-form-group>
+        </validation-provider>
+          </b-col>
+          <b-col md="6">
+            <validation-provider
+            #default="{ errors }"
+            :name="`Conditions`"
+            :rules="'required'"
+            class="flex-grow-1"
+        >
+          <b-form-group label="Conditions">
+            <b-form-textarea
+                v-model="flows.conditions"
+                placeholder="Any age, health, or weight requirements to participate"
+                rows="1"
+                :class="[{ 'is-invalid': errors.length > 0 }]"
+            ></b-form-textarea>
+          </b-form-group>
+        </validation-provider>
+          </b-col>
+        </b-row>
+
         <b-row>
           <b-col md="12" class="mb-5">
             <cropper-images
@@ -197,11 +163,14 @@
   </div>
 </template>
 <script>
-
+import Instructor from '@/components/instructor'
 import mainService from '@/services/main'
 import { core } from '@/config/pluginInit'
-// import cropper from '@/components/cropper'
+import Level from '@/components/level'
+import { tagMixin } from '@/mixins/tags'
+import { folderMixin } from '@/mixins/folders'
 export default {
+  mixins: [tagMixin, folderMixin],
   props: {
     requestLoading: {
       type: Boolean,
@@ -218,34 +187,21 @@ export default {
   data () {
     return {
       flows: {
+        type: 'flow',
         name: '',
         requirements: '',
         conditions: '',
         description: '',
-        price_egp: '',
-        price_euro: '',
-        price_dollar: '',
-        discount_price_egp: null,
-        discount_price_euro: null,
-        discount_price_dollar: null,
         status: 'active',
         images: [],
+        level_id: '',
+        facility_folder_id: '',
+        tag_id: '',
         instructors: [{
           first_name: '',
           last_name: ''
-        }],
-        level: 'all'
+        }]
       },
-      foreignerPrice: 'None',
-      selectedEGP: false,
-      selectedEUR: false,
-      selectedDollar: false,
-      options: [
-        { text: 'ALL LEVELS', value: 'all', color: 'blue' },
-        { text: 'BEGINNER', value: 'beginner', color: 'cyan' },
-        { text: 'INTERMEDIATE', value: 'intermediate', color: 'orange' },
-        { text: 'ADVANCED', value: 'advanced', color: 'red' }
-      ],
       loadingGallery: 0,
       progressBar: 0,
       removeLoadingUi: false
@@ -253,43 +209,16 @@ export default {
   },
   components: {
     // cropper
+    Level,
+    Instructor
   },
   methods: {
     addFlows () {
-      // if foreigner price is empty send 0 to server
-      this.flows.price_euro = this.flows.price_euro ? this.flows.price_euro : 0
-      this.flows.price_dollar = this.flows.price_dollar ? this.flows.price_dollar : 0
-      // if discount isn't checked, discounted field should be emptied
-      this.flows.discount_price_egp = this.selectedEGP ? this.flows.discount_price_egp : ''
-      this.flows.discount_price_euro = this.selectedEUR ? this.flows.discount_price_euro : ''
-      this.flows.discount_price_dollar = this.selectedDollar ? this.flows.discount_price_dollar : ''
-      // empty non selected currency
-      if (this.foreignerPrice === 'None') {
-        this.flows.price_euro = 0
-        this.flows.discount_price_euro = 0
-        this.flows.price_dollar = 0
-        this.flows.discount_price_dollar = 0
-      } else if (this.foreignerPrice === 'Euro') {
-        this.flows.price_dollar = 0
-        this.flows.discount_price_dollar = 0
-      } else if (this.foreignerPrice === 'Dollar') {
-        this.flows.price_euro = 0
-        this.flows.discount_price_euro = 0
-      }
       if (this.typeOfModal === 'add') {
-        this.$emit('addFlows', { ...this.flows, images: this.flows.images.map(data => data.id) })
+        this.$emit('addFlows', { ...this.flows, medias: this.flows.images.map(data => data.id) })
       } else {
-        this.$emit('editFlows', { ...this.flows, images: this.flows.images.map(data => data.id), _method: 'put' })
+        this.$emit('editFlows', { ...this.flows, medias: this.flows.images.map(data => data.id), _method: 'put' })
       }
-    },
-    addInstructor () {
-      this.flows.instructors.push({
-        first_name: '',
-        last_name: ''
-      })
-    },
-    deleteInstructor (counter) {
-      this.flows.instructors.splice(counter, 1)
     },
     cropperFile (file) {
       console.log('file', file)
@@ -299,7 +228,7 @@ export default {
       this.requestLoading = true
       const formData = new FormData()
       formData.append('image', file.image)
-      formData.append('type', 'flow')
+      formData.append('type', 'image')
       formData.append('status', this.flowsDetails ? 'exist' : 'new')
       formData.append('name', file.imageInfo.name)
       if (this.flowsDetails) {
@@ -326,46 +255,13 @@ export default {
         const ind = this.flows.images.findIndex(image => image.id === id)
         this.flows.images.splice(ind, 1)
       })
-    },
-    selectLevel (value) {
-      return this.flows.level === value
     }
   },
   watch: {},
   computed: {},
   created () {
     if (this.flowsDetails) {
-      this.flows = {
-        name: this.flowsDetails.name,
-        requirements: this.flowsDetails.requirements,
-        conditions: this.flowsDetails.conditions,
-        description: this.flowsDetails.description,
-        price_egp: this.flowsDetails.price_egp,
-        price_euro: this.flowsDetails.price_euro ? this.flowsDetails.price_euro : '',
-        price_dollar: this.flowsDetails.price_dollar ? this.flowsDetails.price_dollar : '',
-        discount_price_egp: this.flowsDetails.discount_price_egp || '',
-        discount_price_euro: this.flowsDetails.discount_price_euro || '',
-        discount_price_dollar: this.flowsDetails.discount_price_dollar || '',
-        status: this.flowsDetails.status,
-        images: this.flowsDetails.images,
-        instructors: this.flowsDetails.instructors,
-        level: this.flowsDetails.level
-      }
-      if (this.flows.price_euro) {
-        this.foreignerPrice = 'Euro'
-      }
-      if (this.flows.price_dollar) {
-        this.foreignerPrice = 'Dollar'
-      }
-      if (this.flowsDetails.discount_price_egp) {
-        this.selectedEGP = true
-      }
-      if (this.flowsDetails.discount_price_euro) {
-        this.selectedEUR = true
-      }
-      if (this.flowsDetails.discount_price_dollar) {
-        this.selectedDollar = true
-      }
+      this.flows = this.flowsDetails
     }
   }
 }

@@ -56,7 +56,7 @@
             </b-form-input>-->
             <main-select :inBody="true" v-if="arrangeMode" :options="Array.from({length: total},(_, i) => i + 1)"
                          :value="$_.get(data.item, 'sort')"
-                         @input="changeSort($_.get(data.item, 'id'), service_type, $event)">
+                         @input="changeSort($_.get(data.item, 'id'), 'image', $event)">
             </main-select>
 <!--            <input v-if="arrangeMode" class="sort-field"
                           onkeyup="console.log(this.value)"
@@ -129,6 +129,11 @@
                 {{ $_.get(data.item, arrKey) }}
               </span>
             </span>
+          </div>
+
+          <!-- rate -->
+          <div v-else-if="field.type == 'rate'">
+                {{ $_.get(data.item, arrKey) ? $_.get(data.item, arrKey) : 0 }}
           </div>
 
           <!-- Multi-currency handler -->

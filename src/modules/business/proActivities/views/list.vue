@@ -79,7 +79,7 @@ export default {
         { label: 'Tag', key: 'tag.name', class: 'text-left' },
         { label: 'Folder', key: 'folder.name', class: 'text-left' },
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
+        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         { label: 'Reservations', key: 'reservations', class: 'text-left' },
         // { label: 'Likes', key: 'likes', class: 'text-left', type: 'custom' },
         { label: 'Rating', key: 'rate', class: 'text-left', type: 'rate' },

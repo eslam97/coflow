@@ -6,18 +6,69 @@
   <component name="ChangeListManager">
     <list default="true" id="b0dd06fa-53d6-4e2a-ac06-c7a3c1a12151" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FackApi/json/SideBar.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/FackApi/json/SideBar.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/bootstrap.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scss/_status.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/_status.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scss/coFlow.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/coFlow.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/core/menus/CollapseMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/core/menus/CollapseMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/cropperImages.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/cropperImages.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/formElements/VSelect.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/formElements/VSelect.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/modal/deleteModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modal/deleteModal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/table/cellActions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/cellActions.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/Components/faqPopup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/Components/faqPopup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/modal/mainModal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/modal/mainModal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/table/mainTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/table/mainTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/config/pluginInit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/pluginInit.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/VerticalLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/VerticalLayout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/business/dashboard/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/dashboard/views/list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/easyToUse.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/easyToUse.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mixins/auth-permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/mixins/auth-permission.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mixins/tags.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/mixins/tags.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/calendar/components/calendarSettings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/calendar/components/calendarSettings.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/calendar/components/viewSlot.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/calendar/components/viewSlot.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/calendar/services/calendar.sevices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/calendar/services/calendar.sevices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/calendar/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/calendar/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/commonServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/commonServices.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/courses/components/coursesDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/customers/services/management.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/customers/services/management.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/customers/views/managementDetailsHistory.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/customers/views/managementDetailsHistory.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/flows/components/flowsDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/flows/components/flowsDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/flows/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/flows/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/folders/components/folderDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/folders/components/folderDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/folders/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/folders/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/goActivities/components/activityDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/goActivities/components/activityDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/goActivities/goActivities.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/goActivities/goActivities.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/goActivities/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/goActivities/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/pricing/components/CouponForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/pricing/components/CouponForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/pricing/components/PromotionForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/pricing/components/PromotionForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/pricing/services/coupons.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/pricing/services/coupons.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/pricing/views/coupons.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/pricing/views/coupons.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/pricing/views/promotions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/pricing/views/promotions.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/proActivities/components/activityDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/proActivities/components/activityDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/proActivities/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/proActivities/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/products/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/historyDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/historyDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/components/paymentTab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/components/paymentTab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/services/profile.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/services/profile.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/business/profile/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/tailored.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/landing/tailored.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityInformationAndPhoto.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityInformationAndPhoto.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/facilityLocation.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/generalAdminInformation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/components/reqistration/stepForms/generalAdminInformation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/services/auth.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/services/auth.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/services/registration.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/services/registration.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/businessLandingPage/views/profileSteps.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/businessLandingPage/views/profileSteps.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/components/activationDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/activation/views/list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/components/profileDetails.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/profiles/views/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/accommodations.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/accommodations.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/activities.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/activities.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/courses.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/courses.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/flows.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/flows.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/products.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/products.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/services/views/tickets.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/services/views/tickets.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/superAdmin/settings/services/settings.services.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/superAdmin/settings/services/settings.services.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,12 +83,28 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;eslam-ashraf97&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/eslam97/coflow.git&quot;,
+    &quot;accountId&quot;: &quot;cbed58a5-39f6-49d8-871b-37a643681c99&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="29luvNgHij093K0p7oTeVRXeaN4" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -51,8 +118,10 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/coflow/src/assets/images/mobilaAppLanding&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;integration-with-api&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/curva devs/curva-new-version&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -61,7 +130,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.linters.eslint&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.3.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.3.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -70,6 +139,13 @@
       <recent name="D:\coflow\src\assets\images\mobilaAppLanding" />
       <recent name="C:\Users\Alaa Diaa\Documents\git\coflow\src\modules\business\activities" />
     </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-WS-243.26053.12" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -145,6 +221,16 @@
       <workItem from="1699386024489" duration="692000" />
       <workItem from="1704233818096" duration="2191000" />
       <workItem from="1704296209482" duration="7394000" />
+      <workItem from="1741558962713" duration="6612000" />
+      <workItem from="1742007702142" duration="296000" />
+      <workItem from="1742159208489" duration="2890000" />
+      <workItem from="1742938538960" duration="284000" />
+      <workItem from="1743131236606" duration="414000" />
+      <workItem from="1743526252635" duration="70000" />
+      <workItem from="1744155575919" duration="896000" />
+      <workItem from="1744157372963" duration="596000" />
+      <workItem from="1744259718695" duration="39000" />
+      <workItem from="1746609226728" duration="346000" />
     </task>
     <servers />
   </component>
@@ -183,7 +269,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/modules/mobikeAppLandingPage/views/index.vue</url>
           <line>138</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

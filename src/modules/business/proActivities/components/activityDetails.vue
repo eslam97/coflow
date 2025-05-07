@@ -61,7 +61,7 @@
               <b-col md="6" class="mb-3">
                 <main-select
                   labelTitle='Folder'
-                  :validate="'required'"
+                  :validate="''"
                   :name="`Folder`"
                   placeholder="Select Folder"
                   class=""
@@ -156,7 +156,7 @@
               @remove-image="removeGalleryImage"
               :removeLoadingUi="removeLoadingUi"
               :progressLoading="progressBar"
-              :images="activity.images"
+              :images="activity.medias"
               type="activity_image"
             ></cropper-images>
           </b-col>
@@ -257,6 +257,7 @@ export default {
         }
       }
       mainService.addImage(formData, options).then(res => {
+        console.log(res.data)
         core.showSnackbar('success', res.data.message)
         this.activity.medias.push(res.data.data)
         this.removeLoadingUi = true
@@ -274,10 +275,10 @@ export default {
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', {
           ...this.activity,
-          medias: this.activity.images.map(data => data.id)
+          medias: this.activity.medias.map(data => data.id)
         })
       } else {
-        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.images.map(data => data.id) })
+        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.medias.map(data => data.id) })
       }
     },
     getDurationList () {

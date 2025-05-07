@@ -49,7 +49,7 @@ export default {
   },
   data () {
     return {
-      folder: { id: '', name: '' }
+      folder: { name: '' }
     }
   },
   components: {},

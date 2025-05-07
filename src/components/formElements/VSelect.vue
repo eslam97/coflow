@@ -1,67 +1,65 @@
 <template>
-  <b-form-group
-      :label="labelTitle"
-      :label-for="name"
-  >
+  <b-form-group :label="labelTitle" :label-for="name">
     <validation-provider
-        #default="{ errors }"
-        :name="name"
-        :rules="validate"
-        class="flex-grow-1"
+      #default="{ errors }"
+      :name="name"
+      :rules="validate"
+      class="flex-grow-1"
     >
       <vue-select
         v-model="selected"
-        :multiple="multiple"
-        :close-on-select="!multiple"
-        :clearable="clearable_v"
-        :placeholder="placeholder"
-        :name="name"
         :options="options"
         :label="label"
         :reduce="reduce"
+        :name="name"
+        :multiple="multiple"
+        :clearable="clearableComputed"
+        :close-on-select="!multiple"
         :disabled="disabled"
-        :value="selected"
+        :placeholder="placeholder"
         :loading="showLoadingIcon"
         :taggable="taggable"
         :append-to-body="inBody"
         :calculate-position="withPopper"
+        :no-drop="taggable"
+        :class="{ 'is-invalid': errors.length > 0 || showAlert }"
+        :selectable="() => numberOfSelect ? selected.length < numberOfSelect : true"
         @input="onChange"
+        @search="onSearch"
         @keydown.native="isTextVerify"
         @search:focus="onFocus"
         @search:blur="onBlur"
-        :no-drop="taggable"
-        :class="[{ 'is-invalid': errors.length > 0 || showAlert }]"
-        :selectable="() =>numberOfSelect ?  selected.length < numberOfSelect : true"
-        >
+      >
         <template #option="data">
           <slot name="data" :data="data"></slot>
         </template>
-         <template #selected-option="data">
+
+        <template #selected-option="data">
           <slot name="selected-option" :data="data"></slot>
+        </template>
+
+        <template #open-indicator="{ attributes }" v-if="!taggable">
+          <span v-bind="attributes">
+            <span data-icon="T" class="icon"></span>
+          </span>
+        </template>
+
+        <template v-if="showSelectAll" #list-header>
+          <li class="cursor-pointer text-white pl-3 bg-warning" @click="toggleSelectAll">
+            Select All
+          </li>
+        </template>
+
+        <template v-if="noOptionsText" v-slot:no-options="{ search, searching }">
+          <template v-if="searching">
+            {{ $t('basic.no_results_found_for') }} <em>{{ search }}</em>.
           </template>
-          <template #open-indicator="{ attributes }" v-if="!taggable">
-            <span v-bind="attributes"><span data-icon="T" class="icon"></span></span>
-          </template>
-          <template
-            v-if="showSelectAll"
-            #list-header
-          >
-            <li class="cursor-pointer text-white pl-3 bg-warning" @click="checkAll = !checkAll; checkAllOptions()">Select All</li>
-          </template>
-          <template
-            v-if="noOptionsText"
-            v-slot:no-options="{ search, searching }"
-          >
-            <template v-if="searching">
-              {{ $t('basic.no_results_found_for') }} <em>{{ search }}</em>.
-            </template>
-            <em
-              v-else
-              style="opacity: 0.5"
-            >{{ noOptionsText }}</em>
-          </template>
-          <slot />
-        </vue-select>
+          <em v-else style="opacity: 0.5">{{ noOptionsText }}</em>
+        </template>
+
+        <slot />
+      </vue-select>
+
       <div class="d-flex justify-content-between">
         <small class="text-danger">{{ errors[0] }}</small>
         <small v-if="showAlert" class="text-danger">number of text not valid</small>
@@ -70,6 +68,7 @@
     </validation-provider>
   </b-form-group>
 </template>
+
 <script>
 import VueSelect from 'vue-select'
 import { createPopper } from '@popperjs/core'
@@ -78,103 +77,67 @@ export default {
   name: 'VSelect',
   components: { VueSelect },
   props: {
-    inBody: {
-      type: Boolean,
-      default: false
-    },
-    multiple: {
-      type: Boolean,
-      default: false
-    },
-    numberOfSelect: {
-      type: Number
-    },
-    inputLength: {
-      type: Number
-    },
-    taggable: {
-      type: Boolean,
-      default: false
-    },
-    closeOnSelect: {
-      type: Boolean,
-      default: true
-    },
-    clearable: {
-      type: Boolean
-
-    },
-    disabled: {
-      type: Boolean
-
-    },
-    validate: {
-      default: '',
-      required: false
-    },
+    inBody: Boolean,
+    multiple: Boolean,
+    numberOfSelect: Number,
+    inputLength: Number,
+    taggable: Boolean,
+    closeOnSelect: Boolean,
+    clearable: Boolean,
+    disabled: Boolean,
+    validate: [String, Object],
     placeholder: {
       type: String,
       default: ''
     },
-    name: {
-      type: String
-    },
+    name: String,
     options: {
       type: Array,
-      require: true
+      required: true
     },
-    label: {
-      type: String
-    },
+    label: String,
     labelTitle: {
-      default: '',
-      type: String
+      type: String,
+      default: ''
     },
-    reduce: {
-      type: Function
-    },
+    reduce: Function,
     noOptionsText: {
       type: String,
       default: ''
     },
-    showLoadingIcon: {
-      type: Boolean,
-      default: false
-    },
-    hideSelectAll: {
-      type: Boolean,
-      default: false
-    }
-
+    showLoadingIcon: Boolean,
+    hideSelectAll: Boolean
   },
   data () {
     return {
-      checkAll: false,
       selected: null,
+      checkAll: false,
       showAlert: false,
       text: '',
       placement: 'bottom'
     }
   },
   computed: {
-    closeOnSelect_v () {
-      return !this.multiple
-    },
-    clearable_v () {
+    clearableComputed () {
       return this.clearable || this.multiple
     },
     showSelectAll () {
-      return !this.hideSelectAll && (!this.taggable && this.options.length && this.multiple && this.selected &&
-          this.options.length !==
-          this.selected.length)
+      return !this.hideSelectAll &&
+        !this.taggable &&
+        this.options.length &&
+        this.multiple &&
+        this.selected &&
+        this.options.length !== this.selected.length
     }
   },
   watch: {
     selected (val) {
-      if (!this.taggable && val && this.selected && this.selected.length !== this.options.length) this.checkAll = false
-      this.$attrs.value = val
+      if (!this.taggable && val && val.length !== this.options.length) {
+        this.checkAll = false
+      }
+      this.$emit('input', val)
     },
-    '$attrs.value': function (val) {
+    '$attrs.value' (val) {
       this.selected = val
     }
   },
@@ -182,8 +145,38 @@ export default {
     this.selected = this.$attrs.value
   },
   methods: {
+    onSearch (val) {
+      this.$emit('search', val)
+    },
+    isTextVerify (e) {
+      this.text = e.target.value
+      this.showAlert = this.inputLength && (this.text.length > this.inputLength)
+    },
+    onChange () {
+      if (this.inputLength && this.text.length > this.inputLength) {
+        this.selected.splice(this.selected.length - 1, 1)
+      } else {
+        this.$emit('change', this.selected)
+      }
+    },
+    onFocus () {
+      this.$emit('v-select-focus')
+    },
+    onBlur () {
+      this.$emit('v-select-blur')
+    },
+    toggleSelectAll () {
+      this.checkAll = !this.checkAll
+      if (this.checkAll) {
+        this.selected = this.reduce
+          ? this.options.map(this.reduce)
+          : [...this.options]
+      } else {
+        this.selected = this.multiple ? [] : null
+      }
+      this.onChange()
+    },
     withPopper (dropdownList, component, { width }) {
-      console.log(component)
       dropdownList.style.width = width
       const popper = createPopper(component.$refs.toggle, dropdownList, {
         placement: this.placement,
@@ -207,53 +200,11 @@ export default {
           }
         ]
       })
-
-      /**
-       * To prevent memory leaks Popper needs to be destroyed.
-       * If you return function, it will be called just before dropdown is removed from DOM.
-       */
       return () => popper.destroy()
-    },
-    isTextVerify (e) {
-      this.text = e.target.value
-      if (this.inputLength && (e.target.value.length > this.inputLength)) {
-        this.showAlert = true
-      } else {
-        this.showAlert = false
-      }
-    },
-    onChange (e) {
-      if (this.text.length > this.inputLength) {
-        this.selected.splice(this.selected.length - 1, 1)
-      } else {
-        this.$emit('input', this.selected)
-        this.$emit('change', this.selected)
-      }
-    },
-
-    onFocus () {
-      this.$emit('v-select-focus')
-    },
-    onBlur () {
-      this.$emit('v-select-blur')
-    },
-    checkAllOptions () {
-      if (this.checkAll) {
-        if (this.reduce !== undefined) this.selected = this.options.map(el => this.reduce(el))
-        else this.selected = this.options
-      } else this.selected = this.multiple ? [] : null
-      this.onChange()
     }
-  },
-  mounted () {
-    /* if (this.options.length === 1) {
-      this.selected = this.options[0]
-    } */
   }
 }
-
 </script>
-
 <style lang="scss">
 .vs--open .vs__selected {
   top: 10px;
@@ -317,5 +268,11 @@ export default {
 }
 .vs__selected-options {
   min-height: 43px !important;
+}
+.v-select {
+  .vs__dropdown-menu {
+    position: absolute !important;
+    z-index: 900000000 !important; // make sure it floats above modals/tooltips
+  }
 }
 </style>

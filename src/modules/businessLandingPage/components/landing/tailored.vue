@@ -104,7 +104,7 @@
   </div>
 </template>
 <script>
-import services from '../../services/auth.services'
+// import services from '../../services/auth.services'
 export default {
   data () {
     return {
@@ -112,10 +112,10 @@ export default {
     }
   },
   created () {
-    services.getData().then(res => {
-      console.log(res)
-      this.allData = res.data.data
-    })
+    // services.getData().then(res => {
+    //   console.log(res)
+    //   this.allData = res.data.data
+    // })
   }
 }
 </script>

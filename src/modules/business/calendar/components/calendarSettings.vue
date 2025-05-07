@@ -75,7 +75,7 @@
 </template>
 
 <script>
-
+import calendarServices from '../services/calendar.sevices'
 export default {
   props: {
     requestLoading: { type: Boolean, default: false }
@@ -98,6 +98,9 @@ export default {
     }
   },
   created () {
+    calendarServices.getSettings().then(res => {
+      this.settings = res.data.data
+    })
   }
 
 }

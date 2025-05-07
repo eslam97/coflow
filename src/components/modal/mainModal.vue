@@ -12,9 +12,9 @@
       no-close-on-esc
   >
     <template #modal-header="{ close }">
-      <div class="py-2 d-flex justify-content-between align-items-center w-100 p-3">
+      <div class="d-flex justify-content-between align-items-center w-100 p-4 position-relative" :style="headerStyle">
         <slot name="header"></slot>
-        <div class="d-flex justify-content-end">
+        <div :class="`d-flex justify-content-end`" :style="closeStyle">
           <slot name="actions" class=""></slot>
           <img :src="require('@/assets/images/close.svg')"
                @click="close(); $emit('unsavedMsg')" class="closeImage ml-5 mr-4" />
@@ -47,6 +47,14 @@ export default {
     border: {
       type: String,
       default: ''
+    },
+    headerStyle: {
+      type: String,
+      default: () => ''
+    },
+    closeStyle: {
+      type: String,
+      default: () => ''
     }
   },
 
@@ -79,7 +87,17 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+.modal-content{
+ /* overflow: hidden; */
+  overflow: inherit;
+}
+.modal-header {
+  padding: 0px !important;
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+  overflow: hidden;
+}
 .popupButton span{
   font-weight: bold;
 }

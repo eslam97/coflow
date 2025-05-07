@@ -70,11 +70,35 @@
         </div>
       </template>
     </main-modal>
+    <main-modal id="viewSlotModal" size="lg" :headerStyle="{backgroundColor: headerColor.bgColor, paddingBottom: '2px !important'}" :closeStyle="{
+      position: 'absolute',
+      right: '3px',
+      top: '25px'
+    }">
+      <template v-slot:header>
+        <calender-header :details="calendarDetailsFront" :headerColor="headerColor"/>
+      </template>
+      <template v-slot:body>
+        <view-slot :details="calendarDetailsFront" @sendDataToServer="saveCalender" :requestLoading="saveCalenderLoading"/>
+      </template>
+    </main-modal>
+    <section class="d-flex flex-column gap-2">
+      <b-card class="mb-2">
+        <div class="d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">Calender</h3>
+        <div>
+          <b-button @click="openSettingsPopup" variant="light" class="add_button text-dark" style="--iq-light:#fff; box-shadow: 0px 2px 2px 0px #00000026;">
+                <span>Settings<i class="fas fa fa-cog ml-3"></i></span>
+            </b-button>
+        </div>
+        </div>
+        <div  v-if="facilityType == 'PRO'" class="my-2 d-flex justify-content-between align-items-center gap-2 w-100">
+          <span @click="activeTab='activities'" :class="['w-100 text-center promotion_button py-2 bg-gray-tab', { 'active-tab' :  activeTab=='activities'}]">Activities</span>
+          <span @click="activeTab='courses'" :class="['w-100 text-center promotion_button py-2 bg-gray-tab', { 'active-tab' :  activeTab=='courses'}]">Courses</span>
+        </div>
+      </b-card>
 
-    <section class="d-flex flex-column gap-2 mb-4">
-        <h3>Calendar</h3>
-
-        <b-card no-body class="d-flex flex-column align-items-center gap-1 p-3">
+        <div no-body class="d-flex flex-column align-items-center gap-1">
           <date-picker class="date-input" :open="dateOpen" @close="dateOpen = false" v-model="currentDate" type="week" />
           <h4 @click="dateOpen = !dateOpen" class="cursor-pointer" >
             <span class="mr-2">{{ getFormatedDate }}</span>
@@ -85,30 +109,62 @@
             <h5>{{ `${new Date(getDays[0]).getDate()} - ${new Date(getDays[6]).getDate()}` }}</h5>
             <button @click="changeDate('inc')" class="btn border rounded-sm"><i class="fa fa-arrow-right"></i></button>
           </div>
-        </b-card>
+        </div>
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <div class="bg-white d-flex justify-content-between align-items-center flex-wrap py-4">
           <div>
               <ul class="levels-list m-0 p-0 justify-content-center">
                   <li class="p-1" v-for="(level, key) in levels" :key="key">
-                      <i class="fas fa-circle ml-3 mr-2" :style="{color : level.color}"></i>
-                      <span class="font-size-12 text-uppercase">{{ level.name }}</span>
+                      <i class="fas fa-circle ml-3 mr-1" :style="{color : level.color}"></i>
+                      <span class="font-size-12 text-uppercase" style="color: #19182A; font-weight: 700;">{{ level.name }}</span>
                   </li>
               </ul>
           </div>
           <div>
               <div class="d-flex justify-content-md-end justify-content-center gap-20">
-                  <b-button @click="openSettingsPopup" variant="light" class="add_button text-dark" style="--iq-light:#fff">
-                      <span>Settings<i class="fas fa fa-cog ml-3"></i></span>
-                  </b-button>
-                  <b-button @click="openClearCalendar" variant="dark" class="add_button text-white">
-                      <span>Clear Calendar<i class="fas fa-trash-alt ml-3"></i></span>
-                  </b-button>
-                  <b-button @click="loadSchedule" variant="light" class="add_button text-dark" style="--iq-light:#fff">
-                      <span>Load Calendar<i class="fa fa-download ml-3"></i></span>
-                  </b-button>
-                  <b-button @click="openPopup" variant="warning" class="add_button text-white">
-                      Add Calendar Slots<i class="fas fa-calendar-alt ml-3"></i></b-button>
+                <b-button
+                  @click="openClearCalendar"
+                  variant="dark"
+                  class="add_button text-white"
+                  >
+                    <span>Clear Calendar<i class="fas fa-trash-alt ml-3"></i></span>
+                </b-button>
+
+                <b-button
+                  v-if="facilityType == 'FLOW'"
+                  @click="loadSchedule"
+                  variant="light"
+                  class="add_button text-dark"
+                  style="--iq-light:#fff; box-shadow: 0px 2px 2px 0px #00000026;"
+                  >
+                    <span>Load Calendar<i class="fa fa-download ml-3"></i></span>
+                </b-button>
+
+                <b-button
+                  v-if="facilityType == 'PRO'"
+                  @click="loadSchedule"
+                  variant="light"
+                  class="add_button text-dark"
+                  style="--iq-light:#fff; box-shadow: 0px 2px 2px 0px #00000026;">
+                  <span>Reload Calendar<i class="fa fa-sync ml-3"></i></span>
+                </b-button>
+
+                <b-button
+                  @click="openPopup"
+                  variant="warning"
+                  class="add_button text-white">
+                      Add Calendar Slots
+                      <i class="fas fa-calendar-alt ml-3"></i>
+                    </b-button>
+
+                <b-button
+                  v-if="facilityType == 'PRO'"
+                  @click="loadSchedule"
+                  variant="warning"
+                  class="add_button text-white"
+                  style="--iq-light:#fff; box-shadow: 0px 2px 2px 0px #00000026;">
+                    <span>Load {{ activeTab }}<i class="fa fa-download ml-3"></i></span>
+                </b-button>
               </div>
           </div>
         </div>
@@ -130,7 +186,7 @@
           <b-card class="overflow-auto text-center schedule-card">
             <b-row class="flex-nowrap m-0">
               <b-col class="schedule-col px-0" v-for="(day, key) in getDays" :key="key">
-                <h6 class="py-3 calendar-header">
+                <h6 :class="`py-3 calendar-header ${ isToday(day) === 'today' ? 'today' : ''}`">
                   <span>{{ new Date(day).getDate() }}</span>
                   <span>{{ getDayName(day) }}</span>
                 </h6>
@@ -138,9 +194,12 @@
                   v-for="(slot, slotKey) in allSlots.filter((ele) => { return getDayName(ele.date) === getDayName(day) })"
                   :key="slotKey"
                   class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box calendar-slot-box"
-                  :class="(slot.service.status === 'active' || slot.service.status === true) ? `slot-box-${getColor(slot)}` : 'slot-box-grey'"
-                >
-                  <div class="slot-box-content">
+                  :class="(slot.service.status === 'active' || slot.service.status === true) ? `slot-box-${getColor(slot)}` : ''"
+                  :style="(slot.service.status === 'active' || slot.service.status === true)
+                    ? { backgroundColor: `white` }
+                    : 'blue'"
+                  >
+                  <div class="slot-box-content" :style="{ color: getSlotColor(slot.service.level.color).color, backgroundColor: `${getSlotColor(slot.service.level.color).bgColor} !important`}">
                     <ul class="my-ul">
                       <li class="d-flex justify-content-between gap-1">
                         <span>
@@ -155,7 +214,7 @@
                               <path d="M10.8573 16.6667C11.3175 16.6667 11.6906 16.2936 11.6906 15.8333C11.6906 15.3731 11.3175 15 10.8573 15C10.397 15 10.0239 15.3731 10.0239 15.8333C10.0239 16.2936 10.397 16.6667 10.8573 16.6667Z" stroke="#19182A" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                           </template>
-                          <b-dropdown-item-button @click="() => showCalendarDetailsModal(slot)">
+                          <b-dropdown-item-button @click="() => showViewSlotModal(slot)">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.833252 9.99998C0.833252 9.99998 4.16659 3.33331 9.99992 3.33331C15.8333 3.33331 19.1666 9.99998 19.1666 9.99998C19.1666 9.99998 15.8333 16.6666 9.99992 16.6666C4.16659 16.6666 0.833252 9.99998 0.833252 9.99998Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -214,8 +273,8 @@
                       </li>
 
                       <li>
-                        <b-progress :max="slot.capacity" :variant="getColor(slot)" >
-                          <b-progress-bar :value="slot.remain">
+                        <b-progress :max="slot.capacity" >
+                          <b-progress-bar :value="slot.reserved.length" :style="{ 'background-color': getSlotColor(slot.service.level.color).color }">
                             <span class="progress-label d-flex align-items-center justify-content-center gap-1">
                               <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M9.37043 7.99997C9.68264 7.99997 9.93097 7.80351 10.154 7.52876C10.6104 6.96639 9.86097 6.51697 9.57518 6.29689C9.2846 6.07314 8.96018 5.94639 8.63127 5.91664M8.2146 5.0833C8.78989 5.0833 9.25627 4.61693 9.25627 4.04164C9.25627 3.46634 8.78989 2.99997 8.2146 2.99997" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
@@ -223,7 +282,7 @@
                               <path d="M4.08293 6.79631C3.65719 7.05956 2.54093 7.5971 3.2208 8.26973C3.55292 8.59831 3.92281 8.83331 4.38786 8.83331H7.04151C7.50655 8.83331 7.87643 8.59831 8.20855 8.26973C8.88843 7.5971 7.77218 7.05956 7.34643 6.79631C6.34805 6.17898 5.0813 6.17898 4.08293 6.79631Z" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M7.17301 3.62496C7.17301 4.43038 6.5201 5.08329 5.71468 5.08329C4.90926 5.08329 4.25635 4.43038 4.25635 3.62496C4.25635 2.81954 4.90926 2.16663 5.71468 2.16663C6.5201 2.16663 7.17301 2.81954 7.17301 3.62496Z" stroke="currentColor" stroke-width="0.8"/>
                               </svg>
-                              <strong>{{ `${slot.remain}/${slot.capacity}` }}</strong>
+                              <strong>{{ `${slot.reserved.length}/${slot.capacity}` }}</strong>
                             </span>
                           </b-progress-bar>
                         </b-progress>
@@ -251,9 +310,14 @@ import calendarServices from '@/modules/business/calendar/services/calendar.sevi
 import mainService from '@/services/main'
 import EventBus from '@/eventBus'
 import settingsServices from '@/modules/superAdmin/settings/services/settings.services'
+import viewSlot from '@/modules/business/calendar/components/viewSlot'
+import calenderHeader from '../components/calenderHeader.vue'
 export default {
   data () {
     return {
+      activeTab: 'activities',
+      facilityType: JSON.parse(localStorage.getItem('userInfo')).facility.facility_type,
+      saveCalenderLoading: false,
       requestLoading: false,
       typeOfModal: 'add',
       calendarDetails: {},
@@ -293,13 +357,38 @@ export default {
           value: 'saturday'
         }
       ],
-      calendarDetailsFront: {},
+      calendarDetailsFront: {
+        service: {
+          level: {
+            color: ''
+          }
+        }
+      },
       currentDate: new Date(),
       dateOpen: false
     }
   },
-  components: { calendarDetails, calendarSettings },
+  components: { calendarDetails, calendarSettings, viewSlot, calenderHeader },
   methods: {
+    isToday (dateString) {
+      const today = new Date()
+      const targetDate = new Date(dateString)
+      today.setHours(0, 0, 0, 0)
+      targetDate.setHours(0, 0, 0, 0)
+      if (targetDate < today) {
+        return 'before'
+      } else if (targetDate > today) {
+        return 'after'
+      } else {
+        return 'today'
+      }
+    },
+    getSlotColor (hexa) {
+      return {
+        color: hexa,
+        bgColor: core.hexToRgba(hexa, 0.4)
+      }
+    },
     openSettingsPopup () {
       this.$bvModal.show('calendarSettings')
     },
@@ -340,6 +429,21 @@ export default {
         this.requestLoading = false
       })
     },
+    saveCalender (data) {
+      this.saveCalenderLoading = true
+      Promise.all(data.map(item => calendarServices.calenderReservation(item)))
+        .then(() => {
+          this.getCalendar()
+          this.$bvModal.hide('viewSlotModal')
+          core.showSnackbar('success', 'data saved successfully')
+        })
+        .catch(error => {
+          console.error('One or more calendar items failed:', error)
+        })
+        .finally(() => {
+          this.saveCalenderLoading = false
+        })
+    },
     showCalendarToEdit (obj) {
       this.typeOfModal = 'edit'
       this.calendarDetailsFront = obj
@@ -351,6 +455,11 @@ export default {
         this.calendarDetails.slotId = obj.id
         this.$bvModal.show('calendarAddEditModal')
       })
+    },
+    showViewSlotModal (obj) {
+      this.$bvModal.show('viewSlotModal')
+      this.calendarDetailsFront = obj
+      this.calendarId = obj.id
     },
     showCalendarDetailsModal (obj) {
       this.typeOfModal = ''
@@ -373,7 +482,8 @@ export default {
     },
     getCalendar () {
       this.requestLoading = true
-      calendarServices.getAllSlots({ from: this.getDays[0], to: this.getDays[6] }).then(res => {
+      // eslint-disable-next-line eqeqeq
+      calendarServices.getAllSlots({ from: this.getDays[0], to: this.getDays[6], type: this.facilityType == 'PRO' ? this.activeTab : 'flow' }).then(res => {
         this.allSlots = res?.data?.data || []
         this.requestLoading = false
       })
@@ -502,6 +612,13 @@ export default {
     core.index()
   },
   computed: {
+    headerColor () {
+      const hexa = this.calendarDetailsFront.service.level.color
+      return {
+        color: hexa,
+        bgColor: core.hexToRgba(hexa, 0.4)
+      }
+    },
     getDays () {
       // Get the day of the week (0-6) where 0 is Sunday
       const dayOfWeek = this.currentDate?.getDay()
@@ -544,10 +661,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .date-input {
   visibility: hidden;
   height: 0;
+}
+.progress {
+  background-color: #fff !important;
+  border-radius: 50px !important;
 }
 .popupButton{
   border-radius: 4px !important;
@@ -560,5 +681,8 @@ export default {
 }
 .w-40 {
   width: 40%;
+}
+.bg-gray-tab {
+  background-color: #F7F7F7 !important;
 }
 </style>

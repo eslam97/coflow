@@ -274,7 +274,7 @@ export default {
       })
     },
     getAllTags () {
-      commonServices.getFacilityTags().then(res => {
+      commonServices.getFacilityTags('activity').then(res => {
         this.allTags = res.data.data
       })
     }

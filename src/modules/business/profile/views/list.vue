@@ -27,18 +27,18 @@
               </div>
             </div>
           </b-card>
-<!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
-<!--                        name="status" value="visible" @change="changeStatus(0)">-->
-<!--            <span class="text-primary font-size-14">Visible</span>-->
-<!--          </b-form-radio>-->
-<!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
-<!--                        name="status" value="invisible" @change="changeStatus(0)">-->
-<!--            <span class="text-primary font-size-14">Invisible</span>-->
-<!--          </b-form-radio>-->
-<!--          <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"-->
-<!--                        name="status" value="temp_closed" @change="changeStatus(1)">-->
-<!--            <span class="text-primary font-size-14">Temporarily closed</span>-->
-<!--          </b-form-radio>-->
+         <!-- <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
+                       name="status" value="visible" @change="changeStatus(0)">
+           <span class="text-primary font-size-14">Visible</span>
+         </b-form-radio>
+         <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
+                       name="status" value="invisible" @change="changeStatus(0)">
+           <span class="text-primary font-size-14">Invisible</span>
+         </b-form-radio>
+         <b-form-radio class="custom-radio-color-checked mr-4" inline v-model="oldProfile.status" color="warning"
+                       name="status" value="temp_closed" @change="changeStatus(1)">
+           <span class="text-primary font-size-14">Temporarily closed</span>
+         </b-form-radio> -->
       </b-col>
       <b-col md="12">
         <tab-nav :tabs="true" id="myTab-1">

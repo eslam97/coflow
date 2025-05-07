@@ -194,17 +194,13 @@ export default {
       this.rowId = id
       this.$bvModal.show('promotionEdit')
     },
-    // editPromotion () {
-    //   this.requestLoading = true
-    //   promotionsServices.editPromotion(this.rowId, this.editPromotions).then(res => {
-    //     core.showSnackbar('success', res.data.message)
-    //     this.getAllData()
-    //     this.$bvModal.hide('promotionEdit')
-    //   }).finally(() => {
-    //     this.requestLoading = false
-    //   })
-    // },
     addPromotion (data) {
+      if (data.payment_unlimited) {
+        delete data.payment_limit
+      }
+      if (data.unlimited) {
+        delete data.validity_days
+      }
       this.requestLoading = true
       promotionsServices.addPromotion(data).then(res => {
         core.showSnackbar('success', res.data.message)

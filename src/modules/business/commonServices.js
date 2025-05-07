@@ -1,8 +1,11 @@
 import Api from '@/axios'
 
 export default {
-  getFacilityTags () {
-    return Api().get('facility-tags')
+  getFacilityTags (type) {
+    return Api().get(`facility-tags?type=${type}`)
+  },
+  getAllServices () {
+    return Api().get('services?limit=1000')
   },
   addNewServices (payload) {
     return Api().post('services', payload)

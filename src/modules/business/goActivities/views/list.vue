@@ -39,7 +39,7 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'folders' }" class="btn bg-white add_button" >
+          <router-link :to="{ name: 'goActivityFolders' }" class="btn bg-white add_button" >
             Folders
             <i class="far fa-folder ml-3"></i>
           </router-link>
@@ -55,7 +55,7 @@
             :reloadData="reloadTable"
             :service_type="'ticket'"
             :arrangeMode="arrangeMode"
-            :custom-filter="{type: 'activity'}"
+            :custom-filter="{type: 'go'}"
             :list_url="'services'"
         >
         <!-- <template #likes="data">

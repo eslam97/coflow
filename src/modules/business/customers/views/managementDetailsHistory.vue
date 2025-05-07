@@ -54,7 +54,9 @@
     <main-table
       :fields="columns"
       class="mb-0 table-borderless"
-      :items="items"
+      @sortChanged="sortChanged"
+      :list_url="'history'"
+      :reloadData="reloadTable"
     />
   </div>
 </template>

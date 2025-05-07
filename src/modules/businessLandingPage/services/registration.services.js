@@ -14,10 +14,10 @@ export default {
     return Api().get(`remove-media/${id}`)
   },
   saveStepLocationBased (payload) {
-    return Api().post('step-location-based', payload)
+    return Api().post('step-address-based', payload)
   },
   saveStepLocationRemote (payload) {
-    return Api().post('step-location-remote', payload)
+    return Api().post('step-remote-location', payload)
   },
   saveStepOperation (payload) {
     return Api().post('step-operation', payload)

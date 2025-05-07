@@ -32,8 +32,7 @@
               <span class="text-dark font-weight-bold font-size-18 mr-3">
                 Dashboard Subscription
               </span>
-              Use this section to manage your subscription to our premium
-              dashboard.
+              Use this section to manage your subscription to our premium dashboard.
             </p>
             <b-button variant="outline-secondary" class="secondary_btn" @click="openHistory">
               History
@@ -42,41 +41,49 @@
 
           <b-card-body class="p-0">
             <div>
-              <!-- <h3 class="text-dark font-weight-bold font-size-16">
-                Basic Dashboard <span class="status free">Free</span>
-              </h3> -->
 
-              <!-- <h3 class="text-dark font-weight-bold font-size-16">
-                Trail Dashboard <span class="status trial">Trial</span>
-              </h3> -->
+              <div v-if="facilitySubscription === 'basic'">
+                <h3 class="text-dark font-weight-bold font-size-16">
+                  Basic Dashboard <span class="status free">Free</span>
+                </h3>
+                <p class="mt-1">
+                  Enjoy a month of premium features, with our free 30 day trial.
+                </p>
 
-              <h3 class="text-dark font-weight-bold font-size-16">
-                Premium Dashboard <span class="status pending">Pending</span>
-              </h3>
-
-              <!-- <p class="mt-1">
-                Enjoy a month of premium features, with our free 30 day trial.
-              </p> -->
-
-              <!-- <p class="mt-1">
-                Your premium features are active, trial ends on: <strong class="text-dark">1-3-2025</strong>.
-              </p> -->
-
-              <p class="mt-1">
-                Subscription payment required, to keep premium features active
-              </p>
-
-              <!-- <b-button
+                <b-button
                 class="btn add_button text-white btn-warning shadow-drop"
+                @click="StartFreeTrial"
               >
                 Upgrade to Premium Dashboard
-              </b-button> -->
+              </b-button>
 
-              <b-button
+              </div>
+
+              <div v-if="facilitySubscription === 'trial'">
+                <h3 class="text-dark font-weight-bold font-size-16">
+                  Trail Dashboard <span class="status trial">Trial</span>
+                </h3>
+                <p class="mt-1">
+                  Your premium features are active, trial ends on: <strong class="text-dark">{{trial_expire_date}}</strong>.
+                </p>
+
+              </div>
+
+              <div v-else>
+                <h3 class="text-dark font-weight-bold font-size-16">
+                  Premium Dashboard <span class="status pending">Pending</span>
+                </h3>
+                <p class="mt-1">
+                  Subscription payment required, to keep premium features active
+                </p>
+
+                <b-button
                 class="btn add_button text-white btn-warning shadow-drop"
               >
                 Pay Now
               </b-button>
+              </div>
+
             </div>
           </b-card-body>
         </b-card>
@@ -175,6 +182,7 @@
 </template>
 
 <script>
+import profileServices from '../services/profile.services'
 import historyDetails from './historyDetails.vue'
 import transfersDetails from './transfersDetails.vue'
 
@@ -185,6 +193,8 @@ export default {
   },
   data () {
     return {
+      facilitySubscription: JSON.parse(localStorage.getItem('userInfo')).facility.subscription,
+      trial_expire_date: JSON.parse(localStorage.getItem('userInfo')).facility.trial_expire_date
     }
   },
   methods: {
@@ -193,6 +203,11 @@ export default {
     },
     openTransfers () {
       this.$bvModal.show('transfersModal')
+    },
+    StartFreeTrial () {
+      profileServices.startTrialSubscription().then(res => {
+        window.location.reload()
+      })
     }
   }
 }

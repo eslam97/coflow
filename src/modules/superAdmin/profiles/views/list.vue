@@ -140,15 +140,6 @@
               </main-select>
             </b-col>
             <b-col md="3" sm="6">
-              <span>Activity Type:</span>
-              <main-select v-model="filter.activity_type_id" @change="reloadTable=true"
-                           :options="allActivityTypes"
-                           label="name"
-                           :reduce="data => data.id"
-                           placeholder="--Select--">
-              </main-select>
-            </b-col>
-            <b-col md="3" sm="6">
               <span>Sort by date:</span>
               <main-select v-model="filter.sort_type" @change="reloadTable=true"
                            :options="[{name: 'Ascending', key:'asc'}, {name: 'Descending', key:'desc'}]"
@@ -282,7 +273,6 @@ export default {
       filter:
       {
         sort_type: 'desc',
-        service_types: '',
         profile_type: '',
         city_id: '',
         area_id: '',
@@ -294,18 +284,18 @@ export default {
         activity_line_id: ''
       },
       profileTypeFilterOptions: [
-        { key: 'Sky', value: 'sky_' },
-        { key: 'Sea', value: 'sea_' },
-        { key: 'Earth', value: 'earth_' },
-        { key: 'Energy', value: 'energy_' },
+        { key: 'Sky', value: 'sky' },
+        { key: 'Sea', value: 'sea' },
+        { key: 'Earth', value: 'earth' },
+        { key: 'Energy', value: 'energy' },
         { key: 'None', value: '' }
       ],
       accTypeFilterOptions: [
-        { key: 'GO', value: 'go' },
-        { key: 'FLOW', value: 'flow' },
-        { key: 'PRO', value: 'pro' },
-        { key: 'CAMP', value: 'camp' },
-        { key: 'SHOP', value: 'shop' },
+        { key: 'GO', value: 'GO' },
+        { key: 'FLOW', value: 'FLOW' },
+        { key: 'PRO', value: 'PRO' },
+        { key: 'CAMP', value: 'CAMP' },
+        { key: 'SHOP', value: 'SHOP' },
         { key: 'None', value: '' }
       ],
       statusFilterOptions: [
@@ -357,8 +347,6 @@ export default {
       })
     },
     editProfile (id, data) {
-      console.log(id)
-      console.log(data)
       this.requestLoading = true
       profilesServices.editProfile(id, { ...data, _method: 'put' }).then(res => {
         this.reloadTable = true

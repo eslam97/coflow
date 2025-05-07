@@ -1,5 +1,5 @@
 {
-  "name": "meyvia",
+  "name": "Coflow",
   "version": "3.7.6",
   "private": true,
   "scripts": {
@@ -115,6 +115,7 @@
     "node-sass": "^4.12.0",
     "popper.js": "^1.16.0",
     "portal-vue": "^2.1.6",
+    "prerender-spa-plugin": "^3.4.0",
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
     "stylus": "^0.54.8",

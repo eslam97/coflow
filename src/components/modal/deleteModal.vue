@@ -7,8 +7,10 @@
       hide-footer
   >
     <template #modal-header="{ close }">
-      <h4 class="font-weight-bold"><span class="text-danger">{{ actionHeader }}: </span> {{ titleHeader }}</h4>
-      <i class="las la-times closePopupIcon" @click="close()"></i>
+      <div class="p-3 d-flex  w-100 justify-content-between align-items-center">
+        <h4 class="font-weight-bold"><span class="text-danger">{{ actionHeader }}: </span> {{ titleHeader }}</h4>
+        <i class="las la-times closePopupIcon" @click="close()"></i>
+      </div>
     </template>
     <template #default="{ close }">
       <h2 class="font-weight-bold text-danger text-center pt-3 text-uppercase" style="text-transform: uppercase">{{ actionHeader }}</h2>

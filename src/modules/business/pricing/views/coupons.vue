@@ -12,8 +12,13 @@
     <main-table
       :fields="columns"
       class="mb-0 table-borderless"
-      :items="items"
-    />
+      :list_url="'coupons'"
+      :reloadData="reloadTable"
+    >
+    <template v-slot:validity_days="data">
+      {{data.data.validity_days ? data.data.validity_days : 'Unlimited'}}
+    </template>
+  </main-table>
 
     <main-modal id="AddCouponModal">
       <template v-slot:header>
@@ -38,6 +43,7 @@
         <CouponForm
           @submitForm="editCoupon"
           :requestLoading="requestLoading"
+          :details="couponDetails"
         />
       </template>
     </main-modal>
@@ -48,6 +54,7 @@
 import { core } from '@/config/pluginInit'
 import { couponItems } from '../services/data'
 import CouponForm from '../components/CouponForm.vue'
+import couponsServices from '../services/coupons.services'
 
 export default {
   data () {
@@ -55,11 +62,12 @@ export default {
       reloadTable: false,
       requestLoading: false,
       items: couponItems,
+      couponDetails: {},
       columns: [
         { label: '#', key: 'id', class: 'text-center', type: 'sort' },
-        { label: 'Discount', key: 'discount', class: 'text-left text-bold' },
+        { label: 'Discount', key: 'discount_ratio', class: 'text-left text-bold' },
         { label: 'Applies on', key: 'applies_on', class: 'text-left' },
-        { label: 'Validity', key: 'validity', class: 'text-left' },
+        { label: 'Validity', key: 'validity_days', class: 'text-left', type: 'custom' },
         {
           label: 'Actions',
           key: 'actions',
@@ -70,7 +78,7 @@ export default {
               icon: 'las la-pen',
               color: 'info',
               text: 'Edit',
-              actionName: 'showEditCouponModal',
+              actionName: 'showEditCoupon',
               actionParams: 'fullObj'
             },
             {
@@ -79,8 +87,8 @@ export default {
               text: 'Delete',
               showAlert: true,
               actionHeader: 'Delete',
-              titleHeader: 'Activity',
-              textContent: 'name',
+              titleHeader: 'Coupon',
+              textContent: 'discount_ratio',
               url: 'coupons'
             }
           ]
@@ -93,19 +101,44 @@ export default {
     showAddCouponModal () {
       this.$bvModal.show('AddCouponModal')
     },
-    showEditCouponModal () {
+    showEditCoupon (obj) {
+      this.couponDetails = obj
       this.$bvModal.show('EditCouponModal')
     },
     addCoupon (payload) {
       console.log('addCoupon: ', payload)
       this.requestLoading = true
       this.reloadTable = false
-      setTimeout(() => {
+
+      const obj = {
+        discount_ratio: payload.discount,
+        unlimited: payload.unlimited,
+        applies_on: payload.appliesOn
+      }
+
+      if (payload.unlimited === 0) {
+        obj.validity_days = payload.validity_days
+      }
+
+      if (payload.appliesOn === 'tickets') {
+        delete payload.tickets
+      } else {
+        obj.tickets = payload.appliesOnGroup.filter((item) => item.type !== 'tickets').map((item) => item.value)
+      }
+
+      if (payload.appliesOn === 'promotions') {
+        delete payload.promotions
+      } else {
+        obj.promotions = payload.appliesOnGroup.filter((item) => item.type !== 'promotions').map((item) => item.value)
+      }
+
+      couponsServices.addCoupon(obj).then((response) => {
         this.reloadTable = true
         core.showSnackbar('success', 'Added Successfully')
         this.$bvModal.hide('AddCouponModal')
+      }).finally(() => {
         this.requestLoading = false
-      }, 1000)
+      })
     },
     editCoupon (payload) {
       console.log('editCoupon: ', payload)
@@ -120,10 +153,10 @@ export default {
     }
   },
   created () {
-    this.$root.$on('showEditCouponModal', this.showEditCouponModal)
+    this.$root.$on('showEditCoupon', this.showEditCoupon)
   },
   beforeDestroy () {
-    this.$root.$off('showEditCouponModal')
+    this.$root.$off('showEditCoupon')
   },
   mounted () {
     core.index()

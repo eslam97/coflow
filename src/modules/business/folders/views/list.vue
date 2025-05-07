@@ -60,6 +60,11 @@ import folderDetails from '../components/folderDetails'
 import foldersServices from '../services/folders.services'
 
 export default {
+  props: {
+    type: {
+      type: String
+    }
+  },
   components: { folderDetails },
   data () {
     return {
@@ -104,6 +109,7 @@ export default {
       console.log(key)
     },
     openPopup () {
+      debugger
       this.typeOfModal = 'add'
       this.folderDetails = false
       this.$bvModal.show('folderDetailsModal')
@@ -116,7 +122,7 @@ export default {
 
     addFolder (data) {
       this.requestLoading = true
-      foldersServices.addFolder(data).then(res => {
+      foldersServices.addFolder({ ...data, type: this.type }).then(res => {
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('folderDetailsModal')
         this.reloadTable = true
@@ -126,8 +132,9 @@ export default {
       })
     },
     editFolder (data) {
+      debugger
       this.requestLoading = true
-      foldersServices.editFolder(data.id, data).then(res => {
+      foldersServices.editFolder(data.id, { ...data, type: this.type }).then(res => {
         core.showSnackbar('success', res.data.message)
         this.$bvModal.hide('folderDetailsModal')
         this.reloadTable = true

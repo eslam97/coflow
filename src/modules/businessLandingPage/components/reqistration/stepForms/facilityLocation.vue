@@ -67,7 +67,6 @@
             </b-col>
           </b-row>
             <b-row>
-              <!-- {{ getAllReservationLinkWithoutYoutube }} -->
               <b-col md="12">
                   <main-select labelTitle='Reservation Link' :validate="'required'"
                                 :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
@@ -141,16 +140,6 @@
           </div>
           <div v-else>
             <b-row class="mb-5">
-<!--              <b-col md="12" class="d-flex mb-3">
-                <label class="mr-3">Available to:</label>
-                <div>
-                  <p class="font-weight-bold mb-1" v-for="(country , key) in allCountries" :key="key">
-                    <b-form-checkbox class="custom-checkbox-color-check" color="warning">
-                      <span class="font-size-12 text-primary">{{ country.name }} - All</span>
-                    </b-form-checkbox>
-                  </p>
-                </div>
-              </b-col>-->
               <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
                      :key="locationKey">
                 <b-row class="d-flex align-items-center">
@@ -381,6 +370,8 @@ export default {
     },
     fillData () {
       if (this.providerInfo) {
+        this.reservation_contact = this.providerInfo.facility.reservation_contact[0]
+
         console.log('this.providerInfo.location_type => ', this.providerInfo.location_type)
         if (this.providerInfo.location_type === 'address based') {
           this.location_type = 'address based'

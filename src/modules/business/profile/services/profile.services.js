@@ -22,5 +22,15 @@ export default {
   },
   editTeamMember (id, payload) {
     return Api().post(`teams/${id}`, payload)
+  },
+
+  getSubscribe () {
+    return Api().get('subscriptions')
+  },
+  startTrialSubscription () {
+    return Api().get('trial-subscribe')
+  },
+  editCustomerPurchase (payload) {
+    return Api().post('customer-purchase', payload)
   }
 }

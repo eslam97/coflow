@@ -6,8 +6,8 @@ export const tagMixin = {
     }
   },
   methods: {
-    getAllTags () {
-      commonServices.getFacilityTags().then(res => {
+    getAllTags (type = '') {
+      commonServices.getFacilityTags(type).then(res => {
         this.allTags = res.data.data
       })
     }

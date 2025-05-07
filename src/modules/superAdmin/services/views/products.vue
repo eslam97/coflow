@@ -61,7 +61,7 @@
           :fields="columns"
           class="mb-0 table-borderless"
           @sortChanged="sortChanged"
-          :list_url="'all-products'"
+          :list_url="'services'"
           :reloadData="reloadTable"
           :custom-filter="filter"
       >
@@ -92,6 +92,7 @@ export default {
       reloadTable: false,
       filter:
           {
+            type: 'product',
             city_id: '',
             area_id: '',
             facility_name: '',

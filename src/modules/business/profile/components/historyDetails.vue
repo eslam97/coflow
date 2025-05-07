@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-row>
       <b-col lg="12">
-        <main-table :fields="columns" class="mb-0">
+        <main-table :fields="columns" :list_url="'transactions'" class="mb-0">
         </main-table>
       </b-col>
     </b-row>

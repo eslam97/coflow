@@ -22,7 +22,7 @@
                             placeholder="Search">
               </b-form-input>
             </b-col>
-            <b-col md="3">
+            <!-- <b-col md="3">
               <span>Filter by type:</span>
               <main-select v-model="filter.profile_type" @change="reloadTable=true"
                            :options="typeFilterOptions"
@@ -30,7 +30,7 @@
                            :reduce="data => data.value"
                            placeholder="--Select--">
               </main-select>
-            </b-col>
+            </b-col> -->
 <!--            <b-col md="3">
               <span>Filter by status:</span>
               <main-select v-model="filter.status" @change="reloadTable=true"

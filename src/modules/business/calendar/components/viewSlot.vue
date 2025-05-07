@@ -5,86 +5,210 @@
       <div>
         <h5 class="calender-label">Reservations</h5>
         <ul class="m-0 p-0">
-          <li class="all-user-list d-flex p-0"  v-for="(user, key) in details.reserved" :key="key">
-            <span class="number-row">{{ key + 1 }}</span>
-            <div class="d-flex flex-grow-1 flex align-items-center gap-1 p-2" style="height: 56px;">
-              <img src="@/assets/images/user/user.jpg" class="img-user" />
-              <span class="calender-username">Ahmed Mohamed</span>
-            </div>
-            <div class="calender-list-action">
-              <span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.833252 9.99998C0.833252 9.99998 4.16659 3.33331 9.99992 3.33331C15.8333 3.33331 19.1666 9.99998 19.1666 9.99998C19.1666 9.99998 15.8333 16.6666 9.99992 16.6666C4.16659 16.6666 0.833252 9.99998 0.833252 9.99998Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              <span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 5L5 15" stroke="#DA302B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M5 5L15 15" stroke="#DA302B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </div>
-          </li>
-          <li class="all-user-list d-flex p-0 !border-t-0">
-            <span class="number-row">2</span>
-            <div class="d-flex flex-grow-1 flex align-items-center gap-1 p-2" style="height: 56px;">
+
+          <userRow v-for="(user, key) in details.reserved" :key="key" :user="user" :numberOfRow="key+1" @viewUser="viewUser" @removeUser="removeUserServer"/>
+
+          <userRow v-for="(user, key) in allReservationUserFront" :key="key" :user="user" :numberOfRow="details.reserved.length + key + 1"  @viewUser="viewUser" @removeUser="removeUserFront" />
+
+          <!-- add User To List -->
+          <li class="all-user-list d-flex p-0 !border-t-0" v-if="details.reserved.length + allReservationUserFront.length < details.capacity">
+            <span class="number-row">{{ details.reserved.length + allReservationUserFront.length + 1}}</span>
+            <div v-if="!showCutomerList" class="d-flex flex-grow-1 flex align-items-center gap-1 p-2" style="height: 56px;" @click="showCutomerList = true">
               <span class="calender-addCustomer">Add Customer</span>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10 4.16663V15.8333" stroke="#FE9E12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M4.16675 10H15.8334" stroke="#FE9E12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
+            <div v-else class="d-flex flex-grow-1 flex align-items-center p-1">
+              <main-select
+              class="w-100 mb-0"
+              :name="`user`"
+              placeholder="Select User"
+              label="name"
+              :options="showCutomerListWithoutRepeat"
+              @change="selectUse"
+              >
+              <template #data="{data}">
+                <span class="d-flex gap-2 m-0 p-0 justify-content-between">
+                  <div class="d-flex flex-grow-1 flex align-items-center gap-1 p-2">
+                    <img :src="data.image" class="img-user" />
+                    <span class="calender-username">{{ data.name }}</span>
+                  </div>
+                </span>
+              </template>
+            </main-select>
+            </div>
           </li>
+
         </ul>
       </div>
       <!-- end Reservation-->
 
       <!-- Waiting -->
-      <div class="mt-4">
+      <div class="mt-4" v-if="details.reserved.length + allReservationUserFront.length == details.capacity">
         <h5 class="calender-label">Waiting</h5>
         <ul class="m-0 p-0">
-          <li class="all-user-list d-flex p-0">
-            <span class="number-row">1</span>
-            <div class="d-flex flex-grow-1 flex align-items-center gap-1 p-2">
-              <img src="@/assets/images/user/user.jpg" class="img-user" />
-              <span class="calender-username">Ahmed Mohamed</span>
+
+          <userRow v-for="(user, key) in details.waiting" :key="key" :user="user" :numberOfRow="key+1" @viewUser="viewUser" @removeUser="removeUserServer" />
+
+          <userRow v-for="(user, key) in allWaitingUserFront" :key="key" :user="user" :numberOfRow="details.reserved.length + key + 1" @removeUser="removeUserWaitingFront" @viewUser="viewUser"/>
+
+          <!-- add User To List -->
+          <li class="all-user-list d-flex p-0 !border-t-0" v-if="details.waiting.length + allWaitingUserFront.length < details.capacity">
+            <span class="number-row">{{ details.waiting.length + allWaitingUserFront.length + 1}}</span>
+            <div v-if="!showCutomerListInWaiting" class="d-flex flex-grow-1 flex align-items-center gap-1 p-2" style="height: 56px;" @click="showCutomerListInWaiting = true">
+              <span class="calender-addCustomer">Add Customer</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 4.16663V15.8333" stroke="#FE9E12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4.16675 10H15.8334" stroke="#FE9E12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
-            <div class="calender-list-action">
-              <span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.833252 9.99998C0.833252 9.99998 4.16659 3.33331 9.99992 3.33331C15.8333 3.33331 19.1666 9.99998 19.1666 9.99998C19.1666 9.99998 15.8333 16.6666 9.99992 16.6666C4.16659 16.6666 0.833252 9.99998 0.833252 9.99998Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#2FDAC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              <span>
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 5L5 15" stroke="#DA302B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M5 5L15 15" stroke="#DA302B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
+            <div v-else class="d-flex flex-grow-1 flex align-items-center p-1">
+              <main-select
+              class="w-100 mb-0"
+              :name="`user`"
+              placeholder="Select User"
+              label="name"
+              :options="showCutomerListWithoutRepeatInWaiting"
+              @change="selectUseWaiting"
+              >
+              <template #data="{data}">
+                <span class="d-flex gap-2 m-0 p-0 justify-content-between">
+                  <div class="d-flex flex-grow-1 flex align-items-center gap-1 p-2">
+                    <img :src="data.image" class="img-user" />
+                    <span class="calender-username">{{ data.name }}</span>
+                  </div>
+                </span>
+              </template>
+            </main-select>
             </div>
           </li>
+
         </ul>
       </div>
       <!-- end waiting-->
+      <div class="d-flex justify-content-center mt-3" >
+        <b-button class="gradient-orange-button" v-if="!requestLoading" @click="sendDataToServer">
+          Save
+         </b-button>
 
+         <b-button class="gradient-orange-button" v-else>
+          <spinner-loading></spinner-loading>
+         </b-button>
+      </div>
     </div>
 </template>
 
 <script>
-
+import customerServices from '@/modules/superAdmin/customers/services/customers.services'
+import userRow from './userRow.vue'
 export default {
   name: 'ViewSlot',
+  components: {
+    userRow
+  },
   props: {
     details: {
       type: Object,
       required: true
+    },
+    requestLoading: {
+      type: Boolean,
+      default: false
     }
+  },
+  data () {
+    return {
+      allCustomers: [],
+      allReservationUserFront: [],
+      showCutomerList: false,
+
+      removedItemServer: [],
+
+      allWaitingUserFront: [],
+      showCutomerListInWaiting: false
+
+    }
+  },
+  computed: {
+    showCutomerListWithoutRepeat () {
+      const reservedIds = new Set(this.allReservationUserFront.map(user => user.id))
+      return this.allCustomers.filter(customer => !reservedIds.has(customer.id))
+    },
+    showCutomerListWithoutRepeatInWaiting () {
+      const excludedIds = new Set([
+        ...this.allReservationUserFront.map(user => user.id),
+        ...this.allWaitingUserFront.map(user => user.id)
+      ])
+      return this.allCustomers.filter(customer => !excludedIds.has(customer.id))
+    }
+  },
+  methods: {
+    selectUse (user) {
+      this.allReservationUserFront.push(user)
+      this.showCutomerList = false
+    },
+    selectUseWaiting (user) {
+      this.allWaitingUserFront.push(user)
+      this.showCutomerListInWaiting = false
+    },
+    getAllCustomer () {
+      customerServices.getAllUsers().then((response) => {
+        this.allCustomers = response.data.data.data.map((customer) => {
+          return {
+            id: customer.id,
+            name: customer.name,
+            image: customer.image
+          }
+        })
+      }).catch((error) => {
+        console.error('Error fetching customers:', error)
+      })
+    },
+    removeUserServer (user) {
+      this.removedItemServer.push(user.user_id)
+      this.details.reserved = this.details.reserved.filter(item => item.id !== user.user_id)
+      this.details.waiting = this.details.waiting.filter(item => item.id !== user.user_id)
+    },
+    removeUserFront (user) {
+      const index = this.allReservationUserFront.findIndex(item => item.id === user.id)
+      this.allReservationUserFront.splice(index, 1)
+    },
+    removeUserWaitingFront (user) {
+      const index = this.allWaitingUserFront.findIndex(item => item.id === user.id)
+      this.allWaitingUserFront.splice(index, 1)
+    },
+    viewUser (user) {
+      window.open(window.location.origin + `/business/customers/management/purchases/${user.id}`, '_blank')
+    },
+    sendDataToServer () {
+      const data = [
+        ...this.allReservationUserFront.map(item => ({
+          user_id: item.id,
+          type: 'add',
+          calendar_id: this.details.id
+        })),
+        ...this.allWaitingUserFront.map(item => ({
+          user_id: item.id,
+          type: 'add',
+          calendar_id: this.details.id
+        })),
+        ...this.removedItemServer.map(item => ({
+          user_id: item,
+          type: 'remove',
+          calendar_id: this.details.id
+        }))
+      ]
+      this.$emit('sendDataToServer', data)
+    }
+  },
+  created () {
+    this.getAllCustomer()
   }
 }
 </script>
-<style scoped>
+<style>
 .img-user {
   width: 40px;
   height: 40px;

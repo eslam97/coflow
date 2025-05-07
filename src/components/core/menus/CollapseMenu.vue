@@ -31,13 +31,28 @@
           <template v-else-if="item.serviceTypes">
             <i v-if="item.is_heading && hideListMenuTitle" class="ri-subtract-line" />
             <span v-if="item.is_heading && hideListMenuTitle">{{ $t(item.name) }}</span>
-            <router-link :to="item.link" v-if="(!item.is_heading && hasServiceType(item.serviceTypes))||(!item.is_heading &&  item.serviceTypes === 'all')" :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
-              <i :class="item.icon" v-if="item.is_icon_class"/>
-              <i v-else v-html="item.icon"></i>
-              <span>{{ $t(item.name) }}</span>
-              <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
-              <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
-            </router-link>
+            <template v-if="item.class_name === '' || (item.class_name === 'premium' && facilitySubscription !== 'basic')">
+            <template v-if="(!item.is_heading && hasServiceType(item.serviceTypes))||(!item.is_heading &&  item.serviceTypes === 'all')">
+              <router-link :to="item.link" :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
+                <i :class="item.icon" v-if="item.is_icon_class"/>
+                <i v-else v-html="item.icon"></i>
+                <span>{{ $t(item.name) }}</span>
+                <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
+                <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
+              </router-link>
+            </template>
+          </template>
+            <template v-else>
+              <a :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
+                <i :class="item.icon" v-if="item.is_icon_class"/>
+                <i v-else v-html="item.icon"></i>
+                <span>{{ $t(item.name) }}</span>
+                <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
+                <small class="badge badge-warning badge-pill float-right font-weight-normal ml-auto">Premium</small>
+                <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
+              </a>
+            </template>
+
             <List v-if="item.children" :items="item.children" :sidebarGroupTitle="hideListMenuTitle" :open="item.link.name !== '' && activeLink(item) && item.children ? true : !!(item.link.name !== '' && activeLink(item))" :idName="item.name" :accordianName="`sidebar-accordion-${item.class_name}`" :className="`iq-submenu ${item.class_name}`" />
           </template>
         </template>
@@ -49,6 +64,11 @@ import List from './CollapseMenu'
 import { core } from '../../../config/pluginInit'
 export default {
   name: 'List',
+  data () {
+    return {
+      facilitySubscription: JSON.parse(localStorage.getItem('userInfo')).facility.subscription
+    }
+  },
   props: {
     items: Array,
     className: { type: String, default: 'iq-menu' },

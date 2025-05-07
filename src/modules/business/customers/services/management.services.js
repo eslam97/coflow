@@ -2,7 +2,7 @@ import Api from '@/axios'
 
 export default {
   addManagement (payload) {
-    return Api().post('management', payload)
+    return Api().post('customers', payload)
   },
   searchCustomer (phone) {
     return Api().get(`customer-search?phone=${phone}`)

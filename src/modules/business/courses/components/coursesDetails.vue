@@ -64,7 +64,7 @@
               <b-col md="6" class="mb-3">
                 <main-select
                   labelTitle='Folder'
-                  :validate="'required'"
+                  :validate="''"
                   :name="`Folder`"
                   placeholder="Select Folder"
                   class=""

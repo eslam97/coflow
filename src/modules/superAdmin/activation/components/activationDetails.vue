@@ -10,51 +10,43 @@
       </div>
       <ValidationObserver v-slot="{ handleSubmit }">
         <b-form @submit.prevent="handleSubmit(saveChanges)">
+          <!-- main info -->
           <div class="mb-5">
             <div class="border-bottom mb-2">
               <h5 class="pb-2">General Admin Information: Contacts</h5>
             </div>
-            <!-- {{ activationDetails.name }} -->
-            <!-- {{ adminInformation }} -->
             <b-row>
               <b-col md="4" class="mb-3" >
                 <input-form
-                    v-model="info.name"
+                    v-model="adminInformation.name"
                     placeholder="Ex: Eslam Ashraf"
                     :validate="'required'"
-                    :name="`Full Name ${key + 1}`"
+                    :name="`Full Name`"
                     :label="'Full Name'"
                 />
               </b-col>
               <b-col md="4" class="mb-3" >
                 <input-form
-                    v-model="info.job"
+                    v-model="adminInformation.title"
                     placeholder="Ex: Owner"
                     :validate="'required'"
-                    :name="`Role or Job ${key + 1}`"
+                    :name="`Role or Job `"
                     :label="'Role or Job'"
                 />
               </b-col>
               <b-col md="4" class="mb-3 position-relative" >
                 <input-form
-                    v-model="info.phone"
+                    v-model="adminInformation.phone"
                     placeholder="Ex: 01095097908"
                     :validate="'required|numeric'"
-                    :name="`Phone Number ${key + 1}`"
+                    :name="`Phone Number`"
                     :label="'Phone Number'"
                 />
-                <span class="text-danger deleteLabelButtonAdmin cursor-pointer" v-if="key != 0"
-                      @click="deleteGeneralAdminInformation(key)">Delete Contact
-              </span>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col md="12">
-              <span class="text-warning cursor-pointer" @click="addNewGeneralAdminInformation">+ Add another
-                Contact</span>
               </b-col>
             </b-row>
           </div>
+
+          <!-- Facility Information & Photos -->
           <div class="mb-5">
             <div class="border-bottom my-2">
               <h5 class="pb-2">Facility Information & Photos</h5>
@@ -67,13 +59,7 @@
                              :reduce="data=> data.id"
                              v-model="info.activity_line_id"></main-select>
               </b-col>
-              <!-- <b-col class="mb-3" md="2">
-                <main-select labelTitle='Activity Type' :validate="'required'"
-                             :name="`activity_type_id`"  placeholder="Choose" :options="allActivityTypes"
-                             label="name"
-                             :reduce="data=> data.id"
-                             v-model="info.activity_type_id"></main-select>
-              </b-col> -->
+
               <b-col class="mb-3" md="3">
                 <input-form
                     placeholder="Ex: 2022"
@@ -83,6 +69,7 @@
                     v-model="info.year"
                 />
               </b-col>
+
               <b-col class="mb-3" md="6">
                 <input-form
                     placeholder="Ex: Diving"
@@ -110,19 +97,18 @@
                              :multiple="true"
                              :name="`languages`" placeholder="Choose" :options="allLanguages"
                              label="name"
-                             :reduce="data=> data.name"
+                             :reduce="data=> data.id"
                              v-model="info.languages"></main-select>
               </b-col>
             </b-row>
             <b-row>
               <b-col class="mb-3" md="12">
-                <main-select labelTitle='Facility Tags' :validate="'required'"
-                             :taggable="true"
-                             multiple v-model="info.tags"
-                             :name="`tags`" placeholder="Write Tags"
-                             :numberOfSelect=3
-                >
-                </main-select>
+                <main-select labelTitle='Choose Tags' :validate="'required'"
+              :multiple="true"
+              :name="`tags`" placeholder="Search" :options="allTags"
+              label="name"
+              :reduce="data=> data.id"
+              v-model="info.tags"></main-select>
               </b-col>
             </b-row>
             <b-row>
@@ -174,19 +160,19 @@
                     >
                       <b-form-input
                           id="mm"
-                          v-model="item.link"
+                          v-model="item.url"
                           :class="[{ 'is-invalid': errors.length > 0 }]"
                           :placeholder="'Ex: https://www.google.com'"
-                          :disabled="!item.selectSocial"
+                          :disabled="!item.name"
                       />
                     </validation-provider>
                     <template #prepend>
                       <b-dropdown
-                          :text="item.selectSocial ? item.selectSocial : 'Choose'"
+                          :text="item.name ? item.name : 'Choose'"
                           class="selectWithInput"
                       >
                         <b-dropdown-item v-for="(i, keyLink) in filterLinks" :key="keyLink"
-                                         @click="item.selectSocial = i.name">
+                                         @click="item.name = i.name">
                           {{i.name}}
                         </b-dropdown-item>
                       </b-dropdown>
@@ -200,7 +186,7 @@
                 <b-col md="12">
                     <main-select labelTitle='Reservation Link' :validate="'required'"
                                  :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
-                                 label="selectSocial"
+                                 label="name"
                                  :reduce="data=> data"
                                  v-model="reservation_contact"></main-select>
                 </b-col>
@@ -244,6 +230,8 @@
               </b-col>
             </b-row>
           </div>
+
+          <!-- Facility Location -->
           <div class="mb-5">
             <div class="border-bottom mb-2">
               <h5 class="pb-2">Facility Location</h5>
@@ -350,7 +338,7 @@
             </div>
             <div v-else-if="location_type === 'remote location'">
               <b-row class="mb-5">
-                <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in remote_locations"
+                <b-col md="12" class="position-relative mb-3" v-for="(location, locationKey) in locations"
                        :key="locationKey">
                   <b-row class="d-flex align-items-center">
                     <b-col class="mb-2" md="3">
@@ -418,18 +406,18 @@
                     >
                       <b-form-input
                           id="mm"
-                          v-model="item.number"
+                          v-model="item.phone"
                           :class="[{ 'is-invalid': errors.length > 0 }]"
                           :placeholder="'Ex: 020454684'"
-                          :disabled="!item.type"
+                          :disabled="!item.name"
                       />
                     </validation-provider>
                     <template #prepend>
                       <b-dropdown
-                          :text="item.type ? item.type : 'Choose'"
+                          :text="item.name ? item.name : 'Choose'"
                           class="selectWithInput"
                       >
-                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.type = i">
+                        <b-dropdown-item v-for="(i, keyType) in contactTypes" :key="keyType" @click="item.name = i">
                           {{i}}
                         </b-dropdown-item>
                       </b-dropdown>
@@ -442,6 +430,8 @@
               </b-col>
             </b-row>
           </div>
+
+          <!-- facility operation-->
           <div class="mb-5">
             <div class="border-bottom mb-2">
               <h5 class="pb-2">Facility Operation Days and Hours</h5>
@@ -512,8 +502,8 @@
                          :validate="'required'"
                          :name="`account_type`"
                          placeholder="Choose"
-                         :options="['Go', 'Flow', 'Pro', 'Shop', 'Camp']"
-                         v-model="service_types"></main-select>
+                         :options="['GO','FLOW','PRO','SHOP','CAMP']"
+                         v-model="facility_type"></main-select>
           </div>
           <b-row v-if="hasPer('activation.activate')">
             <b-col md="12" class="mt-3 d-flex justify-content-center">
@@ -546,17 +536,16 @@ export default {
   data () {
     return {
       reservation_contact: {},
-      service_types: '',
+      allTags: [],
+      facility_type: '',
       progressLogo: 0,
       progressCover: 0,
       providerId: '',
-      adminInformation: [
-        {
-          name: '',
-          job: '',
-          phone: ''
-        }
-      ],
+      adminInformation: {
+        name: '',
+        title: '',
+        phone: ''
+      },
       info: {
         activity_line_id: '',
         activity_type_id: '',
@@ -569,8 +558,8 @@ export default {
         amenities: [],
         links: [
           {
-            selectSocial: '',
-            link: ''
+            name: '',
+            url: ''
           }
         ]
       },
@@ -584,7 +573,7 @@ export default {
         location: ''
       },
       contactTypes: ['Landline', 'Mobile'],
-      remote_locations: [
+      locations: [
         {
           availability_type: 'open',
           country_id: '',
@@ -664,29 +653,25 @@ export default {
     },
     getAllReservationLinkWithoutYoutube () {
       var newLinksArr = [...this.info.links]
-      const ind = newLinksArr.findIndex(data => data.selectSocial === 'Youtube')
+      const ind = newLinksArr.findIndex(data => data.name === 'Youtube')
       if (ind > -1) {
         newLinksArr.splice(ind, 1)
       }
-      if (this.reservation_contact.selectSocial !== 'Contact Number') {
+      if (this.reservation_contact.name !== 'Contact Number') {
         newLinksArr.push({
-          selectSocial: 'Contact Number',
-          link: 'contact_number'
+          name: 'Contact Number',
+          url: 'contact_number'
         })
       }
       return newLinksArr
     }
   },
   methods: {
-    addNewGeneralAdminInformation () {
-      this.adminInformation.push({
-        name: '',
-        job: '',
-        phone: ''
+    getAllTags () {
+      this.allTags = []
+      settingsService.getAllTags().then(res => {
+        this.allTags = res.data.data
       })
-    },
-    deleteGeneralAdminInformation (key) {
-      this.adminInformation.splice(key, 1)
     },
     savelogoImage (data) {
       const formData = new FormData()
@@ -731,7 +716,7 @@ export default {
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
-      formData.append('type', 'gallery')
+      formData.append('type', 'image')
       formData.append('provider_id', this.providerId)
       const options = {
         onUploadProgress: (progressEvent) => {
@@ -775,7 +760,7 @@ export default {
       })
     },
     addNewzone () {
-      this.remote_locations.push({
+      this.locations.push({
         availability_type: 'open',
         country_id: '',
         city_id: '',
@@ -785,7 +770,7 @@ export default {
       })
     },
     deletezone (key) {
-      this.remote_locations.splice(key, 1)
+      this.locations.splice(key, 1)
     },
     addNewOperation () {
       this.allOperation.push({
@@ -831,11 +816,6 @@ export default {
         this.allActivityLines = res.data.data
       })
     },
-    // getAllActivityType () {
-    //   settingsService.getAllActivityType().then(res => {
-    //     this.allActivityTypes = res.data.data
-    //   })
-    // },
     getAllLanguages () {
       settingsService.getAllLanguages().then(res => {
         this.allLanguages = res.data.data
@@ -853,24 +833,24 @@ export default {
     },
     fillData () {
       if (this.activationDetails) {
-        // console.log('this.activationDetails', this.activationDetails)
+        console.log('activationDetails -> ', this.activationDetails)
         this.providerId = this.activationDetails.id
-        this.adminInformation = this.activationDetails.contacts
+        this.adminInformation = {
+          name: this.activationDetails.name,
+          title: this.activationDetails.title,
+          phone: this.activationDetails.phones[0].phone
+        }
         this.info.activity_line_id = this.activationDetails.activity_line_id
-        // this.info.activity_type_id = this.activationDetails.activity_type_id
         this.info.year = this.activationDetails.year
-        this.info.name = this.activationDetails.name
-        this.info.title = this.activationDetails.title
-        this.info.languages = this.activationDetails.languages
+        this.info.languages = this.activationDetails.languages.map(item => item.id)
         this.info.bio = this.activationDetails.bio
+        this.info.tags = this.activationDetails.tags.map(item => item.id)
         this.info.amenities = this.activationDetails.amenities.map(item => item.id)
         this.info.links = this.activationDetails.links
         this.reservation_contact = this.activationDetails.reservation_contact[0]
-        this.info.tags = this.activationDetails.tags.map(item => item.id)
-        this.service_types = this.activationDetails.service_types
         this.logoImage = this.activationDetails.logo
         this.coverImage = this.activationDetails.cover
-        this.images = this.activationDetails.images
+        this.images = this.activationDetails.media_images
         this.phones = this.activationDetails.phones
         if (this.activationDetails.operation_type === '24 hours') {
           this.typeOfOperation = '24 hours'
@@ -880,14 +860,21 @@ export default {
         }
         if (this.activationDetails.location_type === 'address based') {
           this.location_type = 'address based'
-          this.based = this.activationDetails.address_based
-          console.log(this.based)
-          this.getCityDependOnCountry(this.activationDetails.address_based.country_id)
-          this.getAreasDependOnCity(this.activationDetails.address_based.city_id)
+          this.based = {
+            country_id: this.activationDetails.address.country_id,
+            city_id: this.activationDetails.address.city_id,
+            area_id: this.activationDetails.address.area_id,
+            address: this.activationDetails.address.address,
+            latitude: this.activationDetails.address.latitude,
+            longitude: this.activationDetails.address.longitude,
+            location: this.activationDetails.address.location
+          }
+          this.getCityDependOnCountry(this.activationDetails.address.country_id)
+          this.getAreasDependOnCity(this.activationDetails.address.city_id)
         } else {
           this.location_type = 'remote location'
-          this.remote_locations = []
-          this.activationDetails.remote_locations.forEach(location => {
+          this.locations = []
+          this.activationDetails.locations.forEach(location => {
             const obj = {
               availability_type: location.availability_type,
               country_id: location.country_id,
@@ -898,7 +885,7 @@ export default {
             }
             this.getCityDependOnCountryRemote(obj)
             this.getAreasDependOnCityRemote(obj)
-            this.remote_locations.push(obj)
+            this.locations.push(obj)
           })
         }
       }
@@ -925,10 +912,10 @@ export default {
           }
 
           if (this.location_type === 'remote location') {
-            this.remote_locations.forEach((location) => {
+            this.locations.forEach((location) => {
               location.availability_type = location.availability_type ? location.availability_type : 'open'
             })
-            location = { location: this.remote_locations }
+            location = { location: this.locations }
             newObj = {
               _method: 'put',
               contact: this.adminInformation,
@@ -937,7 +924,7 @@ export default {
               ...operation,
               phones: this.phones,
               location_type: this.location_type,
-              service_types: this.service_types,
+              facility_type: this.facility_type,
               reservation_contact: [this.reservation_contact]
             }
           } else {
@@ -950,7 +937,7 @@ export default {
               ...operation,
               phones: this.phones,
               location_type: this.location_type,
-              service_types: this.service_types,
+              facility_type: this.facility_type,
               reservation_contact: [this.reservation_contact]
             }
           }
@@ -973,6 +960,7 @@ export default {
     this.getAllLinks()
     this.getAllAmenities()
     this.getAllCountries()
+    this.getAllTags()
   }
 }
 </script>

@@ -56,10 +56,10 @@
       <DefaultNavBar :ifSearch='ifSearch' title="Dashboard" :homeURL="{ name: 'dashboard.home-2' }"
                      :sidebarGroupTitle="sidebarGroupTitle" @toggle="sidebarMini" :logo="logo">
         <template slot="responsiveRight">
-          <ul class="navbar-nav navbar-list">
+          <ul class="navbar-nav navbar-list py-1">
             <li class="nav-item dashboard-title w-100">
               <h1>Premium Dashboard</h1>
-              <p>Active</p>
+              <p class="text-capitalize">{{ facilitySubscription }}</p>
             </li>
             <li class="nav-item">
               <span class="track-notifications">Track Notifications</span>
@@ -166,6 +166,7 @@ export default {
   mixins: [firebaseMixins],
   data () {
     return {
+      facilitySubscription: JSON.parse(localStorage.getItem('userInfo')).facility.subscription,
       userData: JSON.parse(localStorage.getItem('userInfo')),
       ifSearch: false,
       notFoundImage: require('../assets/images/error/search.png'),

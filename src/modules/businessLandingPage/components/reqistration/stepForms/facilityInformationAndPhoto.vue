@@ -3,7 +3,7 @@
     <div class="border-bottom my-5">
       <b-container>
         <h4 class="py-4">Facility Information & Photos</h4>
-        {{ providerInfo }}
+        <!-- {{ providerInfo }} -->
       </b-container>
     </div>
     <b-container>
@@ -238,24 +238,7 @@ export default {
           }
         ]
       },
-      allTags: [
-        {
-          id: 1,
-          name: 'tag1'
-        },
-        {
-          id: 2,
-          name: 'tag2'
-        },
-        {
-          id: 3,
-          name: 'tag3'
-        },
-        {
-          id: 4,
-          name: 'tag4'
-        }
-      ],
+      allTags: [],
       providerId: JSON.parse(localStorage.getItem('userInfo')).id,
       progressCover: 0,
       fileInfo: {},
@@ -416,6 +399,12 @@ export default {
       settingsService.getActivityTypesDependOnActivityLine(id).then(res => {
         this.allActivityTypes = res.data.data
       })
+    },
+    getAllTags () {
+      this.allTags = []
+      settingsService.getAllTags().then(res => {
+        this.allTags = res.data.data
+      })
     }
   },
   watch: {
@@ -444,11 +433,10 @@ export default {
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
+    this.getAllTags()
     if (this.providerInfo) {
       this.logoImage = this.providerInfo.facility.logo
-      // this.coverImage = this.providerInfo.facility.cover
-      // this.allImages = this.providerInfo.facility.images
-      // this.info = {
+
       this.info.bio = this.providerInfo.facility.bio
       this.info.activity_line_id = 1
       this.info.year = this.providerInfo.facility.year
@@ -457,8 +445,7 @@ export default {
       this.info.languages = this.providerInfo.facility.languages
       this.info.tags = this.providerInfo.facility.tags.map(tag => tag.id)
       this.info.amenities = this.providerInfo.facility.amenities.map(amenity => amenity.id)
-      // this.info.links = this.providerInfo.facility.links
-      // }
+
       if (this.logoImage) {
         this.loadingLogo = 100
         this.logoFlag = true

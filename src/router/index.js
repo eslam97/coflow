@@ -40,6 +40,8 @@ import schedule from '@/modules/business/schedule/schedule.routes'
 import calendar from '@/modules/business/calendar/calendar.routes'
 import branches from '@/modules/business/branches/branches.routes'
 import admins from '@/modules/business/admins/admins.routes'
+import accounts from '@/modules/business/account/account.routes'
+
 /* Layouts */
 const VerticalLayout = () => import('../layouts/VerticalLayout')
 const AuthLayout = () => import('../layouts/AuthLayouts/AuthLayout')
@@ -123,6 +125,7 @@ const routes = [
   ...branches,
   ...admins,
   ...folders,
+  ...accounts,
   {
     path: '/welcome',
     name: 'welcome',

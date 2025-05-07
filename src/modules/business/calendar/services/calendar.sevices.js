@@ -13,7 +13,9 @@ export default {
   editCalendar (id, payload) {
     return Api().post(`calendars/${id}`, payload)
   },
-
+  getSettings () {
+    return Api().get('calender-setting')
+  },
   updateSettings (payload) {
     return Api().post('calender-setting', payload)
   },
@@ -26,5 +28,8 @@ export default {
 
   getAllServicesLimit () {
     return Api().get('services?limit=1000&type=flow')
+  },
+  calenderReservation (payload) {
+    return Api().post('calender-reservation', payload)
   }
 }

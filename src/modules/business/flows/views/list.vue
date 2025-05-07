@@ -85,7 +85,7 @@ export default {
         { label: 'Folder', key: 'folder.name', class: 'text-left' },
         { label: 'Instructors', key: 'instructors', class: 'text-left', array_keys: ['first_name', 'last_name'], type: 'array' },
         { label: 'Level', key: 'level.name', class: 'text-left' },
-        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
+        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         {
           label: 'Status',
           key: 'change_status',

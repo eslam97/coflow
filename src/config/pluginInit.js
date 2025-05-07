@@ -4,9 +4,25 @@ import Store from '../store/index'
 import Route from '../router/index'
 import counterUp from 'counterup2'
 require('waypoints/lib/noframework.waypoints.min')
-export const APPNAME = 'Maxevia'
+export const APPNAME = 'Coflow'
 
 export const core = {
+  hexToRgba (hex, alpha) {
+    let r = 0; let g = 0; let b = 0
+
+    // Expand shorthand hex like "#03F"
+    if (hex.length === 4) {
+      r = parseInt(hex[1] + hex[1], 16)
+      g = parseInt(hex[2] + hex[2], 16)
+      b = parseInt(hex[3] + hex[3], 16)
+    } else if (hex.length === 7) {
+      r = parseInt(hex.slice(1, 3), 16)
+      g = parseInt(hex.slice(3, 5), 16)
+      b = parseInt(hex.slice(5, 7), 16)
+    }
+
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  },
   index () {
     this.loaderInit()
     this.activeRoute()

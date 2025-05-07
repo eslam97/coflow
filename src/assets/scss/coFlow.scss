@@ -467,7 +467,7 @@ form legend {
   color: #74798c !important;
 }
 .active-tab {
-  background: #2fdac2;
+  background: #2fdac2 !important;
   color: #fff;
   &:hover,
   &:focus,
@@ -685,6 +685,9 @@ form legend {
   span:first-of-type {
     font-size: 24px;
   }
+}
+.calendar-header.today {
+  color: #19182A !important;
 }
 .ladies-only-tag {
   position: relative;

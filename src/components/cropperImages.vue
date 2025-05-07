@@ -164,9 +164,9 @@ export default {
     ratio: {
     },
     resizeImage: {
-      default: {
-        adjustStencil: true
-      }
+      // default: {
+      //   adjustStencil: true
+      // }
     },
     label: {
     },
@@ -213,7 +213,7 @@ export default {
   methods: {
     sortImage (data) {
       this.loadingSort = true
-      mainService.changeSort({ id: data.moved.element.id, type: this.type, sort: data.moved.newIndex + 1 }).then(res => {
+      mainService.changeSort({ id: data.moved.element.id, type: 'image', sort: data.moved.newIndex + 1 }).then(res => {
         core.showSnackbar('success', res.data.message)
       }).finally(() => {
         this.loadingSort = false

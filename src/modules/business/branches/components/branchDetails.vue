@@ -1,6 +1,6 @@
 <template>
   <div>
-    <validationObserver v-slot="{ handleSubmit }">
+    <validation-observer v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(addBranch)">
         <!-- Basic Info -->
         <b-row>
@@ -9,7 +9,7 @@
               placeholder="Name"
               :validate="'required|max:50'"
               name="name"
-              :label="'Name'"
+              label="Name"
               :limit="50"
               v-model="branch.name"
             />
@@ -19,7 +19,7 @@
               placeholder="Email"
               :validate="'required|email|max:100'"
               name="email"
-              :label="'Email'"
+              label="Email"
               :limit="100"
               v-model="branch.email"
             />
@@ -29,19 +29,20 @@
               placeholder="Title"
               :validate="'required|max:50'"
               name="title"
-              :label="'Title'"
+              label="Title"
               :limit="50"
               v-model="branch.title"
             />
           </b-col>
         </b-row>
+
         <!-- Facility & Activity Line & Year -->
         <b-row>
           <b-col lg="4">
             <input-form
               :disabled="true"
               name="facilityName"
-              :label="'Facility Name'"
+              label="Facility Name"
               :limit="12"
               v-model="facilityName"
             />
@@ -50,128 +51,97 @@
             <input-form
               :disabled="true"
               name="activityLine"
-              :label="'Activity Line'"
+              label="Activity Line"
               v-model="activityLine.name"
             />
           </b-col>
           <b-col lg="4">
             <input-form
-              placeholder="Launch Year"
+              placeholder="2017"
               :validate="'required|numeric|min:4|max:4'"
               name="year"
-              :label="'Launch Year'"
+              label="Year"
               :limit="4"
               v-model="branch.year"
             />
           </b-col>
         </b-row>
+
         <!-- Bio -->
         <b-row class="mt-3">
           <b-col lg="12">
             <input-form
-              placeholder="Bio"
+              placeholder="Bio text"
               :validate="'required|max:500'"
               name="bio"
-              :label="'Bio'"
+              label="Bio"
               :limit="500"
               type="textarea"
               v-model="branch.bio"
             />
           </b-col>
         </b-row>
-        <!-- Reservation Contacts -->
-        <b-row
-          v-for="(contact, i) in branch.reservation_contact"
-          :key="'contact-'+i"
-          class="mt-2"
-        >
-          <b-col lg="6">
-            <input-form
-              placeholder="Contact Name"
-              :validate="'required|max:100'"
-              :name="`reservation_contact[${i}][name]`"
-              :label="`Contact Name #${i+1}`"
-              :limit="100"
-              v-model="contact.name"
-            />
-          </b-col>
-          <b-col lg="6">
-            <input-form
-              placeholder="Contact Email"
-              :validate="'required|email|max:100'"
-              :name="`reservation_contact[${i}][email]`"
-              :label="`Contact Email #${i+1}`"
-              :limit="100"
-              v-model="contact.email"
-            />
-          </b-col>
-        </b-row>
-        <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addContact">
-          Add Contact
-        </b-button>
         <!-- Phones -->
         <b-row
           v-for="(phone, i) in branch.phones"
-          :key="'phone-'+i"
+          :key="'phone-' + i"
           class="mt-2"
         >
           <b-col lg="6">
             <input-form
-              placeholder="Phone Label"
-              :name="`phones[${i}][name]`"
-              :label="`Phone Label #${i+1}`"
-              v-model="phone.name"
+              placeholder="phone"
+              :name="`phones[${i}][phone]`"
+              label="Phone Number"
+              v-model="phone.phone"
             />
           </b-col>
           <b-col lg="6">
             <input-form
-              placeholder="Phone Number"
-              :name="`phones[${i}][phone]`"
-              :label="`Phone Number #${i+1}`"
-              v-model="phone.phone"
+              placeholder="phone label"
+              :name="`phones[${i}][name]`"
+              label="Phone Label"
+              v-model="phone.name"
             />
           </b-col>
         </b-row>
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addPhone">
           Add Phone
         </b-button>
+
         <!-- Links -->
         <b-row
           v-for="(link, i) in branch.links"
-          :key="'link-'+i"
+          :key="'link-' + i"
           class="mt-2"
         >
           <b-col lg="6">
             <input-form
-              placeholder="Link Name"
-              :name="`links[${i}][name]`"
-              :label="`Link Name #${i+1}`"
-              v-model="link.name"
+              placeholder="website"
+              :name="`links[${i}][url]`"
+              label="Link URL"
+              v-model="link.url"
             />
           </b-col>
           <b-col lg="6">
             <input-form
-              placeholder="Link URL"
-              :name="`links[${i}][url]`"
-              :label="`Link URL #${i+1}`"
-              v-model="link.url"
+              placeholder="website label"
+              :name="`links[${i}][name]`"
+              label="Link Name"
+              v-model="link.name"
             />
           </b-col>
         </b-row>
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addLink">
           Add Link
         </b-button>
+
         <!-- Languages -->
-        <b-row
-          v-for="(lang, i) in branch.languages"
-          :key="'lang-'+i"
-          class="mt-2"
-        >
-          <b-col lg="4">
+        <b-row class="mt-2">
+          <b-col lg="4" v-for="(lang, i) in branch.languages" :key="'lang-'+i">
             <input-form
-              placeholder="Language ID"
+              placeholder="1"
               :name="`languages[${i}]`"
-              :label="`Language #${i+1}`"
+              label="Language ID"
               v-model="branch.languages[i]"
             />
           </b-col>
@@ -179,17 +149,14 @@
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addLanguage">
           Add Language
         </b-button>
+
         <!-- Amenities -->
-        <b-row
-          v-for="(am, i) in branch.amenities"
-          :key="'amenity-'+i"
-          class="mt-2"
-        >
-          <b-col lg="4">
+        <b-row class="mt-2">
+          <b-col lg="4" v-for="(am, i) in branch.amenities" :key="'amenity-'+i">
             <input-form
-              placeholder="Amenity ID"
+              placeholder="1"
               :name="`amenities[${i}]`"
-              :label="`Amenity #${i+1}`"
+              label="Amenity ID"
               v-model="branch.amenities[i]"
             />
           </b-col>
@@ -197,44 +164,54 @@
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addAmenity">
           Add Amenity
         </b-button>
-        <!-- Operation Hours -->
+
+        <!-- Operation Type -->
+        <b-row class="mt-3">
+          <b-col lg="4">
+            <input-form
+              placeholder="specify days"
+              name="operation_type"
+              label="Operation Type"
+              v-model="branch.operation_type"
+            />
+          </b-col>
+        </b-row>
+
+        <!-- Operation Days/Hours -->
         <b-row
-  v-for="(op, i) in branch.operation"
-  :key="'op-'+i"
-  class="mt-2"
->
-  <b-col lg="3" class="mb-3">
-    <main-select
-      :labelTitle="`Operation Day(s) #${i+1}`"
-      :validate="'required'"
-      :name="`operation[${i}][days]`"
-      placeholder="Choose days"
-      :options="weekDays"
-      :multiple="true"
-      label="text"
-      :reduce="day => day.value"
-      v-model="op.days"
-    />
-  </b-col>
-
-  <b-col lg="3">
-    <input-form
-      placeholder="From (HH:mm)"
-      :name="`operation[${i}][from]`"
-      :label="`From #${i+1}`"
-      v-model="op.from"
-    />
-  </b-col>
-
-  <b-col lg="3">
-    <input-form
-      placeholder="To (HH:mm)"
-      :name="`operation[${i}][to]`"
-      :label="`To #${i+1}`"
-      v-model="op.to"
-    />
-  </b-col>
-</b-row>
+          v-for="(op, i) in branch.operation"
+          :key="'op-'+i"
+          class="mt-2"
+        >
+          <b-col lg="3">
+            <main-select
+              :labelTitle="`operation[${i}][days]`"
+              :name="`operation[${i}][days]`"
+              placeholder="Sat, Sun…"
+              :options="weekDays"
+              :multiple="true"
+              label="value"
+              :reduce="d => d.key"
+              v-model="op.days"
+            />
+          </b-col>
+          <b-col lg="3">
+            <input-form
+              placeholder="09:26"
+              :name="`operation[${i}][from]`"
+              label="operation from"
+              v-model="op.from"
+            />
+          </b-col>
+          <b-col lg="3">
+            <input-form
+              placeholder="19:26"
+              :name="`operation[${i}][to]`"
+              label="operation to"
+              v-model="op.to"
+            />
+          </b-col>
+        </b-row>
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addOperation">
           Add Operation Block
         </b-button>
@@ -255,17 +232,27 @@
           </b-col>
         </b-row>
       </b-form>
-    </validationObserver>
+    </validation-observer>
   </div>
 </template>
 
 <script>
+// import InputForm from '@/components/formElements/InputForm.vue'
+// import SpinnerLoading from '@/components/ui/SpinnerLoading.vue'
+// import { ValidationObserver } from 'vee-validate'
+
 import profileServices from '@/modules/business/profile/services/profile.services'
-import settingsService from '@/modules/superAdmin/settings/services/settings.services'
+// import settingsService from '@/modules/superAdmin/settings/services/settings.services'
 import branchesServices from '../services/branches.services'
 import { core } from '@/config/pluginInit'
 
 export default {
+  // components: {
+  //   InputForm,
+  //   SpinnerLoading,
+  //   ValidationObserver
+  // },
+
   data () {
     return {
       branch: {
@@ -279,38 +266,30 @@ export default {
         links: [{ name: '', url: '' }],
         languages: [],
         amenities: [],
-        operation_type: '24 hours',
+        operation_type: '',
         operation: [{ days: [], from: '', to: '' }]
       },
       facilityName: '',
-      allActivityLines: [],
       activityLine: { id: '', name: '' },
       typeOfModal: 'add',
       requestLoading: false,
       weekDays: [
-        { text: 'Sat', value: 'Sat' },
-        { text: 'Sun', value: 'Sun' },
-        { text: 'Mon', value: 'Mon' },
-        { text: 'Tue', value: 'Tue' },
-        { text: 'Wed', value: 'Wed' },
-        { text: 'Thu', value: 'Thu' },
-        { text: 'Fri', value: 'Fri' }
+        { key: 'Sat', value: 'Sat' },
+        { key: 'Sun', value: 'Sun' },
+        { key: 'Mon', value: 'Mon' },
+        { key: 'Tue', value: 'Tue' },
+        { key: 'Wed', value: 'Wed' },
+        { key: 'Thu', value: 'Thu' },
+        { key: 'Fri', value: 'Fri' }
       ]
     }
   },
+
   methods: {
-    getAllActivityLine () {
-      settingsService.getAllActivityLine().then(res => {
-        this.allActivityLines = res.data.data
-      })
-    },
     getOldAdminInfo () {
       const id = JSON.parse(localStorage.getItem('userInfo')).id
       profileServices.getProfileData(id).then(res => {
         this.activityLine.id = res.data.data.activity_line_id
-        this.activityLine.name = this.allActivityLines.find(
-          item => item.id === this.activityLine.id
-        ).name
         this.facilityName = res.data.data.name
       })
     },
@@ -332,31 +311,27 @@ export default {
     addOperation () {
       this.branch.operation.push({ days: [], from: '', to: '' })
     },
+
     async addBranch () {
       this.requestLoading = true
       const fd = new FormData()
 
-      // flat fields
+      // title, year, bio
       fd.append('title', this.branch.title)
       fd.append('year', this.branch.year)
       fd.append('bio', this.branch.bio)
 
-      // reservation_contact
-      this.branch.reservation_contact.forEach((c, i) => {
-        fd.append(`reservation_contact[${i}][name]`, c.name)
-        fd.append(`reservation_contact[${i}][email]`, c.email)
-      })
+      // reservation_contact as JSON
+      fd.append('reservation_contact', JSON.stringify(this.branch.reservation_contact))
 
-      // phones
+      // phones and links
       this.branch.phones.forEach((p, i) => {
-        fd.append(`phones[${i}][name]`, p.name)
         fd.append(`phones[${i}][phone]`, p.phone)
+        fd.append(`phones[${i}][name]`, p.name)
       })
-
-      // links
       this.branch.links.forEach((l, i) => {
-        fd.append(`links[${i}][name]`, l.name)
         fd.append(`links[${i}][url]`, l.url)
+        fd.append(`links[${i}][name]`, l.name)
       })
 
       // languages & amenities
@@ -367,7 +342,7 @@ export default {
         fd.append(`amenities[${i}]`, am)
       )
 
-      // operation
+      // operation_type + operation blocks
       fd.append('operation_type', this.branch.operation_type)
       this.branch.operation.forEach((op, i) => {
         op.days.forEach((d, j) =>
@@ -377,7 +352,7 @@ export default {
         fd.append(`operation[${i}][to]`, op.to)
       })
 
-      // name & email
+      // final name + email
       fd.append('name', this.branch.name)
       fd.append('email', this.branch.email)
 
@@ -388,23 +363,19 @@ export default {
         core.showSnackbar('success', res.data.message)
         this.$emit('finished')
       } catch (err) {
-        console.error(err)
-        core.showSnackbar(
-          'error',
-          err.response?.data?.message || err.message
-        )
+        core.showSnackbar('error', err.response?.data?.message || err.message)
       } finally {
         this.requestLoading = false
       }
     }
   },
+
   created () {
-    this.getAllActivityLine()
     this.getOldAdminInfo()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-/* your existing styles (if any) */
+/* your existing styles */
 </style>

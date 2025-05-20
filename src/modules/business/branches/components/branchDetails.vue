@@ -68,6 +68,9 @@
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addContact">
           Add Contact
         </b-button>
+        <b-button size="sm" variant="outline-primary" class="mt-2 mx-2" @click.prevent="deleteContact(branch.reservation_contact.length-1)" v-if="branch.reservation_contact.length !== 1">
+          delete Contact
+        </b-button>
 
         <!-- Phones -->
         <b-row
@@ -95,6 +98,9 @@
         <b-button size="sm" variant="outline-primary" class="mt-2" @click.prevent="addPhone">
           Add Phone
         </b-button>
+        <b-button size="sm" variant="outline-primary" class="mt-2 mx-2" @click.prevent="deletePhone(branch.phones.length-1)" v-if="branch.phones.length !== 1">
+          delete Phone
+        </b-button>
 
         <!-- Links with dropdown & delete -->
         <b-row class="mt-3">
@@ -110,6 +116,7 @@
             >
               <span
                 class="text-danger deleteLabelButton cursor-pointer"
+                style="z-index: 1000;"
                 v-if="i !== 0"
                 @click="deleteLink(i)"
               >Delete</span>
@@ -389,6 +396,8 @@ export default {
 
   methods: {
     addContact () { this.branch.reservation_contact.push({ name: '', email: '' }) },
+    deleteContact (i) { this.branch.reservation_contact.splice(i, 1) },
+    deletePhone (i) { this.branch.phones.splice(i, 1) },
     addPhone () { this.branch.phones.push({ name: '', phone: '' }) },
     addLink () { this.branch.links.push({ name: '', url: '' }) },
     deleteLink (i) { this.branch.links.splice(i, 1) },

@@ -217,7 +217,7 @@ export default {
       EventBus.$emit('openDeleteModal', {
         actionHeader: 'Clear',
         titleHeader: 'Slot',
-        textContent: `${this.scheduleDetailsFront.flow.name} in ${this.scheduleDetailsFront.day} `,
+        textContent: `${this.scheduleDetailsFront.service.name} in ${this.scheduleDetailsFront.day} `,
         question: 'Are you sure you want to delete this slot from the schedule?',
         textDeleteButton: 'YES, Clear',
         textCancelButton: 'NO, CANCEL',

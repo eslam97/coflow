@@ -67,9 +67,9 @@
               <div v-for="(slot, slotKey) in allSlots.filter((ele) => { return ele.day === day.value })"
                    :key="slotKey"
                    class="p-2 d-flex justify-content-center align-items-center cursor-pointer slot-box"
-                   :style="(slot.service.status === 'active' || slot.service.status === true) ? { backgroundColor: slot.service.level.color } : { backgroundColor: 'grey' }"
+                   :style="(slot.service.status === 'active' || slot.service.status === true) ? { backgroundColor: getSlotColor(slot.service.level.color).bgColor } : { backgroundColor: 'grey' }"
                    @click="showScheduleToEdit(slot)">
-                <ul class="my-ul pl-0">
+                <ul class="my-ul pl-0" :style="(slot.service.status === 'active' || slot.service.status === true) ? { color: slot.service.level.color } : { color: 'grey' }">
                   <li v-if="(slot.ladies_only)" class="ladies-only-tag">
                     <div class="ladies-only-container">
                       <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +145,13 @@ export default {
   },
   methods: {
     getColor (slot) {
-      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.color === slot.service.level.name.toLowerCase()).color : 'blue'
+      return this.levels.findIndex(l => l.value === slot.service.level.name.toLowerCase()) > -1 ? this.levels.find(l => l.value === slot.service.level.name.toLowerCase()).color : 'blue'
+    },
+    getSlotColor (hexa) {
+      return {
+        color: hexa,
+        bgColor: core.hexToRgba(hexa, 0.4)
+      }
     },
     openPopup () {
       this.scheduleId = ''
@@ -174,6 +180,7 @@ export default {
       })
     },
     showScheduleToEdit (obj) {
+      console.log('obj -> ', obj)
       this.typeOfModal = 'edit'
       this.scheduleDetailsFront = obj
       scheduleServices.getScheduleDetails(obj.id).then(res => {

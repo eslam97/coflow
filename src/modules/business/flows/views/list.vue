@@ -44,7 +44,7 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'folders' }" class="btn bg-white add_button" >
+          <router-link :to="{ name: 'flowFolders' }" class="btn bg-white add_button" >
             Folders
             <i class="far fa-folder ml-3"></i>
           </router-link>
@@ -81,19 +81,20 @@ export default {
       requestLoading: false,
       columns: [
         { label: '#', key: 'sort', class: 'text-center', type: 'sort' },
+        { label: 'Name', key: 'name', class: 'text-left' },
         { label: 'Tag', key: 'tag.name', class: 'text-left' },
         { label: 'Folder', key: 'folder.name', class: 'text-left' },
         { label: 'Instructors', key: 'instructors', class: 'text-left', array_keys: ['first_name', 'last_name'], type: 'array' },
         { label: 'Level', key: 'level.name', class: 'text-left' },
         { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
-        {
-          label: 'Status',
-          key: 'change_status',
-          type: 'switch',
-          tableType: 'flow',
-          idKey: 'flow_id',
-          class: 'text-left'
-        },
+        // {
+        //   label: 'Status',
+        //   key: 'change_status',
+        //   type: 'switch',
+        //   tableType: 'flow',
+        //   idKey: 'flow_id',
+        //   class: 'text-left'
+        // },
         {
           label: 'Actions',
           key: 'actions',

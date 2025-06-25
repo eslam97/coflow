@@ -431,18 +431,13 @@ export default {
     },
     saveCalender (data) {
       this.saveCalenderLoading = true
-      Promise.all(data.map(item => calendarServices.calenderReservation(item)))
-        .then(() => {
-          this.getCalendar()
-          this.$bvModal.hide('viewSlotModal')
-          core.showSnackbar('success', 'data saved successfully')
-        })
-        .catch(error => {
-          console.error('One or more calendar items failed:', error)
-        })
-        .finally(() => {
-          this.saveCalenderLoading = false
-        })
+      calendarServices.calenderReservation(data).then(res => {
+        core.showSnackbar('success', res.data.message)
+        this.getCalendar()
+        this.$bvModal.hide('viewSlotModal')
+      }).finally(() => {
+        this.saveCalenderLoading = false
+      })
     },
     showCalendarToEdit (obj) {
       this.typeOfModal = 'edit'

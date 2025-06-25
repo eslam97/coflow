@@ -2,13 +2,13 @@
   <div class="pl-3 pr-3">
       <b-row>
           <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
-              <h5 class="mb-4 font-size-14 px-2">TICKET INFORMATION</h5>
+              <h5 class="mb-4 font-size-14 px-2">Activity INFORMATION</h5>
               <b-row class="pl-3 mb-2">
                   <b-col md="12" class="infoKey">
                       <p>Details</p>
                   </b-col>
                   <b-col md="12" class="infoValue">
-                      <p class="text-black font-weight-bold-600">{{activityDetails.details}}</p>
+                      <p class="text-black font-weight-bold-600">{{activityDetails.description}}</p>
                   </b-col>
               </b-row>
               <b-row class="pl-3 mb-2" v-if="activityDetails.duration">
@@ -27,9 +27,17 @@
                       <p class="text-black font-weight-bold-600">{{activityDetails.conditions}}</p>
                   </b-col>
               </b-row>
+              <b-row class="pl-3 mb-2">
+                <b-col md="12" class="infoKey">
+                    <p>Requirements</p>
+                </b-col>
+                <b-col md="12" class="infoValue">
+                    <p class="text-black font-weight-bold-600">{{activityDetails.requirements}}</p>
+                </b-col>
+            </b-row>
           </b-col>
           <b-col lg="6" class="py-5" order-lg="2" order="1">
-              <h5 class="mb-4 font-size-14">TICKET PHOTO</h5>
+              <h5 class="mb-4 font-size-14">Activity PHOTO</h5>
               <slider-thumbs :images="activityDetails.images"/>
           </b-col>
       </b-row>

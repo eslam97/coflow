@@ -39,7 +39,7 @@
             <span v-if="!arrangeMode">Arrange<i class="fas fa-arrow-down-arrow-up"></i></span>
             <span v-else>Save</span>
           </b-button>
-          <router-link :to="{ name: 'folders' }" class="btn bg-white add_button" >
+          <router-link :to="{ name: 'proActivityFolders' }" class="btn bg-white add_button" >
             Folders
             <i class="far fa-folder ml-3"></i>
           </router-link>

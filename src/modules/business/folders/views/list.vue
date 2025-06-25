@@ -45,6 +45,7 @@
           class="mb-0 table-borderless"
           @sortChanged="sortChanged"
           :list_url="'folders'"
+          :customFilter="{ type: type }"
           :reloadData="reloadTable"
           :service_type="'ticket'"
           :arrangeMode="arrangeMode"

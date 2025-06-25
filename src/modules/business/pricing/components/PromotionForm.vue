@@ -339,7 +339,7 @@
               />
 
               <main-select
-                v-if="buyGet.buy_get_type == 'ticket'"
+                v-if="buyGet.buy_get_type == 'ticket' && allTickets.length > 0"
                 labelTitle='Ticket'
                 :validate="'required'"
                 :name="`ticket`"
@@ -350,15 +350,14 @@
                 v-model="buyGet.get_tickets"
                 :multiple="true"
              />
-
              <main-select
-              v-if="buyGet.buy_get_type == 'coupon'"
+              v-if="buyGet.buy_get_type == 'coupon' && allCoupons.length > 0"
                 labelTitle='Coupon'
                 :validate="'required'"
                 :name="`coupon`"
                 placeholder="Pick coupon"
-                :options="buyGet.allCoupons"
-                label="name"
+                :options="allCoupons"
+                label="discount_ratio"
                 :reduce="data => data.id"
                 v-model="buyGet.get_coupons"
                 :multiple="true"
@@ -553,11 +552,13 @@ export default {
           requirements: this.info.requirements,
           unlimited: this.info.unlimited,
           payment_unlimited: this.info.payment_unlimited,
-          ...this.prices,
-          tickets: this.tickets
+          tickets: this.tickets,
+          ...this.prices
         }
         if (!this.info.payment_unlimited) {
           obj.payment_limit = this.info.payment_limit
+        } else {
+          delete obj.payment_limit
         }
 
         if (!this.info.unlimited) {
@@ -566,15 +567,19 @@ export default {
 
         if (this.info.type === 'buy_get') {
           obj.buy_get_type = this.buyGet.buy_get_type
-          // eslint-disable-next-line eqeqeq
+          // eslint-disable-next-line
           if (this.buyGet.buy_get_type == 'gift') {
             obj.gift = this.buyGet.gift
-          // eslint-disable-next-line eqeqeq
-          } else if (this.buyGet.buy_get_type == 'tickets') {
+          // eslint-disable-next-line
+          } else if (this.buyGet.buy_get_type == 'ticket') {
             obj.get_tickets = this.buyGet.get_tickets
           } else {
             obj.get_coupons = this.buyGet.get_coupons
           }
+        }
+
+        if (!this.prices.has_discount) {
+          delete obj.discount_price
         }
       }
 
@@ -607,6 +612,13 @@ export default {
           validity_days: this.promotionDetails.validity_days,
           payment_limit: this.promotionDetails.payment_limit
         }
+        this.tickets = this.promotionDetails.tickets.map(ticket => {
+          return {
+            ticket_id: ticket.id,
+            unlimited: ticket.unlimited,
+            count: ticket.count
+          }
+        })
         this.discount = {
           discount_ratio: this.promotionDetails.discount_ratio,
           discount_for: this.promotionDetails.discount_for

@@ -11,7 +11,7 @@
           <userRow v-for="(user, key) in allReservationUserFront" :key="key" :user="user" :numberOfRow="details.reserved.length + key + 1"  @viewUser="viewUser" @removeUser="removeUserFront" />
 
           <!-- add User To List -->
-          <li class="all-user-list d-flex p-0 !border-t-0" v-if="details.reserved.length + allReservationUserFront.length < details.capacity">
+          <li class="all-user-list d-flex p-0 !border-t-0" v-if="details.reserved.length + allReservationUserFront.length < details.capacity && (details.waiting.length == 0 || allWaitingUserFront.length == 0)">
             <span class="number-row">{{ details.reserved.length + allReservationUserFront.length + 1}}</span>
             <div v-if="!showCutomerList" class="d-flex flex-grow-1 flex align-items-center gap-1 p-2" style="height: 56px;" @click="showCutomerList = true">
               <span class="calender-addCustomer">Add Customer</span>
@@ -46,13 +46,13 @@
       <!-- end Reservation-->
 
       <!-- Waiting -->
-      <div class="mt-4" v-if="details.reserved.length + allReservationUserFront.length == details.capacity">
+      <div class="mt-4" v-if="details.reserved.length + allReservationUserFront.length == details.capacity || details.waiting.length">
         <h5 class="calender-label">Waiting</h5>
         <ul class="m-0 p-0">
 
-          <userRow v-for="(user, key) in details.waiting" :key="key" :user="user" :numberOfRow="key+1" @viewUser="viewUser" @removeUser="removeUserServer" />
+          <userRow v-for="(user, key) in details.waiting" :key="key" :user="user" :numberOfRow="key+1" @viewUser="viewUser" @removeUser="removeUserServerWaiting" />
 
-          <userRow v-for="(user, key) in allWaitingUserFront" :key="key" :user="user" :numberOfRow="details.reserved.length + key + 1" @removeUser="removeUserWaitingFront" @viewUser="viewUser"/>
+          <userRow v-for="(user, key) in allWaitingUserFront" :key="key" :user="user" :numberOfRow="details.waiting.length + key + 1" @removeUser="removeUserWaitingFront" @viewUser="viewUser"/>
 
           <!-- add User To List -->
           <li class="all-user-list d-flex p-0 !border-t-0" v-if="details.waiting.length + allWaitingUserFront.length < details.capacity">
@@ -125,10 +125,10 @@ export default {
       showCutomerList: false,
 
       removedItemServer: [],
+      removedItemWaiting: [],
 
       allWaitingUserFront: [],
       showCutomerListInWaiting: false
-
     }
   },
   computed: {
@@ -168,8 +168,11 @@ export default {
     },
     removeUserServer (user) {
       this.removedItemServer.push(user.user_id)
-      this.details.reserved = this.details.reserved.filter(item => item.id !== user.user_id)
-      this.details.waiting = this.details.waiting.filter(item => item.id !== user.user_id)
+      this.details.reserved = this.details.reserved.filter(item => item.user_id !== user.user_id)
+    },
+    removeUserServerWaiting (user) {
+      this.removedItemWaiting.push(user.user_id)
+      this.details.waiting = this.details.waiting.filter(item => item.user_id !== user.user_id)
     },
     removeUserFront (user) {
       const index = this.allReservationUserFront.findIndex(item => item.id === user.id)
@@ -183,23 +186,34 @@ export default {
       window.open(window.location.origin + `/business/customers/management/purchases/${user.id}`, '_blank')
     },
     sendDataToServer () {
-      const data = [
-        ...this.allReservationUserFront.map(item => ({
-          user_id: item.id,
-          type: 'add',
-          calendar_id: this.details.id
-        })),
-        ...this.allWaitingUserFront.map(item => ({
-          user_id: item.id,
-          type: 'add',
-          calendar_id: this.details.id
-        })),
-        ...this.removedItemServer.map(item => ({
-          user_id: item,
-          type: 'remove',
-          calendar_id: this.details.id
-        }))
-      ]
+      const data = {
+        calendar_id: this.details.id
+      }
+
+      if (this.allReservationUserFront.length || this.removedItemServer.length) {
+        data.reservations = [
+          ...this.allReservationUserFront.map(item => ({
+            user_id: item.id,
+            type: 'add'
+          })),
+          ...this.removedItemServer.map(item => ({
+            user_id: item,
+            type: 'remove'
+          }))]
+      }
+
+      if (this.allWaitingUserFront.length || this.removedItemWaiting.length) {
+        data.waiting = [
+          ...this.allWaitingUserFront.map(item => ({
+            user_id: item.id,
+            type: 'add'
+          })),
+          ...this.removedItemWaiting.map(item => ({
+            user_id: item,
+            type: 'remove'
+          }))]
+      }
+
       this.$emit('sendDataToServer', data)
     }
   },

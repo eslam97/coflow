@@ -2,6 +2,7 @@
 const VerticalLayout = () => import('@/layouts/VerticalLayout')
 
 const flowsList = () => import('./views/list')
+const flowsFolders = () => import('./views/folder')
 
 // start routes
 export default [
@@ -14,6 +15,12 @@ export default [
       name: 'flows',
       component: flowsList,
       meta: { name: 'flows', userType: 'provider', serviceTypes: 'Flow' }
+    },
+    {
+      path: 'folders',
+      name: 'flowFolders',
+      component: flowsFolders,
+      meta: { name: 'flowFolders', userType: 'provider', serviceTypes: 'all' }
     }
     ]
   }

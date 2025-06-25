@@ -55,7 +55,7 @@
             :reloadData="reloadTable"
             :service_type="'ticket'"
             :arrangeMode="arrangeMode"
-            :custom-filter="{type: 'go'}"
+            :custom-filter="{type: 'activity'}"
             :list_url="'services'"
         >
         <!-- <template #likes="data">
@@ -86,7 +86,7 @@ export default {
         { label: 'Reservations', key: 'reservations', class: 'text-left' },
         // { label: 'Likes', key: 'likes', class: 'text-left', type: 'custom' },
         { label: 'Rating', key: 'rate', class: 'text-left', type: 'rate' },
-        { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
+        // { label: 'Status', key: 'status', class: 'text-left', type: 'status' },
         {
           label: 'Actions',
           key: 'actions',

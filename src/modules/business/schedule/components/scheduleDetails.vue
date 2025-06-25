@@ -104,7 +104,7 @@ export default {
       type: Object
     },
     allFlows: {
-      type: Object
+      type: Array
     }
   },
   data () {
@@ -160,7 +160,12 @@ export default {
         this.schedule.slots[0].ladies_only = +this.schedule.slots[0].ladies_only
         const obj = {
           service_id: this.schedule.service_id,
+          // slots: [this.schedule.slots[0]],
           ...this.schedule.slots[0],
+          instructors: this.schedule.slots[0].instructors.map((instructor) => {
+            return instructor.id
+          }),
+          ladies_only: this.schedule.slots[0].ladies_only,
           _method: 'put'
         }
         this.$emit('editSlot', this.schedule.slots[0].id, obj)
@@ -180,10 +185,13 @@ export default {
     }
   },
   created () {
+    console.log(this.scheduleDetails.id, this.scheduleDetails.day, this.scheduleDetails.from,
+      this.scheduleDetails.to, this.scheduleDetails.instructors, this.scheduleDetails.ladies_only,
+      this.scheduleDetails.status)
     if (this.scheduleDetails) {
       this.schedule = {
         slots: [{
-          id: this.scheduleDetails.slotId,
+          id: this.scheduleDetails.id,
           day: this.scheduleDetails.day,
           from: this.scheduleDetails.from,
           to: this.scheduleDetails.to,
@@ -193,7 +201,7 @@ export default {
         }],
         status: 'active',
         service_id: this.scheduleDetails.service_id,
-        flow_name: this.scheduleDetails.flow.name
+        flow_name: this.scheduleDetails.service.name
       }
     }
     console.log(this.schedule)

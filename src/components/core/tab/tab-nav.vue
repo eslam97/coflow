@@ -4,7 +4,7 @@
   </ul>
 </template>
 <script>
-import Tab from 'bootstrap/js/src/tab'
+import Tab from 'bootstrap/dist/js/bootstrap.bundle.min.js'
 export default {
   name: 'tab-nav',
   props: {

@@ -32,8 +32,8 @@ export default {
   data () {
     return {
       userToken: localStorage.getItem('userToken'),
-      typeOfUser: JSON.parse(localStorage.getItem('userInfo')).type,
-      typeOfService: JSON.parse(localStorage.getItem('userInfo')).service_types
+      typeOfUser: JSON.parse(localStorage.getItem('userInfo')) ? JSON.parse(localStorage.getItem('userInfo')).type : '',
+      typeOfService: JSON.parse(localStorage.getItem('userInfo')) ? JSON.parse(localStorage.getItem('userInfo'))?.service_types : ''
     }
   }
 }

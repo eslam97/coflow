@@ -34,6 +34,7 @@
           :fields="columns"
           class="mb-0 table-borderless"
           :reloadData="reloadTable"
+          :list_url="'admins'"
         >
         </main-table>
       </b-col>

@@ -20,7 +20,7 @@
               name="Title"
               :label="'Title'"
               :limit="50"
-              v-model="admin.email"
+              v-model="admin.title"
             />
           </b-col>
         </b-row>

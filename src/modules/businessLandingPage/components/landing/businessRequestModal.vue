@@ -3,7 +3,7 @@
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(makeBusinessRequest)">
         <b-row>
-          <b-col md="4" class="mb-3">
+          <b-col md="6" class="mb-3">
             <input-form
                 v-model="businessRequest.email"
                 placeholder="Ex: name@coflow.com"
@@ -12,7 +12,7 @@
                 :label="'Facility Email Address'"
             />
           </b-col>
-          <b-col md="4" class="mb-3">
+          <b-col md="6" class="mb-3">
             <input-form
                 v-model="businessRequest.name"
                 placeholder="Ex: The Yoga Studio"
@@ -22,7 +22,7 @@
                 :limit="20"
             />
           </b-col>
-          <b-col md="4" class="mb-3">
+          <!-- <b-col md="4" class="mb-3">
             <input-form
               v-model="businessRequest.title"
               placeholder="Ex: Title"
@@ -31,14 +31,14 @@
               :label="'title'"
               :limit="20"
             />
-          </b-col>
+          </b-col> -->
           <b-col md="4" class="mb-3">
             <input-form
                 v-model="businessRequest.contact.title"
                 placeholder="Ex: Owner"
                 :validate="'required'"
                 name="Contact’s Role or Job"
-                :label="'Contact’s Role or Job'"
+                :label="'Contact’s Title'"
             />
           </b-col>
           <b-col md="4" class="mb-3">
@@ -137,7 +137,7 @@ export default {
       businessRequest: {
         email: '',
         name: '',
-        title: '',
+        title: '...', // we need to remove this line because we are not using title again
         contact: {
           name: '',
           title: '',

@@ -88,12 +88,12 @@
             </li>
             <li class="" v-nav-toggle>
               <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
-                <img :src="userData.logo ? userData.logo : require('@/assets/images/user/default-user-image.png')" class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
+                <img :src="userData.facility.logo ? userData.facility.logo : require('@/assets/images/user/default-user-image.png')" class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
                 <div class="caption">
-                  <h6 class="mb-1 line-height text-primary">{{ userData.name }}</h6>
+                  <h6 class="mb-1 line-height text-primary">{{ userData.facility ? userData.facility.name : '' }}</h6>
                   <p class="user-status">
                     <span></span>
-                    <span>Visible</span>
+                    <span>{{userData.facility.status}}</span>
                   </p>
                   <!-- <span class="font-size-12 text-success">{{ userData.service_types }}</span> -->
                 </div>
@@ -649,7 +649,7 @@ z-index: 10 !important;
         color: var(--co-green);
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 2px;
         span:nth-child(1) {
           display: block;
           background-color: var(--co-green);

@@ -30,7 +30,7 @@
     <b-row>
       <b-col lg="12"
              class="mb-2 d-flex justify-content-between align-items-center">
-        <h3>Roles</h3>
+        <h3>Access</h3>
         <div>
           <router-link :to="{name: 'admin'}">
             <b-button variant="warning" class="add_button text-white">

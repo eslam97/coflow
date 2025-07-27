@@ -140,6 +140,8 @@ export default {
       formData.append('password', this.admin.password)
       formData.append('role_id', this.admin.role_id)
       formData.append('logo', this.admin.logo)
+      formData.append('phone', this.admin.phone)
+      formData.append('title', this.admin.title)
       console.log(this.logoImage)
       if (this.adminDetails) {
         formData.append('_method', 'PATCH')

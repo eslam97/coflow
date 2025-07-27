@@ -38,7 +38,7 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`Contact Number ${key + 1}`"
-                      :rules="'required'"
+                      :rules="'required|numeric'"
                       class="flex-grow-1"
                   >
                     <b-form-input

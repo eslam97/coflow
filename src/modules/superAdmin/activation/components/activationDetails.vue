@@ -401,7 +401,7 @@
                     <validation-provider
                         #default="{ errors }"
                         :name="`Contact Number ${key + 1}`"
-                        :rules="'required'"
+                        :rules="'required|numeric'"
                         class="flex-grow-1"
                     >
                       <b-form-input
@@ -836,10 +836,12 @@ export default {
         console.log('activationDetails -> ', this.activationDetails)
         this.providerId = this.activationDetails.id
         this.adminInformation = {
-          name: this.activationDetails.name,
-          title: this.activationDetails.title,
-          phone: this.activationDetails.phones[0].phone
+          name: this.activationDetails.admin.name,
+          title: '',
+          phone: ''
         }
+        this.info.title = this.activationDetails.title
+        this.info.name = this.activationDetails.name
         this.info.activity_line_id = this.activationDetails.activity_line_id
         this.info.year = this.activationDetails.year
         this.info.languages = this.activationDetails.languages.map(item => item.id)
@@ -951,16 +953,16 @@ export default {
     }
   },
   mounted () {
-    this.fillData()
   },
-  created () {
-    this.getAllActivityLine()
+  async created () {
+    await this.getAllActivityLine()
     // this.getAllActivityType()
-    this.getAllLanguages()
-    this.getAllLinks()
-    this.getAllAmenities()
-    this.getAllCountries()
-    this.getAllTags()
+    await this.getAllLanguages()
+    await this.getAllLinks()
+    await this.getAllAmenities()
+    await this.getAllCountries()
+    await this.getAllTags()
+    this.fillData()
   }
 }
 </script>

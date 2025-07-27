@@ -25,8 +25,8 @@
                     v-model="adminInformation.title"
                     placeholder="Ex: Owner"
                     :validate="'required'"
-                    :name="`Role or Job ${key + 1}`"
-                    :label="'Role or Job'"
+                    :name="`title ${key + 1}`"
+                    :label="'Title'"
                 />
               </b-col>
               <b-col md="4" class="mb-3 position-relative" >

@@ -67,8 +67,8 @@
                     v-model="contact.job"
                     placeholder="Ex: Owner"
                     :validate="'required'"
-                    :name="`Role or Job ${key + 1}`"
-                    :label="'Role or Job'"
+                    :name="`title ${key + 1}`"
+                    :label="'title'"
                 />
               </b-col>
               <b-col md="4" class="position-relative" >

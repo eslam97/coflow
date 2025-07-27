@@ -42,8 +42,8 @@
                 v-model="businessRequest.contact.title"
                 placeholder="Ex: Owner"
                 :validate="'required'"
-                name="Contact’s Role or Job"
-                :label="'Contact’s Role or Job'"
+                name="Contact’s Title"
+                :label="'Contact’s Title'"
             />
           </b-col>
              <b-col md="4" class="mb-3">

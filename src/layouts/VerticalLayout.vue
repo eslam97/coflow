@@ -22,7 +22,7 @@
     <!--    <Customizer @onLogo="changeLogo" @toggle="sidebarMini" @animationChange="routerAnimationChange" />-->
     <div class="wrapper">
         <b-sidebar id="sidebar-1" bg-variant="white" right backdrop no-header-close @change="toggleBodyScrollbar">
-            <div v-if="getNotifications.length > 0">
+            <div v-if="getNotifications?.length > 0">
                 <ul class="notification-list p-0">
                     <li v-for="(item, index) in getNotifications" :key="index" class="border-bottom py-2 px-3">
                         <div class="d-flex align-items-center">
@@ -59,7 +59,7 @@
           <ul class="navbar-nav navbar-list py-1">
             <li class="nav-item dashboard-title w-100">
               <h1>Premium Dashboard</h1>
-              <p class="text-capitalize">{{ facilitySubscription }}</p>
+              <p class="text-capitalize">{{ facilitySubscription || 'admin' }}</p>
             </li>
             <li class="nav-item">
               <span class="track-notifications">Track Notifications</span>
@@ -87,13 +87,24 @@
               <span>3.5 (20)</span>
             </li>
             <li class="" v-nav-toggle>
-              <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
+              <a href="#" v-if="userData?.facility" class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
                 <img :src="userData.facility.logo ? userData.facility.logo : require('@/assets/images/user/default-user-image.png')" class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
                 <div class="caption">
                   <h6 class="mb-1 line-height text-primary">{{ userData.facility ? userData.facility.name : '' }}</h6>
                   <p class="user-status">
                     <span></span>
                     <span>{{userData.facility.status}}</span>
+                  </p>
+                  <!-- <span class="font-size-12 text-success">{{ userData.service_types }}</span> -->
+                </div>
+              </a>
+              <a href="#" v-else class="search-toggle iq-waves-effect d-flex align-items-center rounded pl-0">
+                <img :src="userData.image ? userData.image : require('@/assets/images/user/default-user-image.png')" class="img-fluid rounded_image" alt="user" style="background-color:#f2f2f2">
+                <div class="caption">
+                  <h6 class="mb-1 line-height text-primary">{{ userData.name }}</h6>
+                  <p class="user-status">
+                    <span></span>
+                    <span>{{userData.status}}</span>
                   </p>
                   <!-- <span class="font-size-12 text-success">{{ userData.service_types }}</span> -->
                 </div>
@@ -166,7 +177,7 @@ export default {
   mixins: [firebaseMixins],
   data () {
     return {
-      facilitySubscription: JSON.parse(localStorage.getItem('userInfo')).facility.subscription,
+      facilitySubscription: JSON.parse(localStorage.getItem('userInfo'))?.facility?.subscription,
       userData: JSON.parse(localStorage.getItem('userInfo')),
       ifSearch: false,
       notFoundImage: require('../assets/images/error/search.png'),

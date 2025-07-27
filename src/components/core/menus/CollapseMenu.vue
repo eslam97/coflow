@@ -4,44 +4,30 @@
         'iq-menu-title' :activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : '',
         item.class_name ? item.class_name: '']">
           <template>
-            <i v-if="item.is_heading && hideListMenuTitle" class="ri-subtract-line" />
-            <span v-if="item.is_heading && hideListMenuTitle">{{ $t(item.name) }}</span>
-            <template v-if="item.class_name === '' || (item.class_name === 'premium' && facilitySubscription !== 'basic')">
-            <template v-if="(!item.is_heading && checkProviderType(item.serviceTypes))||(!item.is_heading &&  item.serviceTypes === 'all')">
-              <router-link :to="item.link" :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
-                <i :class="item.icon" v-if="item.is_icon_class"/>
-                <i v-else v-html="item.icon"></i>
-                <span>{{ $t(item.name) }}</span>
-                <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
-                <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
-              </router-link>
+            <template v-if="item.userType == userType">
+              <template v-if="item.requiredAdmin ? ifBranchesAccess() : true">
+                <component :is="!disableRoute(item) ? 'a' : 'router-link'" :to="disableRoute(item) ? item.link : ''" v-if="item.userType == 'provider' ? checkProviderType(item.serviceTypes) : hasPer() " :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
+                  <i :class="item.icon" v-if="item.is_icon_class"/>
+                  <i v-else v-html="item.icon"></i>
+                  <span>{{ $t(item.name) }}</span>
+                  <small class="badge badge-warning badge-pill float-right font-weight-normal ml-auto" v-if="!disableRoute(item)">Premium</small>
+                </component>
+              </template>
             </template>
-          </template>
-
-          <template v-else>
-            <a :class="`iq-waves-effect ${activeLink(item) && item.children ? 'active' : activeLink(item) ? 'active' : ''}`" v-b-toggle="item.name">
-              <i :class="item.icon" v-if="item.is_icon_class"/>
-              <i v-else v-html="item.icon"></i>
-              <span>{{ $t(item.name) }}</span>
-              <i v-if="item.children" class="ri-arrow-right-s-line iq-arrow-right" />
-              <small class="badge badge-warning badge-pill float-right font-weight-normal ml-auto">Premium</small>
-              <small v-html="item.append" v-if="hideListMenuTitle" :class="item.append_class" />
-            </a>
-          </template>
-
-            <List v-if="item.children" :items="item.children" :sidebarGroupTitle="hideListMenuTitle" :open="item.link.name !== '' && activeLink(item) && item.children ? true : !!(item.link.name !== '' && activeLink(item))" :idName="item.name" :accordianName="`sidebar-accordion-${item.class_name}`" :className="`iq-submenu ${item.class_name}`" />
           </template>
         </li>
     </b-collapse>
 </template>
 <script>
-import List from './CollapseMenu'
+// import List from './CollapseMenu'
 import { core } from '../../../config/pluginInit'
 export default {
   name: 'List',
   data () {
     return {
-      facilitySubscription: JSON.parse(localStorage.getItem('userInfo')).facility.subscription
+      facilitySubscription: JSON.parse(localStorage.getItem('userInfo'))?.facility?.subscription,
+      userType: JSON.parse(localStorage.getItem('userInfo'))?.facility?.facility_type ? 'provider' : 'admin',
+      facilityType: JSON.parse(localStorage.getItem('userInfo'))?.facility?.facility_type
     }
   },
   props: {
@@ -53,7 +39,7 @@ export default {
     sidebarGroupTitle: { type: Boolean, default: true }
   },
   components: {
-    List
+    // List
   },
   computed: {
     hideListMenuTitle () {
@@ -63,6 +49,9 @@ export default {
   mounted () {
   },
   methods: {
+    disableRoute (item) {
+      return item.class_name === '' || (item.class_name === 'premium' && this.facilitySubscription !== 'basic')
+    },
     activeLink (item) {
       return core.getActiveLink(item, this.$route.name)
     }

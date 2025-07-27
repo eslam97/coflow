@@ -93,8 +93,7 @@ export default {
       registrationService.login(payload).then(res => {
         core.showSnackbar('success', 'Welcome ' + res.data.data.name)
         localStorage.setItem('userInfo', JSON.stringify(res.data.data))
-        // localStorage.setItem('permissions', JSON.stringify(res.data.data.facility.permissions.map(item => item.name)))
-        if (res.data.data.facility.status === 'accepted' || res.data.data.facility.status === 'active lead') {
+        if (res.data.data?.facility?.status === 'accepted' || res.data.data?.facility?.status === 'active lead') {
           this.$router.push({ name: 'profileInfo' })
           switch (res.data.data.facility.profile_step) {
             case 'admin':
@@ -123,12 +122,12 @@ export default {
               localStorage.setItem('formStep', 'completed')
               break
           }
-        } else if (res.data.data.facility.status === 'pending activation') {
+        } else if (res.data.data?.facility?.status === 'pending activation') {
           this.$store.commit('formSteps/setActiveStepForm', 'completed')
           this.$router.push({ name: 'profileComplete' })
           localStorage.setItem('formStep', 'completed')
         } else {
-          if (res.data.data.facility.type === 'admin') {
+          if (!res.data.data.facility_id) {
             this.$router.push({ name: 'leads' })
           } else this.$router.push({ name: 'dashboard' })
         }

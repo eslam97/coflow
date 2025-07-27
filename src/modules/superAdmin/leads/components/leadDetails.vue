@@ -8,8 +8,7 @@
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(makeBusinessRequest)">
         <b-row>
-          <!-- {{ leadDetails }} -->
-          <b-col md="4" class="mb-3">
+          <b-col md="6" class="mb-3">
             <input-form
                 v-model="businessRequest.email"
                 placeholder="Ex: name@coflow.com"
@@ -18,7 +17,7 @@
                 :label="'Facility Email Address'"
             />
           </b-col>
-          <b-col md="4" class="mb-3">
+          <b-col md="6" class="mb-3">
             <input-form
                 v-model="businessRequest.name"
                 placeholder="Ex: The Yoga Studio"
@@ -28,7 +27,7 @@
                 :limit="20"
             />
           </b-col>
-          <b-col md="4" class="mb-3">
+          <!-- <b-col md="4" class="mb-3">
             <input-form
                 v-model="businessRequest.title"
                 placeholder="Ex: Title"
@@ -37,7 +36,7 @@
                 :label="'Title'"
                 :limit="20"
             />
-          </b-col>
+          </b-col> -->
         <b-col md="4" class="mb-3">
             <input-form
                 v-model="businessRequest.contact.title"

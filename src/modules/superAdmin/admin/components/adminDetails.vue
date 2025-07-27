@@ -12,6 +12,15 @@
                 :label="'Admin Name'"
             />
           </b-col>
+           <b-col md="12" class="mb-3">
+            <input-form
+                v-model="admin.title"
+                placeholder="Ex: Admin"
+                :validate="'required'"
+                name="name"
+                :label="'Admin Title'"
+            />
+          </b-col>
           <b-col md="12" class="mb-3">
             <input-form
                 v-model="admin.email"
@@ -19,6 +28,15 @@
                 :validate="'required|email'"
                 name="email"
                 :label="'Email'"
+            />
+          </b-col>
+          <b-col md="12" class="mb-3">
+            <input-form
+                v-model="admin.phone"
+                placeholder="Ex: 01095097908"
+                :validate="'required'"
+                name="name"
+                :label="'Admin Phone'"
             />
           </b-col>
           <b-col md="12" class="mb-3">
@@ -31,7 +49,7 @@
             />
           </b-col>
           <b-col md="12" class="mb-3">
-            <main-select labelTitle='Role' :validate="'required'"
+            <main-select labelTitle='Access' :validate="'required'"
                          :name="`Admin`" placeholder="Choose" :options="allRoles"
                          label="name"
                          :reduce="data => data.id"
@@ -96,7 +114,9 @@ export default {
         email: '',
         password: '',
         role_id: '',
-        logo: ''
+        logo: '',
+        title: '',
+        phone: ''
       },
       allRoles: [],
       loadingLogo: 0,

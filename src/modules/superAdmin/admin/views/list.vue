@@ -21,7 +21,7 @@
         <div>
           <router-link :to="{name: 'roles'}" v-if="hasPer('admin.createRole')">
             <b-button variant="warning" class="add_button text-white">
-              Go To Roles<i class="las la-arrow-right ml-3"></i></b-button>
+              Manage Access<i class="las la-arrow-right ml-3"></i></b-button>
           </router-link>
           <b-button variant="warning" v-if="hasPer('admin.create')"
                     class="ml-3 add_button text-white" @click="openAdminCreate">
@@ -52,8 +52,10 @@ export default {
         '#',
         { label: 'Image', key: 'logo', class: 'text-left', type: 'image' },
         { label: 'Name', key: 'name', class: 'text-left' },
+        { label: 'Title', key: 'title', class: 'text-left' },
+        { label: 'Phone', key: 'phone', class: 'text-left' },
         { label: 'Email', key: 'email', class: 'text-left' },
-        { label: 'Role', key: 'role.name', class: 'text-left' },
+        { label: 'Access', key: 'role.name', class: 'text-left' },
         {
           label: 'Actions',
           key: 'actions',

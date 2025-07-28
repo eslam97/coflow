@@ -43,7 +43,7 @@
                 placeholder="Ex: Owner"
                 :validate="'required'"
                 name="Contact’s Title"
-                :label="'Contact’s Title'"
+                :label="'Contact’s Role or Job'"
             />
           </b-col>
              <b-col md="4" class="mb-3">
@@ -148,6 +148,7 @@ export default {
       businessRequest: {
         email: '',
         name: '',
+        title: 'test',
         contact: {
           name: '',
           title: '',
@@ -199,7 +200,8 @@ export default {
         email: this.leadDetails.email,
         name: this.leadDetails.name,
         contact: this.leadDetails.admin,
-        links: this.leadDetails.links
+        links: this.leadDetails.links,
+        title: 'test'
       }
       this.status = this.leadDetails.status
     }

@@ -103,7 +103,7 @@
                 <b-card-body>
                   <b-row md="12">
                     <b-col class="mb-3" md="2">
-                      <main-select
+                      <!-- <main-select
                         labelTitle="Activity Line"
                         :validate="'required'"
                         :name="`activity_line_id`"
@@ -113,7 +113,15 @@
                         disabled
                         :reduce="(data) => data.id"
                         v-model="info.activity_line_id"
-                      ></main-select>
+                      ></main-select> -->
+                       <input-form
+                        placeholder="Ex: sky"
+                        :validate="'required'"
+                        :name="`activity_line_id`"
+                        disabled
+                        :label="'Activity Line'"
+                        v-model="info.activity_line_id"
+                      />
                     </b-col>
                     <b-col class="mb-3" md="2">
                       <input-form
@@ -133,7 +141,6 @@
                         disabled
                         :label="'Facility Name'"
                         v-model="info.name"
-                        :limit="20"
                       />
                     </b-col>
                     <b-col class="mb-3" md="4">
@@ -151,6 +158,7 @@
                   <b-row>
                     <b-col class="mb-3" md="12">
                       <main-select
+                        label="name"
                         labelTitle="Facility Tags"
                         :validate="'required'"
                         :taggable="true"
@@ -159,6 +167,7 @@
                         :name="`tags`"
                         placeholder="Write Tags"
                         :numberOfSelect="3"
+                        class="remove-delete"
                       >
                       </main-select>
                     </b-col>
@@ -237,6 +246,7 @@
                         class="position-relative"
                       >
                         <span
+                          v-if="key != 0"
                           class="text-danger deleteLabelButton cursor-pointer"
                           @click="deleteLink(key)"
                           >Delete
@@ -547,7 +557,7 @@
                           <validation-provider
                             #default="{ errors }"
                             :name="`Contact Number ${key + 1}`"
-                            :rules="'required|numeric'"
+                            :rules="'required |numeric'"
                             class="flex-grow-1"
                           >
                             <b-form-input
@@ -656,6 +666,7 @@
                       v-for="(operation, operationKey) in allOperation"
                       :key="operationKey"
                     >
+                    {{ operation.days }}
                       <b-row class="d-flex align-items-center">
                         <b-col class="mb-3" md="4">
                           <main-select
@@ -792,6 +803,7 @@
               Facility Photos
             </label>
             <b-card-body class="m-0 p-0">
+              <!-- {{  images  }} -->
               <b-row class="mb-3 cursor-pointer px-2 m-0" v-if="images">
                 <b-col
                   cols="3"
@@ -806,9 +818,9 @@
                     ><i class="las la-trash-alt"></i
                   ></span>
                   <div
-                    :style="`background-image: url(${img.image})`"
+                    :style="`background-image: url(${img.file})`"
                     class="facilityImageInProfile"
-                    @click="showImage(img.image)"
+                    @click="showImage(img.file)"
                   ></div>
                 </b-col>
               </b-row>
@@ -1107,7 +1119,7 @@ export default {
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
-      formData.append('type', 'gallery')
+      formData.append('type', 'media')
       formData.append('provider_id', this.providerId)
       const options = {
         onUploadProgress: (progressEvent) => {
@@ -1249,7 +1261,7 @@ export default {
         this.coverImage = this.oldProfile.cover
           ? this.oldProfile.cover
           : require('@/assets/images/user/default-user-image.png')
-        this.images = this.oldProfile.images
+        this.images = this.oldProfile.media_images
         this.phones = this.oldProfile.phones
         this.reservation_contact = this.oldProfile.reservation_contact
           ? this.oldProfile.reservation_contact[0]

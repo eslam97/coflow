@@ -63,7 +63,7 @@
       <div class="d-flex justify-content-between">
         <small class="text-danger">{{ errors[0] }}</small>
         <small v-if="showAlert" class="text-danger">number of text not valid</small>
-        <small v-if="taggable">Add tag then press enter</small>
+        <small v-if="taggable" class="remove-hint">Add tag then press enter</small>
       </div>
     </validation-provider>
   </b-form-group>
@@ -274,5 +274,12 @@ export default {
     position: absolute !important;
     z-index: 900000000 !important; // make sure it floats above modals/tooltips
   }
+}
+.remove-delete .remove-hint {
+  display: none !important;
+}
+
+.remove-delete .vs__selected button {
+  display: none !important;
 }
 </style>

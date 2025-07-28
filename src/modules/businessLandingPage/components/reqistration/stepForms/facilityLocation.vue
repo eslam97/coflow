@@ -210,7 +210,7 @@
                         :options="allCountries"
                         label="name"
                         :reduce="d => d.id"
-                        @change="onChangeRemoteCountry(location)"
+                        @change="(id) => onChangeRemoteCountry(id, location)"
                         v-model="location.country_id"
                       />
                     </b-col>
@@ -226,15 +226,15 @@
                     </b-col>
                     <b-col md="3" class="mb-2" v-if="location.availability_type !== 'all country'">
                       <main-select
-                        labelTitle="Governorate"
-                        :validate="'required'"
-                        :name="`Governorate ${i + 1}`"
-                        placeholder="Choose"
-                        :options="location.cityList"
-                        label="name"
-                        :reduce="d => d.id"
-                        @change="onChangeRemoteCity(location)"
-                        v-model="location.city_id"
+                      labelTitle="Governorate"
+                      :validate="'required'"
+                      :name="`Governorate ${i + 1}`"
+                      placeholder="Choose"
+                      :options="location.cityList"
+                      label="name"
+                      :reduce="d => d.id"
+                      @change="(id) => onChangeRemoteCity(id, location)"
+                      v-model="location.city_id"
                       />
                     </b-col>
                     <b-col md="1" v-if="location.availability_type !== 'all country'">
@@ -420,16 +420,19 @@ export default {
         this.allArea = res.data.data
       })
     },
-    onChangeRemoteCountry (location) {
+    onChangeRemoteCountry (countryId, location) {
+      console.log('onChangeRemoteCountry -> ', countryId)
+      location.country_id = countryId
       location.city_id = ''
       location.areas = []
-      settingsService.getCountryCity(location.country_id).then(res => {
+      settingsService.getCountryCity(countryId).then(res => {
         location.cityList = res.data.data
       })
     },
-    onChangeRemoteCity (location) {
+    onChangeRemoteCity (cityId, location) {
+      location.city_id = cityId
       location.areas = []
-      settingsService.getCityArea(location.city_id).then(res => {
+      settingsService.getCityArea(cityId).then(res => {
         location.areaList = res.data.data
       })
     },

@@ -177,6 +177,7 @@
           </b-row>
           <b-row>
             <b-col md="10" class="mb-5">
+              <!-- hello {{ allImages }} -->
               <cropper-images
                   label="Upload Facility Photos"
                   @cropper-save="saveGalleryImage"
@@ -333,7 +334,7 @@ export default {
     },
     saveGalleryImage (data) {
       this.removeLoadingUi = false
-      const allImages = []
+      const allImages = this.allImages || []
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)

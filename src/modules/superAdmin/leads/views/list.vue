@@ -121,7 +121,6 @@ export default {
       })
     },
     acceptOrReject (data) {
-      console.log('data -> ', data)
       this.requestLoading = true
       this.reloadTable = false
       leadsServices.changeStatusLead(this.selectedLead, data).then(res => {

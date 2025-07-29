@@ -10,10 +10,10 @@
         <li class="nav-item">
           <router-link class="nav-link" :to="{name:'settings'}" exact>Profile</router-link>
         </li>
-<!--        <li class="nav-item">
+        <!-- <li class="nav-item">
           <router-link class="nav-link" :to="{name:'activityLines'}" exact>Activity Lines</router-link>
-        </li>
-        <li class="nav-item">
+        </li> -->
+<!--        <li class="nav-item">
           <router-link class="nav-link" :to="{name:'activityTypes'}" exact>Activity Types</router-link>
         </li>-->
         <li class="nav-item">

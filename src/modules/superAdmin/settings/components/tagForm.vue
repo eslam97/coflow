@@ -3,6 +3,17 @@
     <ValidationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(submit)">
         <b-row>
+           <b-col md="12" class="mb-3">
+            <main-select
+                labelTitle='Activity Line'
+                :validate="'required'"
+                :name="`Activity Line`"
+                label="name"
+                placeholder="Choose" :options="activityLines"
+                v-model="tag.activity_line_id"
+                :reduce="data=> data.id"
+            ></main-select>
+          </b-col>
           <b-col md="12" class="mb-3">
             <input-form
                 v-model="tag.name"
@@ -38,6 +49,8 @@
   </div>
 </template>
 <script>
+import settingsService from '../services/settings.services'
+import { core } from '@/config/pluginInit'
 export default {
   name: 'tagForm',
   props: {
@@ -55,12 +68,21 @@ export default {
   },
   data () {
     return {
+      activityLines: [],
       tag: {
-        name: ''
+        name: '',
+        activity_line_id: null
       }
     }
   },
   methods: {
+    getAllActivityLine () {
+      settingsService.getAllActivityLine().then((response) => {
+        this.activityLines = response.data.data
+      }).catch((error) => {
+        core.handleError(error)
+      })
+    },
     submit () {
       if (this.typeOfModal === 'add') {
         this.$emit('addTag', this.tag)
@@ -74,6 +96,8 @@ export default {
   computed: {
   },
   created () {
+    this.getAllActivityLine()
+
     if (this.tagDetails) {
       this.tag = this.tagDetails
     }

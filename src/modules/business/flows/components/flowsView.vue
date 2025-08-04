@@ -9,7 +9,7 @@
           </b-col>
           <b-col md="12" class="infoValue">
             <p class="text-black font-weight-bold-600 text-justify">{{flowsDetails.description}}</p>
-          </b-col>
+           </b-col>
         </b-row>
         <b-row class="pl-3 mb-3">
           <b-col md="12" class="infoKey">
@@ -19,19 +19,13 @@
             <p class="text-black font-weight-bold-600">{{flowsDetails.requirements}}</p>
           </b-col>
         </b-row>
+
         <b-row class="pl-3 mb-3">
-          <b-col md="4" class="infoKey">
-            <p>Price</p>
+          <b-col md="12" class="infoKey">
+            <p>Conditions</p>
           </b-col>
-          <b-col md="8" class="infoKey">
-            <p>Discounted price</p>
-          </b-col>
-          <b-col md="4" class="infoValue">
-            <p class="text-black font-weight-bold-600">EGP {{flowsDetails.price_egp}}</p>
-          </b-col>
-          <b-col md="8" class="infoValue">
-            <p class="font-weight-bold-400"><span v-if="flowsDetails.discount_price_egp">EGP {{flowsDetails.discount_price_egp}}</span>
-              <span v-else>N/A</span></p>
+          <b-col md="12" class="infoValue">
+            <p class="text-black font-weight-bold-600">{{flowsDetails.conditions}}</p>
           </b-col>
         </b-row>
         <b-row class="pl-3 mb-3">

@@ -14,6 +14,11 @@ export default {
     return Api().get(`services/${id}`)
   },
   editService (id, payload) {
+    if (payload.type === 'flow') {
+      delete payload.duration
+      delete payload.duration_list
+      delete payload.duration_list_id
+    }
     return Api().post(`services/${id}`, payload)
   },
   getAllFolders () {

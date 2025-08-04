@@ -22,12 +22,8 @@
       <template v-slot:borderHeader>
         <p class="p-4 borderHeaderModal m-0">
           <span class="px-2">{{flowsDetails.name}}</span>
-          <button v-if="optionInd > -1"
-                  class="ml-4 p-2 btn radio-btn" active
-                  :class="`radio-btn-${options[optionInd].color} radio-btn-selected-${options[optionInd].color}`">
-            {{ options[optionInd].text }}
-          </button>
-        </p>
+            <span>{{flowsDetails.level.name}}</span> <span>{{flowsDetails.tag.name}}</span>
+          </p>
       </template>
       <template v-slot:body>
         <flows-view :flowsDetails="flowsDetails"/>

@@ -64,6 +64,7 @@
           </b-col>
         </b-row>
 
+        {{  typeOfModal  }}
         <b-row v-if="typeOfModal != 'view'">
           <b-col md="12" class="mt-4">
             <div
@@ -124,6 +125,7 @@ export default {
   },
   methods: {
     saveTeamMember () {
+      console.log('this.typeOfModal', this.typeOfModal)
       if (this.typeOfModal === 'add') {
         formData.append('name', this.member.name)
         formData.append('title', this.member.title)

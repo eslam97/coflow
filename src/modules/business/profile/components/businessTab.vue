@@ -77,6 +77,7 @@
         <h4 class="font-weight-bold" v-else><span class="text-info" >Edit: </span> Team Member</h4>
       </template>
       <template v-slot:body>
+        {{ typeOfModal }}
         <teamMemberDetails
           @addTeamMember="addTeamMember"
           @editTeamMember="editTeamMember"
@@ -666,7 +667,7 @@
                       v-for="(operation, operationKey) in allOperation"
                       :key="operationKey"
                     >
-                    {{ operation.days }}
+                    <!-- {{ operation.days }} -->
                       <b-row class="d-flex align-items-center">
                         <b-col class="mb-3" md="4">
                           <main-select

@@ -161,14 +161,19 @@ export default {
       })
     },
     showDetails (obj) {
+      console.log('obj.id -> ', obj?.id)
       this.typeOfModal = 'view'
-      this.ticketDetails = obj
+      ticketServices.getTicketDetails(obj.id).then(res => {
+        this.ticketDetails = res.data.data
+      })
       this.$bvModal.show('ticketDetailsViewModal')
     },
     showTicketToEdit (obj) {
       this.ticketId = obj.id
       this.typeOfModal = 'edit'
-      this.ticketDetails = obj
+      ticketServices.getTicketDetails(obj.id).then(res => {
+        this.ticketDetails = res.data.data
+      })
       this.$bvModal.show('ticketsDetailsModal')
     }
   },

@@ -1244,6 +1244,7 @@ export default {
     },
     fillData () {
       if (this.oldProfile) {
+        console.log('this.oldProfile -> ', this.oldProfile)
         this.providerId = this.oldProfile.id
         this.adminInformation = this.oldProfile.contacts
         this.info.activity_line_id = this.oldProfile.activity_line_id

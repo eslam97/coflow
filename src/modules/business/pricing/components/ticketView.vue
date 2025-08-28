@@ -3,33 +3,10 @@
       <b-row>
           <b-col lg="6" class="border-right py-5"  order-lg="1" order="2">
               <h5 class="mb-4 font-size-14 px-2">TICKET INFORMATION</h5>
-              <b-row class="pl-3 mb-2">
-                  <b-col md="12" class="infoKey">
-                      <p>Details</p>
-                  </b-col>
-                  <b-col md="12" class="infoValue">
-                      <p class="text-black font-weight-bold-600">{{ticketDetails.details}}</p>
-                  </b-col>
-              </b-row>
-              <b-row class="pl-3 mb-2">
-                  <b-col md="4" class="infoKey">
-                      <p>Price</p>
-                  </b-col>
-                  <b-col md="8" class="infoKey">
-                      <p>Discounted price</p>
-                  </b-col>
-                  <b-col md="4" class="infoValue">
-                      <p class="text-black font-weight-bold-600">EGP {{ticketDetails.price_egp}}</p>
-                  </b-col>
-                  <b-col md="8" class="infoValue">
-                      <p class="text-black font-weight-bold-600"><span v-if="ticketDetails.discount_price_egp">EGP {{ticketDetails.discount_price_egp}}</span>
-                          <span v-else>N/A</span></p>
-                  </b-col>
-              </b-row>
               <b-row class="pl-3 mb-2" v-if="ticketDetails.price_euro">
                   <b-col md="6" class="infoKey">
                       <p>Foreigner Price</p>
-                      <p class="text-black font-weight-bold-400">€ {{ticketDetails.price_euro}}</p>
+                      <p class="text-black font-weight-bold-400">€ {{ticketDetails}}</p>
                   </b-col>
                   <b-col md="6" class="infoKey">
                       <p>Discounted Price</p>

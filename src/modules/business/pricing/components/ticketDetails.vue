@@ -92,7 +92,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Discount Price`"
-              :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: ticket.has_discount }"
+              :rules="{ regex: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/, required: ticket.has_discount, max_value: ticket.price }"
               class="flex-grow-1"
             >
               <b-form-group :label="'Discount Price'">

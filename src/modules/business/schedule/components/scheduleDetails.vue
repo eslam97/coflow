@@ -42,7 +42,7 @@
                              allFlows.find((flow) => flow.id === schedule.service_id).instructors"
                              label="first_name"
                              :multiple="true"
-                             :reduce="data => data.id"
+                             :reduce="data => data"
                              v-model="slot.instructors"></main-select>
               </b-col>
               <b-col>
@@ -160,7 +160,6 @@ export default {
         this.schedule.slots[0].ladies_only = +this.schedule.slots[0].ladies_only
         const obj = {
           service_id: this.schedule.service_id,
-          // slots: [this.schedule.slots[0]],
           ...this.schedule.slots[0],
           instructors: this.schedule.slots[0].instructors.map((instructor) => {
             return instructor.id

@@ -85,7 +85,6 @@
 <script>
 
 import { core } from '@/config/pluginInit'
-// import adminTab from '@/modules/business/profile/components/adminTab'
 import businessTab from '@/modules/business/profile/components/businessTab'
 import faqTab from '@/modules/business/faqs/views/list.vue'
 import paymentTab from '../components/paymentTab.vue'
@@ -137,7 +136,7 @@ export default {
     // Get data
     getOldAdminInfo () {
       this.id = JSON.parse(localStorage.getItem('userInfo')).id
-      profileServices.getProfileData(this.id).then(res => {
+      profileServices.getProfileData().then(res => {
         this.oldProfile = res.data.data
         this.statusDetails = { status: this.oldProfile.status, status_msg: this.oldProfile.status_msg }
         this.switchStatus = !(this.statusDetails.status === 'visible' || this.statusDetails.status === 'invisible')
@@ -163,8 +162,6 @@ export default {
       })
     },
     updateFacilityPhones (typeOfLocation, location) {
-      console.log(typeOfLocation)
-      console.log(location)
       if (typeOfLocation === 'address based') {
         facilityInfoService.saveStepLocationBased(location).then(res => {
           core.showSnackbar('success', res.data.message)
@@ -181,9 +178,11 @@ export default {
       })
     }
   },
+
   created () {
     this.getOldAdminInfo()
   },
+
   mounted () {
     core.index()
   }

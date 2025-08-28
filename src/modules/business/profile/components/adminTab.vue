@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-row><b-col md="9">
+    <b-row><b-col md="12">
     <validationObserver v-slot="{ handleSubmit }">
       <b-form @submit.prevent="handleSubmit(updateLoginCredential)">
         <b-card class="mb-5">
           <b-card-header class="mb-4 py-2">
-            <p class="font-size-12"><span class="text-dark font-weight-bold font-size-18 mr-3">Login</span>
-              Use this section to update your login credentials.</p>
+            <p class="font-size-12"><span class="text-dark font-weight-bold font-size-18 mr-3">Login Credentials</span>
+               Use this section to update your login credentials.</p>
           </b-card-header>
           <b-card-body>
             <b-row class="mb-4">
@@ -64,7 +64,7 @@
               </b-col>
               <b-col md="4">
                 <input-form
-                    v-model="contact.job"
+                    v-model="contact.title"
                     placeholder="Ex: Owner"
                     :validate="'required'"
                     :name="`title ${key + 1}`"
@@ -79,18 +79,6 @@
                     :name="`Phone Number ${key + 1}`"
                     :label="'Phone Number'"
                 />
-                <span v-if="key == 0" class="text-danger deleteLabelButtonAdmin cursor-pointer"
-                      @click="clearFirstContact(key)">Clear Contact
-                </span>
-                <span v-else class="text-danger deleteLabelButtonAdmin cursor-pointer"
-                      @click="deleteAdditionalContact(key)">Delete Contact
-                </span>
-              </b-col>
-            </b-row>
-            <b-row class="mb-5">
-              <b-col md="12">
-                    <span class="text-warning cursor-pointer mb-2" @click="addAdditionalContact">+ Add another
-                      Contact</span>
               </b-col>
             </b-row>
             <button
@@ -108,6 +96,8 @@
 
 <script>
 import { core } from '@/config/pluginInit'
+import profileServices from '@/modules/business/profile/services/profile.services.js'
+import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
 export default {
   props: {
@@ -124,30 +114,29 @@ export default {
         password: ''
       },
       contacts: [{
-        name: '',
-        job: '',
-        phone: ''
+        name: JSON.parse(localStorage.getItem('userInfo'))?.name || '',
+        title: JSON.parse(localStorage.getItem('userInfo'))?.title || '',
+        phone: JSON.parse(localStorage.getItem('userInfo'))?.phone || ''
       }]
     }
   },
   methods: {
     updateLoginCredential () {
       if (this.newPassword && this.confirmPassword) {
-        if (this.newPassword === this.confirmPassword) {
-          this.$emit('updateLoginCredential', {
-            password: this.newPassword,
-            _method: 'post'
-          })
-          this.newPassword = ''
-          this.confirmPassword = ''
-        }
+        profileServices.changePassword({
+          password: this.confirmPassword
+        }).then(res => {
+          core.showSnackbar('success', res.data.message)
+        })
       } else {
         core.showSnackbar('error', 'New password and Confirm password can\'t be empty')
       }
     },
     updateContactInfo () {
       if (this.contacts.length > 0) {
-        this.$emit('updateContactInfo', { contact: this.contacts })
+        facilityInfoService.saveStepAdmin(this.contacts).then(res => {
+          core.showSnackbar('success', res.data.message)
+        })
       } else {
         console.log('You should have at least 1 contact info')
       }
@@ -155,24 +144,35 @@ export default {
     addAdditionalContact () {
       this.contacts.push({
         name: '',
-        job: '',
+        title: '',
         phone: ''
       })
     },
     clearFirstContact (ind) {
       this.contacts[ind].name = ''
-      this.contacts[ind].job = ''
+      this.contacts[ind].title = ''
       this.contacts[ind].phone = ''
     },
     deleteAdditionalContact (ind) {
       this.contacts.splice(ind, 1)
     }
   },
-  created () {
-    if (this.oldProfile) {
-      this.profile.email = this.oldProfile.email
-      this.contacts = this.oldProfile.contacts
+  watch: {
+    oldProfile: {
+      immediate: true,
+      handler (newVal) {
+        if (newVal) {
+          this.profile.email = newVal.email
+          // this.contacts = newVal.contact || [{
+          //   name: '',
+          //   title: '',
+          //   phone: ''
+          // }]
+        }
+      }
     }
+  },
+  created () {
   }
 }
 </script>

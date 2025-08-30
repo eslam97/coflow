@@ -375,11 +375,6 @@ export default {
         this.allActivityLines = res.data.data
       })
     },
-    /*    getAllActivityType () {
-      settingsService.getAllActivityType().then(res => {
-        this.allActivityTypes = res.data.data
-      })
-    }, */
     getAllLanguages () {
       settingsService.getAllLanguages().then(res => {
         this.allLanguages = res.data.data
@@ -437,16 +432,14 @@ export default {
     this.getAllTags()
     if (this.providerInfo) {
       this.logoImage = this.providerInfo.facility.logo
-
       this.info.bio = this.providerInfo.facility.bio
       this.info.activity_line_id = 1
       this.info.year = this.providerInfo.facility.year
       this.info.name = this.providerInfo.facility.name
-      this.info.title = this.providerInfo.facility.title
+      this.info.title = ''
       this.info.languages = this.providerInfo.facility.languages
       this.info.tags = this.providerInfo.facility.tags.map(tag => tag.id)
       this.info.amenities = this.providerInfo.facility.amenities.map(amenity => amenity.id)
-
       if (this.logoImage) {
         this.loadingLogo = 100
         this.logoFlag = true

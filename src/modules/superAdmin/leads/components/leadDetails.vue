@@ -27,16 +27,6 @@
                 :limit="20"
             />
           </b-col>
-          <!-- <b-col md="4" class="mb-3">
-            <input-form
-                v-model="businessRequest.title"
-                placeholder="Ex: Title"
-                :validate="'required|max:20'"
-                name="Title"
-                :label="'Title'"
-                :limit="20"
-            />
-          </b-col> -->
         <b-col md="4" class="mb-3">
             <input-form
                 v-model="businessRequest.contact.title"
@@ -148,7 +138,7 @@ export default {
       businessRequest: {
         email: '',
         name: '',
-        title: '',
+        title: 'test',
         contact: {
           name: '',
           title: '',
@@ -201,7 +191,7 @@ export default {
         name: this.leadDetails.name,
         contact: this.leadDetails.admin,
         links: this.leadDetails.links,
-        title: this.leadDetails?.title || ''
+        title: this.leadDetails?.title || 'test'
       }
       this.status = this.leadDetails.status
     }

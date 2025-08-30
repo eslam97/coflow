@@ -122,7 +122,7 @@ export default {
       email: this.providerInfo.email,
       phone: this.providerInfo.phone,
       password: '',
-      title: this.providerInfo.facility.title
+      title: this.providerInfo.title
     }
   }
 }

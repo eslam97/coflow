@@ -148,7 +148,7 @@ export default {
       businessRequest: {
         email: '',
         name: '',
-        title: 'test',
+        title: '',
         contact: {
           name: '',
           title: '',
@@ -201,7 +201,7 @@ export default {
         name: this.leadDetails.name,
         contact: this.leadDetails.admin,
         links: this.leadDetails.links,
-        title: 'test'
+        title: this.leadDetails?.title || ''
       }
       this.status = this.leadDetails.status
     }

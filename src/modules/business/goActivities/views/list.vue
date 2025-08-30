@@ -55,7 +55,7 @@
             :reloadData="reloadTable"
             :service_type="'ticket'"
             :arrangeMode="arrangeMode"
-            :custom-filter="{type: 'activity'}"
+            :custom-filter="{type: 'go'}"
             :list_url="'services'"
         >
         <!-- <template #likes="data">

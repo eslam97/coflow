@@ -84,7 +84,7 @@
             >
               <b-form-group label="Description">
                 <b-form-textarea
-                  v-model="activity.details"
+                  v-model="activity.description"
                   placeholder="Write a brief description"
                   rows="4"
                   :class="[{ 'is-invalid': errors.length > 0 }]"
@@ -201,9 +201,9 @@ export default {
   data () {
     return {
       activity: {
-        type: 'activity',
+        type: 'go',
         name: '',
-        details: '',
+        description: '',
         tag_id: '',
         facility_folder_id: '',
         conditions: '',

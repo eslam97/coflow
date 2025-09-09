@@ -422,7 +422,6 @@ export default {
       })
     },
     onChangeRemoteCountry (countryId, location) {
-      console.log('onChangeRemoteCountry -> ', countryId)
       location.country_id = countryId
       location.city_id = ''
       location.areas = []
@@ -433,41 +432,45 @@ export default {
     onChangeRemoteCity (cityId, location) {
       location.city_id = cityId
       location.areas = []
+      console.log('cityId -> ', cityId)
       settingsService.getCityArea(cityId).then(res => {
         location.areaList = res.data.data
       })
     },
     fillData () {
-      if (!this.profileInfo) return
-      this.reservation_contact = this.profileInfo.reservation_contact[0]
-      this.phones = this.profileInfo.phones
+      if (this.profileInfo) {
+        this.reservation_contact = this.profileInfo.reservation_contact[0] || {}
+        this.phones = this.profileInfo.phones || []
 
-      if (this.providerInfo.location_type === 'address based') {
-        Object.assign(this.based, {
-          country_id: this.providerInfo.country_id,
-          city_id: this.providerInfo.city_id,
-          area_id: this.providerInfo.area_id,
-          address: this.providerInfo.address_based.address,
-          location: this.providerInfo.address_based.location
-        })
-        this.location_type = 'address based'
-        this.getCityDependOnCountry(this.providerInfo.country_id)
-        this.getAreasDependOnCity(this.providerInfo.city_id)
-      } else {
-        this.remote_locations = []
-        this.providerInfo.remote_locations.forEach(loc => {
-          const remote = this.createEmptyRemote()
-          Object.assign(remote, {
-            availability_type: loc.availability_type,
-            country_id: loc.country_id,
-            city_id: loc.city_id,
-            areas: loc.areas
+        if (this.profileInfo.location_type) {
+          this.location_type = this.profileInfo.location_type
+        } else {
+          this.location_type = 'address based'
+        }
+
+        if (this.profileInfo.location_type === 'address based') {
+          Object.assign(this.based, {
+            country_id: this.providerInfo.country_id,
+            city_id: this.providerInfo.city_id,
+            area_id: this.providerInfo.area_id,
+            address: this.providerInfo.address_based.address,
+            location: this.providerInfo.address_based.location
           })
-          this.onChangeRemoteCountry(remote)
-          this.onChangeRemoteCity(remote)
-          this.remote_locations.push(remote)
-        })
-        this.location_type = 'remote location'
+          this.getCityDependOnCountry(this.providerInfo.country_id)
+          this.getAreasDependOnCity(this.providerInfo.city_id)
+        } else {
+          this.remote_locations = []
+          this.profileInfo.locations.forEach(loc => {
+            const remote = this.createEmptyRemote()
+            Object.assign(remote, {
+              availability_type: loc.availability_type,
+              country_id: loc.country_id,
+              city_id: loc.city_id,
+              areas: loc.areas
+            })
+            this.remote_locations.push(remote)
+          })
+        }
       }
     },
     getAllCountries () {

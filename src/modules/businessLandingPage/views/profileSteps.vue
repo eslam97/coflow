@@ -2,7 +2,7 @@
   <div class="profile-information">
     <navSteps />
     <keep-alive>
-      <component :is="activeForm" :providerInfo="providerInfo" :profileInfo="profileInfo"/>
+      <component :is="activeForm" :providerInfo="providerInfo" v-if="profileInfo" :profileInfo="profileInfo"/>
     </keep-alive>
   </div>
 </template>

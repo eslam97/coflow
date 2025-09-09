@@ -212,6 +212,7 @@
   </div>
 </template>
 <script>
+import profileServices from '@/modules/business/profile/services/profile.services'
 import registrationServices from '../../../services/registration.services'
 import { core } from '@/config/pluginInit'
 import settingsService from '@/modules/superAdmin/settings/services/settings.services'
@@ -406,9 +407,13 @@ export default {
     }
   },
   watch: {
-    'info.activity_line_id' (val) {
-      this.info.tags = []
-      this.getAllTags()
+    'info.activity_line_id' (val, oldVal) {
+      if (oldVal) {
+        this.info.tags = []
+        this.getAllTags()
+      } else {
+        this.getAllTags()
+      }
     }
   },
   computed: {
@@ -430,19 +435,24 @@ export default {
       event.preventDefault()
     }, false)
   },
-  created () {
-    this.getAllActivityLine()
-    this.getAllLanguages()
-    this.getAllLinks()
-    this.getAllAmenities()
+  async created () {
+    profileServices.getProfileData().then((res) => {
+      this.allImages = res.data.data.medias
+    })
+    await this.getAllActivityLine()
+    await this.getAllLanguages()
+    await this.getAllLinks()
+    await this.getAllAmenities()
     if (this.providerInfo) {
       this.logoImage = this.providerInfo.facility.logo
+      this.coverImage = this.providerInfo.facility.cover
       this.info.bio = this.providerInfo.facility.bio
       this.info.year = this.providerInfo.facility.year
       this.info.name = this.providerInfo.facility.name
-      this.info.title = ''
+      this.info.title = this.providerInfo.facility.title
       this.info.languages = this.providerInfo.facility.languages
       this.info.tags = this.providerInfo.facility.tags.map(tag => tag.id)
+      this.info.activity_line_id = this.providerInfo.facility.activity_line_id
       this.info.amenities = this.providerInfo.facility.amenities.map(amenity => amenity.id)
       if (this.logoImage) {
         this.loadingLogo = 100

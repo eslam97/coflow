@@ -119,7 +119,9 @@
                   <validation-provider
                       #default="{ errors }"
                       :name="`URL url ${key + 1}`"
-                      :rules="'required'"
+                      :rules="item.name === 'Whatsapp'
+                      ? { required: true, regex: /^[0-9]+$/ }
+                      : { required: true, regex: /(http(s)?:\/\/.)?(www\.)?.../ }"
                       class="flex-grow-1"
                   >
                     <b-form-input
@@ -433,7 +435,6 @@ export default {
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
-    // this.getAllTags()
     if (this.providerInfo) {
       this.logoImage = this.providerInfo.facility.logo
       this.info.bio = this.providerInfo.facility.bio

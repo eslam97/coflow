@@ -71,12 +71,10 @@
                 <validation-provider
                     #default="{ errors }"
                     :name="`URL Link ${key + 1}`"
-                    :rules="{
-                    regex: /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g,
-                    required:true
-                    }"
-                    class="flex-grow-1"
-                >
+                    :rules="item.name === 'Whatsapp'
+                      ? { required: true, regex: /^[0-9]+$/ }
+                      : { required: true, regex: /(http(s)?:\/\/.)?(www\.)?.../ }"
+                    class="flex-grow-1">
                   <b-form-input
                       id="mm"
                       v-model="item.url"
@@ -127,7 +125,6 @@ export default {
     return {
       test: '',
       allLinks: [
-        'Website',
         'Facebook',
         'Instagram',
         'Whatsapp',

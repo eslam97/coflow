@@ -128,7 +128,6 @@ export default {
   data () {
     return {
       allLinks: [
-        'Website',
         'Facebook',
         'Instagram',
         'Whatsapp',

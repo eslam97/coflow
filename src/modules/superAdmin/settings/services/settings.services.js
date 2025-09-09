@@ -139,6 +139,7 @@ export default {
       return Api().get('tags')
     }
   },
+  
   addNewTag (payload) {
     return Api().post('tags', payload)
   },

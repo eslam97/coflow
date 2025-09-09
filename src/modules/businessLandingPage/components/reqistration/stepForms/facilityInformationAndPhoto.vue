@@ -437,7 +437,6 @@ export default {
     if (this.providerInfo) {
       this.logoImage = this.providerInfo.facility.logo
       this.info.bio = this.providerInfo.facility.bio
-      this.info.activity_line_id = 1
       this.info.year = this.providerInfo.facility.year
       this.info.name = this.providerInfo.facility.name
       this.info.title = ''

@@ -438,6 +438,7 @@ export default {
   async created () {
     profileServices.getProfileData().then((res) => {
       this.allImages = res.data.data.medias
+      this.info.links = res.data.data.links
     })
     await this.getAllActivityLine()
     await this.getAllLanguages()

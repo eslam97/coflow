@@ -398,7 +398,7 @@ export default {
     },
     getAllTags () {
       this.allTags = []
-      settingsService.getAllTags().then(res => {
+      settingsService.getAllTags(this.info.activity_line_id).then(res => {
         this.allTags = res.data.data
       })
     }

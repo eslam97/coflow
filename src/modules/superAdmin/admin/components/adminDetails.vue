@@ -39,7 +39,7 @@
                 :label="'Admin Phone'"
             />
           </b-col>
-          <b-col md="12" class="mb-3">
+          <b-col md="12" class="mb-3" v-if="typeOfModal == 'add'">
             <input-form
                 v-model="admin.password"
                 placeholder="*********"
@@ -137,7 +137,6 @@ export default {
       const formData = new FormData()
       formData.append('name', this.admin.name)
       formData.append('email', this.admin.email)
-      formData.append('password', this.admin.password)
       formData.append('role_id', this.admin.role_id)
       formData.append('logo', this.admin.logo)
       formData.append('phone', this.admin.phone)
@@ -147,6 +146,7 @@ export default {
         formData.append('_method', 'PATCH')
         this.$emit('editAdmin', formData)
       } else {
+        formData.append('password', this.admin.password)
         this.$emit('saveAdmin', formData)
       }
     }
@@ -160,8 +160,10 @@ export default {
     if (this.adminDetails) {
       this.admin = {
         name: this.adminDetails.name,
+        title: this.adminDetails.title,
         email: this.adminDetails.email,
-        password: '',
+        password: this.adminDetails.password,
+        phone: this.adminDetails.phone,
         role_id: this.adminDetails.role_id
       }
       this.logoImage = this.adminDetails.logo

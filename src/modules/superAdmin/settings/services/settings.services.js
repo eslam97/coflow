@@ -132,8 +132,12 @@ export default {
   },
 
   // Tags
-  getAllTags () {
-    return Api().get('tags')
+  getAllTags (activityLineId) {
+    if (activityLineId) {
+      return Api().get(`tags?activity_line_id=${activityLineId}`)
+    } else {
+      return Api().get('tags')
+    }
   },
   addNewTag (payload) {
     return Api().post('tags', payload)

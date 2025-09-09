@@ -24,11 +24,6 @@
           <div class="color-box" :style="{backgroundColor: data.data.color}"></div>
         </div>
       </template>
-       <template v-slot:activity_line="data">
-        <div class="d-flex justify-content-center">
-          <p> {{ data.data.name }}</p>
-        </div>
-      </template>
     </main-table>
     </div>
   </template>
@@ -47,7 +42,7 @@ export default {
       requestLoading: false,
       columns: [
         { label: 'Name', key: 'name', class: 'text-center' },
-        { label: 'Activity Line', key: 'activity_line', class: 'text-center', type: 'custom' },
+        { label: 'Activity Line', key: 'activity_line.name', class: 'text-center' },
         {
           label: 'Actions',
           key: 'actions',

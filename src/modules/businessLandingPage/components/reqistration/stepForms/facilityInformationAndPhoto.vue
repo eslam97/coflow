@@ -116,12 +116,14 @@
               <span class="text-danger deleteLabelButton cursor-pointer" v-if="key != 0" @click="deleteLink(key)">Delete
               </span>
                 <b-input-group>
+                                        <!-- :rules="item.name === 'Whatsapp'
+                      ? { required: true, regex: /^[0-9]+$/ }
+                      : { required: true, regex: /(http(s)?:\/\/.)?(www\.)?.../ }" -->
+
                   <validation-provider
                       #default="{ errors }"
                       :name="`URL url ${key + 1}`"
-                      :rules="item.name === 'Whatsapp'
-                      ? { required: true, regex: /^[0-9]+$/ }
-                      : { required: true, regex: /(http(s)?:\/\/.)?(www\.)?.../ }"
+                      :rules="{ required: true, regex: /(http(s)?:\/\/.)?(www\.)?.../ }"
                       class="flex-grow-1"
                   >
                     <b-form-input
@@ -268,7 +270,7 @@ export default {
     saveFacilityInformation (e) {
       if (this.coverFlag && this.logoFlag && this.allImages.length > 0) {
         this.loadingFacilityInformation = true
-        registrationServices.saveStepFacility(this.info).then(res => {
+        registrationServices.saveStepFacility({ ...this.info, languages: this.info.languages.map(data => data.id) }).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 3)
           localStorage.setItem('allLinks', JSON.stringify([...this.info.links,

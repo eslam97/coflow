@@ -1020,6 +1020,10 @@ export default {
   },
 
   watch: {
+    'info.activity_line_id' (val) {
+      this.info.tags = []
+      this.getAllTags()
+    },
     'based.country_id' (newVal) {
       if (newVal) {
         this.getCityDependOnCountry(newVal)
@@ -1042,7 +1046,7 @@ export default {
     this.getAllLinks()
     this.getAllAmenities()
     this.getAllCountries()
-    this.getAllTags()
+    // this.getAllTags()
   }
 }
 </script>

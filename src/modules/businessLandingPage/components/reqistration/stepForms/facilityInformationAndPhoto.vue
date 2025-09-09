@@ -404,6 +404,10 @@ export default {
     }
   },
   watch: {
+    'info.activity_line_id' (val) {
+      this.info.tags = []
+      this.getAllTags()
+    }
   },
   computed: {
     filterLinks () {
@@ -429,7 +433,7 @@ export default {
     this.getAllLanguages()
     this.getAllLinks()
     this.getAllAmenities()
-    this.getAllTags()
+    // this.getAllTags()
     if (this.providerInfo) {
       this.logoImage = this.providerInfo.facility.logo
       this.info.bio = this.providerInfo.facility.bio

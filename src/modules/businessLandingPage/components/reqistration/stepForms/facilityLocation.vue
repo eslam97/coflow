@@ -309,7 +309,8 @@ import { core } from '@/config/pluginInit'
 
 export default {
   props: {
-    providerInfo: Object
+    providerInfo: Object,
+    profileInfo: Object
   },
   data () {
     return {
@@ -437,9 +438,9 @@ export default {
       })
     },
     fillData () {
-      if (!this.providerInfo) return
-      this.reservation_contact = this.providerInfo.facility.reservation_contact[0]
-      this.phones = this.providerInfo.phones
+      if (!this.profileInfo) return
+      this.reservation_contact = this.profileInfo.reservation_contact[0]
+      this.phones = this.profileInfo.phones
 
       if (this.providerInfo.location_type === 'address based') {
         Object.assign(this.based, {

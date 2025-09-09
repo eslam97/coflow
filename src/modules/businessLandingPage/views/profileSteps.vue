@@ -2,11 +2,12 @@
   <div class="profile-information">
     <navSteps />
     <keep-alive>
-      <component :is="activeForm" :providerInfo="providerInfo"/>
+      <component :is="activeForm" :providerInfo="providerInfo" :profileInfo="profileInfo"/>
     </keep-alive>
   </div>
 </template>
 <script>
+import profileServices from '@/modules/business/profile/services/profile.services'
 import navSteps from '../components/reqistration/navWithsteps'
 import generalAdminInformation from '../components/reqistration/stepForms/generalAdminInformation'
 import facilityInformationAndPhoto from '../components/reqistration/stepForms/facilityInformationAndPhoto'
@@ -17,7 +18,8 @@ export default {
   name: 'profileSteps',
   data () {
     return {
-      providerInfo: JSON.parse(localStorage.getItem('userInfo')) || {}
+      providerInfo: JSON.parse(localStorage.getItem('userInfo')) || {},
+      profileInfo: null
     }
   },
   components: {
@@ -39,6 +41,9 @@ export default {
     document.body.style.backgroundColor = ''
   },
   created () {
+    profileServices.getProfileData().then((res) => {
+      this.profileInfo = res.data.data
+    })
     // this.providerInfo = res.data.data
     // registrationServices.getProfileDetails(JSON.parse(localStorage.getItem('userInfo')).id).then(res => {
     //   this.providerInfo = res.data.data

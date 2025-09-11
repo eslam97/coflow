@@ -270,7 +270,7 @@ export default {
     saveFacilityInformation (e) {
       if (this.coverFlag && this.logoFlag && this.allImages.length > 0) {
         this.loadingFacilityInformation = true
-        registrationServices.saveStepFacility({ ...this.info, languages: this.info.languages.map(data => data.id) }).then(res => {
+        registrationServices.saveStepFacility(this.info).then(res => {
           core.showSnackbar('success', res.data.message)
           this.$store.commit('formSteps/setActiveStepForm', 3)
           localStorage.setItem('allLinks', JSON.stringify([...this.info.links,

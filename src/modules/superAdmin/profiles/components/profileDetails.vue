@@ -16,7 +16,7 @@
             <h5 class="pb-2">General Admin Information: Contacts</h5>
           </div>
           <b-row>
-            <b-col md="6" class="mb-3" >
+            <b-col md="4" class="mb-3" >
               <input-form
                   v-model="contact.name"
                   placeholder="Ex: Eslam Ashraf"
@@ -25,7 +25,7 @@
                   :label="'Full Name'"
               />
             </b-col>
-            <b-col md="6" class="mb-3" >
+            <b-col md="4" class="mb-3" >
               <input-form
                   v-model="contact.title"
                   placeholder="Ex: Owner"
@@ -34,7 +34,17 @@
                   :label="'Title'"
               />
             </b-col>
-            <b-col md="6" class="mb-3 position-relative" >
+            <b-col md="4" class="mb-3" >
+              <input-form
+                  v-model="contact.password"
+                  placeholder="********"
+                  type="password"
+                  :validate="'required'"
+                  :name="`Password `"
+                  :label="'Password'"
+              />
+            </b-col>
+            <b-col md="4" class="mb-3 position-relative" >
               <input-form
                   v-model="contact.phone"
                   placeholder="Ex: 01095097908"
@@ -43,13 +53,22 @@
                   :label="'Phone Number'"
               />
             </b-col>
-            <b-col md="6" class="mb-3 position-relative" >
+            <b-col md="4" class="mb-3 position-relative" >
               <input-form
                   v-model="contact.email"
                   placeholder="Ex: email@gmail.com"
                   :validate="'required|email'"
                   :name="`Email`"
                   :label="'Email'"
+              />
+            </b-col>
+            <b-col md="4" class="mb-3 position-relative" >
+              <input-form
+                  v-model="info.email"
+                  placeholder="Ex: facility@coflow.com"
+                  :validate="'required|email'"
+                  :name="`Facility Email`"
+                  :label="'Facility Email'"
               />
             </b-col>
           </b-row>
@@ -602,7 +621,7 @@ export default {
   },
   data () {
     return {
-      reservation_contact: {},
+      reservation_contact: [],
       teams: {
         name: '',
         title: '',
@@ -733,8 +752,8 @@ export default {
       }
       if (this.reservation_contact.name !== 'Contact Number') {
         newLinksArr.push({
-          name: 'Contact Number',
-          url: 'contact_number'
+          name: '',
+          url: ''
         })
       }
       return newLinksArr
@@ -918,8 +937,8 @@ export default {
           password: this.profileDetails.password
         }
         this.info.name = this.profileDetails.name
-        this.info.email = this.profileDetails.email
         this.info.title = this.profileDetails.title
+        this.info.email = this.profileDetails.email
         this.info.activity_line_id = this.profileDetails.activity_line_id
         this.info.year = this.profileDetails.year
         this.info.languages = this.profileDetails.languages.map(item => item.id)
@@ -980,7 +999,7 @@ export default {
       profile.teams = []
       profile.phones = this.phones
       profile.reservation_contact = this.reservation_contact
-
+      profile.facility_type = this.facility_type
       if (this.typeOfModal === 'editProfile') {
         profile._method = 'put'
       }
@@ -993,7 +1012,8 @@ export default {
         profile.location_type = 'remote location'
       }
 
-      if (this.operation_type !== '24 hours') {
+      console.log('profile -> ', profile)
+      if (this.typeOfOperation !== '24 hours') {
         profile.operation_type = 'specify days'
         profile.operation = this.allOperation
       } else {

@@ -42,7 +42,7 @@
                              allFlows.find((flow) => flow.id === schedule.service_id).instructors"
                              label="first_name"
                              :multiple="true"
-                             :reduce="data => data"
+                             :reduce="data => data.id"
                              v-model="slot.instructors"></main-select>
               </b-col>
               <b-col>

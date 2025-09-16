@@ -1120,7 +1120,7 @@ export default {
       const formData = new FormData()
       formData.append('image', data.image)
       formData.append('name', data.imageInfo.name)
-      formData.append('type', 'media')
+      formData.append('type', 'image')
       formData.append('provider_id', this.providerId)
       const options = {
         onUploadProgress: (progressEvent) => {

@@ -7,6 +7,9 @@ export default {
   changeStatus (payload) {
     return Api().post('update-status', payload)
   },
+  updateProfile (payload) {
+    return Api().post('account-update', payload)
+  },
   addImage (payload) {
     return Api().post('new-media', payload)
   },

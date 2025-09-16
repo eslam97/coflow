@@ -319,7 +319,7 @@
                 </b-card-header>
                 <b-card-body>
                   <b-row v-if="location_type === 'address based'">
-                    <b-col>
+                    <b-col v-if="based_location">
                       <div>
                         <table class="address-table">
                           <tr>
@@ -327,7 +327,7 @@
                               Address
                             </td>
                             <td class="pl-3">
-                              {{ based_location.based.address }}
+                              {{ based_location.address }}
                             </td>
                           </tr>
                           <tr>
@@ -336,25 +336,25 @@
                             </td>
                             <td class="pl-3">
                               {{
-                                based_location.areaList.find(
-                                  (area) => area.id === based_location.area
-                                ).name
+                                based_location.areaList.length > 0 ? based_location.areaList.find(
+                                  (area) => area.id === based_location.area_id
+                                ).name : ''
                               }}
                             </td>
                           </tr>
-                          <!--                          <tr>
+                          <!-- <tr>
                             <td class="font-weight-bold text-dark border-right">Area</td>
                             <td class="pl-3">{{allAreas.find(area => area.id === based.area_id).name}}</td>
-                          </tr>-->
+                          </tr> -->
                           <tr>
                             <td class="font-weight-bold text-dark border-right">
                               Governorate
                             </td>
                             <td class="pl-3">
                               {{
-                                based_location.cityList.find(
+                                based_location.cityList.length ? based_location.cityList.find(
                                   (city) => city.id === based_location.city_id
-                                ).name
+                                ).name : ''
                               }}
                             </td>
                           </tr>
@@ -378,21 +378,21 @@
                             <td class="pl-3">
                               <i class="fas fa-link mr-1"></i>
                               <a
-                                v-if="based_location.based.location.length < 80"
+                                v-if="based_location.location.length < 80"
                                 class="text-secondary"
                                 target="_blank"
-                                :href="based_location.based.location"
+                                :href="based_location.location"
                               >
-                                {{ based_location.based.location }}</a
+                                {{ based_location.location }}</a
                               >
                               <a
                                 v-else
                                 class="text-secondary"
                                 target="_blank"
-                                :href="based_location.based.location"
+                                :href="based_location.location"
                               >
                                 {{
-                                  based_location.based.location.slice(0, 80) +
+                                  based_location.location.slice(0, 80) +
                                   '...'
                                 }}</a
                               >
@@ -932,12 +932,13 @@ export default {
         }
       ],
       based_location: {
-        based: '',
-        country_id: '',
+        address: '',
+        area_id: '',
+        areaList: [],
         city_id: '',
-        area: '',
         cityList: [],
-        areaList: []
+        country_id: '',
+        location: ''
       },
       phones: [
         {
@@ -1243,73 +1244,85 @@ export default {
       // }
     },
     fillData () {
-      if (this.oldProfile) {
-        console.log('this.oldProfile -> ', this.oldProfile)
-        this.providerId = this.oldProfile.id
-        this.adminInformation = this.oldProfile.contacts
-        this.info.activity_line_id = this.oldProfile.activity_line_id
-        this.info.year = this.oldProfile.year
-        this.info.name = this.oldProfile.name
-        this.info.title = this.oldProfile.title
-        this.info.languages = this.oldProfile.languages
-        this.info.bio = this.oldProfile.bio
-        this.info.amenities = this.oldProfile.amenities.map((item) => item.id)
-        this.info.links = this.oldProfile.links
-        this.info.tags = this.oldProfile.tags
-        this.service_types = this.oldProfile.service_types
-        this.logoImage = this.oldProfile.logo
-          ? this.oldProfile.logo
-          : require('@/assets/images/user/default-user-image.png')
-        this.coverImage = this.oldProfile.cover
-          ? this.oldProfile.cover
-          : require('@/assets/images/user/default-user-image.png')
-        this.images = this.oldProfile.media_images
-        this.phones = this.oldProfile.phones
-        this.reservation_contact = this.oldProfile.reservation_contact
-          ? this.oldProfile.reservation_contact[0]
-          : ''
-        if (this.oldProfile.operation_type === '24 hours') {
-          this.typeOfOperation = '24 hours'
-        } else {
-          this.typeOfOperation = 'specify days'
-          this.allOperation = this.oldProfile.operations
+      if (!this.oldProfile) return
+
+      // General Info
+      this.providerId = this.oldProfile.id
+      this.adminInformation = this.oldProfile.contacts
+      this.info.activity_line_id = this.oldProfile.activity_line_id
+      this.info.year = this.oldProfile.year
+      this.info.name = this.oldProfile.name
+      this.info.title = this.oldProfile.title
+      this.info.languages = this.oldProfile.languages
+      this.info.bio = this.oldProfile.bio
+      this.info.amenities = this.oldProfile.amenities.map((item) => item.id)
+      this.info.links = this.oldProfile.links
+      this.info.tags = this.oldProfile.tags
+      this.service_types = this.oldProfile.service_types
+
+      // Images
+      this.logoImage = this.oldProfile.logo || require('@/assets/images/user/default-user-image.png')
+      this.coverImage = this.oldProfile.cover || require('@/assets/images/user/default-user-image.png')
+      this.images = this.oldProfile.media_images
+
+      // Phones + Reservation
+      this.phones = this.oldProfile.phones
+      this.reservation_contact = this.oldProfile.reservation_contact
+        ? this.oldProfile.reservation_contact[0]
+        : ''
+
+      // Operating Days
+      if (this.oldProfile.operation_type === '24 hours') {
+        this.typeOfOperation = '24 hours'
+      } else {
+        this.typeOfOperation = 'specify days'
+        this.allOperation = this.oldProfile.operations
+      }
+
+      // Locations
+      if (this.oldProfile.location_type === 'address based') {
+        this.location_type = 'address based'
+
+        const obj = {
+          ...this.oldProfile.address,
+          cityList: [],
+          areaList: []
         }
-        if (this.oldProfile.location_type === 'address based') {
-          this.location_type = 'address based'
+
+        // load cities (governorates)
+        settingsService.getCountryCity(obj.country_id).then((res) => {
+          obj.cityList = res.data.data
+        })
+
+        // load areas
+        settingsService.getCityArea(obj.city_id).then((res) => {
+          obj.areaList = res.data.data
+        }).finally(() => {
+          Object.assign(this.based_location, obj)
+        })
+      } else {
+        this.location_type = 'remote location'
+        this.remote_locations = []
+
+        this.oldProfile.remote_locations.forEach((location) => {
           const obj = {
-            based: this.oldProfile.address_based,
-            country_id: this.oldProfile.country_id,
-            city_id: this.oldProfile.city_id,
-            area: this.oldProfile.area_id,
+            availability_type: location.availability_type || 'open',
+            country_id: location.country_id,
+            city_id: location.city_id,
+            areas: location.areas,
             cityList: [],
             areaList: []
           }
+
+          // fill cities & areas async
           this.getCityDependOnCountryRemote(obj)
           this.getAreasDependOnCityRemote(obj)
-          this.based_location = Object(obj)
-          this.based = this.oldProfile.address_based
-          /* this.city = this.oldProfile.city_id
-          this.country = this.oldProfile.country_id
-          this.area = this.oldProfile.area_id */
-        } else {
-          this.location_type = 'remote location'
-          this.remote_locations = []
-          this.oldProfile.remote_locations.forEach((location) => {
-            const obj = {
-              availability_type: location.availability_type,
-              country_id: location.country_id,
-              city_id: location.city_id,
-              areas: location.areas,
-              cityList: [],
-              areaList: []
-            }
-            this.getCityDependOnCountryRemote(obj)
-            this.getAreasDependOnCityRemote(obj)
-            this.remote_locations.push(obj)
-          })
-        }
-        this.loading = false
+
+          this.remote_locations.push(obj)
+        })
       }
+
+      this.loading = false
     },
     // save changes
     saveChangesInfo () {

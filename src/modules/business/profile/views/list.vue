@@ -157,24 +157,27 @@ export default {
     },
     // Business tab
     updateFacilityInfo (info) {
-      facilityInfoService.saveStepFacility(info).then(res => {
+      // facilityInfoService.saveStepFacility(info).then(res => {
+      //   core.showSnackbar('success', res.data.message)
+      // })
+      profileServices.updateProfile(info).then(res => {
         core.showSnackbar('success', res.data.message)
       })
     },
     updateFacilityPhones (typeOfLocation, location) {
       if (typeOfLocation === 'address based') {
-        facilityInfoService.saveStepLocationBased(location).then(res => {
+        profileServices.updateProfile(location).then(res => {
           core.showSnackbar('success', res.data.message)
         })
       } else {
-        facilityInfoService.saveStepLocationRemote(location).then(res => {
+        profileServices.updateProfile(location).then(res => {
           core.showSnackbar('success', res.data.message)
         })
       }
     },
     updateFacilityOperatingDays (days) {
-      facilityInfoService.saveStepOperation(days).then(res => {
-        core.showSnackbar('success', 'Data updated successfully')
+      profileServices.updateProfile(days).then(res => {
+        core.showSnackbar('success', res.data.message)
       })
     }
   },

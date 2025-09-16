@@ -563,7 +563,7 @@
                           >
                             <b-form-input
                               id="mm"
-                              v-model="item.number"
+                              v-model="item.phone"
                               :class="[{ 'is-invalid': errors.length > 0 }]"
                               :placeholder="'Ex: 020454684'"
                               :disabled="!item.type"
@@ -571,13 +571,13 @@
                           </validation-provider>
                           <template #prepend>
                             <b-dropdown
-                              :text="item.type ? item.type : 'Choose'"
+                              :text="item.name ? item.name : 'Choose'"
                               class="selectWithInput"
                             >
                               <b-dropdown-item
                                 v-for="(i, keyType) in contactTypes"
                                 :key="keyType"
-                                @click="item.type = i"
+                                @click="item.name = i"
                               >
                                 {{ i }}
                               </b-dropdown-item>
@@ -942,8 +942,8 @@ export default {
       },
       phones: [
         {
-          type: '',
-          number: ''
+          name: '',
+          phone: ''
         }
       ],
       location_type: '',

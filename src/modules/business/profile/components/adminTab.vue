@@ -17,7 +17,7 @@
                     v-model="profile.email"
                     name="Email address"
                     :validate="'required|email'"
-                    :label="'Facility email address'"
+                    :label="'Email Address'"
                 />
               </b-col>
               <b-col md="4" class="mb-3">
@@ -97,7 +97,6 @@
 <script>
 import { core } from '@/config/pluginInit'
 import profileServices from '@/modules/business/profile/services/profile.services.js'
-import facilityInfoService from '@/modules/businessLandingPage/services/registration.services'
 
 export default {
   props: {
@@ -134,9 +133,12 @@ export default {
     },
     updateContactInfo () {
       if (this.contacts.length > 0) {
-        facilityInfoService.saveStepAdmin(this.contacts).then(res => {
+        profileServices.updateProfile({ ...this.contacts[0], email: this.profile.email }).then(res => {
           core.showSnackbar('success', res.data.message)
         })
+        // facilityInfoService.saveStepAdmin({ ...this.contacts[0], email: this.profile.email }).then(res => {
+        //   core.showSnackbar('success', res.data.message)
+        // })
       } else {
         console.log('You should have at least 1 contact info')
       }

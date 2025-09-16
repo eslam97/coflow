@@ -10,7 +10,7 @@ export default {
     return Api().post('new-media', payload, config)
   },
   removeImage (id, type) {
-    return Api().get(`remove-image/${id}/${type}`)
+    return Api().get(`remove-media/${id}`)
   },
   removeRow (url, rowId, method = 'delete') {
     console.log(url, rowId)

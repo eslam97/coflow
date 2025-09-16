@@ -148,7 +148,7 @@
               @remove-image="removeGalleryImage"
               :removeLoadingUi="removeLoadingUi"
               :progressLoading="progressBar"
-              :images="activity.medias"
+              :images="activity.images"
               type="activity_image"
             ></cropper-images>
           </b-col>
@@ -253,18 +253,18 @@ export default {
     removeGalleryImage (id) {
       mainService.removeImage(id, 'activity').then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.activity.medias.findIndex(image => image.id === id)
-        this.activity.medias.splice(ind, 1)
+        const ind = this.activity.images.findIndex(image => image.id === id)
+        this.activity.images.splice(ind, 1)
       })
     },
     addActivity () {
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', {
           ...this.activity,
-          medias: this.activity.medias.map(data => data.id)
+          medias: this.activity.images.map(data => data.id)
         })
       } else {
-        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.medias.map(data => data.id) })
+        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.images.map(data => data.id) })
       }
     },
     getDurationList () {

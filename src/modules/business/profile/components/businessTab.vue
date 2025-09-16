@@ -1316,6 +1316,7 @@ export default {
       const newObj = {
         _method: 'post',
         ...this.info,
+        tags: this.info.tags.map(i => i.id),
         languages: this.info.languages.map(i => i.id)
       }
       this.$emit('updateFacilityInfo', newObj)

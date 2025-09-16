@@ -105,7 +105,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Conditions`"
-              :rules="'required'"
+              :rules="''"
               class="flex-grow-1"
             >
               <b-form-group label="Conditions">
@@ -128,7 +128,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Requirements`"
-              :rules="'required'"
+              :rules="''"
               class="flex-grow-1"
             >
               <b-form-group label="Requirements">

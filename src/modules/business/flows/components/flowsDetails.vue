@@ -229,10 +229,10 @@ export default {
       const formData = new FormData()
       formData.append('image', file.image)
       formData.append('type', 'image')
-      formData.append('status', this.flowsDetails ? 'exist' : 'new')
+      formData.append('status', this.flowsDetails.id ? 'exist' : 'new')
       formData.append('name', file.imageInfo.name)
       if (this.flowsDetails) {
-        formData.append('flow_id', this.flowsDetails.id)
+        formData.append('service_id', this.flowsDetails.id)
       }
       const options = {
         onUploadProgress: (progressEvent) => {

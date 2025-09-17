@@ -137,7 +137,7 @@ export default {
     openPopup () {
       this.activityId = ''
       this.typeOfModal = 'add'
-      this.activityDetails = false
+      this.activityDetails = {}
       this.$bvModal.show('activitiesDetailsModal')
     },
     addActivity (activity) {

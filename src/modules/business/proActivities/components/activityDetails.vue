@@ -156,7 +156,7 @@
               @remove-image="removeGalleryImage"
               :removeLoadingUi="removeLoadingUi"
               :progressLoading="progressBar"
-              :images="activity.medias"
+              :images="activity.images"
               type="activity_image"
             ></cropper-images>
           </b-col>
@@ -223,7 +223,7 @@ export default {
         facility_folder_id: '',
         conditions: '',
         requirements: '',
-        medias: [],
+        images: [],
         status: 'active',
         locations: [{ name: '', link: '' }],
         duration_list_id: '',
@@ -259,7 +259,7 @@ export default {
       mainService.addImage(formData, options).then(res => {
         console.log(res.data)
         core.showSnackbar('success', res.data.message)
-        this.activity.medias.push(res.data.data)
+        this.activity.images.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })
@@ -267,18 +267,21 @@ export default {
     removeGalleryImage (id) {
       mainService.removeImage(id, 'activity').then(res => {
         core.showSnackbar('success', res.data.message)
-        const ind = this.activity.medias.findIndex(image => image.id === id)
-        this.activity.medias.splice(ind, 1)
+        const ind = this.activity.images.findIndex(image => image.id === id)
+        this.activity.images.splice(ind, 1)
       })
     },
     addActivity () {
+      if (!this.activity.images || !this.activity.images.length) {
+        return core.showSnackbar('error', 'Please upload at least one image')
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', {
           ...this.activity,
-          medias: this.activity.medias.map(data => data.id)
+          medias: this.activity.images.map(data => data.id)
         })
       } else {
-        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.medias.map(data => data.id) })
+        this.$emit('editActivity', { ...this.activity, _method: 'put', medias: this.activity.images.map(data => data.id) })
       }
     },
     getDurationList () {

@@ -5,7 +5,7 @@
               <h5 class="mb-4 font-size-14 px-2">Activity INFORMATION</h5>
               <b-row class="pl-3 mb-2">
                   <b-col md="12" class="infoKey">
-                      <p>Details</p>
+                      <p>Description</p>
                   </b-col>
                   <b-col md="12" class="infoValue">
                       <p class="text-black font-weight-bold-600">{{activityDetails.description}}</p>
@@ -35,6 +35,29 @@
                     <p class="text-black font-weight-bold-600">{{activityDetails.requirements}}</p>
                 </b-col>
             </b-row>
+             <b-row class="pl-3 mb-3">
+                <b-col md="12" class="infoKey">
+                    <p>Instructors</p>
+                </b-col>
+                <b-col md="4" class="infoValue" v-for="(inst, key) in activityDetails.instructors" :key="key">
+                    <p class="text-black font-weight-bold-600">{{ inst.first_name }} {{ inst.last_name }}</p>
+                </b-col>
+            </b-row>
+
+            <b-row class="pl-3 mb-3">
+                <b-col md="12" class="infoKey">
+                    <p>Locations</p>
+                </b-col>
+                <b-col md="12" v-if="activityDetails.locations.length">
+                    <template v-for="(location, key) in activityDetails.locations">
+                        <p :key="key" class="text-black font-weight-bold-600">{{ location.name }} : {{ location.link }}</p>
+                    </template>
+                </b-col>
+                <b-col md="12" v-else>
+                    <p class="text-black font-weight-bold-600">* Your Facility Location</p>
+                </b-col>
+            </b-row>
+
           </b-col>
           <b-col lg="6" class="py-5" order-lg="2" order="1">
               <h5 class="mb-4 font-size-14">Activity PHOTO</h5>

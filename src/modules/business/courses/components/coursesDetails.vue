@@ -264,6 +264,9 @@ export default {
   },
   methods: {
     addCourses () {
+      if (!this.courses.images || !this.courses.images.length) {
+        return core.showSnackbar('error', 'Please upload at least one image')
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addCourses', { ...this.courses, medias: this.courses.images.map(data => data.id) })
       } else {
@@ -279,7 +282,7 @@ export default {
       formData.append('status', this.coursesDetails ? 'exist' : 'new')
       formData.append('name', file.imageInfo.name)
       if (this.coursesDetails) {
-        formData.append('course_id', this.coursesDetails.id)
+        formData.append('service_id', this.coursesDetails.id)
       }
       const options = {
         onUploadProgress: (progressEvent) => {

@@ -61,7 +61,7 @@
               <b-col md="6" class="mb-3">
                 <main-select
                   labelTitle='Folder'
-                  :validate="'required'"
+                  :validate="''"
                   :name="`Folder`"
                   placeholder="Select Folder"
                   class=""
@@ -97,7 +97,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Conditions`"
-              :rules="'required'"
+              :rules="''"
               class="flex-grow-1"
             >
               <b-form-group label="Conditions">
@@ -120,7 +120,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Requirements`"
-              :rules="'required'"
+              :rules="''"
               class="flex-grow-1"
             >
               <b-form-group label="Requirements">
@@ -195,7 +195,8 @@ export default {
       default: 'add'
     },
     activityDetails: {
-      type: Object
+      type: Object,
+      default: null
     }
   },
   data () {
@@ -208,7 +209,7 @@ export default {
         facility_folder_id: '',
         conditions: '',
         requirements: '',
-        medias: [],
+        images: [],
         status: 'active',
         duration_list_id: ''
       },
@@ -232,7 +233,7 @@ export default {
       formData.append('type', 'image')
       formData.append('status', this.activityDetails ? 'exist' : 'new')
       formData.append('name', file.imageInfo.name)
-      if (this.activityDetails) {
+      if (this.activityDetails.id) {
         formData.append('service_id', this.activityDetails.id)
       }
       const options = {
@@ -245,7 +246,7 @@ export default {
       }
       mainService.addImage(formData, options).then(res => {
         core.showSnackbar('success', res.data.message)
-        this.activity.medias.push(res.data.data)
+        this.activity.images.push(res.data.data)
         this.removeLoadingUi = true
         this.requestLoading = false
       })
@@ -258,6 +259,9 @@ export default {
       })
     },
     addActivity () {
+      if (!this.activity.images || !this.activity.images.length) {
+        return core.showSnackbar('error', 'Please upload at least one image')
+      }
       if (this.typeOfModal === 'add') {
         this.$emit('addActivity', {
           ...this.activity,
@@ -270,7 +274,7 @@ export default {
     getDurationList () {
       settingsService.getDurationList().then(res => {
         this.allDurationList = res.data.data
-        this.type = this.allDurationList.find((item) => item.id === this.activityDetails.duration_list_id).name
+        this.type = this.allDurationList.find((item) => item.id === this.activityDetails.duration_list_id)?.name
       })
     },
     getAllTags () {
@@ -284,7 +288,7 @@ export default {
   created () {
     this.getAllTags()
     this.getDurationList()
-    if (this.activityDetails) {
+    if (this.activityDetails.id) {
       this.activity = this.activityDetails
     }
   }

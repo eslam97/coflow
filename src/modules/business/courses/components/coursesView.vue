@@ -27,15 +27,28 @@
             <p class="text-black font-weight-bold-600">{{coursesDetails.conditions}}</p>
           </b-col>
         </b-row>
-        <b-row class="pl-3 mb-2">
-          <b-col md="12" class="infoKey">
-            <p>Locations</p>
-          </b-col>
-          <!-- {{ coursesDetails }} -->
-          <b-col md="4" class="infoValue" v-for="(location, key) in coursesDetails.locations" :key="key">
-            <a :href="location.link" class="text-black font-weight-bold-600">{{ location.name }}</a>
-          </b-col>
-        </b-row>
+         <b-row class="pl-3 mb-3">
+                <b-col md="12" class="infoKey">
+                    <p>Instructors</p>
+                </b-col>
+                <b-col md="4" class="infoValue" v-for="(inst, key) in coursesDetails.instructors" :key="key">
+                    <p class="text-black font-weight-bold-600">{{ inst.first_name }} {{ inst.last_name }}</p>
+                </b-col>
+            </b-row>
+
+            <b-row class="pl-3 mb-3">
+                <b-col md="12" class="infoKey">
+                    <p>Locations</p>
+                </b-col>
+                <b-col md="12" v-if="coursesDetails.locations && coursesDetails.locations.length">
+                    <template v-for="(location, key) in coursesDetails.locations">
+                        <p :key="key" class="text-black font-weight-bold-600">{{ location.name }} : {{ location.link }}</p>
+                    </template>
+                </b-col>
+                <b-col md="12" v-else>
+                    <p class="text-black font-weight-bold-600">* Your Facility Location</p>
+                </b-col>
+            </b-row>
       </b-col>
       <b-col lg="6" class="py-5" order-lg="2" order="1">
         <h5 class="mb-4 font-size-14">COURSE PHOTOS</h5>

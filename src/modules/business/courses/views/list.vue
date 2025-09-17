@@ -18,13 +18,27 @@
       <template v-slot:header>
         <h4 class="font-weight-bold"><span class="text-success-light">View: </span> Course</h4>
       </template>
-      <template v-slot:borderHeader class="flex-nowrap">
-        <p class="p-4 borderHeaderModal m-0">
+      <template v-slot:borderHeader>
+        <div class="p-4 borderHeaderModal m-0 d-flex flex-nowrap align-items-center">
           {{coursesDetails.name}}
-          <button class="ml-4 p-2 btn radio-btn" :class="`radio-btn-cyan`" active>
-            {{ coursesDetails.duration }} {{ coursesDetails.duration_list.name }}
+          <div class="d-flex">
+          <button class="ml-4 p-2 btn radio-btn whitespace-nowrap" style="white-space: pre !important;" :class="`radio-btn-cyan`">
+            <span>{{ coursesDetails.duration }} {{ coursesDetails.duration_list.name }}</span>
           </button>
-        </p>
+          <button
+                :style="{
+                    width: '100%',
+                    background: coursesDetails.level.color,
+                    border: `1px solid ${coursesDetails.level.color}`,
+
+                    color: '#fff'
+                }"
+                type="button"
+                class="ml-4 p-2 btn radio-btn whitespace-nowrap">
+                {{ coursesDetails.level.name }}
+            </button>
+          </div>
+        </div>
       </template>
       <template v-slot:body>
         <courses-view :coursesDetails="coursesDetails"/>
@@ -83,7 +97,7 @@ export default {
         { label: 'Instructors', key: 'instructors', class: 'text-left', array_keys: ['first_name', 'last_name'], type: 'array' },
         { label: 'Level', key: 'level.name', class: 'text-left' },
         { label: 'Duration', key: 'duration,duration_list.name', class: 'text-left', type: 'multi-text' },
-        { label: 'Photos', key: 'image', class: 'text-left', type: 'image' },
+        { label: 'Photos', key: 'images', class: 'text-left', type: 'multi_image' },
         { label: 'Reservations', key: 'reservations', class: 'text-left' },
         { label: 'Likes', key: 'likes', class: 'text-left' },
         {

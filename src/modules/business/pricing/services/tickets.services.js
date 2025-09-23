@@ -12,5 +12,8 @@ export default {
   },
   updateTicket (id, payload) {
     return Api().post(`tickets/${id}`, payload)
+  },
+  getUnusedServices () {
+    return Api().get('free-services')
   }
 }

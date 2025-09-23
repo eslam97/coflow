@@ -139,6 +139,10 @@ export default {
       this.$bvModal.show('ticketsDetailsModal')
     },
     createTicket (ticket) {
+      if (ticket.unlimited) {
+        delete ticket.validity_days
+      }
+
       this.requestLoading = true
       this.reloadTable = false
       ticketServices.createTicket(ticket).then(res => {
@@ -150,6 +154,10 @@ export default {
       })
     },
     updateTicket (ticket) {
+      console.log(ticket)
+      if (ticket.unlimited) {
+        delete ticket.validity_days
+      }
       this.requestLoading = true
       this.reloadTable = false
       ticketServices.updateTicket(this.ticketId, ticket).then(res => {
@@ -165,16 +173,16 @@ export default {
       this.typeOfModal = 'view'
       ticketServices.getTicketDetails(obj.id).then(res => {
         this.ticketDetails = res.data.data
+        this.$bvModal.show('ticketDetailsViewModal')
       })
-      this.$bvModal.show('ticketDetailsViewModal')
     },
     showTicketToEdit (obj) {
       this.ticketId = obj.id
       this.typeOfModal = 'edit'
       ticketServices.getTicketDetails(obj.id).then(res => {
         this.ticketDetails = res.data.data
+        this.$bvModal.show('ticketsDetailsModal')
       })
-      this.$bvModal.show('ticketsDetailsModal')
     }
   },
   created () {

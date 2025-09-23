@@ -31,15 +31,16 @@
                           type="checkbox"
                           class="custom-control-input bg-info"
                           :id="'unlimited'"
-                          :value="ticket.unlimited"
-                          @change="ticket.unlimited = ticket.unlimited == 0 ? 1 : 0"
+                           v-model="ticket.unlimited"
+                          :true-value="1"
+                          :false-value="0"
                         />
                         <label class="custom-control-label" :for="'unlimited'"></label>
                       </div>
                     </div>
                   </div>
                 </label>
-                <b-input-group append="Day(s)">
+                <b-input-group v-if="ticket.unlimited != 1" append="Day(s)">
                   <b-form-input
                     id="validity_days"
                     v-model="ticket.validity_days"
@@ -165,7 +166,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Conditions`"
-              :rules="'required'"
+              :rules="''"
               class="flex-grow-1"
             >
               <b-form-group label="Conditions (optional)">
@@ -177,9 +178,9 @@
                   rows="2"
                   :class="[{ 'is-invalid': errors.length > 0 }]"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                   <small class="text-danger">{{ errors[0] }}</small>
-                </div>
+                </div> -->
               </b-form-group>
             </validation-provider>
           </b-col>
@@ -187,7 +188,7 @@
             <validation-provider
               #default="{ errors }"
               :name="`Requirements`"
-              :rules="'required'"
+              :rules="''"
               class="flex-grow-1"
             >
               <b-form-group label="Requirements (optional)">
@@ -199,9 +200,9 @@
                   rows="2"
                   :class="[{ 'is-invalid': errors.length > 0 }]"
                 />
-                <div class="d-flex justify-content-between">
+                <!-- <div class="d-flex justify-content-between">
                   <small class="text-danger">{{ errors[0] }}</small>
-                </div>
+                </div> -->
               </b-form-group>
             </validation-provider>
           </b-col>
@@ -233,8 +234,7 @@
 </template>
 
 <script>
-import settingsService from '@/modules/superAdmin/settings/services/settings.services'
-
+import ticketServices from '../services/tickets.services.js'
 export default {
   props: {
     requestLoading: {
@@ -292,8 +292,8 @@ export default {
       }
     },
     getAllServices () {
-      settingsService.getAllServices().then(res => {
-        this.servicesList = res.data.data.data
+      ticketServices.getUnusedServices().then(res => {
+        this.servicesList = res.data.data
       })
     }
   },
@@ -304,7 +304,7 @@ export default {
     if (this.ticketDetails) {
       this.ticket = {
         name: this.ticketDetails.name,
-        unlimited: this.ticketDetails.unlimited,
+        unlimited: +this.ticketDetails.unlimited,
         validity_days: this.ticketDetails.validity_days,
         price: this.ticketDetails.price,
         has_discount: this.ticketDetails.has_discount,

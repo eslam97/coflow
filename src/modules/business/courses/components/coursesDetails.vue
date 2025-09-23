@@ -106,7 +106,7 @@
             <instructor @instructors="data => courses.instructors = data" :allInstructors="courses.instructors"/>
           </b-col>
           <b-col md="6">
-            <facility-location @locations="data => courses.locations = data" :allLocations="courses.locations" @facility_location="data => courses.facility_location = data"/>
+            <facility-location @locations="changeFacilityLocation" :allLocations="courses.locations" @facility_location="data => facility_location = data"/>
           </b-col>
         </b-row>
 
@@ -250,6 +250,7 @@ export default {
           link: ''
         }]
       },
+      tempLocation: '',
       type: '',
       allDurationList: [],
       loadingGallery: 0,
@@ -263,14 +264,18 @@ export default {
     facilityLocation
   },
   methods: {
+    changeFacilityLocation (val) {
+      console.log('val => ', val)
+      this.temp = val
+    },
     addCourses () {
       if (!this.courses.images || !this.courses.images.length) {
         return core.showSnackbar('error', 'Please upload at least one image')
       }
       if (this.typeOfModal === 'add') {
-        this.$emit('addCourses', { ...this.courses, medias: this.courses.images.map(data => data.id) })
+        this.$emit('addCourses', { ...this.courses, medias: this.courses.images.map(data => data.id), locations: this.temp })
       } else {
-        this.$emit('editCourses', { ...this.courses, medias: this.courses.images.map(data => data.id), _method: 'put' })
+        this.$emit('editCourses', { ...this.courses, medias: this.courses.images.map(data => data.id), _method: 'put', locations: this.temp })
       }
     },
     saveGalleryImage (file) {

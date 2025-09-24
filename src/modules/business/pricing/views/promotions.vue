@@ -212,6 +212,12 @@ export default {
     },
     editPromotion (data) {
       this.requestLoading = true
+      if (data.payment_unlimited) {
+        delete data.payment_limit
+      }
+      if (data.unlimited) {
+        delete data.validity_days
+      }
       promotionsServices.editPromotion(data.id, data).then(res => {
         core.showSnackbar('success', res.data.message)
         this.getAllData()

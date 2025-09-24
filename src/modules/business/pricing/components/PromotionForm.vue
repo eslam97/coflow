@@ -87,12 +87,27 @@
                 <b-form-group>
                   <label for="validity_days" class="d-flex justify-content-between">
                     <span>Validity</span>
-                    <input-switch id="unlimited" name="unlimited" label="Unlimited" v-model="info.unlimited" />
+                    <div class="d-flex justify-content-between">
+                    <span class="font-weight-bold font-size-12 mr-3">Unlimited</span>
+                    <div class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+                      <div class="custom-switch-inner">
+                        <input
+                          type="checkbox"
+                          class="custom-control-input bg-info"
+                          :id="'unlimited'"
+                           v-model="info.unlimited"
+                          :true-value="1"
+                          :false-value="0"
+                        />
+                        <label class="custom-control-label" :for="'unlimited'"></label>
+                      </div>
+                    </div>
+                  </div>
                   </label>
                   <b-input-group append="Day(s)">
                     <b-form-input
                       id="validity_days"
-                      :disabled="info.unlimited == true"
+                      :disabled="info.unlimited == 1"
                       v-model="info.validity_days"
                       placeholder="Placeholder"
                       :class="[{ 'is-invalid': errors.length > 0}]"
@@ -112,12 +127,27 @@
                 <b-form-group>
                   <label for="payment_limit" class="d-flex justify-content-between">
                     <span>Payment limit</span>
-                    <input-switch id="payment_unlimited" name="payment_unlimited" label="Payment Unlimited" v-model="info.payment_unlimited" />
+                    <div class="d-flex justify-content-between">
+                    <span class="font-weight-bold font-size-12 mr-3">Unlimited</span>
+                    <div class="custom-control custom-switch custom-switch-text custom-control-inline custom-switch-color mr-0" >
+                      <div class="custom-switch-inner">
+                        <input
+                          type="checkbox"
+                          class="custom-control-input bg-info"
+                          :id="'payment_unlimited'"
+                           v-model="info.payment_unlimited"
+                          :true-value="1"
+                          :false-value="0"
+                        />
+                        <label class="custom-control-label" :for="'payment_unlimited'"></label>
+                      </div>
+                    </div>
+                  </div>
                   </label>
                   <b-form-input
                     id="payment_limit"
                     :disabled="info.payment_unlimited == true"
-                    v-model="info.payment_limit"
+                    v-model.number="info.payment_limit"
                     placeholder="Placeholder"
                     :class="[{ 'is-invalid': errors.length > 0}]"
                   />
@@ -374,12 +404,19 @@
                 <b-form-group>
                   <label for="validity_days" class="d-flex justify-content-between">
                     <span>Validity</span>
-                    <input-switch id="unlimited" name="unlimited" label="Unlimited" v-model="info.unlimited" />
+                    <input-switch
+                      id="unlimited"
+                      name="unlimited"
+                      label="Unlimited"
+                      v-model="info.unlimited"
+                      :true-value="1"
+                      :false-value="0"
+                      />
                   </label>
                   <b-input-group append="Day(s)">
                     <b-form-input
                       id="validity_days"
-                      :disabled="info.unlimited == true"
+                      :disabled="info.unlimited == 1"
                       v-model="info.validity_days"
                       placeholder="Placeholder"
                       :class="[{ 'is-invalid': errors.length > 0}]"
@@ -404,7 +441,7 @@
                   </label>
                   <b-form-input
                     id="payment_limit"
-                    :disabled="info.payment_unlimited == true"
+                    :disabled="info.payment_unlimited == 1"
                     v-model="info.payment_limit"
                     placeholder="Placeholder"
                     :class="[{ 'is-invalid': errors.length > 0}]"
@@ -597,46 +634,53 @@ export default {
       })
     },
     fillData () {
-      if (Object.keys(this.promotionDetails).length !== 0) {
+      if (this.promotionDetails && Object.keys(this.promotionDetails).length !== 0) {
         this.info = {
-          id: this.promotionDetails.id,
-          type: this.promotionDetails.type,
-          offer_title: this.promotionDetails.name,
-          start_date: this.promotionDetails.start_date,
-          end_date: this.promotionDetails.end_date,
-          description: this.promotionDetails.description,
-          conditions: this.promotionDetails.conditions,
-          requirements: this.promotionDetails.requirements,
-          unlimited: this.promotionDetails.unlimited,
-          payment_unlimited: this.promotionDetails.payment_unlimited,
-          validity_days: this.promotionDetails.validity_days,
-          payment_limit: this.promotionDetails.payment_limit
+          name: this.promotionDetails.name || '',
+          id: this.promotionDetails.id || null,
+          type: this.promotionDetails.type || 'discount',
+          offer_title: this.promotionDetails.name || '',
+          start_date: this.promotionDetails.start_date || '',
+          end_date: this.promotionDetails.end_date || '',
+          description: this.promotionDetails.description || '',
+          conditions: this.promotionDetails.conditions || '',
+          requirements: this.promotionDetails.requirements || '',
+          unlimited: this.promotionDetails.unlimited ? 1 : 0,
+          payment_unlimited: this.promotionDetails.payment_unlimited ? 1 : 0,
+          validity_days: this.promotionDetails.validity_days || 0,
+          payment_limit: this.promotionDetails.payment_limit || 0
         }
-        this.tickets = this.promotionDetails.tickets.map(ticket => {
-          return {
-            ticket_id: ticket.id,
-            unlimited: ticket.unlimited,
-            count: ticket.count
-          }
-        })
+
+        this.tickets = (this.promotionDetails.tickets || []).map(ticket => ({
+          ticket_id: ticket.id,
+          unlimited: ticket.unlimited ? 1 : 0,
+          count: ticket.count || 1
+        }))
+
+        // بيانات الخصم
         this.discount = {
-          discount_ratio: this.promotionDetails.discount_ratio,
-          discount_for: this.promotionDetails.discount_for
+          discount_ratio: this.promotionDetails.discount_ratio || '',
+          discount_for: this.promotionDetails.discount_for || ''
         }
+
+        // الأسعار
         this.prices = {
-          price: this.promotionDetails.price,
-          has_discount: this.promotionDetails.has_discount,
-          discount_price: this.promotionDetails.discount_price,
-          currency: this.promotionDetails.currency
+          price: this.promotionDetails.price || '',
+          has_discount: this.promotionDetails.has_discount ? 1 : 0,
+          discount_price: this.promotionDetails.discount_price || '',
+          currency: this.promotionDetails.currency || 'EGP'
         }
+
+        // Buy & Get
         this.buyGet = {
-          buy_get_type: this.promotionDetails.buy_get_type,
-          gift: this.promotionDetails.gift,
-          get_tickets: this.promotionDetails.tickets || [],
-          get_coupons: []
+          buy_get_type: this.promotionDetails.buy_get_type || '',
+          gift: this.promotionDetails.gift || '',
+          get_tickets: this.promotionDetails.get_tickets || [],
+          get_coupons: this.promotionDetails.get_coupons || []
         }
       }
     }
+
   },
   watch: {
     promotionDetails () {

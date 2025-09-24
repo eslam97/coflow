@@ -9,8 +9,9 @@
         <b-navbar-toggle target="nav-business"></b-navbar-toggle>
         <b-collapse id="nav-business" is-nav>
         <b-navbar-nav class="ml-auto d-flex align-items-center">
+           <!-- || (typeOfUser !== 'admin' && !typeOfService) -->
             <span class="px-3 py-2 mb-2 mb-lg-0 p-lg-0 cursor-pointer"  @click="$emit('openPopup')"
-                  v-if="!userToken || (typeOfUser !== 'admin' && !typeOfService)">Login
+                  v-if="!userToken">Login
             </span>
               <span class="px-3 py-2 mb-2 mb-lg-0 p-lg-0 cursor-pointer" v-else>
                <router-link v-if="typeOfUser === 'admin'"

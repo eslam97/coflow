@@ -40,9 +40,10 @@
                     </div>
                   </div>
                 </label>
-                <b-input-group v-if="ticket.unlimited != 1" append="Day(s)">
+                <b-input-group append="Day(s)">
                   <b-form-input
                     id="validity_days"
+                    :disabled="ticket.unlimited == 1"
                     v-model="ticket.validity_days"
                     placeholder="EX: 20"
                     :class="[{ 'is-invalid': errors.length > 0}]"

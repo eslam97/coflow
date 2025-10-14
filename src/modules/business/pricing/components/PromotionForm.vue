@@ -221,7 +221,7 @@
                           </svg>
                         </button>
                         <span>{{ ticket.count }}</span>
-                        <button @click.prevent="ticket.count++">
+                        <button @click.prevent="ticket.count++" >
                           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 3.3335V12.6668" stroke="#181836" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M3.33333 8H12.6667" stroke="#181836" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -229,7 +229,13 @@
                         </button>
                       </span>
                     </div>
-                    <input-switch :id="`status-${key}`" :name="`status-${key}`" label="Unlimited" v-model="ticket.unlimited" />
+                    <input-switch
+                      :id="`status-${key}`"
+                      :name="`status-${key}`"
+                      label="Unlimited"
+                      v-model="ticket.unlimited"
+                      :true-value="1"
+                      :false-value="0"/>
                   <main-select
                     style="flex:1; margin:0 "
                     @input="selectData"

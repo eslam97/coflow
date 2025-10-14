@@ -41,42 +41,27 @@
          </b-form-radio> -->
       </b-col>
       <b-col md="12">
-        <tab-nav :tabs="true" id="myTab-1">
-          <!-- <tab-nav-items :active="true" id="admin-tab" ariaControls="adminInfo"
-                         role="tab" :ariaSelected="true" title="Admin Information" /> -->
-          <tab-nav-items :active="true" id="business-tab" ariaControls="businessInfo"
-                         role="tab" :ariaSelected="false" title="Profile" liClass="tab nav-item"/>
-          <tab-nav-items :active="false" id="faq-tab" ariaControls="faq"
-                         role="tab" :ariaSelected="false" title="FAQs" liClass="tab nav-item"/>
-          <tab-nav-items :active="false" id="payment-tab" ariaControls="paymentInfo"
-                         role="tab" :ariaSelected="false" title="Payment" liClass="tab nav-item"/>
-        </tab-nav>
-        <tab-content id="myTabContent">
-          <!-- <tab-content-item :active="true" id="adminInfo" aria-labelled-by="admin-tab">
-            <spinner-loading v-if=(loading) text="Loading" />
-            <admin-tab v-else
-                       @updateLoginCredential="updateLoginCredential"
-                       @updateContactInfo="updateContactInfo"
-                       :oldProfile="oldProfile"
-            ></admin-tab>
-          </tab-content-item> -->
-          <tab-content-item :active="true" id="businessInfo" aria-labelled-by="business-tab">
-            <spinner-loading v-if=(loading) text="Loading" />
-            <business-tab v-else
-                          @updateFacilityInfo="updateFacilityInfo"
-                          @updateFacilityPhones="updateFacilityPhones"
-                          @updateFacilityOperatingDays="updateFacilityOperatingDays"
-                          @reload="getOldAdminInfo"
-                          :oldProfile="oldProfile"
-            ></business-tab>
-          </tab-content-item>
-          <tab-content-item :active="false" id="faq" aria-labelled-by="faq-tab">
-            <faqTab />
-          </tab-content-item>
-          <tab-content-item :active="false" id="paymentInfo" aria-labelled-by="payment-tab">
-          <payment-tab></payment-tab>
-          </tab-content-item>
-        </tab-content>
+        <b-tabs content-class="mt-3">
+          <b-tab title="Profile" active>
+            <spinner-loading v-if="loading" text="Loading" />
+            <business-tab
+              v-else
+              @updateFacilityInfo="updateFacilityInfo"
+              @updateFacilityPhones="updateFacilityPhones"
+              @updateFacilityOperatingDays="updateFacilityOperatingDays"
+              @reload="getOldAdminInfo"
+              :oldProfile="oldProfile"
+            />
+          </b-tab>
+
+          <b-tab title="FAQs">
+            <faq-tab />
+          </b-tab>
+
+          <b-tab title="Payment">
+            <payment-tab />
+          </b-tab>
+        </b-tabs>
       </b-col>
     </b-row>
   </b-container>

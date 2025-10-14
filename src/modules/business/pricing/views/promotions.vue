@@ -197,6 +197,8 @@ export default {
     addPromotion (data) {
       if (data.payment_unlimited) {
         delete data.payment_limit
+      } else {
+        data.payment_count = parseInt(data.payment_limit)
       }
       if (data.unlimited) {
         delete data.validity_days

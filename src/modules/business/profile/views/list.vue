@@ -62,6 +62,32 @@
             <payment-tab />
           </b-tab>
         </b-tabs>
+        <!-- <tab-nav :tabs="true" id="myTab-1">
+          <tab-nav-items :active="true" id="business-tab" ariaControls="businessInfo"
+                         role="tab" :ariaSelected="false" title="Profile" liClass="tab nav-item"/>
+          <tab-nav-items :active="false" id="faq-tab" ariaControls="faq"
+                         role="tab" :ariaSelected="false" title="FAQs" liClass="tab nav-item"/>
+          <tab-nav-items :active="false" id="payment-tab" ariaControls="paymentInfo"
+                         role="tab" :ariaSelected="false" title="Payment" liClass="tab nav-item"/>
+        </tab-nav>
+        <tab-content id="myTabContent">
+          <tab-content-item :active="true" id="businessInfo" aria-labelledby="business-tab">
+            <spinner-loading v-if=(loading) text="Loading" />
+            <business-tab v-else
+                          @updateFacilityInfo="updateFacilityInfo"
+                          @updateFacilityPhones="updateFacilityPhones"
+                          @updateFacilityOperatingDays="updateFacilityOperatingDays"
+                          @reload="getOldAdminInfo"
+                          :oldProfile="oldProfile"
+            ></business-tab>
+          </tab-content-item>
+          <tab-content-item :active="false" id="faq" aria-labelledby="faq-tab">
+            <faqTab />
+          </tab-content-item>
+          <tab-content-item :active="false" id="paymentInfo" aria-labelledby="payment-tab">
+          <payment-tab></payment-tab>
+          </tab-content-item>
+        </tab-content> -->
       </b-col>
     </b-row>
   </b-container>
@@ -145,23 +171,23 @@ export default {
       // facilityInfoService.saveStepFacility(info).then(res => {
       //   core.showSnackbar('success', res.data.message)
       // })
-      profileServices.updateProfile(info).then(res => {
+      profileServices.editProfileData(info).then(res => {
         core.showSnackbar('success', res.data.message)
       })
     },
     updateFacilityPhones (typeOfLocation, location) {
       if (typeOfLocation === 'address based') {
-        profileServices.updateProfile(location).then(res => {
+        profileServices.editProfileData(location).then(res => {
           core.showSnackbar('success', res.data.message)
         })
       } else {
-        profileServices.updateProfile(location).then(res => {
+        profileServices.editProfileData(location).then(res => {
           core.showSnackbar('success', res.data.message)
         })
       }
     },
     updateFacilityOperatingDays (days) {
-      profileServices.updateProfile(days).then(res => {
+      profileServices.editProfileData(days).then(res => {
         core.showSnackbar('success', res.data.message)
       })
     }

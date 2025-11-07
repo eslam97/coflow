@@ -294,14 +294,14 @@ export default {
     },
     getAllServices () {
       ticketServices.getUnusedServices().then(res => {
-        this.servicesList = res.data.data
+        this.servicesList.push(res.data.data)
       })
     }
   },
   watch: {},
   computed: {},
-  created () {
-    this.getAllServices()
+  async created () {
+    await this.getAllServices()
     if (this.ticketDetails) {
       this.ticket = {
         name: this.ticketDetails.name,
@@ -314,8 +314,9 @@ export default {
         conditions: this.ticketDetails.conditions,
         requirements: this.ticketDetails.requirements,
         addons: this.ticketDetails.addons,
-        services: this.ticketDetails.services
+        services: this.ticketDetails.services.map(i => i.id) || []
       }
+      this.servicesList.push(...this.ticketDetails.services)
     }
   }
 }

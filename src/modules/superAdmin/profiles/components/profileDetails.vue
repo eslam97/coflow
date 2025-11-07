@@ -212,7 +212,7 @@
               <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
             </b-col>
               <b-col md="12">
-                  <main-select labelTitle='Reservation Link' :validate="'required'"
+                  <main-select labelTitle='Contact Link' :validate="'required'"
                                :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
                                label="name"
                                :reduce="data=> data"

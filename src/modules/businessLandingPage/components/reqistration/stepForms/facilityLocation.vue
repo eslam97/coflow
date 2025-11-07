@@ -103,7 +103,7 @@
             <b-row>
               <b-col md="12">
                 <main-select
-                  labelTitle="Reservation Link"
+                  labelTitle="Contact  Link"
                   :validate="'required'"
                   name="reservation_contact"
                   placeholder="Choose"

@@ -184,7 +184,7 @@
                 <span class="text-warning cursor-pointer" @click="addNewLink">+ Add another Link</span>
               </b-col>
                 <b-col md="12">
-                    <main-select labelTitle='Reservation Link' :validate="'required'"
+                    <main-select labelTitle='Contact Link' :validate="'required'"
                                  :name="`reservation_contact`"  placeholder="Choose" :options="[...getAllReservationLinkWithoutYoutube]"
                                  label="name"
                                  :reduce="data=> data"
@@ -845,17 +845,16 @@ export default {
       })
     },
     getCityDependOnCountry (id) {
-      console.log('getCityDependOnCountry -> ', id)
       this.allGovernorates = []
-      this.based.city_id = ''
-      this.based.area_id = ''
+      // this.based.city_id = ''
+      // this.based.area_id = ''
       settingsService.getCountryCity(id).then(res => {
         this.allGovernorates = res.data.data
       })
     },
     getAreasDependOnCity (id) {
       this.allArea = []
-      this.based.area_id = ''
+      // this.based.area_id = ''
       settingsService.getCityArea(id).then(res => {
         this.allArea = res.data.data
       })
@@ -898,7 +897,7 @@ export default {
         this.providerId = this.activationDetails.id
         this.adminInformation = {
           name: this.activationDetails.admin.name,
-          title: '',
+          title: this.activationDetails.title,
           phone: ''
         }
         this.info.title = this.activationDetails.title
@@ -923,6 +922,7 @@ export default {
         }
         if (this.activationDetails.location_type === 'address based') {
           this.location_type = 'address based'
+          console.log('address -> ', this.activationDetails.address)
           this.based = {
             country_id: this.activationDetails.address.country_id,
             city_id: this.activationDetails.address.city_id,
@@ -932,8 +932,8 @@ export default {
             longitude: this.activationDetails.address.longitude,
             location: this.activationDetails.address.location
           }
-          this.getCityDependOnCountry(this.activationDetails.address.country_id)
-          this.getAreasDependOnCity(this.activationDetails.address.city_id)
+          this.getCityDependOnCountry(this.activationDetails.country_id)
+          this.getAreasDependOnCity(this.activationDetails.city_id)
         } else {
           this.location_type = 'remote location'
           this.locations = []

@@ -597,7 +597,7 @@
                   <b-row>
                     <b-col md="12">
                       <main-select
-                        labelTitle="Reservation Link"
+                        labelTitle="Contact Link"
                         :validate="'required'"
                         :name="`reservation_contact`"
                         placeholder="Choose"
@@ -1330,7 +1330,8 @@ export default {
         _method: 'post',
         ...this.info,
         tags: this.info.tags.map(i => i.id),
-        languages: this.info.languages.map(i => i.id)
+        languages: this.info.languages.map(i => i.id),
+        ...this.userInfo
       }
       this.$emit('updateFacilityInfo', newObj)
     },
@@ -1362,7 +1363,8 @@ export default {
       const newObj = {
         _method: 'post',
         ...location,
-        phones: this.phones
+        phones: this.phones,
+        ...this.userInfo
       }
       this.$emit('updateFacilityPhones', this.location_type, newObj)
     },
@@ -1379,7 +1381,8 @@ export default {
       const newObj = {
         _method: 'post',
         ...operation,
-        service_types: this.service_types
+        service_types: this.service_types,
+        ...this.userInfo
       }
       this.$emit('updateFacilityOperatingDays', newObj)
     },

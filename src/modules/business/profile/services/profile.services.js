@@ -4,6 +4,9 @@ export default {
   getProfileData () {
     return Api().get('profile')
   },
+  editProfileData (data) {
+    return Api().post('profile', data)
+  },
   changeStatus (payload) {
     return Api().post('update-status', payload)
   },
